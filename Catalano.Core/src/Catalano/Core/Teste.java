@@ -7,7 +7,7 @@
 package Catalano.Core;
 
 /**
- *
+ * teste
  * @author Diego
  */
 public class Teste {
