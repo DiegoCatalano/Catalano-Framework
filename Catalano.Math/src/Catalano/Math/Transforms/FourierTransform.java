@@ -103,8 +103,6 @@ public class FourierTransform {
     /**
      * 2-D Discrete Fourier Transform.
      * @param data Data to transform.
-     * @param width Width of matrix.
-     * @param height Height of matrix.
      * @param direction Transformation direction.
      */
     public static void DFT2(ComplexNumber[][] data, Direction direction){
