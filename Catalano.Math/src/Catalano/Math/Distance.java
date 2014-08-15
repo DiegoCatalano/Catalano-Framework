@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -432,6 +432,51 @@ public final class Distance {
             distance += Math.pow(Math.abs(p[i] - q[i]),r);
         }
         return Math.pow(distance,1/r);
+    }
+    
+    /**
+     * Gets the Quasi-Euclidean distance between two points.
+     * @param x1 X1 axis coordinates.
+     * @param y1 Y1 axis coordinates.
+     * @param x2 X2 axis coordinates.
+     * @param y2 Y2 axis coordinates.
+     * @return The Quasi-Euclidean distance between x and y.
+     */
+    public static double QuasiEuclidean(double x1, double y1, double x2, double y2){
+        
+        if (Math.abs(x1 - x2) > Math.abs(y1 - y2)){
+            return Math.abs(x1 - x2) + (Constants.Sqrt2 - 1) * Math.abs(y1 - y2);
+        }
+        return (Constants.Sqrt2 - 1) * Math.abs(x1 - x2) + Math.abs(y1 - y2);
+        
+    }
+    
+    /**
+     * Gets the Quasi-Euclidean distance between two points.
+     * @param p IntPoint with X and Y axis coordinates.
+     * @param q IntPoint with X and Y axis coordinates.
+     * @return The Quasi Euclidean distance between p and q.
+     */
+    public static double QuasiEuclidean(IntPoint p, IntPoint q){
+        return QuasiEuclidean(p.x, p.y, q.x, q.y);
+    }
+    
+    /**
+     * Gets the Square Euclidean distance between two points.
+     * @param x A point in space.
+     * @param y A point in space.
+     * @return The Square Euclidean distance between x and y.
+     */
+    public static double SquaredEuclidean(double[] x, double[] y){
+        double d = 0.0, u;
+
+        for (int i = 0; i < x.length; i++)
+        {
+            u = x[i] - y[i];
+            d += u * u;
+        }
+
+        return d;
     }
     
     /**

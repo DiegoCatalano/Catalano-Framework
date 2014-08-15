@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2005-2009
@@ -29,6 +29,7 @@ package Catalano.Math;
  * @author Diego Catalano
  */
 public class ComplexNumber {
+    
     /**
      * Real.
      */
@@ -153,13 +154,15 @@ public class ComplexNumber {
      * @return Returns new ComplexNumber instance containing the divide of specified complex numbers.
      */
     public static ComplexNumber Divide(ComplexNumber z1, ComplexNumber z2){
-        double z1R = z1.real, z1I = z1.imaginary;
-        double z2R = z2.real, z2I = z2.imaginary;
-        double squared = z2R*z2R + z2I*z2I;
         
-        return new ComplexNumber(
-                ( z1R * z2R + z1I * z2I ) * squared,
-                ( z1I * z2R - z1R * z2I ) * squared);
+         ComplexNumber conj = ComplexNumber.Conjugate(z2);
+         
+         double a = z1.real * conj.real + ((z1.imaginary * conj.imaginary) * -1);
+         double b = z1.real * conj.imaginary + (z1.imaginary * conj.real);
+         
+         double c = z2.real * conj.real + ((z2.imaginary * conj.imaginary) * -1);
+         
+         return new ComplexNumber(a / c, b / c);
     }
     
     /**
@@ -177,7 +180,41 @@ public class ComplexNumber {
         }
         
         this.real /= scalar;
-        this.real /= scalar;
+        this.imaginary /= scalar;
+    }
+    
+    /**
+     * Calculate power of a complex number.
+     * @param z1 Complex Number.
+     * @param n Power.
+     * @return Returns a new complex number containing the power of a specified number.
+     */
+    public static ComplexNumber Pow(ComplexNumber z1, double n){
+        
+        double norm = Math.pow(z1.getMagnitude(), n);
+        double angle = 360 - Math.abs(Math.toDegrees(Math.atan(z1.imaginary/z1.real)));
+        
+        double common = n * angle;
+        
+        double r = norm * Math.cos(Math.toRadians(common));
+        double i = norm * Math.sin(Math.toRadians(common));
+        
+        return new ComplexNumber(r, i);
+        
+    }
+    
+    /**
+     * Calculate power of a complex number.
+     * @param n Power.
+     */
+    public void Pow(double n){
+        double norm = Math.pow(getMagnitude(), n);
+        double angle = 360 - Math.abs(Math.toDegrees(Math.atan(this.imaginary/this.real)));
+        
+        double common = n * angle;
+        
+        this.real = norm * Math.cos(Math.toRadians(common));
+        this.imaginary = norm * Math.sin(Math.toRadians(common));
     }
     
     /**
