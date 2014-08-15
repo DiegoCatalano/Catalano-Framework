@@ -21,7 +21,9 @@ Version
 License
 ----
 
-LGPLThe framework is released under the LGPL, which means it can be used even inside commercial applications.
+LGPL
+
+The framework is released under the LGPL, which means it can be used even inside commercial applications.
 
 
 
