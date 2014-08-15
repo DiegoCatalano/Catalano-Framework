@@ -24,7 +24,7 @@ License
 LGPL
 
 
-**Free Software, Hell Yeah!**
+
 
 [AForge.NET]:http://www.aforgenet.com/
 [Accord.NET]:http://accord-framework.net/
