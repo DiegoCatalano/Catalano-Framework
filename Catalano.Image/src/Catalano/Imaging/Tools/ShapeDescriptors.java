@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,26 +20,20 @@
 //
 
 /*
- * Shape Features v0.2
+ * Shape Descriptors.
  * Total: 11
- * 
- * Feret's Diameter: Maximum diameter.
- * Feret's Points: Points of Feret's Diameter
- * Irregularity: 1/ThinnessRatio
- * Perimeter Equivalent Diameter: area / Pi
- * Roudness: 4*Area/(Pi*Feret^2)
- * Shape: Perimeter^2 / area
- * ThinnessRatio: 4*Pi*(area/perimeter)
  */
 package Catalano.Imaging.Tools;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.DistanceTransform;
 import Catalano.Math.Distance;
+import Catalano.Math.Matrix;
 import java.util.ArrayList;
 
 /**
- * 
+ * Shape Descriptors.
  * @author Diego Catalano
  */
 public final class ShapeDescriptors {
@@ -50,6 +44,7 @@ public final class ShapeDescriptors {
     private ShapeDescriptors(){};
     
     /**
+     * Area.
      * Total of pixels white.
      * Equation: Sum(Image).
      * @param fastBitmap Image to be processed.
@@ -74,7 +69,6 @@ public final class ShapeDescriptors {
      * @return Area equivalent diameter.
      */
     public static double AreaEquivalentDiameter(int area){
-        // Formula: sqrt((4/Pi)*Area)
         double v = 1.2732395447351626861510701069801;
         return Math.sqrt(v*area);
     }
@@ -87,7 +81,6 @@ public final class ShapeDescriptors {
      * @return Circularity.
      */
     public double Circularity(int area, int perimeter){
-        // Circularity = 4*Pi*Area/Perimeter^2
         double v = 12.566370614359172953850573533118;
         return (v*area) / (perimeter*perimeter);
     }
@@ -103,6 +96,12 @@ public final class ShapeDescriptors {
         return AreaEquivalentDiameter(area) / feretDiameter;
     }
     
+    /**
+     * Feret Diameter.
+     * Feret diameter is also called the maximum diameter in image.
+     * @param contour Contour of the image.
+     * @return Feret diameter.
+     */
     public static double FeretDiameter(ArrayList<IntPoint> contour){
         double maxDiameter = 0;
         for (IntPoint p : contour) {
@@ -114,9 +113,14 @@ public final class ShapeDescriptors {
             }
         }
         
-        return maxDiameter;
+        return Math.sqrt(maxDiameter);
     }
     
+    /**
+     * Feret Points
+     * @param contour Contour of the shape.
+     * @return Feret Points.
+     */
     public static ArrayList<IntPoint> FeretPoints(ArrayList<IntPoint> contour){
         ArrayList<IntPoint> lst = new ArrayList<IntPoint>();
         
@@ -126,7 +130,7 @@ public final class ShapeDescriptors {
         double maxDiameter = 0;
         for (IntPoint p : contour) {
             for (IntPoint pp : contour) {
-                double d = Distance.Euclidean(p.x, p.y, pp.x, pp.y);
+                double d = Distance.SquaredEuclidean(p.x, p.y, pp.x, pp.y);
                 if (d > maxDiameter) {
                     maxDiameter = d;
                     p1 = p;
@@ -145,21 +149,153 @@ public final class ShapeDescriptors {
         return 1/thinnessRatio;
     }
     
+    /**
+     * Maximum error circularity.
+     * @param mcc Minimum Circumscribed Circle.
+     * @param mic Maximum Inscribed Circle.
+     * @return Maximum error circularity.
+     */
+    public static double MaximumErrorCircularity(double mcc, double mic){
+        return mcc - mic;
+    }
+    
+    /**
+     * Maximum inscribed circle.
+     * @param fastBitmap Image to be processed.
+     * @return Maximum inscribed circle.
+     */
+    public static double MaximumInscribedCircle(FastBitmap fastBitmap){
+        
+        DistanceTransform dt = new DistanceTransform();
+        float[][] dist = dt.Compute(fastBitmap);
+        
+        return Matrix.Max(dist);
+        
+    }
+    
+    /**
+     * Minimum circumscribed circle.
+     * @param starPoint The point where is the most distance from nearest boundary.
+     * @param contour Contour of the shape.
+     * @return Minimum circumscribed circle.
+     */
+    public static double MinimumCircumscribedCircle(IntPoint starPoint, ArrayList<IntPoint> contour){
+        
+        double max = Double.MIN_VALUE;
+        for (IntPoint p : contour) {
+            double d = Catalano.Math.Distance.SquaredEuclidean(p, starPoint);
+            if (d > max){
+                max = d;
+            }
+        }
+        
+        return Math.sqrt(max);
+        
+    }
+    
+    /**
+     * Star Point.
+     * @param fastBitmap Image to be processed.
+     * @return IntPoint The point where is the most distance from nearest boundary.
+     */
+    public static IntPoint StarPoint (FastBitmap fastBitmap){
+        
+        DistanceTransform dt = new DistanceTransform();
+        float[][] dist = dt.Compute(fastBitmap);
+        
+        return Matrix.MaxIndex(dist);
+        
+    }
+    
+    /**
+     * Perimeter Equivalent Diameter.
+     * Equation: area / PI
+     * @param area Area.
+     * @return Perimeter Equivalent Diameter.
+     */
     public static double PerimeterEquivalentDiameter(int area){
         return area / Math.PI;
     }
     
+    /**
+     * Roughness.
+     * Equation: (width / height)
+     * @param width Width of the object.
+     * @param height Height of the object.
+     * @return Roughness.
+     */
+    public static double Roughness(int width, int height){
+        return width/height;
+    }
+    
+    /**
+     * Roundness.
+     * Equation: (4 * area) / (PI * (feretDiameter ^ 2)
+     * @param area Area.
+     * @param feretDiameter Feret diameter.
+     * @return Roundness.
+     */
     public static double Roundness(int area, double feretDiameter){
         return (4 * area) / (Math.PI * (feretDiameter * feretDiameter));
     }
     
+    /**
+     * Shape.
+     * Equation: (perimeter ^ 2) / area
+     * @param area Area.
+     * @param perimeter Perimeter.
+     * @return Shape.
+     */
     public static double Shape(int area, int perimeter){
         return (perimeter * perimeter) / area;
     }
     
+    /**
+     * Thinness Ratio.
+     * Equation: 4 * Pi * (area/perimeter).
+     * @param area Area.
+     * @param perimeter Perimeter.
+     * @return Thinness ratio.
+     */
     public static double ThinnessRatio(int area, int perimeter){
-        // Original: 4 * Math.Pi * (area/perimeter)
         double v = 12.566370614359172953850573533118;
         return v * (area/perimeter);
     }
+    
+    /**
+     * Ultimate Eroded Points.
+     * Computes the ultimate points from erosion operation.
+     * @param fastBitmap Image to be processed.
+     * @return List of points contains
+     */
+    public static ArrayList<IntPoint> UltimateErodedPoints(FastBitmap fastBitmap){
+        
+        ArrayList<IntPoint> points = new ArrayList<IntPoint>();
+        
+        DistanceTransform dt = new DistanceTransform();
+        float[][] dist = dt.Compute(fastBitmap);
+        
+        BlobDetection bd = new BlobDetection();
+        ArrayList<Blob> blobs = bd.ProcessImage(fastBitmap);
+        
+        for (Blob blob : blobs) {
+            ArrayList<IntPoint> lst = blob.getPoints();
+            float max = 0;
+            for (IntPoint p : lst) {
+                if(dist[p.x][p.y] > max){
+                    max = dist[p.x][p.y];
+                }
+            }
+            for (IntPoint p : lst) {
+                if(dist[p.x][p.y] == max){
+                    points.add(new IntPoint(p));
+                }
+            }
+        }
+        
+        return points;
+        
+    }
+    
+    
 }

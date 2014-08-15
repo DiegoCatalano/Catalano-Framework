@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.cm
 //
 //    This library is free software; you can redistribute it and/or
@@ -53,9 +53,11 @@ public class FloodFill implements IBaseInPlace{
          */
         EightWay
     };
+    
     private Algorithm algorithm = Algorithm.FourWay;
     int x,y;
     int r,g,b;
+    int gray;
 
     /**
      * Initialize a new instance of the FloodFill class.
@@ -120,6 +122,55 @@ public class FloodFill implements IBaseInPlace{
         this.r = r;
         this.g = g;
         this.b = b;
+        this.algorithm = algorithm;
+    }
+    
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param x X-axis.
+     * @param y Y-axis.
+     * @param gray Gray channel value.
+     */
+    public FloodFill(int x, int y, int gray) {
+        this.x = x;
+        this.y = y;
+        this.gray = gray;
+    }
+    
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param x X-axis.
+     * @param y Y-axis.
+     * @param gray Gray channel value.
+     * @param algorithm Floodfill algorithm.
+     */
+    public FloodFill(int x, int y, int gray, Algorithm algorithm){
+        this.x = x;
+        this.y = y;
+        this.algorithm = algorithm;
+    }
+    
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param p Point (x,y).
+     * @param gray Gray channel value.
+     */
+    public FloodFill(IntPoint p, int gray){
+        this.x = p.x;
+        this.y = p.y;
+        this.gray = gray;
+    }
+    
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param p Point (x,y).
+     * @param gray Gray channel value.
+     * @param algorithm Floodfill algorithm.
+     */
+    public FloodFill(IntPoint p, int gray, Algorithm algorithm){
+        this.x = p.x;
+        this.y = p.y;
+        this.gray = gray;
         this.algorithm = algorithm;
     }
 
@@ -204,99 +255,191 @@ public class FloodFill implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        Stack<IntPoint> examList = new Stack();
-        
-        int iR = fastBitmap.getRed(x, y);
-        int iG = fastBitmap.getGreen(x, y);
-        int iB = fastBitmap.getBlue(x, y);
-        int iRGB = iR+iG+iB;
-        
-        int _r = r;
-        int _g = g;
-        int _b = b;
-        int _RGB = _r + _g + _b;
-        
-        
-        switch(algorithm){
-            case FourWay:
-                if (iRGB != _RGB) {
-                    examList.push(new IntPoint(x,y));
-                    while (examList.size() > 0) {
-                        IntPoint p = examList.pop();
-                        _r = fastBitmap.getRed(p.x, p.y);
-                        _g = fastBitmap.getGreen(p.x, p.y);
-                        _b = fastBitmap.getBlue(p.x, p.y);
-                        _RGB = _r + _g + _b;
+        if(fastBitmap.isRGB()){
+            int width = fastBitmap.getWidth();
+            int height = fastBitmap.getHeight();
+            Stack<IntPoint> examList = new Stack();
 
-                        if (_RGB == iRGB) {
-                            x = p.x;
-                            y = p.y;
+            int iR = fastBitmap.getRed(x, y);
+            int iG = fastBitmap.getGreen(x, y);
+            int iB = fastBitmap.getBlue(x, y);
+            int iRGB = iR+iG+iB;
 
-                            fastBitmap.setRGB(x, y, r, g, b);
+            int _r = r;
+            int _g = g;
+            int _b = b;
+            int _RGB = _r + _g + _b;
 
-                            if (y-1 > 0) {
-                                examList.push(new IntPoint(x,y-1));        // check west neighbor
-                            }
-                            if (y+1 < width) {
-                                examList.push(new IntPoint(x,y+1));        // check east neighbor
-                            }
-                            if (x+1 < height) {
-                                examList.push(new IntPoint(x+1,y));        // check south neighbor
-                            }
-                            if (x-1 > 0) {
-                                examList.push(new IntPoint(x-1,y));        // check north neighbor
+
+            switch(algorithm){
+                case FourWay:
+                    if (iRGB != _RGB) {
+                        examList.push(new IntPoint(x,y));
+                        while (examList.size() > 0) {
+                            IntPoint p = examList.pop();
+                            _r = fastBitmap.getRed(p.x, p.y);
+                            _g = fastBitmap.getGreen(p.x, p.y);
+                            _b = fastBitmap.getBlue(p.x, p.y);
+                            _RGB = _r + _g + _b;
+
+                            if (_RGB == iRGB) {
+                                x = p.x;
+                                y = p.y;
+
+                                fastBitmap.setRGB(x, y, r, g, b);
+
+                                if (y-1 > 0) {
+                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                }
+                                if (y+1 < width) {
+                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                }
+                                if (x+1 < height) {
+                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                }
+                                if (x-1 > 0) {
+                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                }
                             }
                         }
                     }
-                }
-                break;
-                
-            case EightWay:
-                if (iRGB != _RGB) {
-                    examList.push(new IntPoint(x,y));
-                    while (examList.size() > 0) {
-                        IntPoint p = examList.pop();
-                        _r = fastBitmap.getRed(p.x, p.y);
-                        _g = fastBitmap.getGreen(p.x, p.y);
-                        _b = fastBitmap.getBlue(p.x, p.y);
-                        _RGB = _r + _g + _b;
+                    break;
 
-                        if (_RGB == iRGB) {
-                            x = p.x;
-                            y = p.y;
+                case EightWay:
+                    if (iRGB != _RGB) {
+                        examList.push(new IntPoint(x,y));
+                        while (examList.size() > 0) {
+                            IntPoint p = examList.pop();
+                            _r = fastBitmap.getRed(p.x, p.y);
+                            _g = fastBitmap.getGreen(p.x, p.y);
+                            _b = fastBitmap.getBlue(p.x, p.y);
+                            _RGB = _r + _g + _b;
 
-                            fastBitmap.setRGB(x, y, r, g, b);
+                            if (_RGB == iRGB) {
+                                x = p.x;
+                                y = p.y;
 
-                            if ((x-1 > 0) && (y-1 > 0)) {
-                                examList.push(new IntPoint(x-1,y-1));        // check north-west neighbor
-                            }
-                            if (x-1 > 0) {
-                                examList.push(new IntPoint(x-1,y));        // check north neighbor
-                            }
-                            if ((x+1 < height) && (y+1 < width)) {
-                                examList.push(new IntPoint(x+1,y+1));        // check north-east neighbor
-                            }
-                            if (y-1 > 0) {
-                                examList.push(new IntPoint(x,y-1));        // check west neighbor
-                            }
-                            if (y+1 < width) {
-                                examList.push(new IntPoint(x,y+1));        // check east neighbor
-                            }
-                            if ((x+1 < height) && (y-1 > 0)) {
-                                examList.push(new IntPoint(x+1,y-1));        // check south-west neighbor
-                            }
-                            if (x+1 < height) {
-                                examList.push(new IntPoint(x+1,y));        // check south neighbor
-                            }
-                            if ((x+1 < height) && (y+1 < width)) {
-                                examList.push(new IntPoint(x+1,y+1));        // check south-east neighbor
+                                fastBitmap.setRGB(x, y, r, g, b);
+
+                                if ((x-1 > 0) && (y-1 > 0)) {
+                                    examList.push(new IntPoint(x-1,y-1));        // check north-west neighbor
+                                }
+                                if (x-1 > 0) {
+                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                }
+                                if ((x+1 < height) && (y+1 < width)) {
+                                    examList.push(new IntPoint(x+1,y+1));        // check north-east neighbor
+                                }
+                                if (y-1 > 0) {
+                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                }
+                                if (y+1 < width) {
+                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                }
+                                if ((x+1 < height) && (y-1 > 0)) {
+                                    examList.push(new IntPoint(x+1,y-1));        // check south-west neighbor
+                                }
+                                if (x+1 < height) {
+                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                }
+                                if ((x+1 < height) && (y+1 < width)) {
+                                    examList.push(new IntPoint(x+1,y+1));        // check south-east neighbor
+                                }
                             }
                         }
                     }
-                }
-                break;
+                    break;
+            }
+        }
+        else if (fastBitmap.isGrayscale()){
+            int width = fastBitmap.getWidth();
+            int height = fastBitmap.getHeight();
+            Stack<IntPoint> examList = new Stack();
+
+            int iGray = fastBitmap.getGray(x, y);
+            
+            int _gray = gray;
+            int _Gray = _gray;
+
+
+            switch(algorithm){
+                case FourWay:
+                    if (iGray != _Gray) {
+                        examList.push(new IntPoint(x,y));
+                        while (examList.size() > 0) {
+                            IntPoint p = examList.pop();
+                            _gray = fastBitmap.getGray(p.x, p.y);
+                            _Gray = _gray;
+
+                            if (_Gray == iGray) {
+                                x = p.x;
+                                y = p.y;
+
+                                fastBitmap.setGray(x, y, gray);
+
+                                if (y-1 > 0) {
+                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                }
+                                if (y+1 < width) {
+                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                }
+                                if (x+1 < height) {
+                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                }
+                                if (x-1 > 0) {
+                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case EightWay:
+                    if (iGray != _Gray) {
+                        examList.push(new IntPoint(x,y));
+                        while (examList.size() > 0) {
+                            IntPoint p = examList.pop();
+                            _gray = fastBitmap.getGray(p.x, p.y);
+                            _Gray = _gray;
+
+                            if (_Gray == iGray) {
+                                x = p.x;
+                                y = p.y;
+
+                                fastBitmap.setGray(x, y, gray);
+
+                                if ((x-1 > 0) && (y-1 > 0)) {
+                                    examList.push(new IntPoint(x-1,y-1));        // check north-west neighbor
+                                }
+                                if (x-1 > 0) {
+                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                }
+                                if ((x+1 < height) && (y+1 < width)) {
+                                    examList.push(new IntPoint(x+1,y+1));        // check north-east neighbor
+                                }
+                                if (y-1 > 0) {
+                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                }
+                                if (y+1 < width) {
+                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                }
+                                if ((x+1 < height) && (y-1 > 0)) {
+                                    examList.push(new IntPoint(x+1,y-1));        // check south-west neighbor
+                                }
+                                if (x+1 < height) {
+                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                }
+                                if ((x+1 < height) && (y+1 < width)) {
+                                    examList.push(new IntPoint(x+1,y+1));        // check south-east neighbor
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        else{
+            throw new IllegalArgumentException("Flood fill only works in RGB and grayscale images.");
         }
     }
 }

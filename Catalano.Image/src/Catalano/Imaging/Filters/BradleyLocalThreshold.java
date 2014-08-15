@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -40,6 +40,23 @@ public class BradleyLocalThreshold implements IBaseInPlace{
      * Initialize a new instance of the BradleyLocalThreshold class.
      */
     public BradleyLocalThreshold() {}
+    
+    /**
+     * Initialize a new instance of the BradleyLocalThreshold class.
+     * @param windowSize Window size to calculate average value of pixels for.
+     */
+    public BradleyLocalThreshold(int windowSize) {
+        this.windowSize = windowSize;
+    }
+    
+    /**
+     * Initialize a new instance of the BradleyLocalThreshold class.
+     * @param windowSize Window size to calculate average value of pixels for.
+     * @param pixelBrightnessDiff Brightness difference limit between processing pixel and average value across neighbors.
+     */
+    public BradleyLocalThreshold(int windowSize, float pixelBrightnessDiff) {
+        this.windowSize = windowSize;
+    }
 
     /**
      * Window size to calculate average value of pixels for.

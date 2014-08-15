@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Remove artifacts caused by uneven lightning.
  * Actually this technique is useful as a preprocessing step for all texture measures.
- * @see Computer Imaging: digital image analysis and processing / Scott E. Umbaugh. Chapter 6. p. 276
+ * Reference: Computer Imaging: digital image analysis and processing / Scott E. Umbaugh. Chapter 6. p. 276
  * @author Diego Catalano
  */
 public class ArtifactsRemoval implements IBaseInPlace{
@@ -50,28 +50,33 @@ public class ArtifactsRemoval implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        FastBitmap copy = new FastBitmap(fastBitmap);
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        int steps = windowSize / 2;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                
-                double sum = 0;
-                int hits = 0;
-                for (int i = x - steps; i < x + steps; i++) {
-                    for (int j = y - steps; j < y + steps; j++) {
-                        
-                        if (((i >= 0) && (j >= 0)) && ((i < height) && (j < width))){
-                            sum += copy.getGray(i, j);
-                            hits++;
+        if (fastBitmap.isGrayscale()){
+            FastBitmap copy = new FastBitmap(fastBitmap);
+            int width = fastBitmap.getWidth();
+            int height = fastBitmap.getHeight();
+            int steps = windowSize / 2;
+
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+
+                    double sum = 0;
+                    int hits = 0;
+                    for (int i = x - steps; i < x + steps; i++) {
+                        for (int j = y - steps; j < y + steps; j++) {
+
+                            if (((i >= 0) && (j >= 0)) && ((i < height) && (j < width))){
+                                sum += copy.getGray(i, j);
+                                hits++;
+                            }
                         }
                     }
+                    double mean = sum / hits;
+                    fastBitmap.setGray(x, y, (int)(fastBitmap.getGray(x, y) - mean));
                 }
-                double mean = sum / hits;
-                fastBitmap.setGray(x, y, (int)(fastBitmap.getGray(x, y) - mean));
             }
+        }
+        else{
+            throw new IllegalArgumentException("Artifacts Removal only works in grayscale images.");
         }
     }
 }

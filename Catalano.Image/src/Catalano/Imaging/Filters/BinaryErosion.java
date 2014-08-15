@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -67,22 +67,27 @@ public class BinaryErosion implements IBaseInPlace{
      */
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Erosion only works in grayscale images.");
         }
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int radius){
         
         FastBitmap copy = new FastBitmap(fastBitmap);
-        
+
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         int l;
-        
+
         int Xline,Yline;
         int lines = CalcLines(radius);
         for (int x = 0; x < height; x++) {
@@ -100,17 +105,17 @@ public class BinaryErosion implements IBaseInPlace{
                     }
                 }
             }
-        }
+        }        
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int[][] kernel){
         
         FastBitmap copy = new FastBitmap(fastBitmap);
-        
+
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         int l;
-        
+
         int Xline,Yline;
         int lines = CalcLines(kernel);
         for (int x = 0; x < height; x++) {

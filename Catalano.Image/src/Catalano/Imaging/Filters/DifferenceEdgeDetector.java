@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -62,13 +62,13 @@ public class DifferenceEdgeDetector implements IBaseInPlace{
             int width = copy.getWidth();
             int height = copy.getHeight();
             
-            int max;
+            int max, diff;
             for (int x = 1; x < height - 1; x++) {
                 for (int y = 1; y < width - 1; y++) {
                     
                     max = 0;
                     
-                    int diff = copy.getGray(x - 1, y - 1) - copy.getGray(x + 1, y + 1);
+                    diff = copy.getGray(x - 1, y - 1) - copy.getGray(x + 1, y + 1);
                     if (diff < 0) diff = -diff;
                     if (diff > max) max = diff;
                     

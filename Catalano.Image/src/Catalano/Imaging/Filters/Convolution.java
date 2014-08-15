@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,36 +29,13 @@ import Catalano.Imaging.IBaseInPlace;
  * @author Diego Catalano
  */
 public class Convolution implements IBaseInPlace{
+    
     private int width,height;
     private int[][] kernel;
     private int division;
     private boolean useDiv = false;
-
-    /**
-     * Initialize a new instance of the Convolution class.
-     */
-    public Convolution() {
-    }
-
-    /**
-     * Initialize a new instance of the Convolution class.
-     * @param kernel Structuring element.
-     */
-    public Convolution(int[][] kernel) {
-        this.kernel = kernel;
-    }
+    private boolean replicate = false;
     
-    /**
-     * Initialize a new instance of the Convolution class.
-     * @param kernel Structuring element.
-     * @param division Divides the result of convolution.
-     */
-    public Convolution(int[][] kernel, int division) {
-        this.kernel = kernel;
-        this.division = division;
-        useDiv = true;
-    }
-
     /**
      * Structuring element.
      * @return Structuring element.
@@ -81,6 +58,69 @@ public class Convolution implements IBaseInPlace{
      */
     public void setDivision(int division) {
         this.division = division;
+        useDiv = true;
+    }
+
+    /**
+     * Verify if needs replicate pixels when is out of border.
+     * @return Replicate.
+     */
+    public boolean isReplicate() {
+        return replicate;
+    }
+
+    /**
+     * Replicate pixels out of border.
+     * @param replicate Replicate.
+     */
+    public void setReplicate(boolean replicate) {
+        this.replicate = replicate;
+    }
+
+    /**
+     * Initialize a new instance of the Convolution class.
+     */
+    public Convolution() {}
+
+    /**
+     * Initialize a new instance of the Convolution class.
+     * @param kernel Structuring element.
+     */
+    public Convolution(int[][] kernel) {
+        this.kernel = kernel;
+    }
+    
+    /**
+     * Initialize a new instance of the Convolution class.
+     * @param kernel Structuring element.
+     * @param replicate Replicate pixels out of border.
+     */
+    public Convolution(int[][] kernel, boolean replicate) {
+        this.kernel = kernel;
+        this.replicate = replicate;
+    }
+    
+    /**
+     * Initialize a new instance of the Convolution class.
+     * @param kernel Structuring element.
+     * @param division Divides the result of convolution.
+     */
+    public Convolution(int[][] kernel, int division) {
+        this.kernel = kernel;
+        this.division = division;
+        useDiv = true;
+    }
+    
+    /**
+     * Initialize a new instance of the Convolution class.
+     * @param kernel Structuring element.
+     * @param division Divides the result of convolution.
+     * @param replicate Replicate pixels out of border.
+     */
+    public Convolution(int[][] kernel, int division, boolean replicate) {
+        this.kernel = kernel;
+        this.division = division;
+        this.replicate = replicate;
         useDiv = true;
     }
     
@@ -107,6 +147,10 @@ public class Convolution implements IBaseInPlace{
                             Yline = y + (j-lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
                                 gray += kernel[i][j] * copy.getGray(Xline, Yline);
+                                div += kernel[i][j];
+                            }
+                            else if (replicate){
+                                gray += kernel[i][j] * copy.getGray(x, y);
                                 div += kernel[i][j];
                             }
                         }
@@ -141,6 +185,12 @@ public class Convolution implements IBaseInPlace{
                                 r += kernel[i][j] * copy.getRed(Xline, Yline);
                                 g += kernel[i][j] * copy.getGreen(Xline, Yline);
                                 b += kernel[i][j] * copy.getBlue(Xline, Yline);
+                                div += kernel[i][j];
+                            }
+                            else if (replicate){
+                                r += kernel[i][j] * copy.getRed(x, y);
+                                g += kernel[i][j] * copy.getGreen(x, y);
+                                b += kernel[i][j] * copy.getBlue(x, y);
                                 div += kernel[i][j];
                             }
                         }

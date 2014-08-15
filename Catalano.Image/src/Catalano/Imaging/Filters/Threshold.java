@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -18,6 +18,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
@@ -92,19 +93,19 @@ public class Threshold implements IBaseInPlace{
             for (int y = 0; y < width; y++) {
                 l = fastBitmap.getGray(x, y);
                 if(invert == false){
-                    if(l < value){
-                        fastBitmap.setGray(x, y, 0);
+                    if(l >= value){
+                        fastBitmap.setGray(x, y, 255);
                     }
                     else{
-                        fastBitmap.setGray(x, y, 255);
+                        fastBitmap.setGray(x, y, 0);
                     }
                 }
                 else{
                     if(l < value){
-                        fastBitmap.setGray(x, y, 255);
+                        fastBitmap.setGray(x, y, 0);
                     }
                     else{
-                        fastBitmap.setGray(x, y, 0);
+                        fastBitmap.setGray(x, y, 255);
                     }
                 }
             }

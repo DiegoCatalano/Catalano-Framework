@@ -1,30 +1,39 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Imaging Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2014
+// diego.catalano at live.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 
 /**
- *
+ * Replace RGB Channel.
  * @author Diego Catalano
  */
 public class ReplaceRGBChannel implements IBaseInPlace{
-    private FastBitmap band;
-    public enum RGB{R, G, B};
-    private RGB rgb;
-
-    public ReplaceRGBChannel() {
-        
-    }
     
-    public ReplaceRGBChannel(FastBitmap fastBitmap, RGB rgb) {
-        this.band = fastBitmap;
-        this.rgb = rgb;
-    }
-
+    public enum RGB{R, G, B};
+    private FastBitmap band;
+    private RGB rgb;
+    
     public FastBitmap getBand() {
         return band;
     }
@@ -38,6 +47,16 @@ public class ReplaceRGBChannel implements IBaseInPlace{
     }
 
     public void setRGB(RGB rgb) {
+        this.rgb = rgb;
+    }
+    
+    /**
+     * Initialize a new instance of the ReplaceRGBChannel class.
+     * @param fastBitmap Band image.
+     * @param rgb RGB.
+     */
+    public ReplaceRGBChannel(FastBitmap fastBitmap, RGB rgb) {
+        this.band = fastBitmap;
         this.rgb = rgb;
     }
 

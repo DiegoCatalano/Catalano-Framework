@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,6 +35,23 @@ public class GradientImage {
     private FastBitmap horizontalBitmap;
     private FastBitmap verticalBitmap;
     private float[][] magnitude, orientation;
+    private int division = 1;
+
+    /**
+     * Get division.
+     * @return Division.
+     */
+    public int getDivision() {
+        return division;
+    }
+
+    /**
+     * Set division.
+     * @param division Division.
+     */
+    public void setDivision(int division) {
+        this.division = division;
+    }
 
     /**
      * Initialize a new instance of the GradientImage class.
@@ -57,6 +74,20 @@ public class GradientImage {
     }
     
     /**
+     * Initialize a new instance of the GradientImage class.
+     * @param fastBitmap Image to be processed.
+     * @param horizontal Gradient mask for horizontal convolution.
+     * @param vertical Gradient mask for vertical convolution.
+     * @param division Divides the result of convolution.
+     */
+    public GradientImage(FastBitmap fastBitmap, int[][] horizontal, int[][] vertical, int division) {
+        this.h = horizontal;
+        this.v = vertical;
+        this.division = division;
+        Compute(fastBitmap);
+    }
+    
+    /**
      * Compute gradients.
      * @param fastBitmap Image to be processed.
      */
@@ -68,7 +99,7 @@ public class GradientImage {
         int height = fastBitmap.getHeight();
         
         // Horizontal convolution
-        Convolution c = new Convolution(h);
+        Convolution c = new Convolution(h, division);
         c.applyInPlace(horizontalBitmap);
         
         //Vertical convolution
@@ -149,5 +180,22 @@ public class GradientImage {
     
     public FastBitmap getHorizontalImage(){
         return horizontalBitmap;
+    }
+    
+    public FastBitmap getMaximumGradient(){
+        
+        int width = horizontalBitmap.getWidth();
+        int height = horizontalBitmap.getHeight();
+        
+        FastBitmap image = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int g = Math.min(255, horizontalBitmap.getGray(i, j) + verticalBitmap.getGray(i, j));
+                image.setGray(i, j, g);
+            }
+        }
+        
+        return image;
     }
 }

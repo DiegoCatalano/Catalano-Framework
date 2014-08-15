@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -229,14 +229,23 @@ public class ImageStatistics {
     /**
      * Calculate Mean value.
      * @param fastBitmap Image to be processed.
+     * @return Mean.
+     */
+    public static float Mean(FastBitmap fastBitmap){
+        return Mean(fastBitmap, 0, 0, fastBitmap.getWidth(), fastBitmap.getHeight());
+    }
+    
+    /**
+     * Calculate Mean value.
+     * @param fastBitmap Image to be processed.
      * @param startX Initial X axis coordinate.
      * @param startY Initial Y axis coordinate.
      * @param width Width.
      * @param height Height.
      * @return Mean.
      */
-    public static double Mean(FastBitmap fastBitmap, int startX, int startY, int width, int height){
-        double mean = 0;
+    public static float Mean(FastBitmap fastBitmap, int startX, int startY, int width, int height){
+        float mean = 0;
         if (fastBitmap.isGrayscale()){
             for (int i = startX; i < height; i++) {
                 for (int j = startY; j < width; j++) {
@@ -246,16 +255,115 @@ public class ImageStatistics {
             return mean / (width * height);
         }
         else{
-            throw new IllegalArgumentException("Only compute mean in grayscale images.");
+            throw new IllegalArgumentException("ImageStatistics: Only compute mean in grayscale images.");
         }
     }
     
     /**
-     * Calculate Mean value.
+     * Calculate Variance.
      * @param fastBitmap Image to be processed.
-     * @return Mean.
+     * @return Variance.
      */
-    public static double Mean(FastBitmap fastBitmap){
-        return Mean(fastBitmap, 0, 0, fastBitmap.getWidth(), fastBitmap.getHeight());
+    public static float Variance(FastBitmap fastBitmap){
+        float mean = Mean(fastBitmap);
+        return Variance(fastBitmap, mean);
+    }
+    
+    /**
+     * Calculate Variance.
+     * @param fastBitmap Image to be processed.
+     * @param mean Mean.
+     * @return Variance.
+     */
+    public static float Variance(FastBitmap fastBitmap, float mean){
+        return Variance(fastBitmap, mean, 0, 0, fastBitmap.getWidth(), fastBitmap.getHeight());
+    }
+    
+    /**
+     * Calculate Variance.
+     * @param fastBitmap Image to be processed.
+     * @param mean Mean.
+     * @param startX Initial X axis coordinate.
+     * @param startY Initial Y axis coordinate.
+     * @param width Width.
+     * @param height Height.
+     * @return Variance.
+     */
+    public static float Variance(FastBitmap fastBitmap, float mean, int startX, int startY, int width, int height){
+        
+        float sum = 0;
+        if (fastBitmap.isGrayscale()){
+            for (int i = startX; i < height; i++) {
+                for (int j = startY; j < width; j++) {
+                    sum += Math.pow(fastBitmap.getGray(i, j) - mean, 2);
+                }
+            }
+            return sum / (float)((width * height) - 1);
+        }
+        else{
+            throw new IllegalArgumentException("ImageStatistics: Only compute variance in grayscale images.");
+        }
+    }
+    
+    /**
+     * Get maximum gray value in the image.
+     * @param fastBitmap Image to be processed.
+     * @return Maximum gray.
+     */
+    public static int Maximum (FastBitmap fastBitmap){
+        return Maximum(fastBitmap, 0, 0, fastBitmap.getWidth(), fastBitmap.getHeight());
+    }
+    
+    /**
+     * Get maximum gray value in the image.
+     * @param fastBitmap Image to be processed.
+     * @param startX Initial X axis coordinate.
+     * @param startY Initial Y axis coordinate.
+     * @param width Width.
+     * @param height Height.
+     * @return Maximum gray.
+     */
+    public static int Maximum(FastBitmap fastBitmap, int startX, int startY, int width, int height){
+        int max = 0;
+        for (int i = startX; i < height; i++) {
+            for (int j = startY; j < width; j++) {
+                int gray = fastBitmap.getGray(i, j);
+                if (gray > max) {
+                    max = gray;
+                }
+            }
+        }
+        return max;
+    }
+    
+    /**
+     * Get minimum gray value in the image.
+     * @param fastBitmap Image to be processed.
+     * @return minimum gray.
+     */
+    public static int Minimum (FastBitmap fastBitmap){
+        return Minimum(fastBitmap, 0, 0, fastBitmap.getWidth(), fastBitmap.getHeight());
+    }
+    
+    /**
+     * Get minimum gray value in the image.
+     * @param fastBitmap Image to be processed.
+     * @param startX Initial X axis coordinate.
+     * @param startY Initial Y axis coordinate.
+     * @param width Width.
+     * @param height Height.
+     * @return Minimum gray.
+     */
+    public static int Minimum(FastBitmap fastBitmap, int startX, int startY, int width, int height){
+        int min = 255;
+        for (int i = startX; i < height; i++) {
+            for (int j = startY; j < width; j++) {
+                int gray = fastBitmap.getGray(i, j);
+                if (gray < min) {
+                    min = gray;
+                }
+            }
+        }
+        return min;
     }
 }

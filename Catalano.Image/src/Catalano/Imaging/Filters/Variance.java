@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -45,7 +45,7 @@ public class Variance implements IBaseInPlace{
      * @param radius Radius.
      */
     public void setRadius(int radius) {
-        this.radius = radius;
+        this.radius = Math.max(1, radius);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Variance implements IBaseInPlace{
      * @param radius Radius.
      */
     public Variance(int radius) {
-        this.radius = Math.min(1, radius);
+        setRadius(radius);
     }
 
     @Override

@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,6 +31,7 @@ import Catalano.Imaging.IBaseInPlace;
 public class Grayscale implements IBaseInPlace{
     
     double redCoefficient = 0.2125, greenCoefficient = 0.7154, blueCoefficient = 0.0721;
+    
     /**
      * Three methods for grayscale.
      */
@@ -47,7 +48,17 @@ public class Grayscale implements IBaseInPlace{
         /**
          * 0.2125R + 0.7154G + 0.0721B
          */
-        Luminosity
+        Luminosity,
+        
+        /**
+         * Min(red, green, max)
+         */
+        MinimumDecomposition,
+        
+        /**
+         * Max(red, gree, blue)
+         */
+        MaximumDecomposition
     };
     private Algorithm grayscaleMethod;
     private boolean isAlgorithm = false;
@@ -152,8 +163,7 @@ public class Grayscale implements IBaseInPlace{
      */
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-            if(!isAlgorithm)
-            {
+            if(!isAlgorithm){
                 int width = fastBitmap.getWidth();
                 int height = fastBitmap.getHeight();
                 double r,g,b,gray;
@@ -187,7 +197,7 @@ public class Grayscale implements IBaseInPlace{
 
             switch(grayMethod){
                 case Lightness:
-                    // Lightness method
+
                     double max,min;
                     for (int x = 0; x < height; x++) {
                         for (int y = 0; y < width; y++) {
@@ -232,7 +242,31 @@ public class Grayscale implements IBaseInPlace{
                             l.setGray(x, y, (int)gray);
                         }
                     }
-                    break;
+                break;
+                    
+                case MinimumDecomposition:
+                    for (int x = 0; x < height; x++) {
+                        for (int y = 0; y < width; y++) {
+                            gray = fastBitmap.getRed(x, y);
+                            gray = Math.min(gray, fastBitmap.getGreen(x, y));
+                            gray = Math.min(gray, fastBitmap.getBlue(x, y));
+
+                            l.setGray(x, y, (int)gray);
+                        }
+                    }
+                break;
+                    
+                case MaximumDecomposition:
+                    for (int x = 0; x < height; x++) {
+                        for (int y = 0; y < width; y++) {
+                            gray = fastBitmap.getRed(x, y);
+                            gray = Math.max(gray, fastBitmap.getGreen(x, y));
+                            gray = Math.max(gray, fastBitmap.getBlue(x, y));
+
+                            l.setGray(x, y, (int)gray);
+                        }
+                    }
+                break;
             }
             fastBitmap.setImage(l);
     }   

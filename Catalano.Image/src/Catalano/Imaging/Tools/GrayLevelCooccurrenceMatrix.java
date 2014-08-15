@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,7 +30,30 @@ import Catalano.Imaging.FastBitmap;
  */
 public class GrayLevelCooccurrenceMatrix {
     
-    public static enum Degree{ Degree_0, Degree_45, Degree_90, Degree_135 };
+    /**
+     * Degree to perform the Run length.
+     */
+    public static enum Degree{
+
+        /**
+         * 0 Degree.
+         */
+        Degree_0,
+
+        /**
+         * 45 Degree.
+         */
+        Degree_45,
+
+        /**
+         * 90 Degree.
+         */
+        Degree_90,
+
+        /**
+         * 135 Degree.
+         */
+        Degree_135 };
     
     private Degree degree;
     

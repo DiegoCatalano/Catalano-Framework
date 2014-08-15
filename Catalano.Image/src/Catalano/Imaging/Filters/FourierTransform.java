@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -27,6 +27,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Tools.ImagePadding;
 import Catalano.Math.ComplexNumber;
 
 /**
@@ -38,6 +39,11 @@ public class FourierTransform {
     private ComplexNumber[][] data;
     private int width, height;
     private boolean fourierTransformed = false;
+    private boolean useZeroPadding = false;
+    private int oriWidth;
+    private int oriHeight;
+    private int nW;
+    private int nH;
 
     /**
      * Initialize a new instance of the FourierTransform class.
@@ -47,6 +53,16 @@ public class FourierTransform {
         if (fastBitmap.isGrayscale()) {
             this.width = fastBitmap.getWidth();
             this.height = fastBitmap.getHeight();
+            
+            boolean a = Catalano.Math.Tools.IsPowerOf2(width);
+            boolean b = Catalano.Math.Tools.IsPowerOf2(height);
+            
+            if (a == false || b == false){
+                ZeroPadding(fastBitmap);
+                this.width = fastBitmap.getWidth();
+                this.height = fastBitmap.getHeight();
+            }
+            
             data = new ComplexNumber[height][width];
 
             for (int x = 0; x < height; x++) {
@@ -63,6 +79,20 @@ public class FourierTransform {
                 e.printStackTrace();
             }
         }
+    }
+    
+    private void ZeroPadding(FastBitmap fastBitmap){
+        
+        this.oriWidth = fastBitmap.getWidth();
+        this.oriHeight = fastBitmap.getHeight();
+
+        this.nW = Catalano.Math.Tools.NextPowerOf2(oriWidth);
+        this.nH = Catalano.Math.Tools.NextPowerOf2(oriHeight);
+
+        ImagePadding expand = new ImagePadding(nW - oriWidth, nH - oriHeight);
+        expand.applyInPlace(fastBitmap);
+        this.useZeroPadding = true;
+        
     }
 
     /**
@@ -110,17 +140,22 @@ public class FourierTransform {
      * @return FastBitmap.
      */
     public FastBitmap toFastBitmap(){
-        FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
+        FastBitmap fb = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         
         double scale = ( fourierTransformed ) ? Math.sqrt( width * height ) : 1;
         
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                l.setGray(x, y, (int)Math.max( 0, Math.min( 255, data[x][y].getMagnitude() * scale * 255 )));
+                fb.setGray(x, y, (int)Math.max( 0, Math.min( 255, data[x][y].getMagnitude() * scale * 255 )));
             }
         }
         
-        return l;
+        if (useZeroPadding && !fourierTransformed){
+            Crop crop = new Crop((nH - oriHeight) / 2, (nW - oriWidth) / 2, oriWidth, oriHeight);
+            crop.ApplyInPlace(fb);
+        }
+        
+        return fb;
     }
     
     /**
@@ -137,7 +172,7 @@ public class FourierTransform {
                 }
             }
 
-            Catalano.Math.Transforms.FourierTransform.DFT2(data, Catalano.Math.Transforms.FourierTransform.Direction.Forward);
+            Catalano.Math.Transforms.FourierTransform.FFT2(data, Catalano.Math.Transforms.FourierTransform.Direction.Forward);
             fourierTransformed = true;
         }
     }
@@ -147,7 +182,7 @@ public class FourierTransform {
      */
     public void Backward( ){
         if ( fourierTransformed ){
-            Catalano.Math.Transforms.FourierTransform.DFT2(data, Catalano.Math.Transforms.FourierTransform.Direction.Backward);
+            Catalano.Math.Transforms.FourierTransform.FFT2(data, Catalano.Math.Transforms.FourierTransform.Direction.Backward);
             fourierTransformed = false;
 
             for ( int x = 0; x < height; x++ ){

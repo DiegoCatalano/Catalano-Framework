@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,8 @@ package Catalano.Imaging.Tools;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Shapes.IntRectangle;
+import Catalano.Math.Geometry.PointsCloud;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -181,8 +183,13 @@ public class BlobDetection {
                         areaBig = blobArea;
                         idBigBlob = id;
                     }
+                    
+                    //Discover width, height and bounding box using Point Cloud
+                    ArrayList<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
+                    int h = Math.abs(lst.get(0).x - lst.get(1).x);
+                    int w = Math.abs(lst.get(0).y - lst.get(1).y);
                 
-                    blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints);
+                    blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x, lst.get(0).y, w, h));
                     blobs.add(blob);
                     size++;
                     id++;
@@ -193,7 +200,12 @@ public class BlobDetection {
                 idBigBlob = id;
             }
             
-            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints);
+            //Discover width, height and bounding box using Point Cloud
+            ArrayList<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
+            int h = Math.abs(lst.get(0).x - lst.get(1).x);
+            int w = Math.abs(lst.get(0).y - lst.get(1).y);
+            
+            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x, lst.get(0).y, w, h));
             blobs.add(blob);
             size++;
             id++;

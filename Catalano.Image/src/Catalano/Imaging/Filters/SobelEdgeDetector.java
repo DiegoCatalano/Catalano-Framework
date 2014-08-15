@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -38,6 +38,34 @@ import Catalano.Imaging.IBaseInPlace;
  * @author Diego Catalano
  */
 public class SobelEdgeDetector implements IBaseInPlace{
+    
+    private boolean scaleIntensity = true;
+
+    /**
+     * Is scale intensity.
+     * 
+     * <para>Check if edges' pixels intensities of the result image
+     * should be scaled in the range of the lowest and the highest possible intensity
+     * values.</para>
+     * 
+     * @return Scale intensity value.
+     */
+    public boolean isScaleIntensity() {
+        return scaleIntensity;
+    }
+
+    /**
+     * Set scale intensity.
+     * 
+     * <para>Check if edges' pixels intensities of the result image
+     * should be scaled in the range of the lowest and the highest possible intensity
+     * values.</para>
+     * 
+     * @param scaleIntensity Scale intensity value.
+     */
+    public void setScaleIntensity(boolean scaleIntensity) {
+        this.scaleIntensity = scaleIntensity;
+    }
 
     /**
      * Initializes a new instance of the SobelEdgeDetector class.
@@ -51,22 +79,36 @@ public class SobelEdgeDetector implements IBaseInPlace{
             int height = fastBitmap.getHeight();
             int width = fastBitmap.getWidth();
             FastBitmap copy = new FastBitmap(fastBitmap);
+            double g, max = 0;
             for (int i = 1; i < height - 1; i++) {
                 for (int j = 1; j < width - 1; j++) {
+                    
                     int p1 = copy.getGray(i - 1, j - 1);
                     int p2 = copy.getGray(i - 1, j);
                     int p3 = copy.getGray(i - 1, j + 1);
                     int p4 = copy.getGray(i, j + 1);
-                    int p5 = copy.getGray(i + 1, j + 1);
-                    int p6 = copy.getGray(i + 1, j);
+                    int p5 = copy.getGray(i + 1, j);
+                    int p6 = copy.getGray(i + 1, j + 1);
                     int p7 = copy.getGray(i + 1, j - 1);
                     int p8 = copy.getGray(i, j - 1);
 
-                    int g = Math.min(255, Math.abs(p1 + 2*p2 + p3 - p7 - 2*p6 - p5) + Math.abs(p3 + 2*p4 + p5 - p1 - 2*p8 - p7));
-                    fastBitmap.setGray(i, j, g);
+                    g = Math.min(255, Math.abs(p1 + p3 - p7 - p2 + 2 * (p2 - p5)) + Math.abs(p2 + p6 - p1 - p7 + 2 * (p4 - p8)));
+                    if (g > max) max = g;
+                    fastBitmap.setGray(i, j, (int)g);
 
                 }
             }
+            
+            if (scaleIntensity && max != 255){
+                double factor = 255.0 / (double) max;
+                
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        fastBitmap.setGray(i, j, (int)(fastBitmap.getGray(i, j) * factor));
+                    }
+                }
+            }
+            
         }
         else{
             throw new IllegalArgumentException("SobelEdgeDetector only works in grayscale images.");

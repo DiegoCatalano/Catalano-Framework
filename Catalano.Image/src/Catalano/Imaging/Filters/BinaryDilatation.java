@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,6 +34,7 @@ import Catalano.Imaging.IBaseInPlace;
  * @author Diego Catalano
  */
 public class BinaryDilatation implements IBaseInPlace{
+    
     private int[][] kernel;
     private int radius = 0;
 
@@ -63,11 +64,16 @@ public class BinaryDilatation implements IBaseInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Dilatation only works in grayscale images.");
         }
     }
     

@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -34,12 +34,21 @@ import java.util.Arrays;
  * @author Diego Catalano
  */
 public class Median implements IBaseInPlace{
+    
     private int radius = 1;
 
+    /**
+     * Get Radius.
+     * @return Radius.
+     */
     public int getRadius() {
         return radius;
     }
 
+    /**
+     * Set Radius.
+     * @param radius Radius.
+     */
     public void setRadius(int radius) {
         this.radius = radius;
     }

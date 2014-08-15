@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -65,6 +65,16 @@ public class Crop {
     public void setY(int y) {
         this.y = y;
     }
+    
+    /**
+     * Set Initial X and Y axis coordinate.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     */
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     /*
      * Get Height.
@@ -98,6 +108,16 @@ public class Crop {
     }
     
     /**
+     * Set Width and Height.
+     * @param height Height.
+     * @param width Width.
+     */
+    public void setSize(int height, int width){
+        this.height = height;
+        this.width = width;
+    }
+    
+    /**
      * Initialize a new instance of the Crop class.
      * @param x start x position.
      * @param y start y position.
@@ -117,26 +137,30 @@ public class Crop {
      */
     public void ApplyInPlace(FastBitmap fastBitmap){
         
+        if((this.x + height > fastBitmap.getHeight()) ||
+                this.y + width > fastBitmap.getWidth()){
+            throw new IllegalArgumentException("The size is higher than original image.");
+        }
+        
         FastBitmap l = new FastBitmap(width, height, fastBitmap.getColorSpace());
         
         if (fastBitmap.isGrayscale()) {
-            for (int r = this.x; r < this.x + this.height; r++) {
-                for (int c = this.y; c < this.y + this.width; c++) {
-                    l.setGray(r - this.x, c - this.y, fastBitmap.getGray(r, c));
+            
+            for (int r = 0; r < height; r++) {
+                for (int c = 0; c < width; c++) {
+                    l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
                 }
             }
 
             fastBitmap.setImage(l);    
         }
         else{
-            int X,Y;
-            for (int r = this.x; r < this.x + this.height; r++) {
-                for (int c = this.y; c < this.y + this.width; c++) {
-                    X = r - this.x;
-                    Y = c - this.y;
-                    l.setRed(X, Y, fastBitmap.getRed(r, c));
-                    l.setGreen(X, Y, fastBitmap.getGreen(r, c));
-                    l.setBlue(X, Y, fastBitmap.getBlue(r, c));
+            
+            for (int r = 0; r < height; r++) {
+                for (int c = 0; c < width; c++) {
+                    l.setRed(r, c, fastBitmap.getRed(r + this.x, c + this.y));
+                    l.setGreen(r, c, fastBitmap.getGreen(r + this.x, c + this.y));
+                    l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
                 }
             }
             fastBitmap.setImage(l);

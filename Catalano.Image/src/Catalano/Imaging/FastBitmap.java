@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -40,9 +40,10 @@ import javax.swing.ImageIcon;
  * @author Diego Catalano
  */
 public class FastBitmap {
+    
     private BufferedImage bufferedImage;
     private WritableRaster raster;
-    private int[] pixelsRGB;
+    private int[] pixels;
     private byte[] pixelsGRAY;
 
     /**
@@ -57,7 +58,12 @@ public class FastBitmap {
         /**
          * RGB
          */
-        RGB
+        RGB,
+        
+        /**
+         * ARGB
+         */
+        ARGB
     };
 
     /**
@@ -67,6 +73,7 @@ public class FastBitmap {
     
     /**
      * Initialize a new instance of the FastBitmap class.
+     * @param fastBitmap FastBitmap
      */
     public FastBitmap(FastBitmap fastBitmap){
         this.bufferedImage = fastBitmap.toBufferedImage();
@@ -122,6 +129,9 @@ public class FastBitmap {
             if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
                 refresh();
             }
+            else if (getType() == BufferedImage.TYPE_INT_ARGB || getType() == BufferedImage.TYPE_4BYTE_ABGR){
+                toARGB();
+            }
             else{
                 toRGB();
             }
@@ -144,13 +154,18 @@ public class FastBitmap {
      * Initialize a new instance of the FastBitmap class.
      * @param width Width.
      * @param height Height.
-     * @param spaceColor Space color.
+     * @param colorSpace Space color.
      */
     public FastBitmap(int width, int height, ColorSpace colorSpace){
-        if (colorSpace == ColorSpace.RGB)
+        if (colorSpace == ColorSpace.RGB){
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        else
+        }
+        else if(colorSpace == ColorSpace.Grayscale){
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        }
+        else if(colorSpace == ColorSpace.RGB){
+            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        }
         
         refresh();
     }
@@ -170,7 +185,7 @@ public class FastBitmap {
      * @param image Array.
      */
     public FastBitmap(int[][][] image){
-        bufferedImage = new BufferedImage(image[0][0].length, image[0].length, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
         refresh();
         arrayToImage(image);
     }
@@ -183,8 +198,8 @@ public class FastBitmap {
         if (isGrayscale()) {
             pixelsGRAY = ((DataBufferByte)raster.getDataBuffer()).getData();
         }
-        if (isRGB()) {
-            pixelsRGB = ((DataBufferInt)raster.getDataBuffer()).getData();
+        if (isRGB() || isARGB()) {
+            pixels = ((DataBufferInt)raster.getDataBuffer()).getData();
         }
     }
     
@@ -210,8 +225,8 @@ public class FastBitmap {
     }
     
     /**
-     * Set image to FastBitmap.
-     * @param bufferedImage BufferedImage.
+     * Set Image to Fast Bitmap.
+     * @param fastBitmap FastBitmap.
      */
     public void setImage(FastBitmap fastBitmap){
         this.bufferedImage = fastBitmap.toBufferedImage();
@@ -251,11 +266,22 @@ public class FastBitmap {
     }
     
     /**
-     * Convert image to grayscale.
-     * This method will convert to Luminosity method.
+     * Convert any others space color to Grayscale.
      */
     public void toGrayscale(){
         new Grayscale().applyInPlace(this);
+    }
+    
+    /**
+     * Convert any others space colors to RGB.
+     */
+    public void toARGB(){
+        BufferedImage b = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = b.getGraphics();
+        g.drawImage(this.bufferedImage, 0, 0, null);
+        this.bufferedImage = b;
+        refresh();
+        g.dispose();
     }
     
     /**
@@ -445,6 +471,24 @@ public class FastBitmap {
     }
     
     /**
+     * Clear all the image.
+     */
+    public void Clear(){
+        if(isGrayscale()){
+            int size = pixelsGRAY.length;
+            for (int i = 0; i < size; i++) {
+                pixelsGRAY[i] = 0;
+            }
+        }
+        else{
+            int size = pixelsGRAY.length;
+            for (int i = 0; i < size; i++) {
+                pixels[i] = 0;
+            }
+        }
+    }
+    
+    /**
      * Allow use Java`s Graphics.
      * @return Graphics.
      */
@@ -498,6 +542,17 @@ public class FastBitmap {
     }
     
     /**
+     * Verify ARGB space color.
+     * @return True if is ARGB, otherwise false.
+     */
+    public boolean isARGB(){
+        if (bufferedImage.getType() == BufferedImage.TYPE_INT_ARGB){
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Get width.
      * @return Width.
      */
@@ -521,9 +576,9 @@ public class FastBitmap {
      */
     public int[] getRGB(int x, int y){
         int[] rgb = new int[3];
-        rgb[0] = pixelsRGB[x*getWidth()+y] >> 16 & 0xFF;
-        rgb[1] = pixelsRGB[x*getWidth()+y] >> 8 & 0xFF;
-        rgb[2] = pixelsRGB[x*getWidth()+y] & 0xFF;
+        rgb[0] = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        rgb[1] = pixels[x*getWidth()+y] >> 8 & 0xFF;
+        rgb[2] = pixels[x*getWidth()+y] & 0xFF;
         return rgb;
     }
     
@@ -537,6 +592,30 @@ public class FastBitmap {
     }
     
     /**
+     * Return ARGB color.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @return ARGB.
+     */
+    public int[] getARGB(int x, int y){
+        int[] argb = new int[4];
+        argb[0] = pixels[x*getWidth()+y] >> 24 & 0xFF;
+        argb[1] = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        argb[2] = pixels[x*getWidth()+y] >> 8  & 0xFF;
+        argb[3] = pixels[x*getWidth()+y]       & 0xFF;
+        return argb;
+    }
+    
+    /**
+     * Return ARGB color.
+     * @param point Point.
+     * @return ARGB.
+     */
+    public int[] getARGB(IntPoint point){
+        return getARGB(point.x, point.y);
+    }
+    
+    /**
      * Set RGB.
      * @param x X axis coordinates.
      * @param y Y axis coordinates.
@@ -545,7 +624,8 @@ public class FastBitmap {
      * @param blue Blue channel's value.
      */
     public void setRGB(int x, int y, int red, int green, int blue){
-        pixelsRGB[x*getWidth()+y] = red << 16 | green << 8 | blue;
+        int a = pixels[x*getWidth()+y] >> 24 & 0xFF;
+        pixels[x*getWidth()+y] = a << 24 | red << 16 | green << 8 | blue;
     }
     
     /**
@@ -560,6 +640,69 @@ public class FastBitmap {
     }
     
     /**
+     * Set RGB.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
+     * @param rgb RGB color.
+     */
+    public void setRGB(int x, int y, int[] rgb){
+         pixels[x*getWidth()+y] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Set RGB.
+     * @param point IntPoint.
+     * @param rgb RGB color.
+     */
+    public void setRGB(IntPoint point, int[] rgb){
+         pixels[point.x*getWidth()+point.y] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Set ARGB.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
+     * @param alpha Alpha channel's value.
+     * @param red Red channel's value.
+     * @param green Green channel's value.
+     * @param blue Blue channel's value.
+     */
+    public void setARGB(int x, int y, int alpha, int red, int green, int blue){
+        pixels[x*getWidth()+y] = alpha << 24 | red << 16 | green << 8 | blue;
+    }
+    
+    /**
+     * Set ARGB.
+     * @param point IntPoint.
+     * @param alpha Alpha channel's value.
+     * @param red Red channel's value.
+     * @param green Green channel's value.
+     * @param blue Blue channel's value.
+     */
+    public void setARGB(IntPoint point, int alpha, int red, int green, int blue){
+        setARGB(point.x,point.y,alpha,red,green,blue);
+    }
+    
+    /**
+     * Set ARGB.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
+     * @param rgb ARGB color.
+     */
+    public void setARGB(int x, int y, int[] rgb){
+         pixels[x*getWidth()+y] = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | rgb[3];
+    }
+    
+    /**
+     * Set ARGB.
+     * @param point IntPoint.
+     * @param rgb ARGB color.
+     */
+    public void setARGB(IntPoint point, int[] rgb){
+         pixels[point.x*getWidth()+point.y] = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | rgb[3];
+    }
+    
+    /**
      * Get Gray.
      * @param x X axis coordinate.
      * @param y Y axis coordinate.
@@ -571,8 +714,7 @@ public class FastBitmap {
     
     /**
      * Get Gray.
-     * @param x X axis coordinate.
-     * @param y Y axis coordinate.
+     * @param point Point contains X and Y coordinates.
      * @return Gray channel's value.
      */
     public int getGray(IntPoint point){
@@ -581,7 +723,8 @@ public class FastBitmap {
     
     /**
      * Set Gray.
-     * @param point IntPoint.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
      * @param value Gray channel's value.
      */
     public void setGray(int x, int y, int value){
@@ -598,13 +741,37 @@ public class FastBitmap {
     }
     
     /**
+     * Get Alpha.
+     * @param x X Axis coordinate.
+     * @param y Y Axis coordinate.
+     * @return Alpha value.
+     */
+    public int getAlpha(int x, int y){
+        return pixels[x*getWidth()+y] >> 24 & 0xFF;
+    }
+    
+    /**
+     * Set Alpha.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @param value Alpha channel's value.
+     */
+    public void setAlpha(int x, int y, int value){
+        int r,g,b;
+        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
+        b = pixels[x*getWidth()+y] & 0xFF;
+        pixels[x*getWidth()+y] = value << 24 | r << 16 | g << 8 | b;
+    }
+    
+    /**
      * Get Red.
      * @param x X axis component.
      * @param y Y axis component.
      * @return Red channel's value.
      */
     public int getRed(int x, int y){
-        return pixelsRGB[x*getWidth()+y] >> 16 & 0xFF;
+        return pixels[x*getWidth()+y] >> 16 & 0xFF;
     }
     
     /**
@@ -623,10 +790,11 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int x, int y, int value){
-        int g,b;
-        g = pixelsRGB[x*getWidth()+y] >> 8 & 0xFF;
-        b = pixelsRGB[x*getWidth()+y] & 0xFF;
-        pixelsRGB[x*getWidth()+y] = value << 16 | g | b;
+        int a,g,b;
+        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
+        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
+        b = pixels[x*getWidth()+y] & 0xFF;
+        pixels[x*getWidth()+y] = a << 24 | value << 16 | g << 8 | b;
     }
     
     /**
@@ -645,7 +813,7 @@ public class FastBitmap {
      * @return Green channel's value.
      */
     public int getGreen(int x, int y){
-        return pixelsRGB[x*getWidth()+y] >> 8 & 0xFF;
+        return pixels[x*getWidth()+y] >> 8 & 0xFF;
     }
     
     /**
@@ -664,10 +832,11 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int x, int y, int value){
-        int r,b;
-        r = pixelsRGB[x*getWidth()+y] >> 16 & 0xFF;
-        b = pixelsRGB[x*getWidth()+y] & 0xFF;
-        pixelsRGB[x*getWidth()+y] = r << 16 | value << 8 | b;
+        int a,r,b;
+        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
+        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        b = pixels[x*getWidth()+y] & 0xFF;
+        pixels[x*getWidth()+y] = a << 24 | r << 16 | value << 8 | b;
     }
     
     /**
@@ -686,7 +855,7 @@ public class FastBitmap {
      * @return Blue channel's value.
      */
     public int getBlue(int x, int y){
-        return pixelsRGB[x*getWidth()+y] & 0xFF;
+        return pixels[x*getWidth()+y] & 0xFF;
     }
     
     /**
@@ -705,10 +874,11 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int x, int y, int value){
-        int r,g;
-        r = pixelsRGB[x*getWidth()+y] >> 16 & 0xFF;
-        g = pixelsRGB[x*getWidth()+y] >> 8 & 0xFF;
-        pixelsRGB[x*getWidth()+y] = r << 16 | g << 8 | value;
+        int a,r,g;
+        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
+        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
+        pixels[x*getWidth()+y] = a << 24 | r << 16 | g << 8 | value;
     }
     
     /**

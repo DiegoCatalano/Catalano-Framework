@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -71,11 +71,11 @@ public class HomomorphicFilter implements IBaseInPlace{
         // Compute log transform
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                complex[x][y].real = Math.log(complex[x][y].real);
+                complex[x][y].real = Math.log(complex[x][y].real + 1);
             }
         }
         
-        // Forward Fourier Transform
+        // Forward Fast Fourier Transform
         ft.setData(complex);
         ft.Forward();
         
@@ -90,11 +90,11 @@ public class HomomorphicFilter implements IBaseInPlace{
         complex = ft.getData();
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                complex[x][y].real = Math.exp(complex[x][y].real);
+                complex[x][y].real = Math.exp(complex[x][y].real - 1);
             }
         }
         ft.setData(complex);
         
-        fastBitmap = ft.toFastBitmap();
+        fastBitmap.setImage(ft.toFastBitmap());
     }
 }

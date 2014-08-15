@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  */
 public class Emboss implements IBaseInPlace{
     
-    //Blur Kernel
+    //Emboss Kernel
     int[][] kernel = {
         {-2, 0, 0},
         {0, 1, 0},
