@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -873,5 +873,55 @@ public class ColorConverter {
         xyz[2] = z * tristimulus[2];
         
         return xyz;
+    }
+    
+    /**
+     * RGB -> C1C2C3.
+     * @param r Red coefficient. Values in the range [0..255].
+     * @param g Green coefficient. Values in the range [0..255].
+     * @param b Blue coefficient. Values in the range [0..255].
+     * @return C1C2C3 color space.
+     */
+    public static float[] RGBtoC1C2C3(int r, int g, int b){
+        
+        float[] c = new float[3];
+        
+        c[0] = (float)Math.atan(r / Math.max(g, b));
+        c[1] = (float)Math.atan(g / Math.max(r, b));
+        c[2] = (float)Math.atan(b / Math.max(r, g));
+        
+        return c;
+        
+    }
+    
+    /**
+     * RGB -> O1O2.
+     * @param r Red coefficient. Values in the range [0..255].
+     * @param g Green coefficient. Values in the range [0..255].
+     * @param b Blue coefficient. Values in the range [0..255].
+     * @return O1O2 color space.
+     */
+    public static float[] RGBtoO1O2(int r, int g, int b){
+        
+        float[] o = new float[2];
+        
+        o[0] = (r - g) / 2f;
+        o[1] = (r + g) / 4f - (b / 2f);
+        
+        return o;
+        
+    }
+    
+    /**
+     * RGB -> Grayscale.
+     * @param r Red coefficient. Values in the range [0..255].
+     * @param g Green coefficient. Values in the range [0..255].
+     * @param b Blue coefficient. Values in the range [0..255].
+     * @return Grayscale color space.
+     */
+    public static float RGBtoGrayscale(int r, int g, int b){
+        
+        return r*0.2125f + g*0.7154f + b*0.0721f;
+        
     }
 }

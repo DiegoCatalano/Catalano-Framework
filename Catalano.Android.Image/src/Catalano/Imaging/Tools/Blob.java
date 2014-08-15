@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalan at yahoo.com.br
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Core.IntPoint;
+import Catalano.Imaging.Shapes.IntRectangle;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +34,14 @@ public class Blob {
     private int area;
     private IntPoint center;
     private ArrayList<IntPoint> points;
+    private int width;
+    private int height;
+    private IntRectangle rectangle;
+
+    /**
+     * Initialize a new instance of the Blob class.
+     */
+    public Blob() {}
 
     /**
      * Initialize a new instance of the Blob class.
@@ -40,12 +49,16 @@ public class Blob {
      * @param area Area.
      * @param center Center.
      * @param points List of points.
+     * @param rectangle Bounding box rectangle.
      */
-    public Blob(int id, int area, IntPoint center,ArrayList<IntPoint> points) {
+    public Blob(int id, int area, IntPoint center,ArrayList<IntPoint> points, IntRectangle rectangle) {
         this.id = id;
         this.area = area;
         this.center = center;
         this.points = points;
+        this.width = rectangle.width;
+        this.height = rectangle.height;
+        this.rectangle = rectangle;
     }
 
     /**
@@ -70,6 +83,30 @@ public class Blob {
      */
     public IntPoint getCenter() {
         return center;
+    }
+
+    /**
+     * Get height.
+     * @return Height.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Get Width.
+     * @return Width.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Get Bounding box in contour of blob.
+     * @return IntRectangle.
+     */
+    public IntRectangle getBoundingBox() {
+        return rectangle;
     }
 
     /**

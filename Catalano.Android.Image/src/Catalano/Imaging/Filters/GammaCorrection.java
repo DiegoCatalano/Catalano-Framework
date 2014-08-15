@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalan at yahoo.com.br
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,8 +35,7 @@ public class GammaCorrection implements IBaseInPlace{
     /**
      * Initialize a new instance of the GammaCorrection class.
      */
-    public GammaCorrection() {
-    }
+    public GammaCorrection() {}
 
     /**
      * Initialize a new instance of the GammaCorrection class.
@@ -65,38 +64,39 @@ public class GammaCorrection implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        
-        gamma=gamma<0.1?0.1:gamma;
-        gamma=gamma>5.0?5.0:gamma;
-        
-        double gamma_new = 1 / gamma;
-        int[] gamma_LUT = gamma_LUT(gamma_new);
+        if (fastBitmap.isRGB()){
+            int width = fastBitmap.getWidth();
+            int height = fastBitmap.getHeight();
 
-        FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.RGB);
-        
-        int r, g, b;
-        for(int x=0; x<fastBitmap.getWidth(); x++) {
-            for(int y=0; y<fastBitmap.getHeight(); y++) {
+            gamma=gamma<0.1?0.1:gamma;
+            gamma=gamma>5.0?5.0:gamma;
 
-                // Get pixels by R, G, B
-                r = fastBitmap.getRed(x, y);
-                g = fastBitmap.getGreen(x, y);
-                b = fastBitmap.getBlue(x, y);
+            double gamma_new = 1 / gamma;
+            int[] gamma_LUT = gamma_LUT(gamma_new);
 
-                r = gamma_LUT[r];
-                g = gamma_LUT[g];
-                b = gamma_LUT[b];
+            int r, g, b;
 
-                // Write pixels into image
-                l.setRGB(x, y, r, g, b);
+            for(int x = 0; x < height; x++) {
+                for(int y = 0; y < width; y++) {
+
+                    // Get pixels by R, G, B
+                    r = fastBitmap.getRed(x, y);
+                    g = fastBitmap.getGreen(x, y);
+                    b = fastBitmap.getBlue(x, y);
+
+                    r = gamma_LUT[r];
+                    g = gamma_LUT[g];
+                    b = gamma_LUT[b];
+
+                    // Write pixels into image
+                    fastBitmap.setRGB(x, y, r, g, b);
+                }
             }
-
+            
         }
-
-        fastBitmap.setImage(l);
- 
+        else{
+            throw new IllegalArgumentException("Gamma correction only works with RGB images.");
+        }
 }
  
     /**

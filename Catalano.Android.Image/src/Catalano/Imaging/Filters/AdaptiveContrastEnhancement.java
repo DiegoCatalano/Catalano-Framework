@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -92,8 +92,9 @@ public class AdaptiveContrastEnhancement implements IBaseInPlace {
                     sumVar -= sumMean * sumMean;
                     
                     if (sumVar != 0)
-                            factor = k1 * (mean / sumVar);
-                    else factor = maxGain;
+                        factor = k1 * (mean / sumVar);
+                    else 
+                        factor = maxGain;
                     
                     if (factor > maxGain) factor = maxGain;
                     if (factor < minGain) factor = minGain;

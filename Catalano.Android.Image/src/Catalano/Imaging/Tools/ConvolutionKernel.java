@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -202,4 +202,28 @@ public final class ConvolutionKernel{
         {-1, -2, 16, -2, -1},
         {0, -1, -2, -1, 0},
         {0, 0, -1, 0, 0}};
+    
+    /**
+     * Smooth Noise Robust (Horizontal).
+     * This mask use 1/32 conv(mask) as weight.
+     * Combines isotropic noise suppression and precise gradient estimation.
+     * References: http://www.holoborodko.com/pavel/image-processing/edge-detection/
+     */
+    public static int[][] SmoothNoiseRobust_Horizontal = {
+        {-1, -2, -1},
+        {-2, -4, -2},
+        {0, 0, 0},
+        {-2, 4, 2},
+        {-1, 2, 1}};
+    
+    /**
+     * Smooth Noise Robust (Vertical).
+     * This mask use 1/32 conv(mask) as weight.
+     * Combines isotropic noise suppression and precise gradient estimation.
+     * References: http://www.holoborodko.com/pavel/image-processing/edge-detection/
+     */
+    public static int[][] SmoothNoiseRobust_Vertical = {
+        {-1, -2, 0, 2, 1},
+        {-2, -4, 0, 4, 2},
+        {-1, -2, 0, -2, -1}};
 }

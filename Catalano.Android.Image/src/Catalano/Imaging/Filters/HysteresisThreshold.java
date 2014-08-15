@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -100,23 +100,15 @@ public class HysteresisThreshold implements IBaseInPlace{
                         }
                         else{
                             
-                            int p1 = fastBitmap.getGray(i - 1, j + 1);
-                            int p2 = fastBitmap.getGray(i + 1, j + 1);
-                            int p3 = fastBitmap.getGray(i - 1, j - 1);
-                            int p4 = fastBitmap.getGray(i + 1, j - 1);
-                            int p5 = fastBitmap.getGray(i, j + 1);
-                            int p6 = fastBitmap.getGray(i, j - 1);
-                            int p7 = fastBitmap.getGray(i - 1, j);
-                            int p8 = fastBitmap.getGray(i + 1, j);
                             // check 8 neighboring pixels
-                            if ( ( p6 < highThreshold ) &&
-                                ( p5 < highThreshold ) &&
-                                ( p3 < highThreshold ) &&
-                                ( p7 < highThreshold ) &&
-                                ( p1 < highThreshold ) &&
-                                ( p4 < highThreshold ) &&
-                                ( p8 < highThreshold ) &&
-                                ( p2 < highThreshold ) )
+                            if (( fastBitmap.getGray(i, j - 1) < highThreshold ) &&
+                                ( fastBitmap.getGray(i, j + 1) < highThreshold ) &&
+                                ( fastBitmap.getGray(i - 1, j - 1) < highThreshold ) &&
+                                ( fastBitmap.getGray(i - 1, j) < highThreshold ) &&
+                                ( fastBitmap.getGray(i - 1, j + 1) < highThreshold ) &&
+                                ( fastBitmap.getGray(i + 1, j - 1) < highThreshold ) &&
+                                ( fastBitmap.getGray(i + 1, j) < highThreshold ) &&
+                                ( fastBitmap.getGray(i + 1, j + 1) < highThreshold ) )
                             {
                                 fastBitmap.setGray(i, j, 0);
                             }

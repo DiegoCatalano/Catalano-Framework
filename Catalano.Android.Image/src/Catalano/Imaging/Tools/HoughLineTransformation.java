@@ -1,8 +1,11 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
+//
+// Copyright © Adrian F Clark
+// alien at essex.ac.uk
 //
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,13 +30,12 @@ import Catalano.Imaging.FastBitmap;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// Need to write method for sort lines with your intensity
-
 /**
  * Hough line transfomation.
  * @author Diego Catalano
  */
 public class HoughLineTransformation {
+    
     // The size of the neighbourhood in which to search for other local maxima 
     int radius = 4;
  
@@ -253,6 +255,10 @@ public class HoughLineTransformation {
  
         // Only proceed if the hough array is not empty 
         if (numPoints == 0) return lines;
+        
+        // Used for set relative intensity.
+        double max = getMaximumValue();
+        
         // Search for local peaks above threshold to draw 
         for (int t = 0; t < maxTheta; t++) { 
             loop: 
@@ -282,7 +288,7 @@ public class HoughLineTransformation {
                     double theta = t * thetaStep;
  
                     // add the line to the vector 
-                    lines.add(new HoughLine(theta, r, peak));
+                    lines.add(new HoughLine(theta, r, peak, (double)peak / max));
  
                 }
             }
@@ -291,7 +297,11 @@ public class HoughLineTransformation {
         return lines;
     }
     
-    public int getMaximumValue() {
+    /**
+     * Maximum value.
+     * @return Maximum value.
+     */
+    private int getMaximumValue() {
         int max = 0;
         for (int t = 0; t < maxTheta; t++) {
             for (int r = 0; r < doubleHeight; r++) {

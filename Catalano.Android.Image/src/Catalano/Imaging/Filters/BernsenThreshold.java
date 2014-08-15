@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //
@@ -23,8 +23,6 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Filters.Maximum;
-import Catalano.Imaging.Filters.Minimum;
 import Catalano.Imaging.IBaseInPlace;
 
 /**

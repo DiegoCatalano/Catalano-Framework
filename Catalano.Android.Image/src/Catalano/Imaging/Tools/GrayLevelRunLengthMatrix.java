@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ package Catalano.Imaging.Tools;
 import Catalano.Imaging.FastBitmap;
 
 /**
- *
+ * Gray Level Run Length Matrix (GLRLM).
  * @author Diego Catalano
  */
 public class GrayLevelRunLengthMatrix {
@@ -32,48 +32,84 @@ public class GrayLevelRunLengthMatrix {
     public static enum Degree{ Degree_0, Degree_45, Degree_90, Degree_135 };
     
     private Degree degree;
-    
     private int numPrimitives;
-    
     private boolean autoGray = true;
 
+    /**
+     * Verify Automatic gray.
+     * @return True if need to find maximum gray in current image, otherwise is set 255.
+     */
     public boolean isAutoGray() {
         return autoGray;
     }
 
+    /**
+     * Set Automatic gray.
+     * @param autoGray True if need to find maximum gray in current image, otherwise is set 255.
+     */
     public void setAutoGray(boolean autoGray) {
         this.autoGray = autoGray;
     }
 
+    /**
+     * Get Degree.
+     * @return Degree.
+     */
     public Degree getDegree() {
         return degree;
     }
 
+    /**
+     * Set Degree.
+     * @param degree Degree.
+     */
     public void setDegree(Degree degree) {
         this.degree = degree;
     }
 
+    /**
+     * Get number of primitives.
+     * @return Number of primitives.
+     */
     public int getNumberPrimitives() {
         return numPrimitives;
     }
 
+    /**
+     * Set number of primitives.
+     * @param numberPrimitives Number of primitives.
+     */
     public void setNumberPrimitives(int numberPrimitives) {
         this.numPrimitives = numberPrimitives;
     }
 
+    /**
+     * Initialize a new instance of the GrayLevelRunLengthMatrix class.
+     * @param degree Degree.
+     */
     public GrayLevelRunLengthMatrix(Degree degree) {
         this.degree = degree;
     }
     
+    /**
+     * Initialize a new instance of the GrayLevelRunLengthMatrix class.
+     * @param degree Degree.
+     * @param autoGray Automatic gray.
+     */
     public GrayLevelRunLengthMatrix(Degree degree, boolean autoGray) {
         this.degree = degree;
         this.autoGray = autoGray;
     }
     
+    /**
+     * Compute GLRLM.
+     * @param fastBitmap Image to be processed.
+     * @return GLRLM.
+     */
     public double[][] Compute(FastBitmap fastBitmap){
         
         int maxGray = 255;
-        if (autoGray) maxGray = getMax(fastBitmap);
+        if (autoGray) maxGray = ImageStatistics.Maximum(fastBitmap);
         
         int height = fastBitmap.getHeight();
         int width = fastBitmap.getWidth();
@@ -241,23 +277,5 @@ public class GrayLevelRunLengthMatrix {
             break;
         }
         return runMatrix;
-    }
-
-    /**
-     * Get maximum value from an image.
-     * @param fastBitmap Image to be processed.
-     * @return Maximum value.
-     */
-    private int getMax(FastBitmap fastBitmap){
-        int max = 0;
-        for (int i = 0; i < fastBitmap.getHeight(); i++) {
-            for (int j = 0; j < fastBitmap.getWidth(); j++) {
-                int gray = fastBitmap.getGray(i, j);
-                if (gray > max) {
-                    max = gray;
-                }
-            }
-        }
-        return max;
     }
 }

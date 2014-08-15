@@ -1,18 +1,38 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Imaging Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2014
+// diego.catalano at live.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 
 /**
- *
+ * Zhang-Suen Thinning.
  * @author Diego Catalano
  */
 public class ZhangSuenThinning implements IBaseInPlace{
 
+    /**
+     * Initialize a new instance of the ZhangSuenThinning class.
+     */
     public ZhangSuenThinning() {}
 
     @Override
@@ -25,24 +45,28 @@ public class ZhangSuenThinning implements IBaseInPlace{
                 e.printStackTrace();
             }
         }
+        
         //Zhang-Suen Thinning
-        int h = fastBitmap.getHeight();
-        int w = fastBitmap.getWidth();
-        int imgval[][] = new int[h][w];
-        int mark[][] = new int[h][w];
-        for (int x = 0; x < h; x++) {
-            for (int y = 0; y < w; y++) {
-                imgval[x][y] = (fastBitmap.getGray(x, y) == 255) ? 1 : 0;
+        int height = fastBitmap.getHeight();
+        int width = fastBitmap.getWidth();
+        
+        int image[][] = new int[height][width];
+        int mark[][] = new int[height][width];
+        
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                image[x][y] = (fastBitmap.getGray(x, y) == 255) ? 1 : 0;
             }
         }
 
         boolean hasdelete = true;
         while (hasdelete) {
+            
             hasdelete = false;
-            for (int x = 0; x < h; x++) {
-                for (int y = 0; y < w; y++) {
-                    if (imgval[x][y] == 1) {
-                        int nb[] = getNeighbors(imgval, x, y, w, h);
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+                    if (image[x][y] == 1) {
+                        int nb[] = getNeighbors(image, x, y, width, height);
                         int a = 0;
                         for (int i = 2; i < 9; i++) {
                             if ((nb[i] == 0) && (nb[i + 1] == 1)) {
@@ -67,17 +91,17 @@ public class ZhangSuenThinning implements IBaseInPlace{
                     }
                 }
             }
-            for (int x = 0; x < h; x++) {
-                for (int y = 0; y < w; y++) {
-                    imgval[x][y] = mark[x][y];
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+                    image[x][y] = mark[x][y];
                 }
             }
 
             //
-            for (int x = 0; x < h; x++) {
-                for (int y = 0; y < w; y++) {
-                    if (imgval[x][y] == 1) {
-                        int nb[] = getNeighbors(imgval, x, y, w, h);
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+                    if (image[x][y] == 1) {
+                        int nb[] = getNeighbors(image, x, y, width, height);
                         int a = 0;
                         for (int i = 2; i < 9; i++) {
                             if ((nb[i] == 0) && (nb[i + 1] == 1)) {
@@ -102,17 +126,17 @@ public class ZhangSuenThinning implements IBaseInPlace{
                     }
                 }
             }
-            for (int x = 0; x < h; x++) {
-                for (int y = 0; y < w; y++) {
-                    imgval[x][y] = mark[x][y];
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+                    image[x][y] = mark[x][y];
                 }
             }
         }
 
         //redraw image
-        for (int x = 0; x < h; x++) {
-            for (int y = 0; y < w; y++) {
-                if (imgval[x][y] == 1) {
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                if (image[x][y] == 1) {
                     fastBitmap.setGray(x, y, 255);
                 } else {
                     fastBitmap.setGray(x, y, 0);
@@ -121,35 +145,35 @@ public class ZhangSuenThinning implements IBaseInPlace{
         }
     }
 
-    private int[] getNeighbors(int imgval[][], int x, int y, int h, int w) {
+    private int[] getNeighbors(int image[][], int x, int y, int height, int width) {
         
         int a[] = new int[10];
         for (int n = 1; n < 10; n++) {
             a[n] = 0;
         }
         if (y - 1 >= 0) {
-            a[2] = imgval[x][y - 1];
-            if (x + 1 < w) {
-                a[3] = imgval[x + 1][y - 1];
+            a[2] = image[x][y - 1];
+            if (x + 1 < width) {
+                a[3] = image[x + 1][y - 1];
             }
             if (x - 1 >= 0) {
-                a[9] = imgval[x - 1][y - 1];
+                a[9] = image[x - 1][y - 1];
             }
         }
-        if (y + 1 < h) {
-            a[6] = imgval[x][y + 1];
-            if (x + 1 < w) {
-                a[5] = imgval[x + 1][y + 1];
+        if (y + 1 < height) {
+            a[6] = image[x][y + 1];
+            if (x + 1 < width) {
+                a[5] = image[x + 1][y + 1];
             }
             if (x - 1 >= 0) {
-                a[7] = imgval[x - 1][y + 1];
+                a[7] = image[x - 1][y + 1];
             }
         }
-        if (x + 1 < w) {
-            a[4] = imgval[x + 1][y];
+        if (x + 1 < width) {
+            a[4] = image[x + 1][y];
         }
         if (x - 1 >= 0) {
-            a[8] = imgval[x - 1][y];
+            a[8] = image[x - 1][y];
         }
         return a;
     }

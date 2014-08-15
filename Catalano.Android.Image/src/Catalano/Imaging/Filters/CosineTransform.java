@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -120,7 +120,7 @@ public class CosineTransform {
      * Convert image's data to FastBitmap.
      * @return FastBitmap.
      */
-    public FastBitmap toFastBitmapPowerSpectrum(){
+    public FastBitmap toFastBitmap(){
         FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         PowerSpectrum();
         
@@ -133,18 +133,6 @@ public class CosineTransform {
                 double p = Power[i][j];
                 double plog = Math.log(p+1.0);
                 l.setGray(i, j, (int)(plog * scale * 255));
-            }
-        }
-
-        return l;
-    }
-    
-    public FastBitmap toFastBitmap(){
-        FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
-        
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                l.setGray(i, j, (int)Tools.Scale(0, 1, 0, 255, data[i][j]));
             }
         }
 

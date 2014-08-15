@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //
@@ -89,89 +89,92 @@ public class HistogramEqualization implements IBaseInPlace{
         }
     }
     
-    
-    
+    /**
+     * Create LUT for Histogram Equalization
+     * @param fastBitmap Image to be processed.
+     * @return LUT.
+     */
     private ArrayList<int[]> histogramEqualizationLUT(FastBitmap fastBitmap) {
  
-    ImageStatistics stat = new ImageStatistics(fastBitmap);
-    ArrayList<int[]> imageHist = new ArrayList<int[]>();
-    ArrayList<int[]> imageLUT;
-    
-    // Calculate the scale factor
-    float scale_factor = (float) (255.0 / (fastBitmap.getWidth() * fastBitmap.getHeight()));
-    
-    if (fastBitmap.isGrayscale()) {
-        imageHist.add(stat.getHistogramGray().getValues());
-        // Lookup table
-        imageLUT = new ArrayList<int[]>();
-        
-        int[] grayhistogram = new int[256];
-        for (int i = 0; i < 256; i++) grayhistogram[i] = 0;
-        
-        long sumgray = 0;
-        
-        for (int i = 0; i < 256; i++) {
-            sumgray += imageHist.get(0)[i];
-            int valgray = (int)(sumgray * scale_factor);
-            if (valgray > 255) {
-                grayhistogram[i] = 255;
-            }
-            else{
-                grayhistogram[i] = valgray;
-            }
-        }
-        imageLUT.add(grayhistogram);
-        return imageLUT;
-        
-    }
-    else{
-        imageHist.add(stat.getHistogramRed().getValues());
-        imageHist.add(stat.getHistogramGreen().getValues());
-        imageHist.add(stat.getHistogramBlue().getValues());
-        // Lookup table
-        imageLUT = new ArrayList<int[]>();
-        
-        //fill lookup table
-        int[] rhistogram = new int[256];
-        int[] ghistogram = new int[256];
-        int[] bhistogram = new int[256];
-        for(int i=0; i<256; i++){ 
-            rhistogram[i] = 0;
-            ghistogram[i] = 0;
-            bhistogram[i] = 0;
-        }
-        long sumr = 0;
-        long sumg = 0;
-        long sumb = 0;
-        
-        for(int i=0; i<256; i++) {
-            sumr += imageHist.get(0)[i];
-            int valr = (int) (sumr * scale_factor);
-            if(valr > 255) {
-                rhistogram[i] = 255;
-            }
-            else rhistogram[i] = valr;
+        ImageStatistics stat = new ImageStatistics(fastBitmap);
+        ArrayList<int[]> imageHist = new ArrayList<int[]>();
+        ArrayList<int[]> imageLUT;
 
-            sumg += imageHist.get(1)[i];
-            int valg = (int) (sumg * scale_factor);
-            if(valg > 255) {
-                ghistogram[i] = 255;
-            }
-            else ghistogram[i] = valg;
+        // Calculate the scale factor
+        float scale_factor = (float) (255.0 / (fastBitmap.getWidth() * fastBitmap.getHeight()));
 
-            sumb += imageHist.get(2)[i];
-            int valb = (int) (sumb * scale_factor);
-            if(valb > 255) {
-                bhistogram[i] = 255;
+        if (fastBitmap.isGrayscale()) {
+            imageHist.add(stat.getHistogramGray().getValues());
+            // Lookup table
+            imageLUT = new ArrayList<int[]>();
+
+            int[] grayhistogram = new int[256];
+            for (int i = 0; i < 256; i++) grayhistogram[i] = 0;
+
+            long sumgray = 0;
+
+            for (int i = 0; i < 256; i++) {
+                sumgray += imageHist.get(0)[i];
+                int valgray = (int)(sumgray * scale_factor);
+                if (valgray > 255) {
+                    grayhistogram[i] = 255;
+                }
+                else{
+                    grayhistogram[i] = valgray;
+                }
             }
-            else bhistogram[i] = valb;
+            imageLUT.add(grayhistogram);
+            return imageLUT;
+
         }
-        
-        imageLUT.add(rhistogram);
-        imageLUT.add(ghistogram);
-        imageLUT.add(bhistogram);
-        
-        return imageLUT;
-    }
+        else{
+            imageHist.add(stat.getHistogramRed().getValues());
+            imageHist.add(stat.getHistogramGreen().getValues());
+            imageHist.add(stat.getHistogramBlue().getValues());
+            // Lookup table
+            imageLUT = new ArrayList<int[]>();
+
+            //fill lookup table
+            int[] rhistogram = new int[256];
+            int[] ghistogram = new int[256];
+            int[] bhistogram = new int[256];
+            for(int i=0; i<256; i++){ 
+                rhistogram[i] = 0;
+                ghistogram[i] = 0;
+                bhistogram[i] = 0;
+            }
+            long sumr = 0;
+            long sumg = 0;
+            long sumb = 0;
+
+            for(int i=0; i<256; i++) {
+                sumr += imageHist.get(0)[i];
+                int valr = (int) (sumr * scale_factor);
+                if(valr > 255) {
+                    rhistogram[i] = 255;
+                }
+                else rhistogram[i] = valr;
+
+                sumg += imageHist.get(1)[i];
+                int valg = (int) (sumg * scale_factor);
+                if(valg > 255) {
+                    ghistogram[i] = 255;
+                }
+                else ghistogram[i] = valg;
+
+                sumb += imageHist.get(2)[i];
+                int valb = (int) (sumb * scale_factor);
+                if(valb > 255) {
+                    bhistogram[i] = 255;
+                }
+                else bhistogram[i] = valb;
+            }
+
+            imageLUT.add(rhistogram);
+            imageLUT.add(ghistogram);
+            imageLUT.add(bhistogram);
+
+            return imageLUT;
+        }
     }
 }

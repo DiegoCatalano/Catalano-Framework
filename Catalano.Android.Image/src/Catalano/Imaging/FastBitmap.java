@@ -50,7 +50,7 @@ public class FastBitmap {
      * @param bitmap Bitmap type.
      */
     public FastBitmap(Bitmap bitmap){
-        this.b = bitmap;
+        this.b = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         refresh();
     }
 
@@ -307,6 +307,29 @@ public class FastBitmap {
             }
         }
     }
+    
+    /**
+     * Return RGB color.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @return RGB.
+     */
+    public int[] getRGB(int x, int y){
+        int[] rgb = new int[3];
+        rgb[0] = pixels[x*getWidth()+y] >> 16 & 0xFF;
+        rgb[1] = pixels[x*getWidth()+y] >> 8 & 0xFF;
+        rgb[2] = pixels[x*getWidth()+y] & 0xFF;
+        return rgb;
+    }
+    
+    /**
+     * Return RGB color.
+     * @param point Point.
+     * @return RGB.
+     */
+    public int[] getRGB(IntPoint point){
+        return getRGB(point.x, point.y);
+    }
 
     /**
      * Set RGB.
@@ -329,6 +352,25 @@ public class FastBitmap {
      */
     public void setRGB(IntPoint point, int red, int green, int blue){
     	pixels[point.x * stride + point.y] = 255 << 24 | red << 16 | green << 8 | blue;
+    }
+    
+    /**
+     * Set RGB.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
+     * @param rgb RGB color.
+     */
+    public void setRGB(int x, int y, int[] rgb){
+         pixels[x*getWidth()+y] = 255 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Set RGB.
+     * @param point IntPoint.
+     * @param rgb RGB color.
+     */
+    public void setRGB(IntPoint point, int[] rgb){
+         pixels[point.x*getWidth()+point.y] = 255 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2];
     }
 
     /**
@@ -568,5 +610,15 @@ public class FastBitmap {
                 b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
         }
         return b;
+    }
+    
+    /**
+     * Recycle.
+     * Free the native object associated with this bitmap, and clear the reference to the pixel data.
+     * This will not free the pixel data synchronously; it simply allows it to be garbage collected if
+     * there are no other references.
+     */
+    public void recycle(){
+    	this.b.recycle();
     }
 }

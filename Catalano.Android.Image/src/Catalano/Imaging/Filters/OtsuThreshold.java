@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,8 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.Tools.ImageStatistics;
+import Catalano.Statistics.Histogram;
 
 /**
  * Otsu Threshold.
@@ -30,10 +32,11 @@ import Catalano.Imaging.IBaseInPlace;
  * <br />This implementation instead of minimizing the weighted within-class variance does maximization of between-class variance, what gives the same result.
  * 
  * @see MaximumEntropyThreshold
+ * @see RosinThreshold
  * @author Diego Catalano
  */
 public class OtsuThreshold implements IBaseInPlace{
-    private int width,height;
+    
     private boolean invert = false;
 
     /**
@@ -58,68 +61,47 @@ public class OtsuThreshold implements IBaseInPlace{
     
     /**
      * Calculate binarization threshold for the given image.
-     * @param fastBitmap FastBitmap
+     * @param fastBitmap FastBitmap.
      * @return Threshold value.
      */
     public int CalculateThreshold(FastBitmap fastBitmap) {
         
-    this.width = fastBitmap.getWidth();
-    this.height = fastBitmap.getHeight();
- 
-    int[] histogram = imageHistogram(fastBitmap);
-    int total = width * height;
- 
-    double sum = 0;
-    for(int i=0; i<256; i++) sum += i * histogram[i];
- 
-    double sumB = 0;
-    int wB = 0;
-    int wF = 0;
- 
-    double varMax = 0;
-    int threshold = 0;
- 
-    for(int i=0 ; i<256 ; i++) {
-        wB += histogram[i];
-        if(wB == 0) continue;
-        wF = total - wB;
- 
-        if(wF == 0) break;
- 
-        sumB += (double) (i * histogram[i]);
-        double mB = sumB / wB;
-        double mF = (sum - sumB) / wF;
- 
-        double varBetween = (double) wB * (double) wF * (mB - mF) * (mB - mF);
- 
-        if(varBetween > varMax) {
-            varMax = varBetween;
-            threshold = i;
-        }
-    }
- 
-    return threshold;
- 
-}
-    
-    /**
-     * Process gray histogram.
-     * @param fastBitmap Image to be processed.
-     * @return Gray Histogram.
-     */
-    private int[] imageHistogram(FastBitmap fastBitmap) {
-        int gray;
-        
-        int[] histogram = new int[256];
- 
-        for(int i=0; i<histogram.length; i++) histogram[i] = 0;
- 
-        for(int x=0; x<height; x++) {
-            for(int y=0; y<width; y++) {
-                gray = fastBitmap.getGray(x, y);
-                histogram[gray]++;
+        ImageStatistics stat = new ImageStatistics(fastBitmap);
+        Histogram hist = stat.getHistogramGray();
+
+        int[] histogram = hist.getValues();
+        int total = fastBitmap.getWidth() * fastBitmap.getHeight();
+
+        double sum = 0;
+        for(int i=0; i<256; i++) sum += i * histogram[i];
+
+        double sumB = 0;
+        int wB = 0;
+        int wF = 0;
+
+        double varMax = 0;
+        int threshold = 0;
+
+        for(int i=0 ; i<256 ; i++) {
+            wB += histogram[i];
+            if(wB == 0) continue;
+            wF = total - wB;
+
+            if(wF == 0) break;
+
+            sumB += (double) (i * histogram[i]);
+            double mB = sumB / wB;
+            double mF = (sum - sumB) / wF;
+
+            double varBetween = (double) wB * (double) wF * (mB - mF) * (mB - mF);
+
+            if(varBetween > varMax) {
+                varMax = varBetween;
+                threshold = i;
             }
         }
-        return histogram;
+
+        return threshold;
+ 
     }
 }
