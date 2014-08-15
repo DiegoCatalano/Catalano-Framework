@@ -1,7 +1,7 @@
 // Catalano Core Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -29,6 +29,7 @@ package Catalano.Core;
  * @author Diego Catalano
  */
 public class IntPoint {
+    
     /**
      * X axis coordinate.
      */
@@ -122,6 +123,7 @@ public class IntPoint {
      * Adds values of two points.
      * @param point1 IntPoint.
      * @param point2 IntPoint.
+     * @return IntPoint that contains X and Y axis coordinate.
      */
     public static IntPoint Add(IntPoint point1, IntPoint point2){
         IntPoint result = new IntPoint(point1);
@@ -151,6 +153,7 @@ public class IntPoint {
      * Subtract values of two points.
      * @param point1 IntPoint.
      * @param point2 IntPoint.
+     * @return IntPoint that contains X and Y axis coordinate.
      */
     public static IntPoint Subtract(IntPoint point1, IntPoint point2){
         IntPoint result = new IntPoint(point1);
@@ -178,8 +181,9 @@ public class IntPoint {
     
     /**
      * Multiply values of two points.
-     * @param point IntPoint.
+     * @param point1 IntPoint.
      * @param point2 IntPoint.
+     * @return IntPoint that contains X and Y axis coordinate.
      */
     public static IntPoint Multiply(IntPoint point1, IntPoint point2){
         IntPoint result = new IntPoint(point1);
@@ -207,8 +211,9 @@ public class IntPoint {
     
     /**
      * Divides values of two points.
-     * @param point IntPoint.
+     * @param point1 IntPoint.
      * @param point2 IntPoint.
+     * @return IntPoint that contains X and Y axis coordinate.
      */
     public static IntPoint Divide(IntPoint point1, IntPoint point2){
         IntPoint result = new IntPoint(point1);
@@ -252,11 +257,20 @@ public class IntPoint {
     public DoublePoint toDoublePoint(){
         return new DoublePoint(this.x, this.y);
     }
+    
+    /**
+     * Swap values between the coordinates.
+     */
+    public void Swap(){
+        int temp = x;
+        x = y;
+        y = temp;
+    }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj.getClass().isAssignableFrom(DoublePoint.class)) {
-            DoublePoint point = (DoublePoint)obj;
+        if (obj.getClass().isAssignableFrom(IntPoint.class)) {
+            IntPoint point = (IntPoint)obj;
             if ((this.x == point.x) && (this.y == point.y)) {
                 return true;
             }
