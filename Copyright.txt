@@ -1,0 +1,54 @@
+The Catalano Framework
+
+Copyright (c) 2013, Marcos Diego Catalano <diego.catalano at live.com>
+
+ This library is free software; you can redistribute it and/or modify it under the terms of
+ the GNU Lesser General Public License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ The copyright holders provide no reassurances that the source code provided does
+ not infringe any patent, copyright, or any other intellectual property rights of
+ third parties. The copyright holders disclaim any liability to any recipient for
+ claims brought against recipient by any third party for infringement of that parties
+ intellectual property rights.
+
+ This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+The documentation sections contains references to Wikipedia and is thus entirely available under the
+Creative Commons Attribution/Share-Alike License. All referenced sections include a hyperlink to the
+original article page. If you think you have found something which has not properly linked, please
+let me know so it can be corrected.
+
+Overall framework architecture and style was greatly inspired by AForge.NET and Accord.NET. The AForge.NET
+Framework is a copyrighted work by Andrew Kirillov. The Accord.NET Framework is a 
+copyrighted work by César Roberto de Souza. This framework (Catalano) is in no way
+affiliated with AForge.NET or Accord.NET, its authors or contributors.
+
+
+Below are the licenses applying to specific sections of the code. Those are not
+applicable to the work as a whole (the Framework), but to the specifics of each
+portion of the framework. See actual sources for details.
+
+
+Face Recognition Project - Copyright (C) 2010 Arlington - Copyright (C) 2010 Saulo
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software.
+
+XITE - X based Image processing Tools and Environment - University of Oslo
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software.
+
+http://www.mn.uio.no/ifi/english/research/groups/dsb/resources/software/xite/WHAT_IS_XITE.html
