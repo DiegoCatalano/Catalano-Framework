@@ -1,0 +1,62 @@
+Catalano Framework 1.4 road map
+-----------------------------------------
+
+
+Version updates and fixes:
+
+* Catalano.Core.Structs
+   - New: Binary Heap.
+
+* Catalano.Image.Filters
+   - New: Image Pyramids.
+   - New: Weber Local Descriptor.
+   - New: The Ovuscule (Active Contour).
+   - New: CLAHE (Contrast Limited Adaptive Histogram Equalization).
+   - New: Fast Radial Symmetry Transform.
+   - New: Histogram Matching.
+   - New: Alpha Trimmed Mean Filter.
+   - New: Outline.
+   - New: Mode.
+   - New: Unsharp Mask.
+   - New: Fast Variance.
+   - New: Poisson Noise.
+
+   - Added: getMaximumDistance in Distance Transform.
+   - Added: support grayscale in Flood Fill.
+
+   - Fixed: Fast Gaussian Blur in grayscale images.
+   - Fixed: Objective Fidelity was returning infinity values when occur 0 difference.
+
+* Catalano.Image.Tools
+   - New: Suk Flusser Moments.
+   - New: Color Moments.
+   - New: Chain Code.
+   - New: Contour.
+
+   - Added: Ultimate Eroded Points in Shape Descriptors.
+   - Added: Roughness in Shape Descriptors.
+
+* Catalano.Image.Concurrent.Filters
+   - New: Alpha Trimmed Mean.
+   - New: Fast Variance.
+
+* Catalano.Vision.Temporal
+   - New: Mean Background Detector.
+   - New: Median Background Detector.
+
+* Catalano.Math.Graph
+   - New: ISearch
+
+* Catalano.Math.Graph.Pathfinding
+   - New: ANode
+   - New: NodeMap
+   - New: AStar
+
+* Catalano.Math.Geometry
+   - New: Discrete Curve Evolution.
+
+* Catalano.Statistics
+   - New: Approximation.
+
+   - Added: Alpha Trimmed Mean in Tools.
+   - Added: Sum in Tools.
