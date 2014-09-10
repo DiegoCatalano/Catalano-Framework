@@ -4,6 +4,9 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
+// Copyright © César Souza, 2009-2012
+// cesarsouza at gmail.com
+//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -36,8 +39,8 @@ public final class Distance {
     
     /**
      * Gets the Bray Curtis distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Bray Curtis distance between x and y.
      */
     public static double BrayCurtis(double[] p, double[] q){
@@ -79,8 +82,8 @@ public final class Distance {
     
     /**
      * Gets the Canberra distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Canberra distance between x and y.
      */
     public static double Canberra(double[] p, double[] q){
@@ -122,8 +125,8 @@ public final class Distance {
 
     /**
      * Gets the Chebyshev distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Chebyshev distance between x and y.
      */
     public static double Chebyshev(double[] p, double[] q){
@@ -162,6 +165,22 @@ public final class Distance {
     
     /**
      * Gets the Chessboard distance between two points.
+     * @param x A point in space.
+     * @param y A point in space.
+     * @return The Chessboard distance between x and y.
+     */
+    public static double Chessboard(double[] x, double[] y){
+        
+        double d = 0;
+        for (int i = 0; i < x.length; i++) {
+            d = Math.max(d, x[i] - y[i]);
+        }
+        
+        return d;
+    }
+    
+    /**
+     * Gets the Chessboard distance between two points.
      * @param x1 X1 axis coordinate.
      * @param y1 Y1 axis coordinate.
      * @param x2 X2 axis coordinate.
@@ -187,8 +206,8 @@ public final class Distance {
     
     /**
      * Gets the Cosine distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Cosine distance between x and y.
      */
     public static double Cosine(double[] p, double[] q){
@@ -241,20 +260,12 @@ public final class Distance {
     
     /**
      * Gets the Euclidean distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Euclidean distance between x and y.
      */
     public static double Euclidean(double[] p, double[] q){
-        double d = 0.0, u;
-
-        for (int i = 0; i < p.length; i++)
-        {
-            u = p[i] - q[i];
-            d += u * u;
-        }
-
-        return Math.sqrt(d);
+        return Math.sqrt(SquaredEuclidean(p, q));
     }
     
     /**
@@ -284,8 +295,8 @@ public final class Distance {
     
     /**
      * Gets the Hamming distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Hamming distance between x and y.
      */
     public static double Hamming(double[] p, double[] q){
@@ -325,8 +336,8 @@ public final class Distance {
     
     /**
      * Gets the Jaccard distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Jaccard distance between x and y.
      */
     public static double JaccardDistance(double[] p, double[] q){
@@ -356,8 +367,8 @@ public final class Distance {
     
     /**
      * Gets the Manhattan distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @return The Manhattan distance between x and y.
      */
     public static double Manhattan(double[] p, double[] q){
@@ -421,8 +432,8 @@ public final class Distance {
     
     /**
      * Gets the Minkowski distance between two points.
-     * @param p X axis coordinates.
-     * @param q Y axis coordinates.
+     * @param p A point in space.
+     * @param q A point in space.
      * @param r Order between two points.
      * @return The Minkowski distance between x and y.
      */
