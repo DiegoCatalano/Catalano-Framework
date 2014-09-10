@@ -46,20 +46,24 @@ Version updates and fixes:
    - New: Median Background Detector.
 
 * Catalano.MachineLearning
-   - New: K Nearest Neighbour
+   - New: K Nearest Neighbour.
+
+* Catalano.Math
+    - Added: new overload in Chessboard distance.
 
 * Catalano.Math.Graph
-   - New: ISearch
+   - New: ISearch.
 
 * Catalano.Math.Graph.Pathfinding
-   - New: ANode
-   - New: NodeMap
-   - New: AStar
+   - New: ANode.
+   - New: NodeMap.
+   - New: AStar.
 
 * Catalano.Math.Geometry
    - New: Discrete Curve Evolution.
 
 * Catalano.Statistics
+   - New: Dissimilarity.
    - New: Approximation.
 
    - Added: Alpha Trimmed Mean in Tools.
