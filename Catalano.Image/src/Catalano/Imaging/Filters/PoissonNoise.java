@@ -34,6 +34,8 @@ import Catalano.Imaging.IBaseInPlace;
  */
 public class PoissonNoise implements IBaseInPlace{
 
+    public PoissonNoise() {}
+
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         

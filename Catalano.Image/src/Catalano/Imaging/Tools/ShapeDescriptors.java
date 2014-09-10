@@ -292,10 +292,6 @@ public final class ShapeDescriptors {
                 }
             }
         }
-        
         return points;
-        
     }
-    
-    
 }
