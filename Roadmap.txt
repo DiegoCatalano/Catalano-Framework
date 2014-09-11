@@ -66,5 +66,17 @@ Version updates and fixes:
    - New: Dissimilarity.
    - New: Approximation.
 
+* Catalano.Statistics.Kernels
+   - Added: Bessel.
+   - Added: Circular.
+   - Added: Dirichlet.
+   - Added: Histogram Intersection.
+   - Added: Hyper Secant.
+   - Added: Inverse Multiquadric.
+   - Added: Multiquadric.
+   - Added: Rational Quadratic.
+   - Added: Tensor.
+   - Added: Wave.
+
    - Added: Alpha Trimmed Mean in Tools.
    - Added: Sum in Tools.
