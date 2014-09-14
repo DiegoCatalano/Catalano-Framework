@@ -22,6 +22,7 @@
 package Catalano.Statistics.Kernels;
    
 public class Gaussian implements IKernel{
+    
     private double sigma;
     private double gamma;
 

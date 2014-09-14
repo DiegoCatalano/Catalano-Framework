@@ -22,6 +22,7 @@
 package Catalano.Statistics.Kernels;
 	
 public class Linear implements IKernel{
+    
     private double constant;
 
     /**
