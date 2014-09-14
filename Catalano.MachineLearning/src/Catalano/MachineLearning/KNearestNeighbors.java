@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Diego Catalano
  * @param <T>
  */
-public class KNearestNeighbour<T> {
+public class KNearestNeighbors<T> {
     
     public static enum Distance {Euclidean};
     
@@ -51,26 +51,26 @@ public class KNearestNeighbour<T> {
         this.output = output;
     }
     
-    public KNearestNeighbour(List<double[]> input, T[] output){
+    public KNearestNeighbors(List<double[]> input, T[] output){
         this.k = 3;
         this.input = input;
         this.output = output;
     }
     
-    public KNearestNeighbour(List<double[]> input, T[] output, Distance distance){
+    public KNearestNeighbors(List<double[]> input, T[] output, Distance distance){
         this.k = 3;
         this.input = input;
         this.output = output;
         this.distance = distance;
     }
 
-    public KNearestNeighbour(int k, List<double[]> input, T[] output) {
+    public KNearestNeighbors(int k, List<double[]> input, T[] output) {
         setK(k);
         this.input = input;
         this.output = output;
     }
     
-    public KNearestNeighbour(int k, List<double[]> input, T[] output, Distance distance) {
+    public KNearestNeighbors(int k, List<double[]> input, T[] output, Distance distance) {
         setK(k);
         this.input = input;
         this.output = output;
