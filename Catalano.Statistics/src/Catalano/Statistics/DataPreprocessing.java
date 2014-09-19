@@ -101,14 +101,14 @@ public class DataPreprocessing {
      * @param max Range max.
      * @return Normalized data.
      */
-    public static double[] MinMaxNormalization(double[] data, double Smin, double Smax){
+    public static double[] MinMaxNormalization(double[] data, double min, double max){
         
         double[] norm = new double[data.length];
         double fMin = Catalano.Statistics.DescriptiveStatistics.Minimum(data);
         double fMax = Catalano.Statistics.DescriptiveStatistics.Maximum(data);
         
         for (int i = 0; i < data.length; i++) {
-            norm[i] = ((data[i] - fMin) / (fMax - fMin)) * (Smax - Smin) + Smin;
+            norm[i] = ((data[i] - fMin) / (fMax - fMin)) * (max - min) + min;
         }
         
         return norm;
