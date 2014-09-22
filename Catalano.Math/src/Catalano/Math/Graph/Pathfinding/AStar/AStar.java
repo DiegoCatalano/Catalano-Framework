@@ -28,7 +28,7 @@ import Catalano.Math.Graph.Pathfinding.ISearch;
 import java.util.ArrayList;
 
 /**
- * 
+ * AStar pathfinding.
  * @author Diego Catalano
  */
 public class AStar implements ISearch{
@@ -242,10 +242,8 @@ public class AStar implements ISearch{
                                 if (Next.getCost() > 0 && !Next.isOnClosedList()) {
                                     if (!Next.isOnOpenList()){
                                         Next.setParent(Current);
-                                        
-                                        //To do: Check to see if we are moving diagonally, if so increase the cost.
                                         Next.setG(Current.getG() + Next.getCost());
-                                        Next.setH(Next.CalcHeuristic(End));
+                                        Next.setH(Next.ComputeHeuristic(End));
                                         OpenList.add(Next);
                                         Next.setOnOpenList(true);
                                     }
@@ -253,8 +251,6 @@ public class AStar implements ISearch{
                                         if (Current.getG() > (Next.getG() + Current.getCost())) {
                                             Current.setParent(Next);
                                             Current.setG(Next.getG() + Current.getCost());
-                                            
-                                            //The way the binary heap works makes us have to remove and re-add the item.
                                             OpenList.remove(Current);
                                             OpenList.add(Current);
                                         }

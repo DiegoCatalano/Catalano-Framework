@@ -32,69 +32,91 @@ public class NodeMap {
     
     private int width;
     private int height;
-    private int id;
-    private String name;
     public ANode[][] nodes;
     private AStar.Neighbor direction;
     private AStar.Heuristic heuristic;
 
+    /**
+     * Get width of Node Map.
+     * @return Width.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get height of Node Map.
+     * @return Height.
+     */
     public int getHeight() {
         return height;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     
+    /**
+     * Get ANode from associate in this Node map.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @return ANode.
+     */
     public ANode getNode(int x, int y){
         return nodes[x][y];
     }
     
+    /**
+     * Set ANode.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @param node ANode.
+     */
     public void setNode(int x, int y, ANode node){
         nodes[x][y] = node;
     }
 
+    /**
+     * Get direction.
+     * @return Direction.
+     */
     public AStar.Neighbor getDirection() {
         return direction;
     }
 
+    /**
+     * Set direction.
+     * @param direction Direction.
+     */
     public void setDirection(AStar.Neighbor direction) {
         this.direction = direction;
     }
 
+    /**
+     * Get heuristic.
+     * @return Heuristic.
+     */
     public AStar.Heuristic getHeuristic() {
         return heuristic;
     }
 
+    /**
+     * Set heuristic.
+     * @param heuristic Heuristic.
+     */
     public void setHeuristic(AStar.Heuristic heuristic) {
         this.heuristic = heuristic;
     }
     
+    /**
+     * Initializes a new instance of the NodeMap class.
+     * @param width Width.
+     * @param height Height.
+     * @param initialCost Initial cost to all nodes.
+     */
     public NodeMap(int width, int height, double initialCost){
         this.width = width;
         this.height = height;
 
         nodes = new ANode[height][width];
-        for (int x = 0; x < height; x++)
-        {
-            for (int y = 0; y < width; y++)
-            {
+        for (int x = 0; x < height; x++){
+            for (int y = 0; y < width; y++){
                 nodes[x][y] = new ANode(x, y, initialCost, this);
             }
         }
@@ -103,142 +125,146 @@ public class NodeMap {
         heuristic = AStar.Heuristic.Manhattan;
     }
 
+    /**
+     * Initializes a new instance of the NodeMap class.
+     * @param nodeCostMap Cost map.
+     */
+    public NodeMap(double[][] nodeCostMap){
+        this.width = nodeCostMap[0].length;
+        this.height = nodeCostMap.length;
 
-        public NodeMap(int width, int height, double[][] nodeCostMap)
-        {
-            this.width = width;
-            this.height = height;
-
-            nodes = new ANode[height][width];
-            for (int x = 0; x < height; x++)
-            {
-                for (int y = 0; y < width; y++)
-                {
-                    nodes[x][y] = new ANode(x, y, nodeCostMap[x][y], this);
-                }
+        nodes = new ANode[height][width];
+        for (int x = 0; x < height; x++){
+            for (int y = 0; y < width; y++){
+                nodes[x][y] = new ANode(x, y, nodeCostMap[x][y], this);
             }
-
-            direction = AStar.Neighbor.Four;
-            heuristic = AStar.Heuristic.Manhattan;
         }
-        
-        public NodeMap(int width, int height, double initialCost, AStar.Neighbor direction, AStar.Heuristic heuristic)
-        {
-            this.width = width;
-            this.height = height;
 
-            nodes = new ANode[height][width];
-            for (int x = 0; x < height; x++)
-            {
-                for (int y = 0; y < width; y++)
-                {
-                    nodes[x][y] = new ANode(x, y, initialCost, this);
-                }
+        direction = AStar.Neighbor.Four;
+        heuristic = AStar.Heuristic.Manhattan;
+    }
+    
+    /**
+     * Initializes a new instance of the NodeMap class.
+     * @param width Width.
+     * @param height Height.
+     * @param initialCost Initial cost.
+     * @param direction Direction.
+     * @param heuristic Heuristic.
+     */
+    public NodeMap(int width, int height, double initialCost, AStar.Neighbor direction, AStar.Heuristic heuristic){
+        this.width = width;
+        this.height = height;
+
+        nodes = new ANode[height][width];
+        for (int x = 0; x < height; x++){
+            for (int y = 0; y < width; y++){
+                nodes[x][y] = new ANode(x, y, initialCost, this);
             }
-
-            this.direction = direction;
-            this.heuristic = heuristic;
         }
 
+        this.direction = direction;
+        this.heuristic = heuristic;
+    }
 
-        public NodeMap(double[][] costMap, AStar.Neighbor direction, AStar.Heuristic heuristic)
-        {
-            this.width = costMap[0].length;
-            this.height = costMap.length;
+    /**
+     * Initializes a new instance of the NodeMap class.
+     * @param costMap Cost map.
+     * @param direction Direction.
+     * @param heuristic Heuristic.
+     */
+    public NodeMap(double[][] costMap, AStar.Neighbor direction, AStar.Heuristic heuristic){
+        this.width = costMap[0].length;
+        this.height = costMap.length;
 
-            nodes = new ANode[height][width];
-            for (int x = 0; x < height; x++)
-            {
-                for (int y = 0; y < width; y++)
-                {
-                    nodes[x][y] = new ANode(x, y, costMap[x][y], this);
-                }
+        nodes = new ANode[height][width];
+        for (int x = 0; x < height; x++){
+            for (int y = 0; y < width; y++){
+                nodes[x][y] = new ANode(x, y, costMap[x][y], this);
             }
-
-            this.direction = direction;
-            this.heuristic = heuristic;
         }
 
-        //Used for Cloning
-        private NodeMap(int width, int height, AStar.Neighbor direction, AStar.Heuristic heuristic)
-        {
-            this.width = width;
-            this.height = height;
+        this.direction = direction;
+        this.heuristic = heuristic;
+    }
 
-            nodes = new ANode[height][width];
+    /*
+    Used for cloning.
+    */
+    private NodeMap(int width, int height, AStar.Neighbor direction, AStar.Heuristic heuristic)
+    {
+        this.width = width;
+        this.height = height;
 
-            this.direction = direction;
-            this.heuristic = heuristic;
+        nodes = new ANode[height][width];
+
+        this.direction = direction;
+        this.heuristic = heuristic;
+    }
+    
+    /**
+     * Get the neighbour nodes from the specified point.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @return Surrounding nodes.
+     */
+    public ANode[] getSurroundingNodes(int x, int y){
+        ArrayList<ANode> tmpNodes = new ArrayList<ANode>(8);
+        switch (direction){
+            case Four:
+                if (x - 1 >= 0)     tmpNodes.add(nodes[x - 1][y]);
+                if (x + 1 < height) tmpNodes.add(nodes[x + 1][y]);
+                if (y - 1 >= 0)     tmpNodes.add(nodes[x][y - 1]);
+                if (y + 1 < width)  tmpNodes.add(nodes[x][y + 1]);
+            break;
+
+            case Eight:
+                if (x - 1 >= 0 && y - 1 >= 0)        tmpNodes.add(nodes[x - 1][y - 1]);
+                if (x - 1 >= 0)                      tmpNodes.add(nodes[x - 1][y]);
+                if (x - 1 >= 0 && y + 1 < width)     tmpNodes.add(nodes[x - 1][y + 1]);
+                
+                if (y - 1 >= 0)                      tmpNodes.add(nodes[x][y - 1]);
+                if (y + 1 < width)                   tmpNodes.add(nodes[x][y + 1]);
+                
+                if (x + 1 < height && y - 1 >= 0)    tmpNodes.add(nodes[x + 1][y - 1]);
+                if (x + 1 < height)                  tmpNodes.add(nodes[x + 1][y]);
+                if (x + 1 < height && y + 1 < width) tmpNodes.add(nodes[x + 1][y + 1]);
+                break;
         }
-        
-        public ANode[] getSurroundingNodes(int x, int y){
-            ArrayList<ANode> tmpNodes = new ArrayList<ANode>(8);
-            switch (direction)
-            {
-                case Four:
-                    if (x - 1 >= 0)
-                    {
-                        tmpNodes.add(nodes[x - 1][y]);
-                    }
+        return tmpNodes.toArray(new ANode[tmpNodes.size()]);
+    }
+    
+    /**
+     * Compute the heuristic.
+     * @param startX X axis coordinate.
+     * @param startY Y axis coordinate.
+     * @param endX X axis coordinate.
+     * @param endY Y axis coordinate.
+     * @return Value.
+     */
+    public double ComputeHeuristic(int startX, int startY, int endX, int endY){
+        double H = -1;
 
-                    if (x + 1 < height)
-                    {
-                        tmpNodes.add(nodes[x + 1][y]);
-                    }
-
-                    if (y - 1 >= 0)
-                    {
-                        tmpNodes.add(nodes[x][y - 1]);
-                    }
-
-                    if (y + 1 < width)
-                    {
-                        tmpNodes.add(nodes[x][y + 1]);
-                    }
+        switch (heuristic){
+            case Manhattan:
+                H = Math.abs(startX - endX) + Math.abs(startY - endY);
                 break;
 
-                case Eight:
-                    for (int tmpX = -1; tmpX <= 1; tmpX++)
-                    {
-                        for (int tmpY = -1; tmpY <= 1; tmpY++)
-                        {
-                            if (!(tmpY == 0 && tmpX == 0))
-                            {
-                                if (((x + tmpX) >= 0 && (x + tmpX) < height) && ((y + tmpY) >= 0 && (y + tmpY) < width))
-                                {
-                                    tmpNodes.add(nodes[x + tmpX][y + tmpY]);
-                                }
-                            }
-                        }
-                    }
-                    break;
-            }
-            return tmpNodes.toArray(new ANode[tmpNodes.size()]);
+            case Chebyshev:
+                H = Math.max(Math.abs(startX - endX), Math.abs(startY - endY));
+                break;
+
+            case Euclidean:
+                H = Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
+                break;
+
+            case SquaredEuclidean:
+                H = Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2);
+                break;
+
         }
-        
-        public double CalculateHeuristic(int startX, int startY, int endX, int endY){
-            double H = -1;
-
-            switch (heuristic){
-                case Manhattan:
-                    H = Math.abs(startX - endX) + Math.abs(startY - endY);
-                    break;
-
-                case Chebyshev:
-                    H = Math.max(Math.abs(startX - endX), Math.abs(startY - endY));
-                    break;
-
-                case Euclidean:
-                    H = Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
-                    break;
-
-                case SquaredEuclidean:
-                    H = Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2);
-                    break;
-
-            }
-            return (double)H;
-        }
+        return (double)H;
+    }
 
     @Override
     public NodeMap clone() {
