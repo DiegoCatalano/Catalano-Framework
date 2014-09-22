@@ -35,6 +35,10 @@ public class BinaryHeap<E extends Comparable<E>> {
     private int count = 0;
     List<E> heap = new ArrayList<E>();
 
+    /**
+     * Get the count actually in the heap.
+     * @return Count.
+     */
     public int count() {
         return count;
     }
@@ -52,6 +56,10 @@ public class BinaryHeap<E extends Comparable<E>> {
      */
     public BinaryHeap() {}
 
+    /**
+     * Initializes a new instance of the BinaryHeap class.
+     * @param keys Items.
+     */
     public BinaryHeap(E[] keys) {
       for (E key : keys) {
         heap.add(key);
@@ -61,6 +69,10 @@ public class BinaryHeap<E extends Comparable<E>> {
       }
     }
 
+    /**
+     * Adds an item in the heap.
+     * @param node Item as node.
+     */
     public void add(E node) {
       heap.add(null);
       int k = heap.size() - 1;
@@ -68,6 +80,10 @@ public class BinaryHeap<E extends Comparable<E>> {
       count++;
     }
 
+    /**
+     * Remove the last node from the heap.
+     * @return Item from the last node.
+     */
     public E remove() {
       E removedNode = heap.get(0);
       E lastNode = heap.remove(heap.size() - 1);
@@ -76,14 +92,26 @@ public class BinaryHeap<E extends Comparable<E>> {
       return removedNode;
     }
   
+    /**
+     * Remove a specified item from the heap.
+     * @param item Item.
+     */
     public void remove(E item){
         heap.remove(item);
     }
 
+    /**
+     * Get the minimum item from the heap.
+     * @return Item.
+     */
     public E min() {
       return heap.get(0);
     }
 
+    /**
+     * Check if the heap is empty.
+     * @return True if the heap is empty, otherwise false.
+     */
     public boolean isEmpty() {
       return heap.isEmpty();
     }
