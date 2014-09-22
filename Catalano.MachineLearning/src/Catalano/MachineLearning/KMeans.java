@@ -5,7 +5,6 @@
 package Catalano.MachineLearning;
 
 import Catalano.Math.Matrix;
-import Catalano.Statistics.Distributions.GeneralDiscreteDistribution;
 import java.util.Arrays;
 /**
  *

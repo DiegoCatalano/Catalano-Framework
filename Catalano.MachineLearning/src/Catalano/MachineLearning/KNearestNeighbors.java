@@ -88,7 +88,7 @@ public class KNearestNeighbors<T> {
         int lengthF = feature.length;
         double[] dist = new double[sizeF];
         
-        //Compute distance
+        //Compute score
         switch(distance){
             case Euclidean:
                 double sum;
@@ -106,7 +106,7 @@ public class KNearestNeighbors<T> {
         //If k is 1, we can retrive the object quickly.
         if(k == 1) return output[Matrix.MinIndex(dist)];
         
-        //Sort indexes based on distance
+        //Sort indexes based on score
         int[] indexes = Matrix.Indices(0, dist.length);
         List<Score> lst = new ArrayList<Score>(dist.length);
         for (int i = 0; i < dist.length; i++) {
