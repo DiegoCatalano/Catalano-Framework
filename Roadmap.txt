@@ -5,19 +5,7 @@ Catalano Framework 1.4 road map
 Version updates and fixes:
 
 * Catalano.Android.Image
-    - Optimized: Convolution*
-    - Optimized: BinaryErosion*
-    - Optimized: BinaryDilation*
-    - Optimized: Erosion*
-    - Optimized: Dilation*
-    - Optimized: Minimum*
-    - Optimized: Maximum*
-    - Optimized: Difference of Gaussian*
-    - Optimized: Median*
-    - Optimized: MidPoint*
-    - Optimized: Crop*
-    - Optimized: Canny Edge Detector*
-    - Optimized: Conservative Smoothing*
+    - Optimized: Several filters that need to do a copy*.
 * There are using recycle internally when needs some copies.
 
 * Catalano.Core.Structs
@@ -65,6 +53,9 @@ Version updates and fixes:
    - New: K Nearest Neighbour.
 
 * Catalano.Math
+    - Added: Taylor Series sin, cos in Approximation.
+    - Added: High precision sin, cos in Approximation.
+    - Added: Low precision sin, cos in Approximation.
     - Added: new overload in Chessboard distance.
 
 * Catalano.Math.Decompositions
