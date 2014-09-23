@@ -21,7 +21,7 @@ public final class TaylorSeries {
      * @return Result.
      */
     public static double Sin(double x, int nTerms){
-        if (nTerms == 1) return x;
+        if (nTerms < 2) return x;
         if (nTerms == 2){
             return x - (x*x*x) / 6D;
         }
@@ -51,7 +51,7 @@ public final class TaylorSeries {
      * @return Result.
      */
     public static double Cos(double x, int nTerms){
-        if (nTerms == 1) return 1;
+        if (nTerms < 2) return 1;
         if (nTerms == 2){
             return 1 - (x*x) / 2D;
         }
@@ -81,7 +81,7 @@ public final class TaylorSeries {
      * @return Result.
      */
     public static double Sinh(double x, int nTerms){
-        if (nTerms == 1) return x;
+        if (nTerms < 2) return x;
         if (nTerms == 2){
             return x + (x*x*x) / 6D;
         }
@@ -109,7 +109,7 @@ public final class TaylorSeries {
      * @return Result.
      */
     public static double Cosh(double x, int nTerms){
-        if (nTerms == 1) return x;
+        if (nTerms < 2) return x;
         if (nTerms == 2){
             return 1 + (x*x) / 2D;
         }
@@ -137,7 +137,7 @@ public final class TaylorSeries {
      * @return Result.
      */
     public static double Exp(double x, int nTerms){
-        if (nTerms == 1) return 1 + x;
+        if (nTerms < 2) return 1 + x;
         if (nTerms == 2){
             return 1 + x + (x*x) / 2;
         }
