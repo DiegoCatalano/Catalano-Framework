@@ -134,38 +134,6 @@ public final class Approximation {
     }
     
     /**
-     * Compute Sin using Taylor Series.
-     * @param x An angle, in radians.
-     * @param n Number of terms.
-     * @return Result.
-     */
-    public static double TaylorSeries_Sin(double x, int n){
-        
-        if (n == 1) return x;
-        if (n == 2){
-            return x - (x*x*x) / 6D;
-        }
-        else{
-            
-            double rx = x*x*x;
-            double fact = 6;
-            double sign = 1;
-            int factS = 5;
-            double result = x - rx/fact;
-            for (int i = 3; i <= n; i++) {
-                rx *= x*x;
-                fact *= factS * (factS - 1);
-                factS += 2;
-                result += sign * (rx/fact);
-                sign *= -1;
-            }
-            
-            return result;
-        }
-        
-    }
-    
-    /**
      * Returns the angle theta from the conversion of rectangular coordinates (x, y) to polar coordinates (r, theta).
      * This method computes the phase theta by computing an arc tangent of y/x in the range of -pi to pi.
      * @param y Y axis coordinate.
