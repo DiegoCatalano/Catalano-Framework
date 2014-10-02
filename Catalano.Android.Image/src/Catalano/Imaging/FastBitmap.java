@@ -594,15 +594,17 @@ public class FastBitmap {
     }
     
     /**
-     * Force image to grayscale.
+     * Indicate image to grayscale.
      * 
      * This method don't convert to grayscale image.
      * 
-     * Only force the property to grayscale, It's used to optimize some filters
+     * Only indicate the property to grayscale, It's used to optimize some filters
      * to avoid copy in the buffer.
+     * 
+     * @param indicate True if need to indicate the image is grayscale, otherwise false.
      */
-    public void forceGrayscale(){
-    	this.isGrayscale = true;
+    public void indicateGrayscale(boolean indicate){
+    	this.isGrayscale = indicate;
     }
 
     /**

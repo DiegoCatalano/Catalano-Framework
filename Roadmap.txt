@@ -5,6 +5,11 @@ Catalano Framework 1.4 road map
 Version updates and fixes:
 
 * Catalano.Android.Image
+    - Added: changeCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
+    - Added: getRGBData method.
+    - Added: getGrayData method.
+    - Added: indicateGrayscale in FastBitmap. (Used to optimized some filters to avoid clone in the memory.)
+
     - Optimized: Several filters that need to do a copy*.
 * There are using recycle internally when needs some copies.
 
@@ -25,6 +30,9 @@ Version updates and fixes:
    - New: Fast Variance.
    - New: Poisson Noise.
 
+   - Added: changeCoordinateSystem.
+   - Added: getRGBData method.
+   - Added: getGrayData method.
    - Added: getMaximumDistance in Distance Transform.
    - Added: support grayscale in Flood Fill.
 

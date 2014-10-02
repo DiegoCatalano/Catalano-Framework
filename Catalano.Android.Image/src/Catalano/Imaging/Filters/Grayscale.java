@@ -168,7 +168,7 @@ public class Grayscale implements IBaseInPlace{
                 int height = fastBitmap.getHeight();
                 double r,g,b,gray;
                 
-                fastBitmap.forceGrayscale();
+                fastBitmap.indicateGrayscale(true);
 
                 for (int x = 0; x < height; x++) {
                     for (int y = 0; y < width; y++) {
@@ -183,7 +183,7 @@ public class Grayscale implements IBaseInPlace{
                 }
             }
             else{
-            	fastBitmap.forceGrayscale();
+            	fastBitmap.indicateGrayscale(true);
                 Apply(fastBitmap, this.grayscaleMethod);
             }
     }

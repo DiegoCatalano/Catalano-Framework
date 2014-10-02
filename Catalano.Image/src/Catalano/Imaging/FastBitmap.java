@@ -45,6 +45,23 @@ public class FastBitmap {
     private WritableRaster raster;
     private int[] pixels;
     private byte[] pixelsGRAY;
+    private CoordinateSystem cSystem;
+    private int strideX, strideY;
+    
+    /**
+     * Coodinate system.
+     */
+    public static enum CoordinateSystem {
+        /**
+         * Represents X and Y.
+         */
+        Cartesian,
+        
+        /**
+         * Represents I and J.
+         */
+        Matrix
+    };
 
     /**
      * Color space.
@@ -216,6 +233,38 @@ public class FastBitmap {
     }
     
     /**
+     * Retrieve the raw gray data from the Fast bitmap.
+     * @return The data with the pixels values.
+     */
+    public byte[] getGrayData(){
+        return this.pixelsGRAY;
+    }
+    
+    /**
+     * Set the raw gray data in the Fast Bitmap.
+     * @param data Data.
+     */
+    public void setGrayData(byte[] data){
+        this.pixelsGRAY = data;
+    }
+    
+    /**
+     * Retrieve the raw rgb or argb data from the Fast bitmap.
+     * @return The data with pixels values.
+     */
+    public int[] getRGBData(){
+        return this.pixels;
+    }
+    
+    /**
+     * Set the raw rgb or argb data in the Fast Bitmap.
+     * @param data 
+     */
+    public void setRGBData(int[] data){
+        this.pixels = data;
+    }
+    
+    /**
      * Set image to FastBitmap.
      * @param bufferedImage BufferedImage.
      */
@@ -231,6 +280,22 @@ public class FastBitmap {
     public void setImage(FastBitmap fastBitmap){
         this.bufferedImage = fastBitmap.toBufferedImage();
         refresh();
+    }
+    
+    /**
+     * Change coordinate system.
+     * @param coSystem Coordinate system.
+     */
+    public void changeCoordinateSystem(CoordinateSystem coSystem){
+        this.cSystem = coSystem;
+        if (coSystem == CoordinateSystem.Matrix){
+            this.strideX = getWidth();
+            this.strideY = 1;
+        }
+        else{
+            this.strideX = 1;
+            this.strideY = getWidth();
+        }
     }
     
     /**
@@ -576,9 +641,9 @@ public class FastBitmap {
      */
     public int[] getRGB(int x, int y){
         int[] rgb = new int[3];
-        rgb[0] = pixels[x*getWidth()+y] >> 16 & 0xFF;
-        rgb[1] = pixels[x*getWidth()+y] >> 8 & 0xFF;
-        rgb[2] = pixels[x*getWidth()+y] & 0xFF;
+        rgb[0] = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
+        rgb[1] = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
+        rgb[2] = pixels[x*strideX+y*strideY] & 0xFF;
         return rgb;
     }
     
@@ -599,10 +664,10 @@ public class FastBitmap {
      */
     public int[] getARGB(int x, int y){
         int[] argb = new int[4];
-        argb[0] = pixels[x*getWidth()+y] >> 24 & 0xFF;
-        argb[1] = pixels[x*getWidth()+y] >> 16 & 0xFF;
-        argb[2] = pixels[x*getWidth()+y] >> 8  & 0xFF;
-        argb[3] = pixels[x*getWidth()+y]       & 0xFF;
+        argb[0] = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
+        argb[1] = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
+        argb[2] = pixels[x*strideX+y*strideY] >> 8  & 0xFF;
+        argb[3] = pixels[x*strideX+y*strideY]       & 0xFF;
         return argb;
     }
     
@@ -624,8 +689,8 @@ public class FastBitmap {
      * @param blue Blue channel's value.
      */
     public void setRGB(int x, int y, int red, int green, int blue){
-        int a = pixels[x*getWidth()+y] >> 24 & 0xFF;
-        pixels[x*getWidth()+y] = a << 24 | red << 16 | green << 8 | blue;
+        int a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
+        pixels[x*strideX+y*strideY] = a << 24 | red << 16 | green << 8 | blue;
     }
     
     /**
@@ -646,7 +711,7 @@ public class FastBitmap {
      * @param rgb RGB color.
      */
     public void setRGB(int x, int y, int[] rgb){
-         pixels[x*getWidth()+y] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+         pixels[x*strideX+y*strideY] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
     }
     
     /**
@@ -668,7 +733,7 @@ public class FastBitmap {
      * @param blue Blue channel's value.
      */
     public void setARGB(int x, int y, int alpha, int red, int green, int blue){
-        pixels[x*getWidth()+y] = alpha << 24 | red << 16 | green << 8 | blue;
+        pixels[x*strideX+y*strideY] = alpha << 24 | red << 16 | green << 8 | blue;
     }
     
     /**
@@ -690,7 +755,7 @@ public class FastBitmap {
      * @param rgb ARGB color.
      */
     public void setARGB(int x, int y, int[] rgb){
-         pixels[x*getWidth()+y] = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | rgb[3];
+         pixels[x*strideX+y*strideY] = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | rgb[3];
     }
     
     /**
@@ -709,7 +774,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(int x, int y){
-        return pixelsGRAY[x*getWidth()+y] < 0 ? pixelsGRAY[x*getWidth()+y] + 256 : pixelsGRAY[x*getWidth()+y];
+        return pixelsGRAY[x*strideX+y*strideY] < 0 ? pixelsGRAY[x*strideX+y*strideY] + 256 : pixelsGRAY[x*strideX+y*strideY];
     }
     
     /**
@@ -728,7 +793,7 @@ public class FastBitmap {
      * @param value Gray channel's value.
      */
     public void setGray(int x, int y, int value){
-        pixelsGRAY[x*getWidth()+y] = (byte)value;
+        pixelsGRAY[x*strideX+y*strideY] = (byte)value;
     }
     
     /**
@@ -747,7 +812,7 @@ public class FastBitmap {
      * @return Alpha value.
      */
     public int getAlpha(int x, int y){
-        return pixels[x*getWidth()+y] >> 24 & 0xFF;
+        return pixels[x*strideX+y*strideY] >> 24 & 0xFF;
     }
     
     /**
@@ -758,10 +823,10 @@ public class FastBitmap {
      */
     public void setAlpha(int x, int y, int value){
         int r,g,b;
-        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
-        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
-        b = pixels[x*getWidth()+y] & 0xFF;
-        pixels[x*getWidth()+y] = value << 24 | r << 16 | g << 8 | b;
+        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
+        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
+        b = pixels[x*strideX+y*strideY] & 0xFF;
+        pixels[x*strideX+y*strideY] = value << 24 | r << 16 | g << 8 | b;
     }
     
     /**
@@ -771,7 +836,7 @@ public class FastBitmap {
      * @return Red channel's value.
      */
     public int getRed(int x, int y){
-        return pixels[x*getWidth()+y] >> 16 & 0xFF;
+        return pixels[x*strideX+y*strideY] >> 16 & 0xFF;
     }
     
     /**
@@ -791,10 +856,10 @@ public class FastBitmap {
      */
     public void setRed(int x, int y, int value){
         int a,g,b;
-        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
-        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
-        b = pixels[x*getWidth()+y] & 0xFF;
-        pixels[x*getWidth()+y] = a << 24 | value << 16 | g << 8 | b;
+        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
+        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
+        b = pixels[x*strideX+y*strideY] & 0xFF;
+        pixels[x*strideX+y*strideY] = a << 24 | value << 16 | g << 8 | b;
     }
     
     /**
@@ -813,7 +878,7 @@ public class FastBitmap {
      * @return Green channel's value.
      */
     public int getGreen(int x, int y){
-        return pixels[x*getWidth()+y] >> 8 & 0xFF;
+        return pixels[x*strideX+y*strideY] >> 8 & 0xFF;
     }
     
     /**
@@ -833,10 +898,10 @@ public class FastBitmap {
      */
     public void setGreen(int x, int y, int value){
         int a,r,b;
-        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
-        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
-        b = pixels[x*getWidth()+y] & 0xFF;
-        pixels[x*getWidth()+y] = a << 24 | r << 16 | value << 8 | b;
+        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
+        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
+        b = pixels[x*strideX+y*strideY] & 0xFF;
+        pixels[x*strideX+y*strideY] = a << 24 | r << 16 | value << 8 | b;
     }
     
     /**
@@ -855,7 +920,7 @@ public class FastBitmap {
      * @return Blue channel's value.
      */
     public int getBlue(int x, int y){
-        return pixels[x*getWidth()+y] & 0xFF;
+        return pixels[x*strideX+y*strideY] & 0xFF;
     }
     
     /**
@@ -875,10 +940,10 @@ public class FastBitmap {
      */
     public void setBlue(int x, int y, int value){
         int a,r,g;
-        a = pixels[x*getWidth()+y] >> 24 & 0xFF;
-        r = pixels[x*getWidth()+y] >> 16 & 0xFF;
-        g = pixels[x*getWidth()+y] >> 8 & 0xFF;
-        pixels[x*getWidth()+y] = a << 24 | r << 16 | g << 8 | value;
+        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
+        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
+        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
+        pixels[x*strideX+y*strideY] = a << 24 | r << 16 | g << 8 | value;
     }
     
     /**

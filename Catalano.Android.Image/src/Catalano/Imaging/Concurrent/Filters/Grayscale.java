@@ -162,7 +162,7 @@ public class Grayscale implements IBaseInPlace {
     public void applyInPlace(FastBitmap fastBitmap){
 
         if (fastBitmap.isRGB()){
-            fastBitmap.forceGrayscale();
+            fastBitmap.indicateGrayscale(true);
             Parallel(fastBitmap);
         }
         else{
@@ -194,7 +194,6 @@ public class Grayscale implements IBaseInPlace {
             e.printStackTrace();
         }
         
-        fastBitmap.setImage(result);
     }
     
     private class Run implements Runnable {
