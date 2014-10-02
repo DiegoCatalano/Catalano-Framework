@@ -36,14 +36,14 @@ public class BlobDetection {
     
     private int width;
     private int height;
-    private FastBitmap light;
+    private FastBitmap copy;
     private int size; //All blobs
     private int rR = 0,rG = 0,rB = 0;
     private ArrayList<Blob> blobs;
-    private Blob blob; //Cria blob para instanciar os valores finais
+    private Blob blob; //Blob object
     private int id = 0; //ID blob
     private boolean filterBlob = false;
-    private int minArea = 1,maxArea; //filtrar os blobs pela area
+    private int minArea = 1,maxArea; //filter blobs;
     private int idBigBlob; //Biggest blob
     private int areaBig = 0; //Biggest area
 
@@ -83,29 +83,34 @@ public class BlobDetection {
 
     public ArrayList<Blob> ProcessImage(FastBitmap fastBitmap) {
         
-        width = fastBitmap.getWidth();
-        height = fastBitmap.getHeight();
-        
-        if (maxArea == 0) {
-            maxArea = width*height;
-        }
-        
-        //Create another FastBitmap
-        FastBitmap l = new FastBitmap(fastBitmap);
-        l.toRGB();
-        blobs = new ArrayList<Blob>();
-        
-        light = l;
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                // Can be any color
-                if (light.getRed(x, y) == 255) {
-                    ShuffleColor();
-                    FindBlob(x,y,rR,rG,rB);
+        if(fastBitmap.isGrayscale()){
+            width = fastBitmap.getWidth();
+            height = fastBitmap.getHeight();
+
+            if (maxArea == 0) {
+                maxArea = width*height;
+            }
+
+            //Create another FastBitmap
+            copy  = new FastBitmap(fastBitmap);
+            copy.toRGB();
+            blobs = new ArrayList<Blob>();
+
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
+
+                    // Can be any channel
+                    if (copy.getRed(x, y) == 255) {
+                        ShuffleColor();
+                        TagBlob(x,y,rR,rG,rB);
+                    }
                 }
             }
+            return blobs;
         }
-        return blobs;
+        else{
+            throw new IllegalArgumentException("Blob detection only works in grayscale images.");
+        }
     }
     
     /**
@@ -130,32 +135,32 @@ public class BlobDetection {
         }
     }
     
-    private void FindBlob(int x,int y, int r, int g, int b){
+    private void TagBlob(int x,int y, int r, int g, int b){
         ArrayList<IntPoint> blobPoints = new ArrayList<IntPoint>();
         Stack<IntPoint> examList = new Stack<IntPoint>();
         
         int xc = 0,yc = 0; //Centroid
         int blobArea = 0; //Area total
         
-        int iR = light.getRed(x, y);
-        int iG = light.getGreen(x, y);
-        int iB = light.getBlue(x, y);
-        int iRGB = iR+iG+iB;
+        int iR = copy.getRed(x, y);
+        int iG = copy.getGreen(x, y);
+        int iB = copy.getBlue(x, y);
+        int iRGB = iR << 16 | iG << 8 | iB;
         
         int _r,_g,_b;
         examList.push(new IntPoint(x,y));
         while (examList.size() > 0) {
             IntPoint p = examList.pop();
-            _r = light.getRed(p.x, p.y);
-            _g = light.getRed(p.x, p.y);
-            _b = light.getRed(p.x, p.y);
-            int _RGB = _r+_g+_b;
+            _r = copy.getRed(p.x, p.y);
+            _g = copy.getGreen(p.x, p.y);
+            _b = copy.getBlue(p.x, p.y);
+            int _RGB = _r << 16 | _g << 8 | _b;
             
             if (_RGB == iRGB) {
                 x = p.x;
                 y = p.y;
                 
-                light.setRGB(x, y, r, g, b);
+                copy.setRGB(x, y, r, g, b);
                 blobArea++;
                 blobPoints.add(new IntPoint(x, y));
                 xc += p.x;
