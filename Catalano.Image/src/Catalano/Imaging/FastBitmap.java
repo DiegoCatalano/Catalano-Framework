@@ -45,7 +45,7 @@ public class FastBitmap {
     private WritableRaster raster;
     private int[] pixels;
     private byte[] pixelsGRAY;
-    private CoordinateSystem cSystem;
+    private CoordinateSystem cSystem = CoordinateSystem.Matrix;
     private int strideX, strideY;
     
     /**
@@ -283,10 +283,18 @@ public class FastBitmap {
     }
     
     /**
-     * Change coordinate system.
+     * Get the actually coordinate system.
+     * @return Coordinate system.
+     */
+    public CoordinateSystem getCoordinateSystem(){
+        return cSystem;
+    }
+    
+    /**
+     * Set coordinate system.
      * @param coSystem Coordinate system.
      */
-    public void changeCoordinateSystem(CoordinateSystem coSystem){
+    public void setCoordinateSystem(CoordinateSystem coSystem){
         this.cSystem = coSystem;
         if (coSystem == CoordinateSystem.Matrix){
             this.strideX = getWidth();

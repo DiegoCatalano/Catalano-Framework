@@ -8,8 +8,24 @@ import android.graphics.Bitmap.Config;
 public class FastBitmap {
     Bitmap b;
     int[] pixels;
-    private int stride;
+    private CoordinateSystem cSystem;
     private boolean isGrayscale = false;
+    private int stride, strideX, strideY;
+    
+    /**
+     * Coodinate system.
+     */
+    public static enum CoordinateSystem {
+        /**
+         * Represents X and Y.
+         */
+        Cartesian,
+        
+        /**
+         * Represents I and J.
+         */
+        Matrix
+    };
 	
     /**
         * Color space.
@@ -102,7 +118,6 @@ public class FastBitmap {
      * Read pixels from a bitmap.
      */
     private void refresh(){
-    	this.stride = getWidth();
     	pixels = new int[b.getWidth() * b.getHeight()];
     	b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
     }
@@ -132,6 +147,30 @@ public class FastBitmap {
                 return ColorSpace.Grayscale;
         else
                 return ColorSpace.RGB;
+    }
+    
+    /**
+     * Get the actually coordinate system.
+     * @return Coordinate system.
+     */
+    public CoordinateSystem getCoordinateSystem(){
+        return cSystem;
+    }
+    
+    /**
+     * Set coordinate system.
+     * @param coSystem Coordinate System.
+     */
+    public void setCoordinateSystem(CoordinateSystem coSystem){
+    	this.cSystem = coSystem;
+        if (coSystem == CoordinateSystem.Matrix){
+            this.strideX = getWidth();
+            this.strideY = 1;
+        }
+        else{
+            this.strideX = 1;
+            this.strideY = getWidth();
+        }
     }
     
     /**
@@ -340,7 +379,7 @@ public class FastBitmap {
      * @param blue Blue channel's value.
      */
     public void setRGB(int x, int y, int red, int green, int blue){
-        pixels[x * stride + y] = 255 << 24 | red << 16 | green << 8 | blue;
+        pixels[x * strideX + y * strideY] = 255 << 24 | red << 16 | green << 8 | blue;
     }
     
     /**
@@ -351,7 +390,7 @@ public class FastBitmap {
      * @param blue Blue channel's value.
      */
     public void setRGB(IntPoint point, int red, int green, int blue){
-    	pixels[point.x * stride + point.y] = 255 << 24 | red << 16 | green << 8 | blue;
+    	setRGB(point.x, point.y, red, green, blue);
     }
     
     /**
@@ -361,7 +400,7 @@ public class FastBitmap {
      * @param rgb RGB color.
      */
     public void setRGB(int x, int y, int[] rgb){
-         pixels[x*getWidth()+y] = 255 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+         pixels[x*strideX + y*strideY] = 255 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2];
     }
     
     /**
@@ -380,7 +419,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(int x, int y){
-        return pixels[x * stride + y] >> 16 & 0xFF;
+        return pixels[x * strideX + y * strideY] >> 16 & 0xFF;
     }
     
     /**
@@ -389,7 +428,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(IntPoint point){
-    	return pixels[point.x * stride + point.y] >> 16 & 0xFF;
+    	return getGray(point.x, point.y);
     }
 
     /**
@@ -399,7 +438,7 @@ public class FastBitmap {
      * @param value Gray channel's value.
      */
     public void setGray(int x, int y, int value){
-        pixels[x * stride + y] =  255 << 24 | value << 16 | value << 8 | value;
+        pixels[x * strideX + y * strideY] =  255 << 24 | value << 16 | value << 8 | value;
     }
     
     /**
@@ -408,7 +447,7 @@ public class FastBitmap {
      * @param value Gray channel's value.
      */
     public void setGray(IntPoint point, int value){
-    	pixels[point.x * stride + point.y] =  255 << 24 | value << 16 | value << 8 | value;
+    	setGray(point.x, point.y, value);
     }
 
     /**
@@ -418,7 +457,7 @@ public class FastBitmap {
      * @return Red channel's value.
      */
     public int getRed(int x, int y){
-        return pixels[x * stride + y] >> 16 & 0xFF;
+        return pixels[x * strideX + y * strideY] >> 16 & 0xFF;
     }
     
     /**
@@ -427,7 +466,7 @@ public class FastBitmap {
      * @return Red channel's value.
      */
     public int getRed(IntPoint point){
-    	return pixels[point.x * stride + point.y] >> 16 & 0xFF;
+    	return getRed(point.x, point.y);
     }
 
     /**
@@ -437,9 +476,9 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int x, int y, int value){
-        int g = pixels[x * stride + y] >> 8 & 0xFF;
-        int b = pixels[x * stride + y] & 0xFF;
-        pixels[x * stride + y] =  255 << 24 | value << 16 | g << 8 | b;
+        int g = pixels[x * strideX + y * strideY] >> 8 & 0xFF;
+        int b = pixels[x * strideX + y * strideY] & 0xFF;
+        pixels[x * strideX + y * strideY] =  255 << 24 | value << 16 | g << 8 | b;
     }
     
     /**
@@ -448,9 +487,7 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(IntPoint point, int value){
-        int g = pixels[point.x * stride + point.y] >> 8 & 0xFF;
-        int b = pixels[point.x * stride + point.y] & 0xFF;
-        pixels[point.x * stride + point.y] =  255 << 24 | value << 16 | g << 8 | b;
+    	setRed(point.x, point.y, value);
     }
 
     /**
@@ -460,7 +497,7 @@ public class FastBitmap {
      * @return Green channel's value.
      */
     public int getGreen(int x, int y){
-        return pixels[x * stride + y] >> 8 & 0xFF;
+        return pixels[x * strideX + y * strideY] >> 8 & 0xFF;
     }
     
     /**
@@ -469,7 +506,7 @@ public class FastBitmap {
      * @return Green channel's value.
      */
     public int getGreen(IntPoint point){
-    	return pixels[point.x * stride + point.y] >> 8 & 0xFF;
+    	return getGreen(point.x, point.y);
     }
 
     /**
@@ -479,9 +516,9 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int x, int y, int value){
-        int r = pixels[x * stride + y] >> 16 & 0xFF;
-        int b = pixels[x * stride + y] & 0xFF;
-        pixels[x * stride + y] = 255 << 24 | r << 16 | value << 8 | b;
+        int r = pixels[x * strideX + y * strideY] >> 16 & 0xFF;
+        int b = pixels[x * strideX + y * strideY] & 0xFF;
+        pixels[x * strideX + y * strideY] = 255 << 24 | r << 16 | value << 8 | b;
     }
     
     /**
@@ -490,9 +527,7 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(IntPoint point, int value){
-        int r = pixels[point.x * stride + point.y] >> 16 & 0xFF;
-        int b = pixels[point.x * stride + point.y] & 0xFF;
-        pixels[point.x * stride + point.y] = 255 << 24 | r << 16 | value << 8 | b;
+    	setGreen(point.x, point.y, value);
     }
 
     /**
@@ -502,7 +537,7 @@ public class FastBitmap {
      * @return Blue channel's value.
      */
     public int getBlue(int x, int y){
-        return pixels[x * stride + y] & 0xFF;
+        return pixels[x * strideX + y * strideY] & 0xFF;
     }
     
     /**
@@ -511,7 +546,7 @@ public class FastBitmap {
      * @return Blue channel's value.
      */
     public int getBlue(IntPoint point){
-    	return pixels[point.x * stride + point.y] & 0xFF;
+    	return getBlue(point.x, point.y);
     }
 
     /**
@@ -521,9 +556,9 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int x, int y, int value){
-        int r = pixels[x * stride + y] >> 16 & 0xFF;
-        int g = pixels[x * stride + y] >> 8 & 0xFF;
-        pixels[x * stride + y] = 255 << 24 | r << 16 | g << 8 | value;
+        int r = pixels[x * strideX + y * strideY] >> 16 & 0xFF;
+        int g = pixels[x * strideX + y * strideY] >> 8 & 0xFF;
+        pixels[x * strideX + y * strideY] = 255 << 24 | r << 16 | g << 8 | value;
     }
     
     /**
@@ -532,9 +567,7 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(IntPoint point, int value){
-        int r = pixels[point.x * stride + point.y] >> 16 & 0xFF;
-        int g = pixels[point.x * stride + point.y] >> 8 & 0xFF;
-        pixels[point.x * stride + point.y] = 255 << 24 | r << 16 | g << 8 | value;
+    	setBlue(point.x, point.y, value);
     }
 
     /**
@@ -544,6 +577,14 @@ public class FastBitmap {
     public void setImage(Bitmap bitmap){
         this.b = bitmap;
         this.stride = b.getWidth();
+        if(cSystem == CoordinateSystem.Matrix){
+        	this.strideX = this.stride;
+        	this.strideY = 1;
+        }
+        else{
+        	this.strideX = 1;
+        	this.strideY = this.stride;
+        }
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
     }
@@ -555,6 +596,14 @@ public class FastBitmap {
     public void setImage(FastBitmap fastBitmap){
         this.b = fastBitmap.toBitmap();
         this.stride = b.getWidth();
+        if(cSystem == CoordinateSystem.Matrix){
+        	this.strideX = this.stride;
+        	this.strideY = 1;
+        }
+        else{
+        	this.strideX = 1;
+        	this.strideY = this.stride;
+        }
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
         if (fastBitmap.isRGB())
@@ -615,13 +664,13 @@ public class FastBitmap {
         if (isRGB())
                 b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
         else{
-                for (int i = 0; i < getHeight(); i++) {
-                        for (int j = 0; j < getWidth(); j++) {
-                                int g = pixels[i * stride + j] >> 16 & 0xFF;
-                                pixels[i * stride + j] = 255 << 24 | g << 16 | g << 8 | g;
-                        }
-                }
-                b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
+        	
+        	int size = getHeight() * getWidth();
+        	for (int i = 0; i < size; i++) {
+				int g = pixels[i] >> 16 & 0xFF;
+        		pixels[i] = 255 << 24 | g << 16 | g << 8 | g;
+			}
+            b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
         }
         return b;
     }
