@@ -167,8 +167,8 @@ public class Grayscale implements IBaseInPlace{
                 int width = fastBitmap.getWidth();
                 int height = fastBitmap.getHeight();
                 double r,g,b,gray;
-
-                FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
+                
+                fastBitmap.forceGrayscale();
 
                 for (int x = 0; x < height; x++) {
                     for (int y = 0; y < width; y++) {
@@ -178,12 +178,12 @@ public class Grayscale implements IBaseInPlace{
 
                         gray = (r*redCoefficient+g*greenCoefficient+b*blueCoefficient);
 
-                        l.setGray(x, y, (int)gray);
+                        fastBitmap.setGray(x, y, (int)gray);
                     }
                 }
-                fastBitmap.setImage(l);
             }
             else{
+            	fastBitmap.forceGrayscale();
                 Apply(fastBitmap, this.grayscaleMethod);
             }
     }
@@ -192,8 +192,6 @@ public class Grayscale implements IBaseInPlace{
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
             double r,g,b,gray;
-
-            FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
 
             switch(grayMethod){
                 case Lightness:
@@ -211,7 +209,7 @@ public class Grayscale implements IBaseInPlace{
                             min = Math.min(min, b);
                             gray = (max+min)/2;
 
-                            l.setGray(x, y, (int)gray);
+                            fastBitmap.setGray(x, y, (int)gray);
                         }
                     }
                 break;
@@ -225,7 +223,7 @@ public class Grayscale implements IBaseInPlace{
 
                             gray = (r+g+b)/3;
 
-                            l.setGray(x, y, (int)gray);
+                            fastBitmap.setGray(x, y, (int)gray);
                         }
                     }
                 break;
@@ -239,7 +237,7 @@ public class Grayscale implements IBaseInPlace{
 
                             gray = (r*0.2125+g*0.7154+b*0.0721);
 
-                            l.setGray(x, y, (int)gray);
+                            fastBitmap.setGray(x, y, (int)gray);
                         }
                     }
                 break;
@@ -251,7 +249,7 @@ public class Grayscale implements IBaseInPlace{
                             gray = Math.min(gray, fastBitmap.getGreen(x, y));
                             gray = Math.min(gray, fastBitmap.getBlue(x, y));
 
-                            l.setGray(x, y, (int)gray);
+                            fastBitmap.setGray(x, y, (int)gray);
                         }
                     }
                 break;
@@ -263,11 +261,10 @@ public class Grayscale implements IBaseInPlace{
                             gray = Math.max(gray, fastBitmap.getGreen(x, y));
                             gray = Math.max(gray, fastBitmap.getBlue(x, y));
 
-                            l.setGray(x, y, (int)gray);
+                            fastBitmap.setGray(x, y, (int)gray);
                         }
                     }
                 break;
             }
-            fastBitmap.setImage(l);
     }   
 }

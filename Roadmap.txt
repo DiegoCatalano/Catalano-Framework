@@ -37,6 +37,7 @@ Version updates and fixes:
    - New: Chain Code.
    - New: Contour.
 
+   - Fixed: Blob Detection for grayscale images.
    - Added: new method Compute in Hu Moments.
    - Added: Ultimate Eroded Points in Shape Descriptors.
    - Added: Roughness in Shape Descriptors.

@@ -592,6 +592,18 @@ public class FastBitmap {
     public void toGrayscale(){
         new Grayscale().applyInPlace(this);
     }
+    
+    /**
+     * Force image to grayscale.
+     * 
+     * This method don't convert to grayscale image.
+     * 
+     * Only force the property to grayscale, It's used to optimize some filters
+     * to avoid copy in the buffer.
+     */
+    public void forceGrayscale(){
+    	this.isGrayscale = true;
+    }
 
     /**
      * Convert FastBitmap to Bitmap.
