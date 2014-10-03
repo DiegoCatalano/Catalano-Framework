@@ -137,6 +137,22 @@ public class FastBitmap {
     public int getWidth(){
         return b.getWidth();
     }
+    
+    /**
+     * Get the data from the bitmap.
+     * @return Data.
+     */
+    public int[] getData(){
+    	return this.pixels;
+    }
+    
+    /**
+     * Set the data in the bitmap.
+     * @param data Data.
+     */
+    public void setData(int[] data){
+    	this.pixels = data;
+    }
 
     /**
      * Get Color space.
