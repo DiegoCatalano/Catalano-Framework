@@ -2,3 +2,8 @@
 /Catalano.Core/build/
 /Catalano.Image/build/
 /Catalano.Statistics/build/
+*.class
+*.jar
+*.html
+*.png
+*.xml
