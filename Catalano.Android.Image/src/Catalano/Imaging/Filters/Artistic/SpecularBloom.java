@@ -134,5 +134,7 @@ public class SpecularBloom implements IBaseInPlace{
         Blend b = new Blend(layerA, Blend.Algorithm.Screen);
         b.applyInPlace(fastBitmap);
         
+        layerA.recycle();
+        
     }
 }

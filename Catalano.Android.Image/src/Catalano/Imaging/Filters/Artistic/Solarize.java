@@ -74,9 +74,13 @@ public class Solarize implements IBaseInPlace{
         Blend b = new Blend(layerA, Blend.Algorithm.Difference);
         b.applyInPlace(layerB);
         
+        layerA.recycle();
+        
         Opacity op = new Opacity(layerB);
         op.setPercentage(p);
         op.applyInPlace(fastBitmap);
+        
+        layerB.recycle();
         
     }
 }
