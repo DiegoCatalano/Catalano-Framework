@@ -89,6 +89,23 @@ public final class Tools {
     }
     
     /**
+     * Gets the greatest common divisor between two integers.
+     * @param a First integer.
+     * @param b Second integer.
+     * @return Greatest common divisor.
+     */
+    public static int GreatestCommonDivisor(int a, int b){
+        
+        int x = a - b * (int)Math.floor(a / b);
+        while(x != 0){
+            a = b;
+            b = x;
+            x = a - b * (int)Math.floor(a / b); 
+        }
+        return b;
+    }
+    
+    /**
      * Checks if the specified integer is power of 2.
      * @param x Integer number to check.
      * @return True: if the specified number is power of 2, otherwise returns false.
