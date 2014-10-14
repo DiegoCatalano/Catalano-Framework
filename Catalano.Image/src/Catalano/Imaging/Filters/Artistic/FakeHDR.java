@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Desaturation;
-import Catalano.Imaging.Filters.FastGaussianBlur;
+import Catalano.Imaging.Filters.GaussianBoxBlur;
 import Catalano.Imaging.Filters.Invert;
 import Catalano.Imaging.IBaseInPlace;
 
@@ -123,7 +123,7 @@ public class FakeHDR implements IBaseInPlace{
         Invert in = new Invert();
         in.applyInPlace(layerA);
         
-        FastGaussianBlur fgb = new FastGaussianBlur(sigma);
+        GaussianBoxBlur fgb = new GaussianBoxBlur(sigma);
         fgb.applyInPlace(layerA);
         
         Blend blend = new Blend(layerB, Blend.Algorithm.Overlay);

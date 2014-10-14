@@ -109,10 +109,6 @@ Version updates and fixes:
 
    - Added: Replicate option in Convolution.
 
-* Catalano.Math.Geometry
-
-   - New: Ramer Douglas Peucker
-
 * Catalano.Math
 
    - New: Matrix3x3
@@ -126,7 +122,8 @@ Version updates and fixes:
 
    - Changed: FastMath to Approximation.
 
-
+* Android Compatibility
+  - Compiled against Android 2.2 (API 8). May work with newer versions.
 
 
 Catalano Framework 1.2 release notes

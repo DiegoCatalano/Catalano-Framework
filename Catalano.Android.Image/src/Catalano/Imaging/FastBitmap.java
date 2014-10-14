@@ -53,6 +53,7 @@ public class FastBitmap {
      */
     public FastBitmap(FastBitmap fastBitmap){
         this.b = fastBitmap.toBitmap();
+        setCoordinateSystem(fastBitmap.getCoordinateSystem());
         refresh();
 
         if (fastBitmap.isRGB())
@@ -67,6 +68,7 @@ public class FastBitmap {
      */
     public FastBitmap(Bitmap bitmap){
         this.b = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
         refresh();
     }
 
@@ -77,6 +79,7 @@ public class FastBitmap {
      */
     public FastBitmap(int width, int height){
         b = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+        setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
         refresh();
     }
 
@@ -88,6 +91,7 @@ public class FastBitmap {
      */
     public FastBitmap(int width, int height, ColorSpace colorSpace){
         b = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+        setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
         refresh();
         if (colorSpace == ColorSpace.Grayscale) isGrayscale = true;
     }
@@ -99,6 +103,7 @@ public class FastBitmap {
     public FastBitmap(int[][] image){
         this.b = Bitmap.createBitmap(image[0].length, image.length, Config.ARGB_8888);
         isGrayscale = true;
+        setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
         refresh();
         arrayToImage(image);
     }
@@ -110,6 +115,7 @@ public class FastBitmap {
     public FastBitmap(int[][][] image){
     	this.b = Bitmap.createBitmap(image[0][0].length, image[0].length, Config.ARGB_8888);
     	isGrayscale = false;
+    	setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
         refresh();
         arrayToImage(image);
     }

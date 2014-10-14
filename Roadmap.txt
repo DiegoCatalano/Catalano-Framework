@@ -5,9 +5,8 @@ Catalano Framework 1.4 road map
 Version updates and fixes:
 
 * Catalano.Android.Image
-    - Added: changeCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
-    - Added: getRGBData method.
-    - Added: getGrayData method.
+    - Added: setCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
+    - Added: getData method.
     - Added: indicateGrayscale in FastBitmap. (Used to optimized some filters to avoid clone in the memory.)
 
     - Optimized: Several filters that need to do a copy*.
@@ -16,7 +15,13 @@ Version updates and fixes:
 * Catalano.Core.Structs
    - New: Binary Heap.
 
+* Catalano.Image
+   - Added: get; setCoordinateSystem.
+   - Added: get; setRGBData method.
+   - Added: get; setGrayData method.
+
 * Catalano.Image.Filters
+   - New: Separable Convolution.
    - New: Image Pyramids.
    - New: Weber Local Descriptor.
    - New: The Ovuscule (Active Contour).
@@ -30,13 +35,12 @@ Version updates and fixes:
    - New: Fast Variance.
    - New: Poisson Noise.
 
-   - Added: changeCoordinateSystem.
-   - Added: getRGBData method.
-   - Added: getGrayData method.
    - Added: getMaximumDistance in Distance Transform.
    - Added: support grayscale in Flood Fill.
 
-   - Fixed: Fast Gaussian Blur in grayscale images.
+   - Renamed: Fast Gaussian Blur to Gaussian Box Blur.
+
+   - Fixed: Gaussian Box Blur in grayscale images.
    - Fixed: Objective Fidelity was returning infinity values when occur 0 difference.
 
 * Catalano.Image.Tools
@@ -62,9 +66,11 @@ Version updates and fixes:
    - New: K Nearest Neighbour.
 
 * Catalano.Math
-    - Added: Taylor Series sin, cos in Approximation.
-    - Added: High precision sin, cos in Approximation.
-    - Added: Low precision sin, cos in Approximation.
+    - New: Taylor Series.
+
+    - Added: CreateMatrix2D in Matrix.
+    - Added: CreateMatrix1D in Matrix.
+    - Added: Greatest common divisor in Tools.
     - Added: new overload in Chessboard distance.
 
 * Catalano.Math.Decompositions

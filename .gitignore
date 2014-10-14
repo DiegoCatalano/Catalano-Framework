@@ -7,3 +7,7 @@
 *.html
 *.png
 *.xml
+/Catalano.Core/dist/
+/Catalano.Math/dist/
+/Catalano.Statistics/dist/
+/Catalano.Image/dist/

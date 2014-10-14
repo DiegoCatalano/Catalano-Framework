@@ -91,7 +91,121 @@ public final class Matrix {
             }
         }
         
-        return A;
+        return r;
+    }
+    
+    /**
+     * Create 1D Matrix.
+     * @param size Size of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static double[] CreateMatrix1D(int size, double val){
+        
+        double[] v = new double[size];
+        
+        for (int i = 0; i < size; i++) {
+            v[i] = val;
+        }
+        
+        return v;
+    }
+    
+    /**
+     * Create 1D Matrix.
+     * @param size Size of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static int[] CreateMatrix1D(int size, int val){
+        
+        int[] v = new int[size];
+        
+        for (int i = 0; i < size; i++) {
+            v[i] = val;
+        }
+        
+        return v;
+    }
+    
+    /**
+     * Create 1D Matrix.
+     * @param size Size of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static float[] CreateMatrix1D(int size, float val){
+        
+        float[] v = new float[size];
+        
+        for (int i = 0; i < size; i++) {
+            v[i] = val;
+        }
+        
+        return v;
+    }
+    
+    /**
+     * Create 2D Matrix.
+     * @param height Height of the matrix.
+     * @param width Width of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static double[][] CreateMatrix2D(int height, int width, double val){
+        
+        double[][] v = new double[height][width];
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                v[i][j] = val;
+            }
+        }
+        
+        return v;
+        
+    }
+    
+    /**
+     * Create 2D Matrix.
+     * @param height Height of the matrix.
+     * @param width Width of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static int[][] CreateMatrix2D(int height, int width, int val){
+        
+        int[][] v = new int[height][width];
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                v[i][j] = val;
+            }
+        }
+        
+        return v;
+        
+    }
+    
+    /**
+     * Create 2D Matrix.
+     * @param height Height of the matrix.
+     * @param width Width of the matrix.
+     * @param val Initial value of all elements.
+     * @return Matrix.
+     */
+    public static float[][] CreateMatrix2D(int height, int width, float val){
+        
+        float[][] v = new float[height][width];
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                v[i][j] = val;
+            }
+        }
+        
+        return v;
+        
     }
     
     /**

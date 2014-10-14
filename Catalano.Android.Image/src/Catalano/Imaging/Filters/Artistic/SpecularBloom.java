@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Filters.FastGaussianBlur;
+import Catalano.Imaging.Filters.GaussianBoxBlur;
 import Catalano.Imaging.Filters.OtsuThreshold;
 import Catalano.Imaging.Filters.RosinThreshold;
 import Catalano.Imaging.Filters.SISThreshold;
@@ -128,7 +128,7 @@ public class SpecularBloom implements IBaseInPlace{
         
         layerA.toRGB();
         
-        FastGaussianBlur fgb = new FastGaussianBlur(radius);
+        GaussianBoxBlur fgb = new GaussianBoxBlur(radius);
         fgb.applyInPlace(layerA);
         
         Blend b = new Blend(layerA, Blend.Algorithm.Screen);

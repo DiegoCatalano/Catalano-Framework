@@ -97,6 +97,7 @@ public class FastBitmap {
         if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
             toRGB();
         }
+        setCoordinateSystem(fastBitmap.getCoordinateSystem());
         refresh();
     }
 
@@ -109,6 +110,7 @@ public class FastBitmap {
         if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
             toRGB();
         }
+        setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
     }
 
@@ -121,6 +123,7 @@ public class FastBitmap {
         if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
             toRGB();
         }
+        setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
     }
     
@@ -133,6 +136,7 @@ public class FastBitmap {
         if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
             toRGB();
         }
+        setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
     }
     
@@ -143,6 +147,7 @@ public class FastBitmap {
     public FastBitmap(String pathname){
         try {
             this.bufferedImage = ImageIO.read(new File(pathname));
+            setCoordinateSystem(CoordinateSystem.Matrix);
             if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
                 refresh();
             }
@@ -164,6 +169,7 @@ public class FastBitmap {
      */
     public FastBitmap(int width, int height){
         this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
     }
     
@@ -184,6 +190,7 @@ public class FastBitmap {
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         
+        this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
     }
     
@@ -193,6 +200,7 @@ public class FastBitmap {
      */
     public FastBitmap(int[][] image){
         bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_BYTE_GRAY);
+        this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
         arrayToImage(image);
     }
@@ -203,6 +211,7 @@ public class FastBitmap {
      */
     public FastBitmap(int[][][] image){
         bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
+        this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
         arrayToImage(image);
     }
@@ -810,7 +819,7 @@ public class FastBitmap {
      * @param value Gray channel's value.
      */
     public void setGray(IntPoint point, int value){
-        pixelsGRAY[point.x*getWidth()+point.y] = (byte)value;
+        pixelsGRAY[point.x*strideX+point.y*strideY] = (byte)value;
     }
     
     /**

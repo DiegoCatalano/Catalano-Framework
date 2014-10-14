@@ -85,7 +85,7 @@ public class UnsharpMasking implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         FastBitmap blur = new FastBitmap(fastBitmap);
-        FastGaussianBlur gb = new FastGaussianBlur(radius);
+        GaussianBoxBlur gb = new GaussianBoxBlur(radius);
         gb.applyInPlace(blur);
         
         int width = fastBitmap.getWidth();
