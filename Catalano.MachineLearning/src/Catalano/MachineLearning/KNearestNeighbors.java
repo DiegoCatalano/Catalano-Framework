@@ -7,6 +7,7 @@
 package Catalano.MachineLearning;
 
 import Catalano.Math.Matrix;
+import Catalano.Statistics.Kernels.IKernel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * K Nearest Neighbour classifier.
  * @author Diego Catalano
- * @param <T>
+ * @param <T> Object.
  */
 public class KNearestNeighbors<T> {
     
@@ -26,6 +27,8 @@ public class KNearestNeighbors<T> {
     private List<double[]> input;
     private T output[];
     private Distance distance = Distance.Euclidean;
+    private IKernel kernel;
+    private boolean useKernel = false;
 
     public int getK() {
         return k;
@@ -49,6 +52,15 @@ public class KNearestNeighbors<T> {
 
     public void setOutput(T[] output) {
         this.output = output;
+    }
+
+    public IKernel getKernel() {
+        return kernel;
+    }
+
+    public void setKernel(IKernel kernel) {
+        this.kernel = kernel;
+        this.useKernel = true;
     }
     
     public KNearestNeighbors(List<double[]> input, T[] output){
@@ -77,6 +89,13 @@ public class KNearestNeighbors<T> {
         this.distance = distance;
     }
     
+    public KNearestNeighbors(int k, List<double[]> input, T[] output, IKernel kernel) {
+        setK(k);
+        this.input = input;
+        this.output = output;
+        setKernel(kernel);
+    }
+    
     /**
      * Compute.
      * @param feature Feature to compute.
@@ -88,19 +107,29 @@ public class KNearestNeighbors<T> {
         int lengthF = feature.length;
         double[] dist = new double[sizeF];
         
-        //Compute score
-        switch(distance){
-            case Euclidean:
-                double sum;
-                for (int i = 0; i < sizeF; i++) {
-                    sum = 0;
-                    double[] featureModel = input.get(i);
-                    for (int j = 0; j < lengthF; j++) {
-                        sum += Math.pow(feature[j] - featureModel[j], 2);
+        //Compute distance.
+        if(useKernel){
+            
+            for (int i = 0; i < sizeF; i++) {
+                dist[i] = this.kernel.Function(feature, input.get(i));
+            }
+            
+        }else{
+            
+            switch(distance){
+                case Euclidean:
+                    double sum;
+                    for (int i = 0; i < sizeF; i++) {
+                        sum = 0;
+                        double[] featureModel = input.get(i);
+                        for (int j = 0; j < lengthF; j++) {
+                            sum += Math.pow(feature[j] - featureModel[j], 2);
+                        }
+                        dist[i] = Math.sqrt(sum);
                     }
-                    dist[i] = Math.sqrt(sum);
-                }
-            break;
+                break;
+            }
+            
         }
         
         //If k is 1, we can retrive the object quickly.
@@ -140,7 +169,7 @@ public class KNearestNeighbors<T> {
         
     }
     
-    class Score implements Comparable<Score> {
+    private class Score implements Comparable<Score> {
         double score;
         int index;
 

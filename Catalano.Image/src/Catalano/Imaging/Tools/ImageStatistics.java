@@ -45,13 +45,9 @@ public class ImageStatistics {
      * @return Histogram.
      */
     public Histogram getHistogramGray(){
-        if (gray == null) {
-            try {
-                throw new Exception("Histogram gray null");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (gray == null)
+            throw new IllegalArgumentException("Histogram gray is null");
+        
         return gray;
     }
     
@@ -60,13 +56,9 @@ public class ImageStatistics {
      * @return Histogram.
      */
     public Histogram getHistogramRed() {
-        if (red == null) {
-            try {
-                throw new Exception("Histogram red null");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (red == null)
+            throw new IllegalArgumentException("Histogram red is null");
+        
         return red;
     }
     
@@ -75,13 +67,9 @@ public class ImageStatistics {
      * @return Histogram.
      */
     public Histogram getHistogramGreen() {
-        if (green == null) {
-            try {
-                throw new Exception("Histogram green null");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (green == null)
+            throw new IllegalArgumentException("Histogram green is null");
+        
         return green;
     }
         
@@ -90,13 +78,9 @@ public class ImageStatistics {
      * @return Histogram.
      */
     public Histogram getHistogramBlue() {
-        if (blue == null) {
-            try {
-                throw new Exception("Histogram blue null");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (blue == null)
+            throw new IllegalArgumentException("Histogram blue is null");
+        
         return blue;
     }
     
