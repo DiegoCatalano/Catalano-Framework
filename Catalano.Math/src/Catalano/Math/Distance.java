@@ -205,6 +205,40 @@ public final class Distance {
     }
     
     /**
+     * Gets the Correlation distance between two points.
+     * @param p A point in space.
+     * @param q A point in space.
+     * @return The Correlation distance between x and y.
+     */
+    public static double Correlation(double[] p, double[] q){
+        
+        double x = 0;
+        double y = 0;
+        
+        for (int i = 0; i < p.length; i++) {
+            x += -p[i];
+            y += -q[i];
+        }
+        
+        x /= p.length;
+        y /= q.length;
+        
+        double num = 0;
+        double den1 = 0;
+        double den2 = 0;
+        for (int i = 0; i < p.length; i++)
+        {
+            num += (p[i] + x) * (q[i] + y);
+
+            den1 += Math.abs(Math.pow(p[i] + x, 2));
+            den2 += Math.abs(Math.pow(q[i] + x, 2));
+        }
+
+        return 1 - (num / (Math.sqrt(den1) * Math.sqrt(den2)));
+        
+    }
+    
+    /**
      * Gets the Cosine distance between two points.
      * @param p A point in space.
      * @param q A point in space.

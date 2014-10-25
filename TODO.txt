@@ -1,0 +1,7 @@
+Moravec Corners Detector
+ShiTomasi Corners Detector
+SURF Descriptor
+RegionalMax
+RegionalMin
+MagicKernelResize
+*Fix: Replicate in the Convolution and Separable Convolution
