@@ -1670,6 +1670,24 @@ public final class Matrix {
         return X;
     }
     
+    public static float[][] Submatrix(float[][] data, int startRow, int endRow, int startColumn, int endColumn){
+        if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
+            || (endRow < 0) || (endRow >= data.length)){
+            throw new IllegalArgumentException("Argument out of range.");
+        }
+
+        float[][] X = new float[endRow - startRow + 1][endColumn - startColumn + 1];
+
+        for (int i = startRow; i <= endRow; i++){
+            for (int j = startColumn; j < endColumn; j++){
+
+                X[i - startRow][j - startColumn] = data[i][j];
+            }
+        }
+
+        return X;
+    }
+    
     public static double[][] Submatrix(double[][] data, int startRow, int endRow, int[] columnIndexes){
         if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
             || (endRow < 0) || (endRow >= data.length)){

@@ -197,7 +197,17 @@ public class Convolution implements IBaseInPlace{
                                     div += kernel[i][j];
                                 }
                                 else if (replicate){
-                                    gray += kernel[i][j] * copy.getGray(x, y);
+                                    
+                                int r = x + i - lines;
+                                int c = y + j - lines;
+                                
+                                if (r < 0) r = 0;
+                                if (r >= share.endHeight) r = share.endHeight - 1;
+                                
+                                if (c < 0) c = 0;
+                                if (c >= share.fastBitmap.getWidth()) c = share.fastBitmap.getWidth() - 1;
+                                    
+                                    gray += kernel[i][j] * copy.getGray(r, c);
                                     div += kernel[i][j];
                                 }
                             }
@@ -235,9 +245,19 @@ public class Convolution implements IBaseInPlace{
                                     div += kernel[i][j];
                                 }
                                 else if (replicate){
-                                    r += kernel[i][j] * copy.getRed(x, y);
-                                    g += kernel[i][j] * copy.getGreen(x, y);
-                                    b += kernel[i][j] * copy.getBlue(x, y);
+                                    
+                                    int rr = x + i - lines;
+                                    int cc = y + j - lines;
+
+                                    if (rr < 0) rr = 0;
+                                    if (rr >= share.endHeight) rr = share.endHeight - 1;
+
+                                    if (cc < 0) cc = 0;
+                                    if (cc >= share.fastBitmap.getWidth()) cc = share.fastBitmap.getWidth() - 1;
+                                    
+                                    r += kernel[i][j] * copy.getRed(rr, cc);
+                                    g += kernel[i][j] * copy.getGreen(rr, cc);
+                                    b += kernel[i][j] * copy.getBlue(rr, cc);
                                     div += kernel[i][j];
                                 }
                             }

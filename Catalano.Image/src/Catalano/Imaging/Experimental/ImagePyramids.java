@@ -85,7 +85,7 @@ public class ImagePyramids {
         if (fastBitmap.isGrayscale()){
             for (int x = 0; x < level; x++) {
 
-                float[][] image = ConvolutionGray(fastBitmap, gaussianDownscale);
+                float[][] image = ConvolutionGray(fastBitmap, gaussianDownscale, true);
 
                 int width = image[0].length;
                 int height = image.length;
@@ -125,7 +125,18 @@ public class ImagePyramids {
     
     public void Upscale(FastBitmap fastBitmap){
         
-        float[][] image = ConvolutionGray(fastBitmap, gaussianUpscale);
+        float[][] kernel00 = {
+            {0.015625f, 0.09375f, 0.015625f},
+            {0.09375f,0.5625f,0.09375f},
+            {0.015625f,0.09375f,0.015625f}
+        };
+        
+        float[][] kernel11 = {
+            {0.25f, 0.25f},
+            {0.25f, 0.25f}
+        };
+        
+        float[][] image = ConvolutionGray(fastBitmap, kernel11, false);
 
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
@@ -133,31 +144,48 @@ public class ImagePyramids {
         
         
         
+        
+        
     }
     
-    private float[][] ConvolutionGray(FastBitmap fastBitmap, float[][] kernel){
+    private float[][] ConvolutionGray(FastBitmap fastBitmap, float[][] kernel, boolean replicate){
         
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         
         float[][] image = new float[height][width];
         
+        
+        int lines = (kernel[0].length - 1) / 2;
+        
         float gray;
         for (int r = 0; r < height; r++) {
             for (int c = 0; c < width; c++) {
                     gray = 0;
                     for (int i = 0; i < kernel.length; i++) {
-                        int Xline = r + (i-2);
+                        int Xline = r + (i-lines);
                         for (int j = 0; j < kernel[0].length; j++) {
-                            int Yline = c + (j-2);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                                gray += kernel[i][j] * fastBitmap.getGray(Xline, Yline) / 255;
+                            int Yline = c + (j-lines);
+                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                                gray += kernel[i][j] * (fastBitmap.getGray(Xline, Yline) / 255f);
                             }
-                            else{
-                                gray += kernel[i][j] * fastBitmap.getGray(r, c) / 255;
+                            else if(replicate){
+                                int R = r + i - 1;
+                                int C = c + j - 1;
+                                
+                                if (R < 0) R = 0;
+                                if (R >= height) R = height - 1;
+                                
+                                if (C < 0) C = 0;
+                                if (C >= width) C = width - 1;
+                                
+                                int val = fastBitmap.getGray(R, C);
+                                
+                                gray += kernel[i][j] * (fastBitmap.getGray(R, C) / 255f);
                             }
                         }
                     }
+
                     
                     gray = gray > 1 ? 1 : gray;
                     gray = gray < 0 ? 0 : gray;
