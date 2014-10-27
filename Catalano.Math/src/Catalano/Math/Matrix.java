@@ -807,6 +807,39 @@ public final class Matrix {
         }
     }
     
+    public static double Sum(double[][] A){
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += A[i][j];
+            }
+        }
+        
+        return sum;
+    }
+    
+    public static int Sum(int[][] A){
+        int sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += A[i][j];
+            }
+        }
+        
+        return sum;
+    }
+    
+    public static float Sum(float[][] A){
+        float sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += A[i][j];
+            }
+        }
+        
+        return sum;
+    }
+    
     /**
      * Subtract matrix with a scalar value.
      * @param A Vector.
