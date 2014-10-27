@@ -47,6 +47,7 @@ Version updates and fixes:
 * Catalano.Image.Tools
    - New: Suk Flusser Moments.
    - New: Color Moments.
+   - New: Kernel.
    - New: Chain Code.
    - New: Contour.
 
@@ -69,6 +70,7 @@ Version updates and fixes:
 * Catalano.Math
     - New: Taylor Series.
 
+    - Added: Sum in Matrix.
     - Added: CreateMatrix2D in Matrix.
     - Added: CreateMatrix1D in Matrix.
     - Added: Greatest common divisor in Tools.

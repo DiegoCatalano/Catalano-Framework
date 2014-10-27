@@ -113,7 +113,12 @@ public class SeparableConvolution implements IBaseInPlace{
                             gray += kernelX[kernelX.length - k - 1] * fastBitmap.getGray(i, Yline);
                         }
                          else if (replicate){
-                            gray += kernelX[kernelX.length - k - 1] * fastBitmap.getGray(i, j);
+                             int c = j + k - lines;
+
+                             if (c < 0) c = 0;
+                             if (c >= width) c = width - 1;
+                              
+                             gray += kernelX[kernelX.length - k - 1] * fastBitmap.getGray(i, c);
                          }
                     }
                     
@@ -131,7 +136,12 @@ public class SeparableConvolution implements IBaseInPlace{
                             gray += kernelY[k] * copy[Xline][j];
                         }
                          else if (replicate){
-                            gray += kernelY[k] * copy[i][j];
+                             int r = i + k - lines;
+
+                             if (r < 0) r = 0;
+                             if (r >= height) r = height - 1;
+                              
+                             gray += kernelY[k] * copy[r][j];
                          }
                     }
                     
@@ -168,9 +178,14 @@ public class SeparableConvolution implements IBaseInPlace{
                             b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, Yline);
                         }
                          else if (replicate){
-                            r += kernelX[kernelX.length - k - 1] * fastBitmap.getRed(i, j);
-                            g += kernelX[kernelX.length - k - 1] * fastBitmap.getGreen(i, j);
-                            b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, j);
+                             int c = j + k - lines;
+
+                             if (c < 0) c = 0;
+                             if (c >= width) c = width - 1;
+                              
+                             r += kernelX[kernelX.length - k - 1] * fastBitmap.getRed(i, c);
+                             g += kernelX[kernelX.length - k - 1] * fastBitmap.getGreen(i, c);
+                             b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, c);
                          }
                     }
                     
@@ -192,9 +207,14 @@ public class SeparableConvolution implements IBaseInPlace{
                             b += kernelY[k] * copy[Xline][j][2];
                         }
                          else if (replicate){
-                            r += kernelY[k] * copy[i][j][0];
-                            g += kernelY[k] * copy[i][j][1];
-                            b += kernelY[k] * copy[i][j][2];
+                             int rr = i + k - lines;
+
+                             if (rr < 0) rr = 0;
+                             if (rr >= height) rr = height - 1;
+                              
+                             r += kernelY[k] * copy[rr][j][0];
+                             g += kernelY[k] * copy[rr][j][1];
+                             b += kernelY[k] * copy[rr][j][2];
                          }
                     }
                     

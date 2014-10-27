@@ -198,14 +198,14 @@ public class Convolution implements IBaseInPlace{
                                 }
                                 else if (replicate){
                                     
-                                int r = x + i - lines;
-                                int c = y + j - lines;
-                                
-                                if (r < 0) r = 0;
-                                if (r >= share.endHeight) r = share.endHeight - 1;
-                                
-                                if (c < 0) c = 0;
-                                if (c >= share.fastBitmap.getWidth()) c = share.fastBitmap.getWidth() - 1;
+                                    int r = x + i - lines;
+                                    int c = y + j - lines;
+
+                                    if (r < 0) r = 0;
+                                    if (r >= share.endHeight) r = share.endHeight - 1;
+
+                                    if (c < 0) c = 0;
+                                    if (c >= share.fastBitmap.getWidth()) c = share.fastBitmap.getWidth() - 1;
                                     
                                     gray += kernel[i][j] * copy.getGray(r, c);
                                     div += kernel[i][j];
