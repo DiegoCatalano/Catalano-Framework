@@ -97,8 +97,11 @@ public class SeparableConvolution implements IBaseInPlace{
         
         int Xline,Yline;
         int lines = (kernelX.length - 1) / 2;
-        int div = (int)SumKernel(kernelX, kernelY);
         
+        if(replicate && !useDiv)
+            setDivision((int)SumKernel(kernelX, kernelY));
+        
+        int div = 0;
         if (fastBitmap.isGrayscale()) {
             double[][] copy = new double[height][width];
             double gray;
@@ -106,11 +109,12 @@ public class SeparableConvolution implements IBaseInPlace{
             //Horizontal orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    gray = 0;
+                    gray = div = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Yline = j - lines + k;
                         if ((Yline >=0) && (Yline < width)) {
                             gray += kernelX[kernelX.length - k - 1] * fastBitmap.getGray(i, Yline);
+                            div += kernelX[kernelX.length -k - 1];
                         }
                          else if (replicate){
                              
@@ -123,18 +127,23 @@ public class SeparableConvolution implements IBaseInPlace{
                          }
                     }
                     
-                    copy[i][j] = gray;
+                    if(replicate)
+                        copy[i][j] = gray;
+                    else
+                        copy[i][j] = gray / div;
+                    
                 }
             }
             
             //Vertical orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    gray = 0;
+                    gray = div = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Xline = i - lines + k;
                         if ((Xline >=0) && (Xline < height)) {
                             gray += kernelY[k] * copy[Xline][j];
+                            div += kernelY[k];
                         }
                          else if (replicate){
                              
@@ -171,13 +180,14 @@ public class SeparableConvolution implements IBaseInPlace{
             //Horizontal orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    r = g = b = 0;
+                    r = g = b = div = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Yline = j - lines + k;
                         if ((Yline >=0) && (Yline < width)) {
                             r += kernelX[kernelX.length - k - 1] * fastBitmap.getRed(i, Yline);
                             g += kernelX[kernelX.length - k - 1] * fastBitmap.getGreen(i, Yline);
                             b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, Yline);
+                            div += kernelX[kernelX.length - k - 1];
                         }
                          else if (replicate){
                              
@@ -192,22 +202,31 @@ public class SeparableConvolution implements IBaseInPlace{
                          }
                     }
                     
-                    copy[i][j][0] = r;
-                    copy[i][j][1] = g;
-                    copy[i][j][2] = b;
+                    if(replicate){
+                        copy[i][j][0] = r;
+                        copy[i][j][1] = g;
+                        copy[i][j][2] = b;
+                    }
+                    else{
+                        copy[i][j][0] = r / div;
+                        copy[i][j][1] = g / div;
+                        copy[i][j][2] = b / div;
+                    }
+                    
                 }
             }
             
             //Vertical orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    r = g = b = 0;
+                    r = g = b = div = 0;
                     for (int k = 0; k < kernelY.length; k++) {
                         Xline = i - lines + k;
                         if ((Xline >=0) && (Xline < height)) {
                             r += kernelY[k] * copy[Xline][j][0];
                             g += kernelY[k] * copy[Xline][j][1];
                             b += kernelY[k] * copy[Xline][j][2];
+                            div += kernelY[k];
                         }
                          else if (replicate){
                              
@@ -222,10 +241,17 @@ public class SeparableConvolution implements IBaseInPlace{
                          }
                     }
                     
-                    if(div != 0){
-                        r = r / div;
-                        g = g / div;
-                        b = b / div;
+                    if (div != 0) {
+                        if (useDiv) {
+                            r /= division;
+                            g /= division;
+                            b /= division;
+                        }
+                        else{
+                            r /= div;
+                            g /= div;
+                            b /= div;
+                        }
                     }
                     
                     r = r < 0 ? 0 : r;
