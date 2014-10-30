@@ -9,8 +9,10 @@ Version updates and fixes:
     - Added: getData method.
     - Added: indicateGrayscale in FastBitmap. (Used to optimized some filters to avoid clone in the memory.)
 
+    - Optimized: Several operation filters (e.g grayscale, log, etc...)**
     - Optimized: Several filters that need to do a copy*.
 * There are using recycle internally when needs some copies.
+** There are directly accessing the pixels.
 
 * Catalano.Core.Structs
    - New: Binary Heap.
@@ -108,3 +110,6 @@ Version updates and fixes:
 
    - Added: Alpha Trimmed Mean in Tools.
    - Added: Sum in Tools.
+
+* General
+   - Added: Comments in the filters inform for to developer about supported types (grayscale, rgb) and coodinate system used (cartesian, matrix or independ).
