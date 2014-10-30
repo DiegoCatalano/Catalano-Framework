@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Base class for image grayscaling.
+ * 
+ * Supported types: RGB.
+ * Coordinate System: Independent.
+ * 
  * @author Diego Catalano
  */
 public class Grayscale implements IBaseInPlace{

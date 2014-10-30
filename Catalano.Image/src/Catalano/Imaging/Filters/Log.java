@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Log filter.
+ * 
+ * Supported types: Grayscale, RGB.
+ * Coordinate System: Independent.
+ * 
  * @author Diego Catalano
  */
 public class Log implements IBaseInPlace{
