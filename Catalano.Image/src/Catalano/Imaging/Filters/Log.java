@@ -26,7 +26,7 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Log filter.
- * @author Diego
+ * @author Diego Catalano
  */
 public class Log implements IBaseInPlace{
 
