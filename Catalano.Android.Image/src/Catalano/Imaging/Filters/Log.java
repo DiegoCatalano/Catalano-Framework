@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Log filter.
+ * 
+ * Supported types: Grayscale, RGB.
+ * Coordinate System: Independent.
+ * 
  * @author Diego Catalano
  */
 public class Log implements IBaseInPlace{
@@ -43,7 +47,7 @@ public class Log implements IBaseInPlace{
         if (fastBitmap.isGrayscale()){
             int[] pixels = fastBitmap.getData();
             for (int i = 0; i < pixels.length; i++) {
-                int v = pixels[i] < 0 ? pixels[i] + 256 : pixels[i];
+                int v = pixels[i] & 0xFF;
                 
                 //Compute log
                 if (v != 0) v = (int)(Math.log(v) * scale);

@@ -51,11 +51,7 @@ public class RGChromaticity implements IBaseInPlace{
             }
         }
         else{
-            try {
-                throw new IllegalArgumentException("RGChromaticity only works with RGB images");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        	throw new IllegalArgumentException("RGChromaticity only works with RGB images");
         }
     }
 }

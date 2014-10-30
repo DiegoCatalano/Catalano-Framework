@@ -31,6 +31,9 @@ import Catalano.Statistics.Histogram;
  * <br />The class implements Otsu thresholding, which is described in <b> N<dot> Otsu, "A threshold selection method from gray-level histograms", IEEE Trans. Systems, Man and Cybernetics 9(1), pp. 62–66, 1979</b>.
  * <br />This implementation instead of minimizing the weighted within-class variance does maximization of between-class variance, what gives the same result.
  * 
+ * Supported types: Grayscale.
+ * Coordinate System: Independent.
+ * 
  * @see MaximumEntropyThreshold
  * @see RosinThreshold
  * @author Diego Catalano

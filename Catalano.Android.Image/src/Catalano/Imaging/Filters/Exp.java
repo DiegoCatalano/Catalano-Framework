@@ -27,7 +27,11 @@ import Catalano.Math.Approximation;
 
 /**
  * Exp filter.
- * @author Diego
+ * 
+ * Supported types: Grayscale, RGB.
+ * Coordinate System: Independent.
+ * 
+ * @author Diego Catalano
  */
 public class Exp implements IBaseInPlace{
 
@@ -39,54 +43,46 @@ public class Exp implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        
         // Scale log
         double scale = 255 / Math.log(255);
         if (fastBitmap.isGrayscale()){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    double v = fastBitmap.getGray(i, j);
-                    v = Approximation.Highprecision_Exp(v/scale);
-                    
-                    // Clip value
-                    if (v < 0) v = 0;
-                    if (v > 255) v = 255;
-                    
-                    fastBitmap.setGray(i, j, (int)(v));
-                }
-            }
+        	int[] pixels = fastBitmap.getData();
+        	for (int i = 0; i < pixels.length; i++) {
+        		double v = pixels[i] & 0xFF;
+                v = Approximation.Highprecision_Exp(v/scale);
+                
+                // Clip value
+                if (v < 0) v = 0;
+                if (v > 255) v = 255;
+                
+                pixels[i] = 255 << 24 | (int)v << 16 | (int)v << 8 | (int)v;
+        	
+			}
         }
         if (fastBitmap.isRGB()){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    double r = fastBitmap.getRed(i, j);
-                    double g = fastBitmap.getGreen(i, j);
-                    double b = fastBitmap.getBlue(i, j);
-                    
-                    r = Approximation.Highprecision_Exp(r/scale);
-                    g = Approximation.Highprecision_Exp(g/scale);
-                    b = Approximation.Highprecision_Exp(b/scale);
-                    
-                    //Clip value
-                    if (r < 0) r = 0;
-                    if (r > 255) r = 255;
-                    
-                    if (g < 0) g = 0;
-                    if (g > 255) g = 255;
-                    
-                    if (b < 0) b = 0;
-                    if (b > 255) b = 255;
-                    
-                    
-                    fastBitmap.setRed(i, j, (int)(r));
-                    fastBitmap.setGreen(i, j, (int)(g));
-                    fastBitmap.setBlue(i, j, (int)(b));
-                }
-            }
+        	int[] pixels = fastBitmap.getData();
+        	for (int i = 0; i < pixels.length; i++) {
+        		double r = pixels[i] >> 16 & 0xFF;
+        		double g = pixels[i] >> 8 & 0xFF;
+                double b = pixels[i] & 0xFF;
+                
+                r = Approximation.Highprecision_Exp(r/scale);
+                g = Approximation.Highprecision_Exp(g/scale);
+                b = Approximation.Highprecision_Exp(b/scale);
+                
+                //Clip value
+                if (r < 0) r = 0;
+                if (r > 255) r = 255;
+                
+                if (g < 0) g = 0;
+                if (g > 255) g = 255;
+                
+                if (b < 0) b = 0;
+                if (b > 255) b = 255;
+                
+                pixels[i] = 255 << 24 | (int)r << 16 | (int)g << 8 | (int)b;
+        	
+			}
         }
     }
 }

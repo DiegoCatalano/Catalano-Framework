@@ -23,11 +23,13 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The filter does image binarization using specified threshold value. All pixels with intensities equal or higher than threshold value are converted to white pixels. All other pixels with intensities below threshold value are converted to black pixels.
+ * 
+ * Supported types: Grayscale.
+ * Coordinate System: Independent.
+ * 
  * @author Diego Catalano
  */
 public class Threshold implements IBaseInPlace{
@@ -77,36 +79,26 @@ public class Threshold implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        if (!fastBitmap.isGrayscale()){
-            try {
-                throw new Exception("Binarization works only with TYPE_BYTE_GRAY");
-            } catch (Exception ex) {
-                Logger.getLogger(Threshold.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        if (!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("Binarization works only with Grayscale images.");
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        int l;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                l = fastBitmap.getGray(x, y);
-                if(invert == false){
-                    if(l >= value){
-                        fastBitmap.setGray(x, y, 255);
-                    }
-                    else{
-                        fastBitmap.setGray(x, y, 0);
-                    }
+        byte[] pixels = fastBitmap.getGrayData();
+        for (int i = 0; i < pixels.length; i++) {
+            int l = pixels[i] < 0 ? pixels[i] + 256 : pixels[i];
+            if(invert == false){
+                if(l >= value){
+                    pixels[i] = (byte)255;
                 }
                 else{
-                    if(l < value){
-                        fastBitmap.setGray(x, y, 0);
-                    }
-                    else{
-                        fastBitmap.setGray(x, y, 255);
-                    }
+                    pixels[i] = 0;
+                }
+            }
+            else{
+                if(l < value){
+                    pixels[i] = 0;
+                }
+                else{
+                    pixels[i] = (byte)255;
                 }
             }
         }
