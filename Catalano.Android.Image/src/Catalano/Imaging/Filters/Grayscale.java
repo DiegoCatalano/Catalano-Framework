@@ -164,23 +164,21 @@ public class Grayscale implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
             if(!isAlgorithm){
-                int width = fastBitmap.getWidth();
-                int height = fastBitmap.getHeight();
-                double r,g,b,gray;
+                double r,g,b;
+                int gray;
                 
                 fastBitmap.indicateGrayscale(true);
 
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = fastBitmap.getRed(x, y);
-                        g = fastBitmap.getGreen(x, y);
-                        b = fastBitmap.getBlue(x, y);
-
-                        gray = (r*redCoefficient+g*greenCoefficient+b*blueCoefficient);
-
-                        fastBitmap.setGray(x, y, (int)gray);
-                    }
-                }
+                int[] pixels = fastBitmap.getData();
+                for (int i = 0; i < pixels.length; i++) {
+					r = pixels[i] >> 16 & 0xFF;
+                	g = pixels[i] >> 8 & 0xFF;
+                	b = pixels[i] & 0xFF;
+                	
+                	gray = (int)(r*redCoefficient+g*greenCoefficient+b*blueCoefficient);
+                	pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+				}
+                
             }
             else{
             	fastBitmap.indicateGrayscale(true);
@@ -189,82 +187,79 @@ public class Grayscale implements IBaseInPlace{
     }
     
     private void Apply(FastBitmap fastBitmap,Algorithm grayMethod){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
-            double r,g,b,gray;
+            double r,g,b;
+            int gray;
 
+            int[] pixels = fastBitmap.getData();
             switch(grayMethod){
                 case Lightness:
 
                     double max,min;
-                    for (int x = 0; x < height; x++) {
-                        for (int y = 0; y < width; y++) {
-                            r = fastBitmap.getRed(x, y);
-                            g = fastBitmap.getGreen(x, y);
-                            b = fastBitmap.getBlue(x, y);
-
-                            max = Math.max(r, g);
-                            max = Math.max(max, b);
-                            min = Math.min(r, g);
-                            min = Math.min(min, b);
-                            gray = (max+min)/2;
-
-                            fastBitmap.setGray(x, y, (int)gray);
-                        }
-                    }
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        max = Math.max(r, g);
+                        max = Math.max(max, b);
+                        min = Math.min(r, g);
+                        min = Math.min(min, b);
+                        gray = (int)((max+min)/2);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
+                    
                 break;
 
                 case Average:
-                    for (int x = 0; x < height; x++) {
-                        for (int y = 0; y < width; y++) {
-                            r = fastBitmap.getRed(x, y);
-                            g = fastBitmap.getGreen(x, y);
-                            b = fastBitmap.getBlue(x, y);
-
-                            gray = (r+g+b)/3;
-
-                            fastBitmap.setGray(x, y, (int)gray);
-                        }
-                    }
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        gray = (int)((r+g+b)/3);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
                 break;
 
                 case Luminosity:
-                    for (int x = 0; x < height; x++) {
-                        for (int y = 0; y < width; y++) {
-                            r = fastBitmap.getRed(x, y);
-                            g = fastBitmap.getGreen(x, y);
-                            b = fastBitmap.getBlue(x, y);
-
-                            gray = (r*0.2125+g*0.7154+b*0.0721);
-
-                            fastBitmap.setGray(x, y, (int)gray);
-                        }
-                    }
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        gray = (int)(r*0.2125+g*0.7154+b*0.0721);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
                 break;
                     
                 case MinimumDecomposition:
-                    for (int x = 0; x < height; x++) {
-                        for (int y = 0; y < width; y++) {
-                            gray = fastBitmap.getRed(x, y);
-                            gray = Math.min(gray, fastBitmap.getGreen(x, y));
-                            gray = Math.min(gray, fastBitmap.getBlue(x, y));
-
-                            fastBitmap.setGray(x, y, (int)gray);
-                        }
-                    }
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        gray = (int)Math.min(r, g);
+                        gray = (int)Math.min(gray, b);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
                 break;
                     
                 case MaximumDecomposition:
-                    for (int x = 0; x < height; x++) {
-                        for (int y = 0; y < width; y++) {
-                            gray = fastBitmap.getRed(x, y);
-                            gray = Math.max(gray, fastBitmap.getGreen(x, y));
-                            gray = Math.max(gray, fastBitmap.getBlue(x, y));
-
-                            fastBitmap.setGray(x, y, (int)gray);
-                        }
-                    }
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        gray = (int)Math.max(r, g);
+                        gray = (int)Math.max(gray, b);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
                 break;
             }
-    }   
+    }
 }
