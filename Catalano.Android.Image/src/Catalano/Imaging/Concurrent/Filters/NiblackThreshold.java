@@ -163,7 +163,7 @@ public class NiblackThreshold implements IBaseInPlace{
             Mean m = new Mean(radius, arithmetic);
             m.applyInPlace(mean);
 
-            Variance v = new Variance(radius);
+            FastVariance v = new FastVariance(radius);
             v.applyInPlace(var);
             
             Parallel(fastBitmap);

@@ -121,6 +121,15 @@ public class FastBitmap {
     }
     
     /**
+     * Clear all the image.
+     */
+    public void Clear(){
+    	for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = 0;
+		}
+    }
+    
+    /**
      * Read pixels from a bitmap.
      */
     private void refresh(){

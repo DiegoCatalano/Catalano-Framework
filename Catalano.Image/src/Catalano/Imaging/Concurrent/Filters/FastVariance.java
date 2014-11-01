@@ -174,9 +174,5 @@ public class FastVariance implements IBaseInPlace{
             }
         }
     }
-        
-    private int CalcLines(int radius){
-        return radius * 2 + 1;
-    }
     }
 }
