@@ -65,8 +65,6 @@ public class GammaCorrection implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
 
             gamma=gamma<0.1?0.1:gamma;
             gamma=gamma>5.0?5.0:gamma;
@@ -75,22 +73,20 @@ public class GammaCorrection implements IBaseInPlace{
             int[] gamma_LUT = gamma_LUT(gamma_new);
 
             int r, g, b;
+            int[] pixels = fastBitmap.getRGBData();
+            for(int i = 0; i < pixels.length; i++) {
 
-            for(int x = 0; x < height; x++) {
-                for(int y = 0; y < width; y++) {
+                // Get pixels by R, G, B
+                r = pixels[i] >> 16 & 0xFF;
+                g = pixels[i] >> 8 & 0xFF;
+                b = pixels[i] & 0xFF;
 
-                    // Get pixels by R, G, B
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
+                r = gamma_LUT[r];
+                g = gamma_LUT[g];
+                b = gamma_LUT[b];
 
-                    r = gamma_LUT[r];
-                    g = gamma_LUT[g];
-                    b = gamma_LUT[b];
-
-                    // Write pixels into image
-                    fastBitmap.setRGB(x, y, r, g, b);
-                }
+                // Write pixels into image
+                pixels[i] = r << 16 | g << 8 | b;
             }
             
         }

@@ -24,6 +24,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Math.Matrix;
 
 /**
  * Niblack Threshold.
@@ -31,26 +32,9 @@ import Catalano.Imaging.IBaseInPlace;
  */
 public class NiblackThreshold implements IBaseInPlace{
     
-    private Mean.Arithmetic arithmetic = Mean.Arithmetic.Mean;
     private int radius = 15;
     private double k = 0.2D;
     private double c = 0;
-
-    /**
-     * Get Mean arithmetic.
-     * @return Mean arithmetic.
-     */
-    public Mean.Arithmetic getArithmetic() {
-        return arithmetic;
-    }
-
-    /**
-     * Set Mean arithmetic.
-     * @param arithmetic Mean arithmetic.
-     */
-    public void setArithmetic(Mean.Arithmetic arithmetic) {
-        this.arithmetic = arithmetic;
-    }
 
     /**
      * Get Radius.
@@ -134,20 +118,6 @@ public class NiblackThreshold implements IBaseInPlace{
         this.k = k;
         this.c = c;
     }
-    
-    /**
-     * Initialize a new instance of the NiblackThreshold class.
-     * @param radius Radius.
-     * @param k Parameter K.
-     * @param c Parameter C.
-     * @param arithmetic Mean arithmetic.
-     */
-    public NiblackThreshold(int radius, double k, double c, Mean.Arithmetic arithmetic) {
-        this.radius = radius;
-        this.k = k;
-        this.c = c;
-        this.arithmetic = arithmetic;
-    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
@@ -157,10 +127,11 @@ public class NiblackThreshold implements IBaseInPlace{
             FastBitmap mean = new FastBitmap(fastBitmap);
             FastBitmap var = new FastBitmap(fastBitmap);
             
-            Mean m = new Mean(radius, arithmetic);
-            m.applyInPlace(mean);
+            double[] kernel = Matrix.CreateMatrix1D(radius*2+1, 1D);
+            SeparableConvolution sc = new SeparableConvolution(kernel, kernel, true);
+            sc.applyInPlace(mean);
             
-            Variance v = new Variance(radius);
+            FastVariance v = new FastVariance(radius);
             v.applyInPlace(var);
             
             int width = fastBitmap.getWidth();

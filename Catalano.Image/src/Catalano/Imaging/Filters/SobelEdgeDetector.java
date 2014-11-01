@@ -34,7 +34,7 @@ import Catalano.Imaging.IBaseInPlace;
  * |G| = |Gx| + |Gy] ,
  * where Gx and Gy are calculate utilizing Sobel convolution kernels.
  * Using the above kernel the approximated magnitude for pixel x is calculate using the next equation:
- * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|
+ * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|</para>
  * @author Diego Catalano
  */
 public class SobelEdgeDetector implements IBaseInPlace{

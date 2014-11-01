@@ -76,23 +76,21 @@ public class GammaCorrection implements IBaseInPlace{
 
             int r, g, b;
 
-            for(int x = 0; x < height; x++) {
-                for(int y = 0; y < width; y++) {
+            int[] pixels = fastBitmap.getData();
+            for(int i = 0; i < pixels.length; i++) {
 
                     // Get pixels by R, G, B
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
+                    r = pixels[i] >> 16 & 0xFF;
+                    g = pixels[i] >> 8 & 0xFF;
+                    b = pixels[i] & 0xFF;
 
                     r = gamma_LUT[r];
                     g = gamma_LUT[g];
                     b = gamma_LUT[b];
 
                     // Write pixels into image
-                    fastBitmap.setRGB(x, y, r, g, b);
-                }
+                    pixels[i] = 255 << 24 | r << 16 | g << 8 | b;
             }
-            
         }
         else{
             throw new IllegalArgumentException("Gamma correction only works with RGB images.");

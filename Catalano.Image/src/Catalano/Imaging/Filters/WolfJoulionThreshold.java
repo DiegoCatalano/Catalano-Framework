@@ -24,34 +24,18 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Math.Matrix;
 
 /**
- * Wolf Threshold.
+ * Wolf Joulion Threshold.
  * References: http://liris.cnrs.fr/christian.wolf/papers/icpr2002v.pdf
  * @author Diego Catalano
  */
 public class WolfJoulionThreshold implements IBaseInPlace{
     
-    private Mean.Arithmetic arithmetic = Mean.Arithmetic.Mean;
     private int radius = 15;
     private double k = 0.5D;
     private double r = 128;
-
-    /**
-     * Get Mean arithmetic.
-     * @return Mean arithmetic.
-     */
-    public Mean.Arithmetic getArithmetic() {
-        return arithmetic;
-    }
-
-    /**
-     * Set Mean arithmetic.
-     * @param arithmetic Mean arithmetic.
-     */
-    public void setArithmetic(Mean.Arithmetic arithmetic) {
-        this.arithmetic = arithmetic;
-    }
 
     /**
      * Get Radius.
@@ -135,20 +119,6 @@ public class WolfJoulionThreshold implements IBaseInPlace{
         this.k = k;
         this.r = r;
     }
-    
-    /**
-     * Initialize a new instance of the WolfThreshold class.
-     * @param radius Radius.
-     * @param k Parameter K.
-     * @param r Parameter R.
-     * @param arithmetic Mean arithmetic.
-     */
-    public WolfJoulionThreshold(int radius, double k, double r, Mean.Arithmetic arithmetic) {
-        this.radius = radius;
-        this.k = k;
-        this.r = r;
-        this.arithmetic = arithmetic;
-    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
@@ -161,10 +131,11 @@ public class WolfJoulionThreshold implements IBaseInPlace{
             FastBitmap mean = new FastBitmap(fastBitmap);
             FastBitmap var = new FastBitmap(fastBitmap);
             
-            Mean m = new Mean(radius, arithmetic);
-            m.applyInPlace(mean);
+            double[] kernel = Matrix.CreateMatrix1D(radius*2+1, 1D);
+            SeparableConvolution sc = new SeparableConvolution(kernel, kernel, true);
+            sc.applyInPlace(mean);
             
-            Variance v = new Variance(radius);
+            FastVariance v = new FastVariance(radius);
             v.applyInPlace(var);
             
             int maxV = 0;
