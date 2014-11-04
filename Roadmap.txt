@@ -5,7 +5,8 @@ Catalano Framework 1.4 road map
 Version updates and fixes:
 
 * Catalano.Android.Image
-    - Added: setCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
+    - Added: Clear method in FastBitmap.
+    - Added: get; setCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
     - Added: getData method.
     - Added: indicateGrayscale in FastBitmap. (Used to optimized some filters to avoid clone in the memory.)
 
@@ -40,6 +41,8 @@ Version updates and fixes:
    - Added: getMaximumDistance in Distance Transform.
    - Added: support grayscale in Flood Fill.
 
+   - Removed: get; setArithmetic in Sauvola/Niblack/WolfJoulion Threshold. (these filters are using separable convolution for to enhance the performance)
+
    - Renamed: Fast Gaussian Blur to Gaussian Box Blur.
 
    - Fixed: Replicate option in Convolution (fixed in Concurrent too).
@@ -53,6 +56,7 @@ Version updates and fixes:
    - New: Chain Code.
    - New: Contour.
 
+   - Fixed: Smooth Noise Robust in Convolution Kernel.
    - Fixed: Blob Detection for grayscale images.
    - Added: new method Compute in Hu Moments.
    - Added: Ultimate Eroded Points in Shape Descriptors.
@@ -72,6 +76,7 @@ Version updates and fixes:
 * Catalano.Math
     - New: Taylor Series.
 
+    - Added: getReal, getImaginary in ComplexNumber for 1,2 dimensions.
     - Added: Sum in Matrix.
     - Added: CreateMatrix2D in Matrix.
     - Added: CreateMatrix1D in Matrix.

@@ -88,6 +88,62 @@ public class ComplexNumber {
     }
     
     /**
+     * Get real part from the complex numbers.
+     * @param cn Complex numbers.
+     * @return Real part.
+     */
+    public double[] getReal(ComplexNumber[] cn){
+        double[] n = new double[cn.length];
+        for (int i = 0; i < n.length; i++) {
+            n[i] = cn[i].real;
+        }
+        return n;
+    }
+    
+    /**
+     * Get imaginary part from the complex numbers.
+     * @param cn Complex numbers.
+     * @return Imaginary part.
+     */
+    public double[] getImaginary(ComplexNumber[] cn){
+        double[] n = new double[cn.length];
+        for (int i = 0; i < n.length; i++) {
+            n[i] = cn[i].imaginary;
+        }
+        return n;
+    }
+    
+    /**
+     * Get real part from the complex numbers.
+     * @param cn Complex numbers.
+     * @return Real part.
+     */
+    public double[][] getReal(ComplexNumber[][] cn){
+        double[][] n = new double[cn.length][cn[0].length];
+        for (int i = 0; i < n.length; i++) {
+            for (int j = 0; j < n[0].length; j++) {
+                n[i][j] = cn[i][j].real;
+            }
+        }
+        return n;
+    }
+    
+    /**
+     * Get imaginary part from the complex numbers.
+     * @param cn Complex numbers.
+     * @return Imaginary part.
+     */
+    public double[][] getImaginary(ComplexNumber[][] cn){
+        double[][] n = new double[cn.length][cn[0].length];
+        for (int i = 0; i < n.length; i++) {
+            for (int j = 0; j < n[0].length; j++) {
+                n[i][j] = cn[i][j].imaginary;
+            }
+        }
+        return n;
+    }
+    
+    /**
      * Adds two complex numbers.
      * @param z1 Complex Number.
      * @param z2 Complex Number.

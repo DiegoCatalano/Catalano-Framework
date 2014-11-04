@@ -213,8 +213,8 @@ public final class ConvolutionKernel{
         {-1, -2, -1},
         {-2, -4, -2},
         {0, 0, 0},
-        {-2, 4, 2},
-        {-1, 2, 1}};
+        {2, 4, 2},
+        {1, 2, 1}};
     
     /**
      * Smooth Noise Robust (Vertical).
@@ -225,5 +225,5 @@ public final class ConvolutionKernel{
     public static int[][] SmoothNoiseRobust_Vertical = {
         {-1, -2, 0, 2, 1},
         {-2, -4, 0, 4, 2},
-        {-1, -2, 0, -2, -1}};
+        {-1, -2, 0, 2, 1}};
 }
