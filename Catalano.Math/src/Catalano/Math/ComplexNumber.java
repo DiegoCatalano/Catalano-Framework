@@ -144,6 +144,38 @@ public class ComplexNumber {
     }
     
     /**
+     * Swap values between real and imaginary.
+     * @param z1 Complex number.
+     */
+    public static void Swap(ComplexNumber z1){
+        double t = z1.real;
+        z1.real = z1.imaginary;
+        z1.imaginary = t;
+    }
+    
+    /**
+     * Swap values between real and imaginary.
+     * @param z Complex number.
+     */
+    public static void Swap(ComplexNumber[] z){
+        for (int i = 0; i < z.length; i++) {
+            z[i] = new ComplexNumber(z[i].imaginary, z[i].real);
+        }
+    }
+    
+    /**
+     * Swap values between real and imaginary.
+     * @param z Complex number.
+     */
+    public static void Swap(ComplexNumber[][] z){
+        for (int i = 0; i < z.length; i++) {
+            for (int j = 0; j < z[0].length; j++) {
+                z[i][j] = new ComplexNumber(z[i][j].imaginary, z[i][j].real);
+            }
+        }
+    }
+    
+    /**
      * Adds two complex numbers.
      * @param z1 Complex Number.
      * @param z2 Complex Number.

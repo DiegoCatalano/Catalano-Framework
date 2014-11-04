@@ -4,4 +4,7 @@ SURF Descriptor
 RegionalMax
 RegionalMin
 MagicKernelResize
-*Fix: Replicate in the Convolution and Separable Convolution
+BSIF: Binarized Statistical Image Features
+Fourier Transform (Matlab compatibility)
+Bezier Curve in Fast Graphics
+Fourier Descriptors
