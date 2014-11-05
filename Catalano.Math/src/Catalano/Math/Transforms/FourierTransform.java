@@ -33,6 +33,21 @@ import Catalano.Math.Tools;
  * @author Diego Catalano
  */
 public class FourierTransform {
+    
+    /**
+     * Scaling expoent.
+     */
+    public enum Scale {
+        /**
+         * No scaling.
+         */
+        NoScaling,
+        
+        /**
+         * Scale only in the backward (1/n). Used in Matlab.
+         */
+        AsymetricScaling,
+    }
 
     /**
      * Transformation direction.
@@ -188,7 +203,22 @@ public class FourierTransform {
         }
     }
     
-    public static void FFT( ComplexNumber[] data, Direction direction ) {
+    /**
+     * 1-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     */
+    public static void FFT( ComplexNumber[] data, Direction direction){
+        FFT(data, direction, Scale.NoScaling);
+    }
+    
+    /**
+     * 1-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     * @param scale Scale expoent.
+     */
+    public static void FFT( ComplexNumber[] data, Direction direction, Scale scale ) {
         int n = data.length;
         int m = Tools.Log2( n );
 
@@ -209,7 +239,7 @@ public class FourierTransform {
 
                         for ( int even = i; even < n; even += tn )
                         {
-                                int		odd = even + tm;
+                                int odd = even + tm;
                                 ComplexNumber ce = new ComplexNumber(data[even]);
                                 ComplexNumber co = new ComplexNumber(data[odd]);
 
@@ -224,16 +254,33 @@ public class FourierTransform {
                         }
                 }
         }
-
-        if ( direction == Direction.Forward ) {
-            for (int i = 0; i < n; i++) {
-                data[i].real /= (double) n;
-                data[i].imaginary /= (double) n;
+        
+        if (scale == Scale.AsymetricScaling){
+            if ( direction == Direction.Backward ) {
+                for (int i = 0; i < n; i++) {
+                    data[i].real /= (double) n;
+                    data[i].imaginary /= (double) n;
+                }
             }
         }
     }
     
-    public static void FFT2( ComplexNumber[][] data, Direction direction ){
+    /**
+     * 2-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     */
+    public static void FFT2( ComplexNumber[][] data, Direction direction){
+        FFT2(data, direction, Scale.NoScaling);
+    }
+    
+    /**
+     * 2-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     * @param scale Scale expoent.
+     */
+    public static void FFT2( ComplexNumber[][] data, Direction direction, Scale scale ){
         int k = data.length;
         int n = data[0].length;
 
@@ -256,7 +303,7 @@ public class FourierTransform {
                 for ( int j = 0; j < n; j++ )
                         row[j] = data[i][j];
                 // transform it
-                FourierTransform.FFT( row, direction );
+                FourierTransform.FFT( row, direction, scale );
                 // copy back
                 for ( int j = 0; j < n; j++ )
                         data[i][j] = row[j];
@@ -270,7 +317,7 @@ public class FourierTransform {
                 for ( int i = 0; i < k; i++ )
                         col[i] = data[i][j];
                 // transform it
-                FourierTransform.FFT( col, direction );
+                FourierTransform.FFT( col, direction, scale );
                 // copy back
                 for ( int i = 0; i < k; i++ )
                         data[i][j] = col[i];
@@ -342,7 +389,7 @@ public class FourierTransform {
             double uI = 0.0;
             double angle = Math.PI / n * dir;
             double wR = Math.cos( angle );
-            double wI = Math.sin( angle );
+            double wI = -Math.sin( angle );
             double t;
             ComplexNumber[]	rotation = new ComplexNumber[n];
 
