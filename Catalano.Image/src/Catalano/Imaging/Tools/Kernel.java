@@ -48,6 +48,25 @@ public class Kernel {
     }
     
     /**
+     * Check if the kernel is normalized.
+     * If the sum of elements its approximated equals 1.
+     * 
+     * @param kernel Kernel.
+     * @return True if is normalized, otherwise false.
+     */
+    public static boolean isNormalized(double[] kernel){
+        
+        double sum = 0;
+        for (int i = 0; i < kernel.length; i++) {
+            sum += kernel[i];
+        }
+        long n = Math.round(sum);
+        if (n == 1) return true;
+        return false;
+        
+    }
+    
+    /**
      * Check if the kernel is separable (Separable convolution).
      * @param kernel Kernel.
      * @return True if the kernel can be decomposed, otherwise false.
@@ -102,6 +121,22 @@ public class Kernel {
             for (int j = 0; j < kernel[0].length; j++) {
                 k[i][j] = (int)(kernel[i][j] / min);
             }
+        }
+        
+        return k;
+        
+    }
+    
+    public static int[] toInt(double[] kernel){
+        
+        double min = Matrix.Min(kernel);
+        
+        if (min == 0)
+            throw new IllegalArgumentException("The kernel can't be normalized.");
+        
+        int[] k = new int[kernel.length];
+        for (int i = 0; i < kernel.length; i++) {
+            k[i] = (int)(kernel[i] / min);
         }
         
         return k;

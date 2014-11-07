@@ -76,6 +76,9 @@ Version updates and fixes:
 * Catalano.Math
     - New: Taylor Series.
 
+    - Fixed: FFT,FFT2 in Fourier Transform. Was scaling expoent wrong and calculate sin in complex rotation wrong.
+
+    - Added: Scale enum in Fourier Transform.
     - Added: getReal, getImaginary in ComplexNumber for 1,2 dimensions.
     - Added: Sum in Matrix.
     - Added: CreateMatrix2D in Matrix.

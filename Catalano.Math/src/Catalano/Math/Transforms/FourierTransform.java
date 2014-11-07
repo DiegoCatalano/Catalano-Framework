@@ -4,8 +4,6 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -71,47 +69,42 @@ public class FourierTransform {
      */
     public static void DFT(ComplexNumber[] data, Direction direction){
         int n = data.length;
-        double arg, cos, sin;
         ComplexNumber[] c = new ComplexNumber[n];
-        int d = 1;
-        if (direction == Direction.Backward) {
-            d = -1;
-        }
-        
         
         // for each destination element
         for ( int i = 0; i < n; i++ ){
                 c[i] = new ComplexNumber(0, 0);
-
-                arg = - (int) d * 2.0 * Math.PI * (double) i / (double) n;
+                double sumRe = 0;
+                double sumIm = 0;
+                double phim = 2 * Math.PI * i / n;
 
                 // sum source elements
                 for ( int j = 0; j < n; j++ ){
-                        cos = Math.cos( j * arg );
-                        sin = Math.sin( j * arg );
-                        
-                        if (data[j] == null) {
-                            data[j] = new ComplexNumber(0, 0);
-                        }
+                        double gRe = data[j].real;
+                        double gIm = data[j].imaginary;
+                        double cosw = Math.cos(phim * j);
+                        double sinw = Math.sin(phim * j);
+                        if(direction == Direction.Backward)
+                            sinw = -sinw;
 
-                        c[i].real += ( data[j].real * cos - data[j].imaginary * sin );
-                        c[i].imaginary += ( data[j].real * sin + data[j].imaginary * cos );
+                        sumRe += ( gRe * cosw + data[j].imaginary * sinw );
+                        sumIm += ( gIm * cosw - data[j].real * sinw );
                 }
+                
+                c[i] = new ComplexNumber(sumRe, sumIm);
         }
-
-        // copy elements
-        if ( direction == Direction.Forward ){
-                // devide also for forward transform
-                for ( int i = 0; i < n; i++ ){
-                        data[i].real = c[i].real / n;
-                        data[i].imaginary = c[i].imaginary / n;
-                }
+        
+        if(direction == Direction.Backward){
+            for (int i = 0; i < c.length; i++) {
+                data[i].real = c[i].real / n;
+                data[i].imaginary = c[i].imaginary / n;
+            }
         }
         else{
-                for ( int i = 0; i < n; i++ ){
-                        data[i].real = c[i].real;
-                        data[i].imaginary = c[i].imaginary;
-                }
+            for (int i = 0; i < c.length; i++) {
+                data[i].real = c[i].real;
+                data[i].imaginary = c[i].imaginary;
+            }
         }
     }
     
@@ -124,82 +117,31 @@ public class FourierTransform {
         
         int n = data.length;
         int m = data[0].length;
-        double arg, cos, sin;
-        ComplexNumber[] c = new ComplexNumber[Math.max(m, n)];
-        int d = 1;
-        if (direction == Direction.Backward) {
-            d = -1;
-        }
+        ComplexNumber[] row = new ComplexNumber[Math.max(m, n)];
         
-        // process rows
         for ( int i = 0; i < n; i++ ){
-            for ( int j = 0; j < m; j++ ){
-                c[j] = new ComplexNumber(0, 0);
-
-                arg = - (int) d * 2.0 * Math.PI * (double) j / (double) m;
-
-                // sum source elements
-                for ( int k = 0; k < m; k++ ){
-                    
-                    if (data[i][k] == null) {
-                        data[i][k] = new ComplexNumber(0, 0);
-                    }
-                    
-                    cos = Math.cos( k * arg );
-                    sin = Math.sin( k * arg );
-
-                    c[j].real += ( data[i][k].real * cos - data[i][k].imaginary * sin );
-                    c[j].imaginary += ( data[i][k].real * sin + data[i][k].imaginary * cos );
-                }
-            }
-
-            // copy elements
-            if ( direction == Direction.Forward ){
-                // devide also for forward transform
-                for ( int j = 0; j < m; j++ ){
-                    data[i][j].real = c[j].real / m;
-                    data[i][j].imaginary = c[j].imaginary / m;
-                }
-            }
-            else{
-                for ( int j = 0; j < m; j++ ){
-                    data[i][j].real = c[j].real;
-                    data[i][j].imaginary = c[j].imaginary;
-                }
-            }
+                // copy row
+                for ( int j = 0; j < n; j++ )
+                        row[j] = data[i][j];
+                // transform it
+                FourierTransform.DFT( row, direction );
+                // copy back
+                for ( int j = 0; j < n; j++ )
+                        data[i][j] = row[j];
         }
-        
+
         // process columns
-        for ( int j = 0; j < m; j++ ){
-            for ( int i = 0; i < n; i++ ){
-                c[i] = new ComplexNumber(0, 0);
+        ComplexNumber[]	col = new ComplexNumber[n];
 
-                arg = - (int) d * 2.0 * Math.PI * (double) i / (double) n;
-
-                // sum source elements
-                for ( int k = 0; k < n; k++ ){
-                    cos = Math.cos( k * arg );
-                    sin = Math.sin( k * arg );
-
-                    c[i].real += ( data[k][j].real * cos - data[k][j].imaginary * sin );
-                    c[i].imaginary += ( data[k][j].real * sin + data[k][j].imaginary * cos );
-                }
-            }
-
-            // copy elements
-            if ( direction == Direction.Forward ){
-                // devide also for forward transform
-                for ( int i = 0; i < n; i++ ){
-                    data[i][j].real = c[i].real / n;
-                    data[i][j].imaginary = c[i].imaginary / n;
-                }
-            }
-            else{
-                for ( int i = 0; i < n; i++ ){
-                    data[i][j].real = c[i].real;
-                    data[i][j].imaginary = c[i].imaginary;
-                }
-            }
+        for ( int j = 0; j < n; j++ ){
+                // copy column
+                for ( int i = 0; i < n; i++ )
+                        col[i] = data[i][j];
+                // transform it
+                FourierTransform.DFT( col, direction );
+                // copy back
+                for ( int i = 0; i < n; i++ )
+                        data[i][j] = col[i];
         }
     }
     
@@ -263,6 +205,7 @@ public class FourierTransform {
                 }
             }
         }
+        
     }
     
     /**
