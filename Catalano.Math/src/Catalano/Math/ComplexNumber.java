@@ -92,7 +92,7 @@ public class ComplexNumber {
      * @param cn Complex numbers.
      * @return Real part.
      */
-    public double[] getReal(ComplexNumber[] cn){
+    public static double[] getReal(ComplexNumber[] cn){
         double[] n = new double[cn.length];
         for (int i = 0; i < n.length; i++) {
             n[i] = cn[i].real;
@@ -105,7 +105,7 @@ public class ComplexNumber {
      * @param cn Complex numbers.
      * @return Imaginary part.
      */
-    public double[] getImaginary(ComplexNumber[] cn){
+    public static double[] getImaginary(ComplexNumber[] cn){
         double[] n = new double[cn.length];
         for (int i = 0; i < n.length; i++) {
             n[i] = cn[i].imaginary;
@@ -118,7 +118,7 @@ public class ComplexNumber {
      * @param cn Complex numbers.
      * @return Real part.
      */
-    public double[][] getReal(ComplexNumber[][] cn){
+    public static double[][] getReal(ComplexNumber[][] cn){
         double[][] n = new double[cn.length][cn[0].length];
         for (int i = 0; i < n.length; i++) {
             for (int j = 0; j < n[0].length; j++) {
@@ -133,7 +133,7 @@ public class ComplexNumber {
      * @param cn Complex numbers.
      * @return Imaginary part.
      */
-    public double[][] getImaginary(ComplexNumber[][] cn){
+    public static double[][] getImaginary(ComplexNumber[][] cn){
         double[][] n = new double[cn.length][cn[0].length];
         for (int i = 0; i < n.length; i++) {
             for (int j = 0; j < n[0].length; j++) {

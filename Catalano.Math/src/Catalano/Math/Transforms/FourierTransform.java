@@ -4,6 +4,9 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
+// Copyright © Nayuki Minase, 2014
+// nayuki at eigenstate.org
+// http://nayuki.eigenstate.org/page/free-small-fft-in-multiple-languages
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -19,11 +22,32 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+// Contains functions from the Free FFT and convolution:
+// Copyright © Nayuki Minase, 2014
+// Original work: http://nayuki.eigenstate.org/page/free-small-fft-in-multiple-languages
+//
+// Original license is listed below:
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+//
+// - The above copyright notice and this permission notice shall be included in
+//    all copies or substantial portions of the Software.
+// - The Software is provided "as is", without warranty of any kind, express or
+//    implied, including but not limited to the warranties of merchantability,
+//    fitness for a particular purpose and noninfringement. In no event shall the
+//    authors or copyright holders be liable for any claim, damages or other
+//    liability, whether in an action of contract, tort or otherwise, arising from,
+//    out of or in connection with the Software or the use or other dealings in the
+//    Software.
 
 package Catalano.Math.Transforms;
 
 import Catalano.Math.ComplexNumber;
-import Catalano.Math.Tools;
 
 /**
  * Fourier transformation.
@@ -31,21 +55,6 @@ import Catalano.Math.Tools;
  * @author Diego Catalano
  */
 public class FourierTransform {
-    
-    /**
-     * Scaling expoent.
-     */
-    public enum Scale {
-        /**
-         * No scaling.
-         */
-        NoScaling,
-        
-        /**
-         * Scale only in the backward (1/n). Used in Matlab.
-         */
-        AsymetricScaling,
-    }
 
     /**
      * Transformation direction.
@@ -145,207 +154,250 @@ public class FourierTransform {
         }
     }
     
-    /**
-     * 1-D Fast Fourier Transform.
-     * @param data Data to transform.
-     * @param direction Transformation direction.
-     */
-    public static void FFT( ComplexNumber[] data, Direction direction){
-        FFT(data, direction, Scale.NoScaling);
-    }
-    
-    /**
-     * 1-D Fast Fourier Transform.
-     * @param data Data to transform.
-     * @param direction Transformation direction.
-     * @param scale Scale expoent.
-     */
-    public static void FFT( ComplexNumber[] data, Direction direction, Scale scale ) {
-        int n = data.length;
-        int m = Tools.Log2( n );
-
-        // reorder data first
-        ReorderData( data );
-
-        // compute FFT
-        int tn = 1, tm;
-
-        for ( int k = 1; k <= m; k++ ){
-                ComplexNumber[] rotation = FourierTransform.GetComplexRotation( k, direction );
-
-                tm = tn;
-                tn <<= 1;
-
-                for ( int i = 0; i < tm; i++ ){
-                        ComplexNumber t = rotation[i];
-
-                        for ( int even = i; even < n; even += tn )
-                        {
-                                int odd = even + tm;
-                                ComplexNumber ce = new ComplexNumber(data[even]);
-                                ComplexNumber co = new ComplexNumber(data[odd]);
-
-                                double	tr = co.real * t.real - co.imaginary * t.imaginary;
-                                double	ti = co.real * t.imaginary + co.imaginary * t.real;
-
-                                data[even].real += tr;
-                                data[even].imaginary += ti;
-
-                                data[odd].real = ce.real - tr;
-                                data[odd].imaginary = ce.imaginary - ti;
-                        }
-                }
-        }
-        
-        if (scale == Scale.AsymetricScaling){
-            if ( direction == Direction.Backward ) {
-                for (int i = 0; i < n; i++) {
-                    data[i].real /= (double) n;
-                    data[i].imaginary /= (double) n;
-                }
+    public static void FFT(ComplexNumber[] data, Direction direction){
+        double[] real = ComplexNumber.getReal(data);
+        double[] img = ComplexNumber.getImaginary(data);
+        if(direction == Direction.Forward)
+            FFT(real,img);
+        else
+            FFT(img, real);
+        if(direction == Direction.Forward){
+            for (int i = 0; i < real.length; i++) {
+                data[i] = new ComplexNumber(real[i], img[i]);
             }
         }
-        
-    }
-    
-    /**
-     * 2-D Fast Fourier Transform.
-     * @param data Data to transform.
-     * @param direction Transformation direction.
-     */
-    public static void FFT2( ComplexNumber[][] data, Direction direction){
-        FFT2(data, direction, Scale.NoScaling);
-    }
-    
-    /**
-     * 2-D Fast Fourier Transform.
-     * @param data Data to transform.
-     * @param direction Transformation direction.
-     * @param scale Scale expoent.
-     */
-    public static void FFT2( ComplexNumber[][] data, Direction direction, Scale scale ){
-        int k = data.length;
-        int n = data[0].length;
-
-        // check data size
-        if (
-                ( !Tools.IsPowerOf2( k ) ) ||
-                ( !Tools.IsPowerOf2( n ) ) ||
-                ( k < minLength ) || ( k > maxLength ) ||
-                ( n < minLength ) || ( n > maxLength )
-                )
-        {
-                throw new IllegalArgumentException( "Incorrect data length." );
+        else{
+            int n = real.length;
+            for (int i = 0; i < n; i++) {
+                data[i] = new ComplexNumber(real[i] / n, img[i] / n);
+            }
         }
-
-        // process rows
-        ComplexNumber[]	row = new ComplexNumber[n];
-
-        for ( int i = 0; i < k; i++ ){
+    }
+    
+    public static void FFT2(ComplexNumber[][] data, Direction direction){
+        int n = data.length;
+        int m = data[0].length;
+        ComplexNumber[] row = new ComplexNumber[Math.max(m, n)];
+        
+        for ( int i = 0; i < n; i++ ){
                 // copy row
                 for ( int j = 0; j < n; j++ )
                         row[j] = data[i][j];
                 // transform it
-                FourierTransform.FFT( row, direction, scale );
+                FourierTransform.FFT( row, direction );
                 // copy back
                 for ( int j = 0; j < n; j++ )
                         data[i][j] = row[j];
         }
 
         // process columns
-        ComplexNumber[]	col = new ComplexNumber[k];
+        ComplexNumber[]	col = new ComplexNumber[n];
 
         for ( int j = 0; j < n; j++ ){
                 // copy column
-                for ( int i = 0; i < k; i++ )
+                for ( int i = 0; i < n; i++ )
                         col[i] = data[i][j];
                 // transform it
-                FourierTransform.FFT( col, direction, scale );
+                FourierTransform.FFT( col, direction );
                 // copy back
-                for ( int i = 0; i < k; i++ )
+                for ( int i = 0; i < n; i++ )
                         data[i][j] = col[i];
         }
     }
     
-    private static void ReorderData( ComplexNumber[] data ){
-        int len = data.length;
+    /* 
+     * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
+     * The vector can have any length. This is a wrapper function.
+     */
+    private static void FFT(double[] real, double[] imag) {
+        int n = real.length;
+        if (n == 0)
+                return;
+        else if ((n & (n - 1)) == 0)  // Is power of 2
+                transformRadix2(real, imag);
+        else  // More complicated algorithm for arbitrary sizes
+                transformBluestein(real, imag);
+    }
+	
+	
+    /* 
+     * Computes the inverse discrete Fourier transform (IDFT) of the given complex vector, storing the result back into the vector.
+     * The vector can have any length. This is a wrapper function. This transform does not perform scaling, so the inverse is not a true inverse.
+     */
+    private static void inverseTransform(double[] real, double[] imag) {
+        FFT(imag, real);
+    }
+	
+	
+    /* 
+     * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
+     * The vector's length must be a power of 2. Uses the Cooley-Tukey decimation-in-time radix-2 algorithm.
+     */
+    private static void transformRadix2(double[] real, double[] imag) {
+        int n = real.length;
+        int levels = 31 - Integer.numberOfLeadingZeros(n);  // Equal to floor(log2(n))
+        if (1 << levels != n)
+            throw new IllegalArgumentException("Length is not a power of 2");
+        double[] cosTable = new double[n / 2];
+        double[] sinTable = new double[n / 2];
+        for (int i = 0; i < n / 2; i++) {
+            cosTable[i] = Math.cos(2 * Math.PI * i / n);
+            sinTable[i] = Math.sin(2 * Math.PI * i / n);
+        }
 
-        // check data length
-        if ( ( len < minLength ) || ( len > maxLength ) || ( !Tools.IsPowerOf2( len ) ) )
-                throw new IllegalArgumentException( "Incorrect data length." );
+        // Bit-reversed addressing permutation
+        for (int i = 0; i < n; i++) {
+            int j = Integer.reverse(i) >>> (32 - levels);
+            if (j > i) {
+                    double temp = real[i];
+                    real[i] = real[j];
+                    real[j] = temp;
+                    temp = imag[i];
+                    imag[i] = imag[j];
+                    imag[j] = temp;
+            }
+        }
 
-        int[] rBits = GetReversedBits( Tools.Log2( len ) );
-
-        for ( int i = 0; i < len; i++ )
-        {
-                int s = rBits[i];
-
-                if ( s > i )
-                {
-                        ComplexNumber t = data[i];
-                        data[i] = data[s];
-                        data[s] = t;
+        // Cooley-Tukey decimation-in-time radix-2 FFT
+        for (int size = 2; size <= n; size *= 2) {
+            int halfsize = size / 2;
+            int tablestep = n / size;
+            for (int i = 0; i < n; i += size) {
+                for (int j = i, k = 0; j < i + halfsize; j++, k += tablestep) {
+                    double tpre =  real[j+halfsize] * cosTable[k] + imag[j+halfsize] * sinTable[k];
+                    double tpim = -real[j+halfsize] * sinTable[k] + imag[j+halfsize] * cosTable[k];
+                    real[j + halfsize] = real[j] - tpre;
+                    imag[j + halfsize] = imag[j] - tpim;
+                    real[j] += tpre;
+                    imag[j] += tpim;
                 }
+            }
+            if (size == n)  // Prevent overflow in 'size *= 2'
+                break;
+        }
+    }
+	
+    /* 
+     * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
+     * The vector can have any length. This requires the convolution function, which in turn requires the radix-2 FFT function.
+     * Uses Bluestein's chirp z-transform algorithm.
+     */
+    private static void transformBluestein(double[] real, double[] imag) {
+        int n = real.length;
+        if (n >= 0x20000000)
+            throw new IllegalArgumentException("Array too large");
+        int m = Integer.highestOneBit(n * 2 + 1) << 1;
+
+        // Trignometric tables
+        double[] cosTable = new double[n];
+        double[] sinTable = new double[n];
+        for (int i = 0; i < n; i++) {
+            int j = (int)((long)i * i % (n * 2));  // This is more accurate than j = i * i
+            cosTable[i] = Math.cos(Math.PI * j / n);
+            sinTable[i] = Math.sin(Math.PI * j / n);
+        }
+
+        // Temporary vectors and preprocessing
+        double[] areal = new double[m];
+        double[] aimag = new double[m];
+        for (int i = 0; i < n; i++) {
+            areal[i] =  real[i] * cosTable[i] + imag[i] * sinTable[i];
+            aimag[i] = -real[i] * sinTable[i] + imag[i] * cosTable[i];
+        }
+        double[] breal = new double[m];
+        double[] bimag = new double[m];
+        breal[0] = cosTable[0];
+        bimag[0] = sinTable[0];
+        for (int i = 1; i < n; i++) {
+            breal[i] = breal[m - i] = cosTable[i];
+            bimag[i] = bimag[m - i] = sinTable[i];
+        }
+
+        // Convolution
+        double[] creal = new double[m];
+        double[] cimag = new double[m];
+        convolve(areal, aimag, breal, bimag, creal, cimag);
+
+        // Postprocessing
+        for (int i = 0; i < n; i++) {
+            real[i] =  creal[i] * cosTable[i] + cimag[i] * sinTable[i];
+            imag[i] = -creal[i] * sinTable[i] + cimag[i] * cosTable[i];
+        }
+    }
+	
+	
+    /* 
+     * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
+     */
+    private static void convolve(double[] x, double[] y, double[] out) {
+        if (x.length != y.length || x.length != out.length)
+                throw new IllegalArgumentException("Mismatched lengths");
+        int n = x.length;
+        convolve(x, new double[n], y, new double[n], out, new double[n]);
+    }
+    
+    /* 
+     * Computes the circular convolution of the given complex vectors. Each vector's length must be the same.
+     */
+    private static void convolve(double[] xreal, double[] ximag, double[] yreal, double[] yimag, double[] outreal, double[] outimag) {
+        if (xreal.length != ximag.length || xreal.length != yreal.length || yreal.length != yimag.length || xreal.length != outreal.length || outreal.length != outimag.length)
+            throw new IllegalArgumentException("Mismatched lengths");
+
+        int n = xreal.length;
+        xreal = xreal.clone();
+        ximag = ximag.clone();
+        yreal = yreal.clone();
+        yimag = yimag.clone();
+
+        FFT(xreal, ximag);
+        FFT(yreal, yimag);
+        for (int i = 0; i < n; i++) {
+            double temp = xreal[i] * yreal[i] - ximag[i] * yimag[i];
+            ximag[i] = ximag[i] * yreal[i] + xreal[i] * yimag[i];
+            xreal[i] = temp;
+        }
+        inverseTransform(xreal, ximag);
+        for (int i = 0; i < n; i++) {  // Scaling (because this FFT implementation omits it)
+            outreal[i] = xreal[i] / n;
+            outimag[i] = ximag[i] / n;
         }
     }
     
-    private static final int minLength	= 2;
-    private static final int maxLength	= 16384;
-    private static final int minBits = 1;
-    private static final int maxBits = 14;
-    private static int[][] reversedBits = new int[maxBits][];
-    private static ComplexNumber[][][]	complexRotation = new ComplexNumber[maxBits][2][];
-    
-    private static int[] GetReversedBits( int numberOfBits ){
-            if ( ( numberOfBits < minBits ) || ( numberOfBits > maxBits ) )
-                    throw new IllegalArgumentException("Fourier out of range.");
-
-            // check if the array is already calculated
-            if ( reversedBits[numberOfBits - 1] == null ){
-                    int		n = Tools.Pow2( numberOfBits );
-                    int[]	rBits = new int[n];
-
-                    // calculate the array
-                    for ( int i = 0; i < n; i++ ){
-                            int oldBits = i;
-                            int newBits = 0;
-
-                            for ( int j = 0; j < numberOfBits; j++ ){
-                                    newBits = ( newBits << 1 ) | ( oldBits & 1 );
-                                    oldBits = ( oldBits >> 1 );
-                            }
-                            rBits[i] = newBits;
-                    }
-                    reversedBits[numberOfBits - 1] = rBits;
-            }
-            return reversedBits[numberOfBits - 1];
-    }
-    
-    private static ComplexNumber[] GetComplexRotation( int numberOfBits, Direction direction ){
-        int directionIndex = ( direction == Direction.Forward ) ? 0 : 1;
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param x Data.
+     * @param direction Transformation direction.
+     */
+    public static void FFTShift(double[] x, Direction direction) {
         
-        // check if the array is already calculated
-        if ( complexRotation[numberOfBits - 1][directionIndex] == null ){
-            int dir = direction == Direction.Forward ? 1 : -1;
-            int n = 1 << ( numberOfBits - 1 );
-            double uR = 1.0;
-            double uI = 0.0;
-            double angle = Math.PI / n * dir;
-            double wR = Math.cos( angle );
-            double wI = -Math.sin( angle );
-            double t;
-            ComplexNumber[]	rotation = new ComplexNumber[n];
-
-            for ( int i = 0; i < n; i++ )
-            {
-                    rotation[i] = new ComplexNumber( uR, uI );
-                    t = uR * wI + uI * wR;
-                    uR = uR * wR - uI * wI;
-                    uI = t;
+        if (x.length == 1)
+            return;
+        
+        double[] temp = x.clone();
+        int move = x.length / 2;
+        
+        if(direction == Direction.Forward){
+            int c = 0;
+            for (int i = x.length - move; i < x.length; i++) {
+                x[c] = temp[i];
+                c++;
             }
 
-            complexRotation[numberOfBits - 1][directionIndex] = rotation;
+            for (int i = 0; i < x.length - move; i++) {
+                x[c] = temp[i];
+                c++;
+            }
         }
-        return complexRotation[numberOfBits - 1][directionIndex];
+        else{
+            int c = 0;
+            for (int i = move; i < x.length; i++) {
+                x[move+c] = temp[c];
+                c++;
+            }
+            
+            for (int i = 0; i < move; i++) {
+                x[i] = temp[move+i];
+            }
+        }
     }
 }
