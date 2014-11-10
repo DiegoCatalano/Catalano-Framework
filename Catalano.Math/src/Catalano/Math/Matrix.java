@@ -807,6 +807,11 @@ public final class Matrix {
         }
     }
     
+    /**
+     * Sum all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
     public static double Sum(double[][] A){
         double sum = 0;
         for (int i = 0; i < A.length; i++) {
@@ -818,6 +823,11 @@ public final class Matrix {
         return sum;
     }
     
+    /**
+     * Sum all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
     public static int Sum(int[][] A){
         int sum = 0;
         for (int i = 0; i < A.length; i++) {
@@ -829,11 +839,64 @@ public final class Matrix {
         return sum;
     }
     
+    /**
+     * Sum all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
     public static float Sum(float[][] A){
         float sum = 0;
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
                 sum += A[i][j];
+            }
+        }
+        
+        return sum;
+    }
+    
+    /**
+     * Sum absolute of all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
+    public static double SumAbs(double[][] A){
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.abs(A[i][j]);
+            }
+        }
+        
+        return sum;
+    }
+    
+    /**
+     * Sum absolute of all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
+    public static int SumAbs(int[][] A){
+        int sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.abs(A[i][j]);
+            }
+        }
+        
+        return sum;
+    }
+    
+    /**
+     * Sum absolute of all the elements in the matrix.
+     * @param A Matrix.
+     * @return Sum of the Matrix.
+     */
+    public static float SumAbs(float[][] A){
+        float sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.abs(A[i][j]);
             }
         }
         

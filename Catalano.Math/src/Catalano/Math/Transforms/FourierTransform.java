@@ -154,6 +154,11 @@ public class FourierTransform {
         }
     }
     
+    /**
+     * 1-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     */
     public static void FFT(ComplexNumber[] data, Direction direction){
         double[] real = ComplexNumber.getReal(data);
         double[] img = ComplexNumber.getImaginary(data);
@@ -174,6 +179,11 @@ public class FourierTransform {
         }
     }
     
+    /**
+     * 2-D Fast Fourier Transform.
+     * @param data Data to transform.
+     * @param direction Transformation direction.
+     */
     public static void FFT2(ComplexNumber[][] data, Direction direction){
         int n = data.length;
         int m = data[0].length;
@@ -211,12 +221,12 @@ public class FourierTransform {
      */
     private static void FFT(double[] real, double[] imag) {
         int n = real.length;
-        if (n == 0)
-                return;
-        else if ((n & (n - 1)) == 0)  // Is power of 2
-                transformRadix2(real, imag);
+        if (n == 0) {
+            return;
+        } else if ((n & (n - 1)) == 0)  // Is power of 2
+            transformRadix2(real, imag);
         else  // More complicated algorithm for arbitrary sizes
-                transformBluestein(real, imag);
+            transformBluestein(real, imag);
     }
 	
 	
@@ -227,7 +237,6 @@ public class FourierTransform {
     private static void inverseTransform(double[] real, double[] imag) {
         FFT(imag, real);
     }
-	
 	
     /* 
      * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
@@ -272,7 +281,9 @@ public class FourierTransform {
                     imag[j] += tpim;
                 }
             }
-            if (size == n)  // Prevent overflow in 'size *= 2'
+            
+            // Prevent overflow in 'size *= 2'
+            if (size == n)
                 break;
         }
     }
@@ -284,8 +295,6 @@ public class FourierTransform {
      */
     private static void transformBluestein(double[] real, double[] imag) {
         int n = real.length;
-        if (n >= 0x20000000)
-            throw new IllegalArgumentException("Array too large");
         int m = Integer.highestOneBit(n * 2 + 1) << 1;
 
         // Trignometric tables
@@ -325,7 +334,6 @@ public class FourierTransform {
         }
     }
 	
-	
     /* 
      * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
      */
@@ -344,10 +352,6 @@ public class FourierTransform {
             throw new IllegalArgumentException("Mismatched lengths");
 
         int n = xreal.length;
-        xreal = xreal.clone();
-        ximag = ximag.clone();
-        yreal = yreal.clone();
-        yimag = yimag.clone();
 
         FFT(xreal, ximag);
         FFT(yreal, yimag);
@@ -357,7 +361,9 @@ public class FourierTransform {
             xreal[i] = temp;
         }
         inverseTransform(xreal, ximag);
-        for (int i = 0; i < n; i++) {  // Scaling (because this FFT implementation omits it)
+        
+        // Scaling (because this FFT implementation omits it)
+        for (int i = 0; i < n; i++) {
             outreal[i] = xreal[i] / n;
             outimag[i] = ximag[i] / n;
         }
