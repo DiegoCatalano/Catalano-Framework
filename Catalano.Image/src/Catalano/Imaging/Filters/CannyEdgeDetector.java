@@ -31,13 +31,16 @@ import Catalano.Imaging.IBaseInPlace;
  * Canny edge detector.
  * The filter searches for objects' edges by applying Canny edge detector. The implementation follows Bill Green's Canny edge detection tutorial.
  * 
- * <para>The implemented canny edge detector has one difference with the above linked algorithm.
+ * <p>The implemented canny edge detector has one difference with the above linked algorithm.
  * The difference is in hysteresis step, which is a bit simplified (getting faster as a result).
  * On the hysteresis step each pixel is compared with two threshold values: HighThreshold and LowThreshold.
  * If pixel's value is greater or equal to HighThreshold, then it is kept as edge pixel.
  * If pixel's value is greater or equal to LowThreshold, then it is kept as edge pixel only if there is at least one neighbouring pixel (8 neighbours are checked)
  * which has value greater or equal to HighThreshold; otherwise it is none edge pixel.
- * In the case if pixel's value is less than LowThreshold, then it is marked as none edge immediately. </para>
+ * In the case if pixel's value is less than LowThreshold, then it is marked as none edge immediately. </p>
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

@@ -31,7 +31,10 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Additive noise filter.
  * 
- * <para>The filter adds random value to each pixel of the source image.</para>
+ * <p>The filter adds random value to each pixel of the source image.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

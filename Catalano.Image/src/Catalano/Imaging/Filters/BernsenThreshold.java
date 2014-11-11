@@ -28,11 +28,14 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Bernsen Threshold.
  * 
- * <para>The method uses a user-provided contrast threshold.
+ * <p>The method uses a user-provided contrast threshold.
  * If the local contrast (max-min) is above or equal to the contrast threshold, the threshold is set
  * at the local midgrey value (the mean of the minimum and maximum grey values in the local window).
  * If the local contrast is below the contrast threshold the neighbourhood is considered to consist only of one class
- * and the pixel is set to object or background depending on the value of the midgrey.</para>
+ * and the pixel is set to object or background depending on the value of the midgrey.</p>
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

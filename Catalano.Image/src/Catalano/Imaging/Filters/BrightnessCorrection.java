@@ -30,6 +30,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Brightness adjusting in RGB color space.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BrightnessCorrection implements IBaseInPlace{

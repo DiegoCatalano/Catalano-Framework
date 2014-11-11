@@ -29,6 +29,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Blur filter.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Blur implements IBaseInPlace{

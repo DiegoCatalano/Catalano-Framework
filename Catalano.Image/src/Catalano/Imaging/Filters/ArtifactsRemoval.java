@@ -26,8 +26,12 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Remove artifacts caused by uneven lightning.
- * Actually this technique is useful as a preprocessing step for all texture measures.
- * Reference: Computer Imaging: digital image analysis and processing / Scott E. Umbaugh. Chapter 6. p. 276
+ * <p>Actually this technique is useful as a preprocessing step for all texture measures.</p>
+ * <br>Reference: Computer Imaging: digital image analysis and processing / Scott E. Umbaugh. Chapter 6. p. 276
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class ArtifactsRemoval implements IBaseInPlace{

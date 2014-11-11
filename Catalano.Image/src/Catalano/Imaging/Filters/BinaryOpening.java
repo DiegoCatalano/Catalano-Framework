@@ -26,7 +26,11 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Binary Opening operator from Mathematical Morphology.
- * <br /> Applied to binary image, the filter may be used for removing small object keeping big objects unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big objects, which were not removed by erosion.
+ * <p> Applied to binary image, the filter may be used for removing small object keeping big objects unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big objects, which were not removed by erosion.</p>
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BinaryOpening implements IBaseInPlace{

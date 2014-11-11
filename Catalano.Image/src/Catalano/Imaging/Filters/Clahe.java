@@ -30,10 +30,14 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Contrast Limited Adaptive Histogram Equalization.
  * 
- * This feature can also be applied to global histogram equalization, giving rise to
- * contrast limited histogram equalization (CLHE) which is rarely used in practice.
+ * <p>This feature can also be applied to global histogram equalization, giving rise to
+ * contrast limited histogram equalization (CLHE) which is rarely used in practice.</p>
  * 
- * References: http://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE
+ * <br>References: http://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Clahe implements IBaseInPlace{

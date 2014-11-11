@@ -28,7 +28,11 @@ import java.util.Arrays;
 
 /**
  * Alpha Trimmed Mean filter.
- * The alpha trimmed mean filter is normally used to reduce noise in an image, somewhat like the mean and median filter. However, it often does a better job than the mean filter of preserving useful detail in the image.
+ * <p>The alpha trimmed mean filter is normally used to reduce noise in an image, somewhat like the mean and median filter. However, it often does a better job than the mean filter of preserving useful detail in the image.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class AlphaTrimmedMean implements IBaseInPlace{

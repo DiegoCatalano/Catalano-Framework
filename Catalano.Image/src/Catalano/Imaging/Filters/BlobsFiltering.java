@@ -30,6 +30,10 @@ import java.util.ArrayList;
 
 /**
  * Eliminates blobs with certain area or size.
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BlobsFiltering implements IBaseInPlace{

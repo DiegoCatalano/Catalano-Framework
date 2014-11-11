@@ -30,6 +30,10 @@ import Catalano.Imaging.Tools.IntegralImage;
 
 /**
  * Adaptive thresholding using the integral image.
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BradleyLocalThreshold implements IBaseInPlace{

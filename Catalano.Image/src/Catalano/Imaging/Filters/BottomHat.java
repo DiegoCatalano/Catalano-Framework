@@ -31,6 +31,10 @@ import Catalano.Imaging.IBaseInPlace;
  * Bottom-hat operator from Mathematical Morphology. 
  * <br /> Bottom-hat morphological operator subtracts input image from the result of morphological closing on the the input image.
  * <br /> Applied to binary image, the filter allows to get all object parts, which were added by closing filter, but were not removed after that due to formed connections/fillings.
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BottomHat implements IBaseInPlace{
