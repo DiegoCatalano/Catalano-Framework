@@ -288,6 +288,7 @@ public class FastBitmap {
      */
     public void setImage(FastBitmap fastBitmap){
         this.bufferedImage = fastBitmap.toBufferedImage();
+        setCoordinateSystem(fastBitmap.getCoordinateSystem());
         refresh();
     }
     

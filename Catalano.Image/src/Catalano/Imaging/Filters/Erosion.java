@@ -76,7 +76,8 @@ public class Erosion implements IBaseInPlace{
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     
-                    int X = 0,Y;
+                    int X = 0;
+                    int Y;
                     min = 255;
                     for (int x = i - radius; x < i + radius + 1; x++) {
                         Y = 0;

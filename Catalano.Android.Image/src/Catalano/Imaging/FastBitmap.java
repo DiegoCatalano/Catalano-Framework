@@ -608,14 +608,7 @@ public class FastBitmap {
     public void setImage(Bitmap bitmap){
         this.b = bitmap;
         this.stride = b.getWidth();
-        if(cSystem == CoordinateSystem.Matrix){
-        	this.strideX = this.stride;
-        	this.strideY = 1;
-        }
-        else{
-        	this.strideX = 1;
-        	this.strideY = this.stride;
-        }
+        setCoordinateSystem(CoordinateSystem.Matrix);
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
     }
@@ -627,14 +620,7 @@ public class FastBitmap {
     public void setImage(FastBitmap fastBitmap){
         this.b = fastBitmap.toBitmap();
         this.stride = b.getWidth();
-        if(cSystem == CoordinateSystem.Matrix){
-        	this.strideX = this.stride;
-        	this.strideY = 1;
-        }
-        else{
-        	this.strideX = 1;
-        	this.strideY = this.stride;
-        }
+        setCoordinateSystem(fastBitmap.getCoordinateSystem());
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
         if (fastBitmap.isRGB())
