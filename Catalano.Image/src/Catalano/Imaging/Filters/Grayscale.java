@@ -60,7 +60,7 @@ public class Grayscale implements IBaseInPlace{
         MinimumDecomposition,
         
         /**
-         * Max(red, gree, blue)
+         * Max(red, green, blue)
          */
         MaximumDecomposition
     };

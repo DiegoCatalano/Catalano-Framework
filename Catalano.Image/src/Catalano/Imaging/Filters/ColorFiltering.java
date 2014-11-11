@@ -32,8 +32,8 @@ import Catalano.Imaging.IBaseInPlace;
  * Color filtering.
  * <p> The filter filters pixels inside/outside of specified RGB color range - it keeps pixels with colors inside/outside of specified range and fills the rest with specified color</p>.
  * 
- * Supported types: RGB.
- * Coordinate System: Independent.
+ * <p><li>Supported types: RGB.
+ * <br><li>Coordinate System: Independent.
  * 
  * @author Diego Catalano
  */

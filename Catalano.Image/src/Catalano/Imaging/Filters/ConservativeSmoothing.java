@@ -28,10 +28,13 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Conservative Smoothing.
  * 
- * <para> Conservative smoothing is a noise reduction technique that derives its name from the fact that it employs a
+ * <p> Conservative smoothing is a noise reduction technique that derives its name from the fact that it employs a
  * simple, fast filtering algorithm that sacrifices noise suppression power in order to preserve the high
  * spatial frequency detail (e.g. sharp edges) in an image. It is explicitly designed to remove noise spikes --- i.e. isolated pixels of
- * exceptionally low or high pixel intensity (e.g. salt and pepper noise). </para>
+ * exceptionally low or high pixel intensity (e.g. salt and pepper noise). </p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

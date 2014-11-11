@@ -30,7 +30,11 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Linear correction of RGB channels.
- * <para>The filter performs linear correction of RGB channels by mapping specified channels' input ranges to output ranges.</para>
+ * <p>The filter performs linear correction of RGB channels by mapping specified channels' input ranges to output ranges.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class LevelsLinear implements IBaseInPlace{
