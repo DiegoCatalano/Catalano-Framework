@@ -55,6 +55,7 @@ Version updates and fixes:
    - New: Kernel.
    - New: Chain Code.
    - New: Contour.
+   - New: Filters Sequence.
 
    - Fixed: Smooth Noise Robust in Convolution Kernel.
    - Fixed: Blob Detection for grayscale images.
