@@ -176,6 +176,44 @@ public class ComplexNumber {
     }
     
     /**
+     * Absolute value of complex number.
+     * Same result like magnitude.
+     * @param z Complex Number.
+     * @return Absolute number.
+     */
+    public static double Abs(ComplexNumber z){
+        return Magnitude(z);
+    }
+    
+    /**
+     * Absolute value of complex number.
+     * @param z Complex Numbers.
+     * @return Absolute number.
+     */
+    public static double[] Abs(ComplexNumber[] z){
+        double[] values = new double[z.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = z[i].getMagnitude();
+        }
+        return values;
+    }
+    
+    /**
+     * Absolute value of complex number.
+     * @param z Complex numbers.
+     * @return Absolute number.
+     */
+    public static double[][] Abs(ComplexNumber[][] z){
+        double[][] values = new double[z.length][z[0].length];
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[0].length; j++) {
+                values[i][j] = z[i][j].getMagnitude();
+            }
+        }
+        return values;
+    }
+    
+    /**
      * Adds two complex numbers.
      * @param z1 Complex Number.
      * @param z2 Complex Number.
@@ -211,6 +249,15 @@ public class ComplexNumber {
     public void Subtract(double scalar){
         this.real -= scalar;
         this.real -= scalar;
+    }
+    
+    /**
+     * Magnitude of complex number.
+     * @param z Complex number.
+     * @return Magnitude of complex number.
+     */
+    public static double Magnitude(ComplexNumber z){
+        return Math.sqrt(z.real*z.real + z.imaginary*z.imaginary);
     }
     
     /**

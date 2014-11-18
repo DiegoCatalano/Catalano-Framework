@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Convolution filter.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Convolution implements IBaseInPlace{

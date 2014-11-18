@@ -34,8 +34,9 @@ import Catalano.Imaging.IBaseInPlace;
  * If the local contrast is below the contrast threshold the neighbourhood is considered to consist only of one class
  * and the pixel is set to object or background depending on the value of the midgrey.</p>
  * 
- * <p><li>Supported types: Grayscale.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

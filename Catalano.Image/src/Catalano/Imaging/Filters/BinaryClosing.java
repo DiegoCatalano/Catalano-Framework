@@ -28,8 +28,9 @@ import Catalano.Imaging.IBaseInPlace;
  * Binary Closing operator from Mathematical Morphology.
  * <p> Applied to binary image, the filter may be used connect or fill objects. Since dilatation is used first, it may connect/fill object areas. Then erosion restores objects. But since dilatation may connect something before, erosion may not remove after that because of the formed connection.</p>
  * 
- * <p><li>Supported types: Grayscale.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

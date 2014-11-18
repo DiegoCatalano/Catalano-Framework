@@ -29,7 +29,8 @@ import Catalano.Imaging.IBaseInPlace;
  * The filter assigns maximum value of surrounding pixels to each pixel of the result image. Surrounding pixels, which should be processed, are specified by structuring element: 1 - to process the neighbor, 0 - to skip it.
  * The filter especially useful for binary image processing, where it allows to grow separate objects or join objects.
  * 
- * The filter accepts 8, 24 bpp images for processing.
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

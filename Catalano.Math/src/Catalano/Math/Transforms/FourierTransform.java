@@ -245,8 +245,8 @@ public class FourierTransform {
     private static void transformRadix2(double[] real, double[] imag) {
         int n = real.length;
         int levels = 31 - Integer.numberOfLeadingZeros(n);  // Equal to floor(log2(n))
-        if (1 << levels != n)
-            throw new IllegalArgumentException("Length is not a power of 2");
+//        if (1 << levels != n)
+//            throw new IllegalArgumentException("Length is not a power of 2");
         double[] cosTable = new double[n / 2];
         double[] sinTable = new double[n / 2];
         for (int i = 0; i < n / 2; i++) {
@@ -338,8 +338,8 @@ public class FourierTransform {
      * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
      */
     private static void convolve(double[] x, double[] y, double[] out) {
-        if (x.length != y.length || x.length != out.length)
-                throw new IllegalArgumentException("Mismatched lengths");
+//        if (x.length != y.length || x.length != out.length)
+//                throw new IllegalArgumentException("Mismatched lengths");
         int n = x.length;
         convolve(x, new double[n], y, new double[n], out, new double[n]);
     }
@@ -348,8 +348,8 @@ public class FourierTransform {
      * Computes the circular convolution of the given complex vectors. Each vector's length must be the same.
      */
     private static void convolve(double[] xreal, double[] ximag, double[] yreal, double[] yimag, double[] outreal, double[] outimag) {
-        if (xreal.length != ximag.length || xreal.length != yreal.length || yreal.length != yimag.length || xreal.length != outreal.length || outreal.length != outimag.length)
-            throw new IllegalArgumentException("Mismatched lengths");
+//        if (xreal.length != ximag.length || xreal.length != yreal.length || yreal.length != yimag.length || xreal.length != outreal.length || outreal.length != outimag.length)
+//            throw new IllegalArgumentException("Mismatched lengths");
 
         int n = xreal.length;
 

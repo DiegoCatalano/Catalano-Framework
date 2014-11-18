@@ -30,10 +30,10 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Difference edge detector.
  * 
- * <para>The filter finds objects' edges by calculating maximum difference
- * between pixels in 4 directions around the processing pixel.</para>
+ * <p>The filter finds objects' edges by calculating maximum difference
+ * between pixels in 4 directions around the processing pixel.</p>
  * 
- * <para>Suppose 3x3 square element of the source image (x - is currently processed pixel):
+ * <p>Suppose 3x3 square element of the source image (x - is currently processed pixel):
  * <code lang="none">
  * P1 P2 P3
  * P8  x P4
@@ -43,7 +43,10 @@ import Catalano.Imaging.IBaseInPlace;
  * <code lang="none">
  * max( |P1-P5|, |P2-P6|, |P3-P7|, |P4-P8| )
  * </code>
- * </para>
+ * </p>
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

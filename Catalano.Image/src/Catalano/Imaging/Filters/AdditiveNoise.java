@@ -33,8 +33,9 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * <p>The filter adds random value to each pixel of the source image.</p>
  * 
- * <p><li>Supported types: Grayscale, RGB.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

@@ -26,7 +26,9 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Emboss filter.
- * <br />The filter accepts 8 bpp grayscale and 24 bpp color images for processing.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

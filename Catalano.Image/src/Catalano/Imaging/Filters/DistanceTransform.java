@@ -26,6 +26,10 @@ import Catalano.Imaging.FastBitmap;
 
 /**
  * Distance Transform.
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class DistanceTransform {

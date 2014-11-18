@@ -27,8 +27,9 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Add filter - add pixel values of one or two images.
  * 
- * <p><li>Supported types: Grayscale, RGB.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

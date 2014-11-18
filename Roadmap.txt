@@ -100,6 +100,9 @@ Version updates and fixes:
 * Catalano.Math.Geometry
    - New: Discrete Curve Evolution.
 
+* Catalano.Math.Transforms
+    - New: Fast Hilbert Transform.
+
 * Catalano.Statistics
    - New: Dissimilarity.
    - New: Approximation.

@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Desaturation.
+ * 
+ * <p><li>Supported types: RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Desaturation implements IBaseInPlace{

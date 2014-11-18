@@ -24,7 +24,11 @@ import Catalano.Imaging.FastBitmap;
 
 /**
  * Crop an image.
- * <br />The filter crops an image providing a new image, which contains only the specified rectangle of the original image.
+ * <p>The filter crops an image providing a new image, which contains only the specified rectangle of the original image.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Crop {

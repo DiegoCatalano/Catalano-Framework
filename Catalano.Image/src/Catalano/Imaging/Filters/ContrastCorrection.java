@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * Contrast adjusting in RGB color space.
  * 
  * <p><li>Supported types: Grayscale, RGB.
- * <br><li>Coordinate System: Independent.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */

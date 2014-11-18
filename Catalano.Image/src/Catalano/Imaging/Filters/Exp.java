@@ -28,8 +28,9 @@ import Catalano.Math.Approximation;
 /**
  * Exp filter.
  * 
- * <p><li>Supported types: Grayscale, RGB.
- * <br><li>Coordinate System: Independent.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Independent.</p>
  * 
  * @author Diego Catalano
  */

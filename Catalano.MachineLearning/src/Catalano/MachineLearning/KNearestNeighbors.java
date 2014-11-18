@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class KNearestNeighbors<T> {
     
-    public static enum Distance {Euclidean};
+    public static enum Distance {Euclidean, SquaredEuclidean, Manhattan};
     
     private int k;
     private List<double[]> input;
@@ -116,9 +116,9 @@ public class KNearestNeighbors<T> {
             
         }else{
             
+            double sum;
             switch(distance){
                 case Euclidean:
-                    double sum;
                     for (int i = 0; i < sizeF; i++) {
                         sum = 0;
                         double[] featureModel = input.get(i);
@@ -128,8 +128,27 @@ public class KNearestNeighbors<T> {
                         dist[i] = Math.sqrt(sum);
                     }
                 break;
+                case SquaredEuclidean:
+                    for (int i = 0; i < sizeF; i++) {
+                        sum = 0;
+                        double[] featureModel = input.get(i);
+                        for (int j = 0; j < lengthF; j++) {
+                            sum += Math.pow(feature[j] - featureModel[j], 2);
+                        }
+                        dist[i] = sum;
+                    }
+                break;
+                case Manhattan:
+                    for (int i = 0; i < sizeF; i++) {
+                        sum = 0;
+                        double[] featureModel = input.get(i);
+                        for (int j = 0; j < lengthF; j++) {
+                            sum += Math.abs(feature[j] - featureModel[j]);
+                        }
+                        dist[i] = sum;
+                    }
+                break;
             }
-            
         }
         
         //If k is 1, we can retrive the object quickly.

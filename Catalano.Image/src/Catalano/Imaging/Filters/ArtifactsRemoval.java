@@ -29,8 +29,9 @@ import Catalano.Imaging.IBaseInPlace;
  * <p>Actually this technique is useful as a preprocessing step for all texture measures.</p>
  * <br>Reference: Computer Imaging: digital image analysis and processing / Scott E. Umbaugh. Chapter 6. p. 276
  * 
- * <p><li>Supported types: Grayscale.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

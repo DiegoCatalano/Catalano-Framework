@@ -27,8 +27,9 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Adaptive Contrast Enhancement is modification of the gray level values based on some criterion that adjusts its parameters as local image characteristics change.
  * 
- * <p><li>Supported types: Grayscale.
- * <br><li>Coordinate System: Matrix.
+ * <p><b>Filter supports:</b>
+ * <li>Images: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */

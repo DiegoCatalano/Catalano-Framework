@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Division filter - divide pixel values of one or two images.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Division implements IBaseInPlace{

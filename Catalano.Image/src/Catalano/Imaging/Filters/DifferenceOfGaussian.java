@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Difference of Gaussians is a feature enhancement algorithm that involves the subtraction of one blurred version of an original image from another.
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class DifferenceOfGaussian implements IBaseInPlace{
