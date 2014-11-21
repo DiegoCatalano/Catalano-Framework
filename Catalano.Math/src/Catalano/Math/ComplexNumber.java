@@ -483,6 +483,8 @@ public class ComplexNumber {
 
     @Override
     public String toString() {
-        return "Real: " + this.real + " Imaginary: " + this.imaginary;
+        if (this.imaginary >= 0)
+            return this.real + " +" + this.imaginary + "i";
+        return this.real + " " + this.imaginary + "i";
     }
 }
