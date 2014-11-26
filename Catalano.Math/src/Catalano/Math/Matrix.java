@@ -22,6 +22,7 @@
 package Catalano.Math;
 
 import Catalano.Core.IntPoint;
+import java.lang.reflect.Array;
 
 /**
  * Defines a set of methods that works on multidimensional arrays and vectors.
@@ -1137,6 +1138,23 @@ public final class Matrix {
      */
     public static float[][] Transpose(float[][] A){
         float[][] t = new float[A[0].length][A.length];
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                t[j][i] = A[i][j];
+            }
+        }
+        return t;
+    }
+    
+    /**
+     * Gets the transpose of the matrix.
+     * @param <E> Object.
+     * @param A Matrix.
+     * @return Transposed matrix.
+     */
+    public static <E> E[][] Transpose(E[][] A){
+        E[][] t = (E[][])Array.newInstance(A[0][0].getClass(), A[0].length, A.length);
         
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {

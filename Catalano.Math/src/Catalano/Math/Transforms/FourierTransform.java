@@ -374,7 +374,7 @@ public class FourierTransform {
      * @param x Data.
      * @param direction Transformation direction.
      */
-    public static void FFTShift(double[] x, Direction direction) {
+    public static void FFTShift1D(double[] x, Direction direction) {
         
         if (x.length == 1)
             return;
@@ -406,4 +406,44 @@ public class FourierTransform {
             }
         }
     }
+    
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param <E> Object.
+     * @param x Data.
+     * @param direction Transformation direction.
+     */
+    public static <E> void FFTShift1D(E[] x, Direction direction) {
+        
+        if (x.length == 1)
+            return;
+        
+        E[] temp = x.clone();
+        int move = x.length / 2;
+        
+        if(direction == Direction.Forward){
+            int c = 0;
+            for (int i = x.length - move; i < x.length; i++) {
+                x[c] = temp[i];
+                c++;
+            }
+
+            for (int i = 0; i < x.length - move; i++) {
+                x[c] = temp[i];
+                c++;
+            }
+        }
+        else{
+            int c = 0;
+            for (int i = move; i < x.length; i++) {
+                x[move+c] = temp[c];
+                c++;
+            }
+            
+            for (int i = 0; i < move; i++) {
+                x[i] = temp[move+i];
+            }
+        }
+    }
+    
 }

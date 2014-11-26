@@ -129,10 +129,7 @@ public class FastBitmap {
      */
     public FastBitmap(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
-        if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
-            toRGB();
-        }
-        setCoordinateSystem(CoordinateSystem.Matrix);
+        prepare();
         refresh();
     }
 
@@ -142,10 +139,7 @@ public class FastBitmap {
      */
     public FastBitmap(Image image) {
         bufferedImage = (BufferedImage)image;
-        if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
-            toRGB();
-        }
-        setCoordinateSystem(CoordinateSystem.Matrix);
+        prepare();
         refresh();
     }
     
@@ -155,10 +149,7 @@ public class FastBitmap {
      */
     public FastBitmap(ImageIcon ico){
         bufferedImage = (BufferedImage)ico.getImage();
-        if (getType() == BufferedImage.TYPE_3BYTE_BGR) {
-            toRGB();
-        }
-        setCoordinateSystem(CoordinateSystem.Matrix);
+        prepare();
         refresh();
     }
     
@@ -169,16 +160,7 @@ public class FastBitmap {
     public FastBitmap(String pathname){
         try {
             this.bufferedImage = ImageIO.read(new File(pathname));
-            setCoordinateSystem(CoordinateSystem.Matrix);
-            if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
-                refresh();
-            }
-            else if (getType() == BufferedImage.TYPE_INT_ARGB || getType() == BufferedImage.TYPE_4BYTE_ABGR){
-                toARGB();
-            }
-            else{
-                toRGB();
-            }
+            prepare();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -208,8 +190,8 @@ public class FastBitmap {
         else if(colorSpace == ColorSpace.Grayscale){
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
         }
-        else if(colorSpace == ColorSpace.RGB){
-            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        else if(colorSpace == ColorSpace.ARGB){
+            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         }
         
         this.setCoordinateSystem(CoordinateSystem.Matrix);
@@ -232,10 +214,30 @@ public class FastBitmap {
      * @param image Array.
      */
     public FastBitmap(int[][][] image){
-        bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
+        if (image[0][0].length == 3)
+            bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
+        else{
+            bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_ARGB);
+        }
         this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
         arrayToImage(image);
+    }
+    
+    /**
+     * Prepare the Fast Bitmap;
+     */
+    private void prepare(){
+        if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
+            refresh();
+        }
+        else if (getType() == BufferedImage.TYPE_INT_ARGB || getType() == BufferedImage.TYPE_4BYTE_ABGR){
+            toARGB();
+        }
+        else{
+            toRGB();
+        }
+        setCoordinateSystem(CoordinateSystem.Matrix);
     }
     
     /**
@@ -544,9 +546,17 @@ public class FastBitmap {
      * @param image Array.
      */
     public void arrayToImage(int image[][][]){
-        for (int x = 0; x < image.length; x++) {
-            for (int y = 0; y < image[0].length; y++) {
-                setRGB(x, y, image[x][y][0], image[x][y][1], image[x][y][2]);
+        if (image[0][0].length == 3)
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setRGB(x, y, image[x][y][0], image[x][y][1], image[x][y][2]);
+                }
+            }
+        else{
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setARGB(x, y, image[x][y][0], image[x][y][1], image[x][y][2], image[x][y][3]);
+                }
             }
         }
     }
@@ -556,9 +566,17 @@ public class FastBitmap {
      * @param image Array.
      */
     public void arrayToImage(float image[][][]){
-        for (int x = 0; x < image.length; x++) {
-            for (int y = 0; y < image[0].length; y++) {
-                setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+        if (image[0][0].length == 3)
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+                }
+            }
+        else{
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setARGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
+                }
             }
         }
     }
@@ -568,9 +586,17 @@ public class FastBitmap {
      * @param image Array.
      */
     public void arrayToImage(double image[][][]){
-        for (int x = 0; x < image.length; x++) {
-            for (int y = 0; y < image[0].length; y++) {
-                setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+        if (image[0][0].length == 3)
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+                }
+            }
+        else{
+            for (int x = 0; x < image.length; x++) {
+                for (int y = 0; y < image[0].length; y++) {
+                    setARGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
+                }
             }
         }
     }

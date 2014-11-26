@@ -23,6 +23,8 @@ Version updates and fixes:
    - Added: get; setRGBData method.
    - Added: get; setGrayData method.
 
+   - Fixed: some constructors in FastBitmap when are loading argb images.
+
 * Catalano.Image.Filters
    - New: Separable Convolution.
    - New: Image Pyramids.
@@ -77,8 +79,7 @@ Version updates and fixes:
 * Catalano.Math
     - New: Taylor Series.
 
-    - Fixed: FFT, FFT2 in Fourier Transform. Now is working in Asymetric scaling. Removed power of 2 limitation in FFT and FFT2.
-
+    - Added: generic Transpose in Matrix.
     - Added: getReal, getImaginary in ComplexNumber for 1,2 dimensions.
     - Added: Sum in Matrix.
     - Added: CreateMatrix2D in Matrix.
@@ -102,6 +103,10 @@ Version updates and fixes:
 
 * Catalano.Math.Transforms
     - New: Fast Hilbert Transform.
+
+    - Added: FFTShift in Fourier Transform.
+
+    - Fixed: FFT, FFT2 in Fourier Transform. Now is working in Asymetric scaling. Removed power of 2 limitation in FFT and FFT2.
 
 * Catalano.Statistics
    - New: Dissimilarity.
