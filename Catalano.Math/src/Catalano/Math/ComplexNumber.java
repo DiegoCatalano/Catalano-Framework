@@ -224,11 +224,20 @@ public class ComplexNumber {
     }
     
     /**
+     * Adds the complex number with a scalar value.
+     * @param z1 Complex Number.
+     * @param scalar Scalar value.
+     * @return Returns new ComplexNumber instance containing the add of specified complex number with scalar value.
+     */
+    public static ComplexNumber Add(ComplexNumber z1, double scalar){
+        return new ComplexNumber(z1.real + scalar, z1.imaginary);
+    }
+    
+    /**
      * Adds scalar value to a complex number.
      * @param scalar Scalar value.
      */
     public void Add(double scalar){
-        this.real += scalar;
         this.real += scalar;
     }
     
@@ -243,11 +252,20 @@ public class ComplexNumber {
     }
     
     /**
+     * Subtract a complex number.
+     * @param z1 Complex Number.
+     * @param scalar Scalar value.
+     * @return Returns new ComplexNumber instance containing the subtract of specified complex number with a scalar value.
+     */
+    public static ComplexNumber Subtract(ComplexNumber z1, double scalar){
+        return new ComplexNumber(z1.real - scalar, z1.imaginary);
+    }
+    
+    /**
      * Subtracts scalar value to a complex number.
      * @param scalar Scalar value.
      */
     public void Subtract(double scalar){
-        this.real -= scalar;
         this.real -= scalar;
     }
     
@@ -274,12 +292,22 @@ public class ComplexNumber {
     }
     
     /**
+     * Multiply scalar value to a complex number.
+     * @param z1 Complex Number.
+     * @param scalar Scalar value.
+     * @return Returns new ComplexNumber instance containing the multiply of specified complex number with the scalar value.
+     */
+    public static ComplexNumber Multiply(ComplexNumber z1, double scalar){
+        return new ComplexNumber(z1.real*scalar, z1.imaginary*scalar);
+    }
+    
+    /**
      * Multiplys scalar value to a complex number.
      * @param scalar Scalar value.
      */
     public void Multiply(double scalar){
         this.real *= scalar;
-        this.real *= scalar;
+        this.imaginary *= scalar;
     }
     
     /**
@@ -298,6 +326,32 @@ public class ComplexNumber {
          double c = z2.real * conj.real + ((z2.imaginary * conj.imaginary) * -1);
          
          return new ComplexNumber(a / c, b / c);
+    }
+    
+    /**
+     * Divides scalar value to a complex number.
+     * @param z1 Complex Number.
+     */
+    public void Divide(ComplexNumber z1){
+        ComplexNumber conj = ComplexNumber.Conjugate(z1);
+        
+        double a = this.real * conj.real + ((this.imaginary * conj.imaginary) * -1);
+        double b = this.real * conj.imaginary + (this.imaginary * conj.real);
+         
+        double c = z1.real * conj.real + ((z1.imaginary * conj.imaginary) * -1);
+        
+        this.real = a / c;
+        this.imaginary = b / c;
+    }
+    
+    /**
+     * Divides scalar value to a complex number.
+     * @param z1 Complex Number.
+     * @param scalar Scalar value.
+     * @return Returns new ComplexNumber instance containing the divide of specified complex number with the scalar value.
+     */
+    public static ComplexNumber Divide(ComplexNumber z1, double scalar){
+        return new ComplexNumber(z1.real / scalar, z1.imaginary / scalar);
     }
     
     /**
