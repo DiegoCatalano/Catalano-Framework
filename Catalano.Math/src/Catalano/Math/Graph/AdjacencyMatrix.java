@@ -7,31 +7,23 @@
 package Catalano.Math.Graph;
 
 /**
- *
+ * https://cs7083.wordpress.com/2013/01/31/demystifying-the-pagerank-and-hits-algorithms/
  * @author Diego
  */
 public class AdjacencyMatrix {
     
-    private boolean[][] m;
+    private double[][] m;
     
     public AdjacencyMatrix(int edges){
-        this.m = new boolean[edges][edges];
+        this.m = new double[edges][edges];
     }
 
-    public AdjacencyMatrix(boolean[][] m) {
+    public AdjacencyMatrix(double[][] m) {
         this.m = m;
     }
     
-    public void addEdge(int i, int j){
-        m[i][j] = true;
-    }
-    
-    public void removeEdge(int i, int j){
-        m[i][j] = false;
-    }
-    
-    public boolean hasEdge(int i, int j){
-        return m[i][j];
+    public double[][] getData(){
+        return m;
     }
     
     public int MaxDegree(){
@@ -43,7 +35,7 @@ public class AdjacencyMatrix {
         for (int i = 0; i < h; i++) {
             int degree = 0;
             for (int j = 0; j < w; j++) {
-                if (m[i][j] == true) degree++;
+                if (m[i][j] > 0) degree++;
             }
             if (degree > max){
                 max = degree;
@@ -63,7 +55,7 @@ public class AdjacencyMatrix {
         for (int i = 0; i < h; i++) {
             int degree = 0;
             for (int j = 0; j < w; j++) {
-                if (m[i][j] == true) degree++;
+                if (m[i][j] > 0) degree++;
             }
             if (degree > max){
                 max = degree;
@@ -73,5 +65,4 @@ public class AdjacencyMatrix {
         
         return edge;
     }
-    
 }

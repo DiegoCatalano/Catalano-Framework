@@ -45,10 +45,17 @@ public class Grayscale implements IBaseInPlace {
          * (Max(red, green, blue) + Min(red, green, blue)) / 2
          */
         Lightness,
+        
         /**
          * (red + green + blue) / 3
          */
         Average,
+        
+        /**
+         * (red * green * blue) ^ 1/3
+         */
+        GeometricMean,
+        
         /**
          * 0.2125R + 0.7154G + 0.0721B
          */
@@ -256,6 +263,20 @@ public class Grayscale implements IBaseInPlace {
                                 b = share.fastBitmap.getBlue(x, y);
 
                                 gray = (r+g+b)/3;
+
+                                result.setGray(x, y, (int)gray);
+                            }
+                        }
+                    break;
+                        
+                    case GeometricMean:
+                        for (int x = share.startX; x < share.endHeight; x++) {
+                            for (int y = 0; y < share.fastBitmap.getWidth(); y++) {
+                                r = share.fastBitmap.getRed(x, y);
+                                g = share.fastBitmap.getGreen(x, y);
+                                b = share.fastBitmap.getBlue(x, y);
+
+                                gray = Math.pow(r*g*b,0.33);
 
                                 result.setGray(x, y, (int)gray);
                             }

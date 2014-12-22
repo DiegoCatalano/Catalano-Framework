@@ -1,12 +1,14 @@
-FFTShift, IFFTShift
-Zero-Padding in FFT, FFT2
+FFTShift, IFFTShift			working
 Moravec Corners Detector
 ShiTomasi Corners Detector
 SURF Descriptor
 RegionalMax
 RegionalMin
 MagicKernelResize
-BSIF: Binarized Statistical Image Features
 Bezier Curve in Fast Graphics
 Fourier Descriptors
 Point Spread Function
+
+Catalano.Graph
+Page Rank
+Hits

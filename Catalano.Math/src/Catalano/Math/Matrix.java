@@ -951,31 +951,57 @@ public final class Matrix {
      */
     public static double[][] Multiply(double[][] A, double[][] B){
         
-        double[][] C = new double[A.length][B[0].length];
+        double[][] result = new double[A.length][A[0].length];
         
-        if (A[0].length == B.length) {
-            for (int i = 0; i < A.length; i++) {
-                double Aik = A[i][0];
-                for (int j = 0; j < A[0].length; j++)
-                    C[i][j] = Aik * B[0][j];
-                for (int k = 1; k < B.length; k++) {
-                    Aik = A[i][k];
-                    for (int j = 0; j < B[0].length; j++) {
-                        C[i][j] += Aik * B[k][j];
-                    }
-                }
+        int n = A[0].length;
+        int m = A.length;
+        int p = B[0].length;
+
+        double[] Bcolj = new double[n];
+        for (int j = 0; j < p; j++)
+        {
+            for (int k = 0; k < n; k++)
+                Bcolj[k] = B[k][j];
+
+            for (int i = 0; i < m; i++)
+            {
+                double[] Arowi = A[i];
+
+                double s = 0;
+                for (int k = 0; k < n; k++)
+                    s += Arowi[k] * Bcolj[k];
+
+                result[i][j] = s;
             }
-            return C;
-            
         }
-        else{
-            try {
-                throw new IllegalArgumentException("Illegal size of matrix");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return C;
+
+        return result;
+        
+//        double[][] C = new double[A.length][B[0].length];
+//        
+//        if (A[0].length == B.length) {
+//            for (int i = 0; i < A.length; i++) {
+//                double Aik = A[i][0];
+//                for (int j = 0; j < A[0].length; j++)
+//                    C[i][j] = Aik * B[0][j];
+//                for (int k = 1; k < B.length; k++) {
+//                    Aik = A[i][k];
+//                    for (int j = 0; j < B[0].length; j++) {
+//                        C[i][j] += Aik * B[k][j];
+//                    }
+//                }
+//            }
+//            return C;
+//            
+//        }
+//        else{
+//            try {
+//                throw new IllegalArgumentException("Illegal size of matrix");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return C;
     }
     
     /**
