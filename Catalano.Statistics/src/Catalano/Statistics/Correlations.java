@@ -67,7 +67,7 @@ public final class Correlations {
         double meanX = 0, meanY = 0;
         for (int i = 0; i < x.length; i++) {
             meanX += x[i];
-            meanY += x[i];
+            meanY += y[i];
         }
         meanX /= x.length;
         meanY /= y.length;

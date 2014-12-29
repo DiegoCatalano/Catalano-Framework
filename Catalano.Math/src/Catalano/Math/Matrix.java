@@ -224,6 +224,20 @@ public final class Matrix {
     
     /**
      * Elementwise Log operation.
+     * @param A Vector.
+     * @return Log(Vector).
+     */
+    public static double[] Log(double[] A){
+        int size = A.length;
+        double[] r = new double[size];
+        for (int i = 0; i < size; i++) {
+            r[i] = Math.log(A[i]);
+        }
+        return r;
+    }
+    
+    /**
+     * Elementwise Log operation.
      * @param A Matrix.
      * @return Log(Matrix).
      */
@@ -1126,6 +1140,102 @@ public final class Matrix {
     }
     
     /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Matrix to be transposed.
+     * @return The multiply of the matrix with scalar value.
+     */
+    public static double[][] MultiplyByTranspose(double[][] A, double[][] B){
+        return Multiply(A,Transpose(B));
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Matrix to be transposed.
+     * @return The multiply of the matrix with transpose of the B.
+     */
+    public static int[][] MultiplyByTranspose(int[][] A, int[][] B){
+        return Multiply(A,Transpose(B));
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Matrix to be transposed.
+     * @return The multiply of the matrix with transpose of the B.
+     */
+    public static float[][] MultiplyByTranspose(float[][] A, float[][] B){
+        return Multiply(A,Transpose(B));
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Vector.
+     * @return The multiply of the matrix with transpose of the B.
+     */
+    public static double[] MultiplyByTranspose(double[][] A, double[] B){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        
+        double[] result = new double[B.length];
+        for (int i = 0; i < A.length; i++) {
+            double r = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                r += A[i][j] * B[j];
+            }
+            result[i] = r;
+        }
+        return result;
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Vector.
+     * @return The multiply of the matrix with transpose of the B.
+     */
+    public static int[] MultiplyByTranspose(int[][] A, int[] B){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        
+        int[] result = new int[B.length];
+        for (int i = 0; i < A.length; i++) {
+            int r = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                r += A[i][j] * B[j];
+            }
+            result[i] = r;
+        }
+        return result;
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose of other. A * B'
+     * @param A Matrix.
+     * @param B Vector.
+     * @return The multiply of the matrix with transpose of the B.
+     */
+    public static float[] MultiplyByTranspose(float[][] A, float[] B){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        
+        float[] result = new float[B.length];
+        for (int i = 0; i < A.length; i++) {
+            float r = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                r += A[i][j] * B[j];
+            }
+            result[i] = r;
+        }
+        return result;
+    }
+    
+    /**
      * Gets the transpose of the matrix.
      * @param A Matrix.
      * @return Transposed matrix.
@@ -1628,6 +1738,72 @@ public final class Matrix {
     }
     
     /**
+     * Check if the matrix A is the same of B.
+     * @param A Matrix.
+     * @param B Matrix.
+     * @return True if is the same, otherwise false
+     */
+    public static boolean isEqual(double[][] A, double[][] B){
+        
+        if((A.length != B.length) || (A[0].length != B[0].length))
+            throw new IllegalArgumentException("The matrix A must be the same size of the B.");
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                if (A[i][j] != B[i][j])
+                    return false;
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    /**
+     * Check if the matrix A is the same of B.
+     * @param A Matrix.
+     * @param B Matrix.
+     * @return True if is the same, otherwise false
+     */
+    public static boolean isEqual(int[][] A, int[][] B){
+        
+        if((A.length != B.length) || (A[0].length != B[0].length))
+            throw new IllegalArgumentException("The matrix A must be the same size of the B.");
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                if (A[i][j] != B[i][j])
+                    return false;
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    /**
+     * Check if the matrix A is the same of B.
+     * @param A Matrix.
+     * @param B Matrix.
+     * @return True if is the same, otherwise false
+     */
+    public static boolean isEqual(float[][] A, float[][] B){
+        
+        if((A.length != B.length) || (A[0].length != B[0].length))
+            throw new IllegalArgumentException("The matrix A must be the same size of the B.");
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                if (A[i][j] != B[i][j])
+                    return false;
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    /**
      * Check if the matrix is square.
      * @param A Matrix.
      * @return Returns true if the matrix is square, otherwise returns false.
@@ -1661,6 +1837,36 @@ public final class Matrix {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Check if the matrix is symmetric. A = A'
+     * @param A Matrix.
+     * @return True if is symmetric, otherwise return false.
+     */
+    public static boolean isSymmetric(double[][] A){
+        double[][] B = Transpose(A);
+        return isEqual(A, B);
+    }
+    
+    /**
+     * Check if the matrix is symmetric. A = A'
+     * @param A Matrix.
+     * @return True if is symmetric, otherwise return false.
+     */
+    public static boolean isSymmetric(int[][] A){
+        int[][] B = Transpose(A);
+        return isEqual(A, B);
+    }
+    
+    /**
+     * Check if the matrix is symmetric. A = A'
+     * @param A Matrix.
+     * @return True if is symmetric, otherwise return false.
+     */
+    public static boolean isSymmetric(float[][] A){
+        float[][] B = Transpose(A);
+        return isEqual(A, B);
     }
     
     /**
@@ -1736,6 +1942,135 @@ public final class Matrix {
             }
         }
         return true;
+    }
+    
+    /**
+     * Convert vector to matrix.
+     * @param vector Vector.
+     * @param m Size of rows.
+     * @param n Size of cols.
+     * @return Matrix.
+     */
+    public static double[][] Reshape(double[] vector, int m, int n){
+        
+        if(vector.length != m*n)
+            throw new IllegalArgumentException("The size of vector must be the same of product of m and n.");
+        
+        int x = 0;
+        double[][] result = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = vector[x++];
+            }
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Convert vector to matrix.
+     * @param vector Vector.
+     * @param m Size of rows.
+     * @param n Size of cols.
+     * @return Matrix.
+     */
+    public static int[][] Reshape(int[] vector, int m, int n){
+        
+        if(vector.length != m*n)
+            throw new IllegalArgumentException("The size of vector must be the same of product of m and n.");
+        
+        int x = 0;
+        int[][] result = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = vector[x++];
+            }
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Convert vector to matrix.
+     * @param vector Vector.
+     * @param m Size of rows.
+     * @param n Size of cols.
+     * @return Matrix.
+     */
+    public static float[][] Reshape(float[] vector, int m, int n){
+        
+        if(vector.length != m*n)
+            throw new IllegalArgumentException("The size of vector must be the same of product of m and n.");
+        
+        int x = 0;
+        float[][] result = new float[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = vector[x++];
+            }
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Convert matrix to vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
+    public static double[] Reshape(double[][] A){
+        
+        double[] vector = new double[A.length * A[0].length];
+        int x = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                vector[x++] = A[i][j];
+            }
+        }
+        
+        return vector;
+        
+    }
+    
+    /**
+     * Convert matrix to vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
+    public static int[] Reshape(int[][] A){
+        
+        int[] vector = new int[A.length * A[0].length];
+        int x = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                vector[x++] = A[i][j];
+            }
+        }
+        
+        return vector;
+        
+    }
+    
+    /**
+     * Convert matrix to vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
+    public static float[] Reshape(float[][] A){
+        
+        float[] vector = new float[A.length * A[0].length];
+        int x = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                vector[x++] = A[i][j];
+            }
+        }
+        
+        return vector;
+        
     }
     
     public static int[] SubMatrix(int[] data, int first){

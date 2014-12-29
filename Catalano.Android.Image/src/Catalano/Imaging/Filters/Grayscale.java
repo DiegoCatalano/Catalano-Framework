@@ -45,10 +45,17 @@ public class Grayscale implements IBaseInPlace{
          * (Max(red, green, blue) + Min(red, green, blue)) / 2
          */
         Lightness,
+        
         /**
          * (red + green + blue) / 3
          */
         Average,
+        
+        /**
+         * (red * green * blue) ^ 1/3
+         */
+        GeometricMean,
+        
         /**
          * 0.2125R + 0.7154G + 0.0721B
          */
@@ -220,6 +227,18 @@ public class Grayscale implements IBaseInPlace{
                 		b = pixels[i] & 0xFF;
                 		
                         gray = (int)((r+g+b)/3);
+                        
+                        pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
+					}
+                break;
+                
+                case GeometricMean:
+                    for (int i = 0; i < pixels.length; i++) {
+						r = pixels[i] >> 16 & 0xFF;
+                    	g = pixels[i] >> 8 & 0xFF;
+                		b = pixels[i] & 0xFF;
+                		
+                        gray = (int)(Math.pow(r*g*b,0.33D));
                         
                         pixels[i] = 255 << 24 | gray << 16 | gray << 8 | gray;
 					}

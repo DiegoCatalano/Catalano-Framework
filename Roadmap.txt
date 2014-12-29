@@ -80,6 +80,7 @@ Version updates and fixes:
 * Catalano.Math
     - New: Taylor Series.
 
+    - Added: reshape, isSymmetric, isEqual in Matrix.
     - Added: generic Transpose in Matrix.
     - Added: getReal, getImaginary in ComplexNumber for 1,2 dimensions.
     - Added: Sum in Matrix.
@@ -94,6 +95,8 @@ Version updates and fixes:
 * Catalano.Math.Graph
    - New: Page Rank
    - New: Hits
+
+   - Added: isSymmetric, setStochasticMatrix, CreateStochasticMatrix in Adjacency Matrix.
 
 * Catalano.Math.Graph.Pathfinding
    - New: ANode.
