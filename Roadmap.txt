@@ -1,3 +1,7 @@
+NOTICE: 
+Big News: * I Intend to release in 2015/01/xx
+In the future, I'll move the project to Android Studio.
+
 Catalano Framework 1.4 road map
 -----------------------------------------
 
@@ -117,6 +121,8 @@ Version updates and fixes:
    - New: Dissimilarity.
    - New: Approximation.
 
+   - Fixed: Pearson Correlation in Tools.
+
 * Catalano.Statistics.Kernels
    - Added: Bessel.
    - Added: Circular.
@@ -131,6 +137,12 @@ Version updates and fixes:
 
    - Added: Alpha Trimmed Mean in Tools.
    - Added: Sum in Tools.
+
+* Catalano.Statistics.Regression
+   - New: Logarithmic Regression.
+   - New: Exponential Regression.
+   - New: Power Regression.
+   - New: Polynomial Regression.
 
 * General
    - Added: Comments in the filters inform for to developer about supported types (grayscale, rgb) and coodinate system used (cartesian, matrix or independ).
