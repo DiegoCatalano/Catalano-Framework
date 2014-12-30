@@ -4,10 +4,8 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
-// Original work copyright © Lutz Roeder, 2000
-//  Adapted from Mapack for .NET, September 2000
-//  Adapted from Mapack for COM and Jama routines
-//  http://www.aisto.com/roeder/dotnet
+// Original work copyright © JAMA: A Java Matrix Package
+// http://math.nist.gov/javanumerics/jama/
 //
 //
 //    This library is free software; you can redistribute it and/or
@@ -63,8 +61,9 @@ public class SingularValueDecomposition implements java.io.Serializable {
    private int m, n;
 
    /**
-    * Constructs a new singular value decomposition.
+    * Initializes a new instance of the SingularValueDecomposition class.
     * @param matrix The matrix to be decomposed.
+    * @exception IllegalArgumentException Matrix does not have any rows or columns.
     */
    public SingularValueDecomposition (double[][] matrix) {
        
@@ -569,5 +568,4 @@ public class SingularValueDecomposition implements java.io.Serializable {
       }
       return r;
    }
-
 }
