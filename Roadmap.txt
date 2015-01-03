@@ -94,11 +94,13 @@ Version updates and fixes:
     - Added: new overload in Chessboard distance.
 
 * Catalano.Math.Decompositions
-    - Added: Singular Value Decomposition.
+    - New: LU Decomposition.
+    - New: QR Decomposition.
+    - New: Singular Value Decomposition.
 
 * Catalano.Math.Graph
-   - New: Page Rank
-   - New: Hits
+   - New: Page Rank.
+   - New: Hits.
 
    - Added: isSymmetric, setStochasticMatrix, CreateStochasticMatrix in Adjacency Matrix.
 
@@ -139,6 +141,7 @@ Version updates and fixes:
    - Added: Sum in Tools.
 
 * Catalano.Statistics.Regression
+   - New: Regression Analysis.
    - New: Logarithmic Regression.
    - New: Exponential Regression.
    - New: Power Regression.

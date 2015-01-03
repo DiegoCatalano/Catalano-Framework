@@ -61,13 +61,13 @@ public class QRDecomposition implements java.io.Serializable {
 
    /**
     * Initializes a new instance of the QRDecomposition class.
-    * @param A Matrix.
+    * @param matrix Matrix.
     */
-   public QRDecomposition (double[][] A) {
+   public QRDecomposition (double[][] matrix) {
       // Initialize.
-      QR = A.clone();
-      m = A.length;
-      n = A[0].length;
+      QR = matrix.clone();
+      m = matrix.length;
+      n = matrix[0].length;
       Rdiag = new double[n];
 
       // Main loop.

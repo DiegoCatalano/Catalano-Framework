@@ -2032,7 +2032,6 @@ public final class Matrix {
         }
         
         return vector;
-        
     }
     
     /**
@@ -2051,7 +2050,6 @@ public final class Matrix {
         }
         
         return vector;
-        
     }
     
     /**
@@ -2070,7 +2068,6 @@ public final class Matrix {
         }
         
         return vector;
-        
     }
     
     public static int[] SubMatrix(int[] data, int first){
@@ -2121,30 +2118,69 @@ public final class Matrix {
         return X;
     }
     
-    public static int[][] Submatrix(int[][] data, int startRow, int endRow, int[] columnIndexes){
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param startColumn Start Column.
+     * @param endColumn End Column.
+     * @return Submatrix.
+     */
+    public static double[][] Submatrix(double[][] data, int startRow, int endRow, int startColumn, int endColumn){
         if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
             || (endRow < 0) || (endRow >= data.length)){
             throw new IllegalArgumentException("Argument out of range.");
         }
 
-        if (columnIndexes == null)
-            columnIndexes = Indices(0, data[0].length);
-
-        int[][] X = new int[endRow - startRow + 1][columnIndexes.length];
+        double[][] X = new double[endRow - startRow + 1][endColumn - startColumn + 1];
 
         for (int i = startRow; i <= endRow; i++){
-            for (int j = 0; j < columnIndexes.length; j++){
-                if ((columnIndexes[j] < 0) || (columnIndexes[j] >= data[0].length)){
-                    throw new IllegalArgumentException("Argument out of range.");
-                }
+            for (int j = startColumn; j < endColumn; j++){
 
-                X[i - startRow][j] = data[i][columnIndexes[j]];
+                X[i - startRow][j - startColumn] = data[i][j];
             }
         }
 
         return X;
     }
     
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param startColumn Start Column.
+     * @param endColumn End Column.
+     * @return Submatrix.
+     */
+    public static int[][] Submatrix(int[][] data, int startRow, int endRow, int startColumn, int endColumn){
+        if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
+            || (endRow < 0) || (endRow >= data.length)){
+            throw new IllegalArgumentException("Argument out of range.");
+        }
+
+        int[][] X = new int[endRow - startRow + 1][endColumn - startColumn + 1];
+
+        for (int i = startRow; i <= endRow; i++){
+            for (int j = startColumn; j < endColumn; j++){
+
+                X[i - startRow][j - startColumn] = data[i][j];
+            }
+        }
+
+        return X;
+    }
+    
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param startColumn Start Column.
+     * @param endColumn End Column.
+     * @return Submatrix.
+     */
     public static float[][] Submatrix(float[][] data, int startRow, int endRow, int startColumn, int endColumn){
         if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
             || (endRow < 0) || (endRow >= data.length)){
@@ -2163,6 +2199,14 @@ public final class Matrix {
         return X;
     }
     
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param columnIndexes Column indexes.
+     * @return Submatrix.
+     */
     public static double[][] Submatrix(double[][] data, int startRow, int endRow, int[] columnIndexes){
         if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
             || (endRow < 0) || (endRow >= data.length)){
@@ -2187,6 +2231,76 @@ public final class Matrix {
         return X;
     }
     
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param columnIndexes Column indexes.
+     * @return Submatrix.
+     */
+    public static int[][] Submatrix(int[][] data, int startRow, int endRow, int[] columnIndexes){
+        if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
+            || (endRow < 0) || (endRow >= data.length)){
+            throw new IllegalArgumentException("Argument out of range.");
+        }
+
+        if (columnIndexes == null)
+            columnIndexes = Indices(0, data[0].length);
+
+        int[][] X = new int[endRow - startRow + 1][columnIndexes.length];
+
+        for (int i = startRow; i <= endRow; i++){
+            for (int j = 0; j < columnIndexes.length; j++){
+                if ((columnIndexes[j] < 0) || (columnIndexes[j] >= data[0].length)){
+                    throw new IllegalArgumentException("Argument out of range.");
+                }
+
+                X[i - startRow][j] = data[i][columnIndexes[j]];
+            }
+        }
+
+        return X;
+    }
+    
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original data.
+     * @param startRow Start row.
+     * @param endRow End row.
+     * @param columnIndexes Column indexes.
+     * @return Submatrix.
+     */
+    public static float[][] Submatrix(float[][] data, int startRow, int endRow, int[] columnIndexes){
+        if ((startRow > endRow) || (startRow < 0) || (startRow >= data.length)
+            || (endRow < 0) || (endRow >= data.length)){
+            throw new IllegalArgumentException("Argument out of range.");
+        }
+
+        if (columnIndexes == null)
+            columnIndexes = Indices(0, data[0].length);
+
+        float[][] X = new float[endRow - startRow + 1][columnIndexes.length];
+
+        for (int i = startRow; i <= endRow; i++){
+            for (int j = 0; j < columnIndexes.length; j++){
+                if ((columnIndexes[j] < 0) || (columnIndexes[j] >= data[0].length)){
+                    throw new IllegalArgumentException("Argument out of range.");
+                }
+
+                X[i - startRow][j] = data[i][columnIndexes[j]];
+            }
+        }
+
+        return X;
+    }
+    
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original matrix.
+     * @param rowIndexes Row indexes.
+     * @return Submatrix.
+     */
     public static int[][] Submatrix(int[][] data, int[] rowIndexes){
         int[][] X = new int[rowIndexes.length][data[0].length];
 
@@ -2204,6 +2318,12 @@ public final class Matrix {
         return X;
     }
     
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original matrix.
+     * @param rowIndexes Row indexes.
+     * @return Submatrix.
+     */
     public static double[][] Submatrix(double[][] data, int[] rowIndexes){
         double[][] X = new double[rowIndexes.length][data[0].length];
 
@@ -2215,6 +2335,56 @@ public final class Matrix {
                     throw new IllegalArgumentException("Argument out of range.");
 
                 X[i][j] = data[rowIndexes[i]][j];
+            }
+        }
+
+        return X;
+    }
+    
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original matrix.
+     * @param rowIndexes Row indexes.
+     * @param startColumn Initial column index.
+     * @param endColumn Final column index.
+     * @return Submatrix.
+     */
+    public static int[][] Submatrix(int[][] data, int[] rowIndexes, int startColumn, int endColumn){
+        int[][] X = new int[rowIndexes.length][endColumn-startColumn+1];
+
+        for (int i = 0; i < X.length; i++)
+        {
+            for (int j = 0; j < X[0].length; j++)
+            {
+                if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.length))
+                    throw new IllegalArgumentException("Argument out of range.");
+
+                X[i][j] = data[rowIndexes[i]][startColumn+j];
+            }
+        }
+
+        return X;
+    }
+    
+    /**
+     * Get the submatrix from the matrix.
+     * @param data Original matrix.
+     * @param rowIndexes Row indexes.
+     * @param startColumn Initial column index.
+     * @param endColumn Final column index.
+     * @return Submatrix.
+     */
+    public static double[][] Submatrix(double[][] data, int[] rowIndexes, int startColumn, int endColumn){
+        double[][] X = new double[rowIndexes.length][endColumn-startColumn+1];
+
+        for (int i = 0; i < X.length; i++)
+        {
+            for (int j = 0; j < X[0].length; j++)
+            {
+                if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.length))
+                    throw new IllegalArgumentException("Argument out of range.");
+
+                X[i][j] = data[rowIndexes[i]][startColumn+j];
             }
         }
 
