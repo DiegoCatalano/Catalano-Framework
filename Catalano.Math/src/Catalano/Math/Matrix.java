@@ -1140,10 +1140,37 @@ public final class Matrix {
     }
     
     /**
+     * Multiply a Matrix with the transpose. A * A'
+     * @param A Matrix.
+     * @return The multiply of the matrix with transpose of itself.
+     */
+    public static double[][] MultiplyByTranspose(double[][] A){
+        return Multiply(A,Transpose(A));
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose. A * A'
+     * @param A Matrix.
+     * @return The multiply of the matrix with transpose of itself.
+     */
+    public static int[][] MultiplyByTranspose(int[][] A){
+        return Multiply(A,Transpose(A));
+    }
+    
+    /**
+     * Multiply a Matrix with the transpose. A * A'
+     * @param A Matrix.
+     * @return The multiply of the matrix with transpose of itself.
+     */
+    public static float[][] MultiplyByTranspose(float[][] A){
+        return Multiply(A,Transpose(A));
+    }
+    
+    /**
      * Multiply a Matrix with the transpose of other. A * B'
      * @param A Matrix.
      * @param B Matrix to be transposed.
-     * @return The multiply of the matrix with scalar value.
+     * @return The multiply of the matrix with transpose of the B.
      */
     public static double[][] MultiplyByTranspose(double[][] A, double[][] B){
         return Multiply(A,Transpose(B));

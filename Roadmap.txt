@@ -44,14 +44,17 @@ Version updates and fixes:
    - New: Fast Variance.
    - New: Poisson Noise.
 
+   - Added: Ultimate Eroded Point in Distance Transform.
    - Added: Geometric mean in Grayscale conversion.
    - Added: getMaximumDistance in Distance Transform.
    - Added: support grayscale in Flood Fill.
 
    - Removed: get; setArithmetic in Sauvola/Niblack/WolfJoulion Threshold. (these filters are using separable convolution for to enhance the performance)
 
+   - Renamed: Wolf Joulion Threshold to Wolf Jolion Threshold
    - Renamed: Fast Gaussian Blur to Gaussian Box Blur.
 
+   - Fixed: Distance Transform wasn't working with image pixels around the bottom borders.
    - Fixed: Replicate option in Convolution (fixed in Concurrent too).
    - Fixed: Gaussian Box Blur in grayscale images.
    - Fixed: Objective Fidelity was returning infinity values when occur 0 difference.

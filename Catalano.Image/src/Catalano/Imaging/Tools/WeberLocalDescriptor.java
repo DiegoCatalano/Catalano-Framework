@@ -32,8 +32,9 @@ import Catalano.Imaging.FastBitmap;
 public class WeberLocalDescriptor {
     
     private final int beta = 5;
-    private int alpha = 3;
     private final double epsilon = 0.0000001D;
+    
+    private int alpha = 3;
     private double[][] differentialExcitation;
     private double[][] gradientOrientation;
 

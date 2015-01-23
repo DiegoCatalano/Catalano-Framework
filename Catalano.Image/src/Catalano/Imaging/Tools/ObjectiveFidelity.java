@@ -141,7 +141,6 @@ public class ObjectiveFidelity {
         
         int w = original.getWidth();
         int h = original.getHeight();
-       
         
         double sumGradO = 0;
         double sumGradDiff = 0;

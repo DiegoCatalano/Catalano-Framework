@@ -22,6 +22,7 @@
 
 package Catalano.Imaging.Filters;
 
+import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 
 /**
@@ -60,6 +61,7 @@ public class DistanceTransform {
     
     private float[][] image;
     private float max;
+    private IntPoint ued;
     
     /**
      * Get Distance metric.
@@ -123,6 +125,14 @@ public class DistanceTransform {
      */
     public float getMaximumDistance() {
         return max;
+    }
+
+    /**
+     * Get the Ultimate eroded point.
+     * @return UED.
+     */
+    public IntPoint getUltimateErodedPoint() {
+        return ued;
     }
     
     /**
@@ -190,7 +200,7 @@ public class DistanceTransform {
 
             //Bottom -> Top - Right -> Left
             for (int i = height - 2; i > 1; i--) {
-                for (int j = width - 3; j > 1; j--) {
+                for (int j = width - 2; j > 1; j--) {
 
                     if (image[i][j] > 0){
                         float d1 = maskDistance[1][2] + image[i][j + 1];
@@ -211,6 +221,7 @@ public class DistanceTransform {
                     }
                     if(image[i][j] > max){
                         max = image[i][j];
+                        ued = new IntPoint(i, j);
                     }
                 }
             }
