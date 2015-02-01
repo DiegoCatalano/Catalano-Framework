@@ -1,7 +1,7 @@
 // Catalano Statistics Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © AForge.NET, 2007-2013

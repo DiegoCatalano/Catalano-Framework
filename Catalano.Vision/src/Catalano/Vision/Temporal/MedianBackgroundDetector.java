@@ -8,8 +8,8 @@ package Catalano.Vision.Temporal;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Vision.ITemporal;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -20,7 +20,7 @@ public class MedianBackgroundDetector implements ITemporal{
     public MedianBackgroundDetector() {}
 
     @Override
-    public FastBitmap Process(ArrayList<FastBitmap> sequenceImage) {
+    public FastBitmap Process(List<FastBitmap> sequenceImage) {
         
         int width = sequenceImage.get(0).getWidth();
         int height = sequenceImage.get(0).getHeight();

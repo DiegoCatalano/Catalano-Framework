@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //
@@ -279,6 +279,11 @@ public class AStar implements ISearch{
         {
             throw new IllegalArgumentException(Ex.getMessage());
         }
+    }
+
+    @Override
+    public ArrayList<IntPoint> FindPath(IntPoint start, IntPoint end) {
+        return FindPath(start.x, start.y, end.x, end.y);
     }
 
     @Override

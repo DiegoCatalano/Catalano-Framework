@@ -126,6 +126,10 @@ Version updates and fixes:
    - New: Dissimilarity.
    - New: Approximation.
 
+   - Added: Decimal scale in Normalization
+
+   - Renamed: DataPreprocessing to Normalization.
+
    - Fixed: Pearson Correlation in Tools.
 
 * Catalano.Statistics.Kernels

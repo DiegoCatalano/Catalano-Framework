@@ -9,7 +9,7 @@ package Catalano.Vision.SpatioTemporal;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Mean;
 import Catalano.Vision.ITemporal;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -34,7 +34,7 @@ public class MeanBackgroundDetector implements ITemporal{
     }
 
     @Override
-    public FastBitmap Process(ArrayList<FastBitmap> sequenceImage) {
+    public FastBitmap Process(List<FastBitmap> sequenceImage) {
         
         Mean m = new Mean(radius);
         for (FastBitmap fb : sequenceImage) {

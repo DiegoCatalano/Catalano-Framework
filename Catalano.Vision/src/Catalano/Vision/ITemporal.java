@@ -7,12 +7,12 @@
 package Catalano.Vision;
 
 import Catalano.Imaging.FastBitmap;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Diego Catalano
  */
 public interface ITemporal {
-    FastBitmap Process(ArrayList<FastBitmap> sequenceImage);
+    FastBitmap Process(List<FastBitmap> sequenceImage);
 }

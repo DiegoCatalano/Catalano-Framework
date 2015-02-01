@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //
@@ -37,7 +37,15 @@ public interface ISearch {
      * @param startY Start Y axis coordinate.
      * @param endX End X axis coordinate.
      * @param endY End Y axis coordinate.
-     * @return List of points.
+     * @return List of points that contains the path.
      */
     public ArrayList<IntPoint> FindPath(int startX, int startY, int endX, int endY);
+    
+    /**
+     * Find path.
+     * @param start Start point.
+     * @param end End point.
+     * @return List of points that contains the path.
+     */
+    public ArrayList<IntPoint> FindPath(IntPoint start, IntPoint end);
 }

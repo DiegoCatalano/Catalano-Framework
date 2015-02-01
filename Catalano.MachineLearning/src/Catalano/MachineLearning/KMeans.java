@@ -4,6 +4,7 @@
  */
 package Catalano.MachineLearning;
 
+import Catalano.MachineLearning.KMeansClusterCollection;
 import Catalano.Math.Matrix;
 import java.util.Arrays;
 /**

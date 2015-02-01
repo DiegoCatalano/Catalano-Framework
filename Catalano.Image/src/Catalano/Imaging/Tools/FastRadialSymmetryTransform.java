@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © Peter Kovesi, 2004-2010

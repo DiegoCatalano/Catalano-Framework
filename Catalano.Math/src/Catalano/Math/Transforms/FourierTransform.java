@@ -1,7 +1,7 @@
 // Catalano Imaging Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © Nayuki Minase, 2014
@@ -384,26 +384,21 @@ public class FourierTransform {
         
         if(direction == Direction.Forward){
             int c = 0;
-            for (int i = x.length - move; i < x.length; i++) {
-                x[c] = temp[i];
-                c++;
-            }
+            for (int i = x.length - move; i < x.length; i++)
+                x[c++] = temp[i];
 
-            for (int i = 0; i < x.length - move; i++) {
-                x[c] = temp[i];
-                c++;
-            }
+            for (int i = 0; i < x.length - move; i++)
+                x[c++] = temp[i];
+            
         }
         else{
             int c = 0;
-            for (int i = move; i < x.length; i++) {
-                x[move+c] = temp[c];
-                c++;
-            }
+            for (int i = move; i < x.length; i++)
+                x[c++] = temp[i];
             
-            for (int i = 0; i < move; i++) {
-                x[i] = temp[move+i];
-            }
+            for (int i = 0; i < move; i++)
+                x[c++] = temp[i];
+            
         }
     }
     
@@ -423,27 +418,73 @@ public class FourierTransform {
         
         if(direction == Direction.Forward){
             int c = 0;
-            for (int i = x.length - move; i < x.length; i++) {
-                x[c] = temp[i];
-                c++;
-            }
+            for (int i = x.length - move; i < x.length; i++)
+                x[c++] = temp[i];
 
-            for (int i = 0; i < x.length - move; i++) {
-                x[c] = temp[i];
-                c++;
-            }
+            for (int i = 0; i < x.length - move; i++)
+                x[c++] = temp[i];
         }
         else{
             int c = 0;
-            for (int i = move; i < x.length; i++) {
-                x[move+c] = temp[c];
-                c++;
-            }
+            for (int i = move; i < x.length; i++)
+                x[c++] = temp[i];
             
-            for (int i = 0; i < move; i++) {
-                x[i] = temp[move+i];
+            for (int i = 0; i < move; i++)
+                x[c++] = temp[i];
+        }
+    }
+    
+    public static void FFTShift2D(double[][] x, Direction direction){
+        FFTShift2D(x, direction, 1);
+        FFTShift2D(x, direction, 2);
+    }
+    
+    public static void FFTShift2D(double[][] x, Direction direction, int dimension){
+        
+        //Create a copy
+        double[][] temp = new double[x.length][x[0].length];
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < x[0].length; j++) {
+                temp[i][j] = x[i][j];
             }
         }
+        
+        if(direction == Direction.Forward){
+            //Perform fftshift in the first dimension
+            if(dimension == 1){
+                int move =  temp.length / 2;
+                for (int i = 0; i < move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[temp.length - move + i][j];
+                    }
+                }
+
+                for (int i = move; i < x.length; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[i - move][j];
+                    }
+                }
+
+            }
+
+            //Perform fftshift in the second dimension
+            if (dimension == 2){
+                for (int i = 0; i < x.length; i++) {
+                    FFTShift1D(x[i], FourierTransform.Direction.Forward);
+                }
+            }
+        }
+        else{
+            if(dimension == 1){
+                
+            }
+            if(dimension == 2){
+                for (int i = 0; i < x.length; i++) {
+                    FFTShift1D(x[i], FourierTransform.Direction.Backward);
+                }
+            }
+        }
+        
     }
     
 }
