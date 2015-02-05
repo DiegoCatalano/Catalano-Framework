@@ -17,4 +17,6 @@
 /Catalano.MachineLearning/dist/
 /Catalano.Fuzzy/build/
 /Catalano.Fuzzy/dist/
+/Catalano.Vision/build/
 /Catalano.Vision/dist/
+*.netbeans_automatic_build
