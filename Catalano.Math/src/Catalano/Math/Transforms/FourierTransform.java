@@ -434,11 +434,22 @@ public class FourierTransform {
         }
     }
     
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param x Data.
+     * @param direction Direction.
+     */
     public static void FFTShift2D(double[][] x, Direction direction){
         FFTShift2D(x, direction, 1);
         FFTShift2D(x, direction, 2);
     }
     
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param x Data.
+     * @param direction Direction.
+     * @param dimension Dimension.
+     */
     public static void FFTShift2D(double[][] x, Direction direction, int dimension){
         
         //Create a copy
@@ -476,6 +487,17 @@ public class FourierTransform {
         }
         else{
             if(dimension == 1){
+                int move =  temp.length / 2;
+                for (int i = 0; i < x.length - move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[move+i][j];
+                    }
+                }
+                for (int i = 0; i < move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[x.length-move+i][j] = temp[i][j];
+                    }
+                }
                 
             }
             if(dimension == 2){
@@ -484,7 +506,79 @@ public class FourierTransform {
                 }
             }
         }
-        
     }
     
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param x Data.
+     * @param direction Direction.
+     */
+    public static <E> void FFTShift2D(E[][] x, Direction direction){
+        FFTShift2D(x, direction, 1);
+        FFTShift2D(x, direction, 2);
+    }
+    
+    /**
+     * Shift zero-frequency component to center of spectrum.
+     * @param x Data.
+     * @param direction Direction.
+     * @param dimension Dimension.
+     */
+    public static <E> void FFTShift2D(E[][] x, Direction direction, int dimension){
+        
+        //Create a copy
+        E[][] temp = (E[][])new Object[x.length][x[0].length];
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < x[0].length; j++) {
+                temp[i][j] = x[i][j];
+            }
+        }
+        
+        if(direction == Direction.Forward){
+            //Perform fftshift in the first dimension
+            if(dimension == 1){
+                int move =  temp.length / 2;
+                for (int i = 0; i < move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[temp.length - move + i][j];
+                    }
+                }
+
+                for (int i = move; i < x.length; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[i - move][j];
+                    }
+                }
+
+            }
+
+            //Perform fftshift in the second dimension
+            if (dimension == 2){
+                for (int i = 0; i < x.length; i++) {
+                    FFTShift1D(x[i], FourierTransform.Direction.Forward);
+                }
+            }
+        }
+        else{
+            if(dimension == 1){
+                int move =  temp.length / 2;
+                for (int i = 0; i < x.length - move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[i][j] = temp[move+i][j];
+                    }
+                }
+                for (int i = 0; i < move; i++) {
+                    for (int j = 0; j < x[0].length; j++) {
+                        x[x.length-move+i][j] = temp[i][j];
+                    }
+                }
+                
+            }
+            if(dimension == 2){
+                for (int i = 0; i < x.length; i++) {
+                    FFTShift1D(x[i], FourierTransform.Direction.Backward);
+                }
+            }
+        }
+    }
 }
