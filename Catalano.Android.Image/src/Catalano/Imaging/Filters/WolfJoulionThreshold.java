@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright Â© Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //
@@ -24,6 +24,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Math.Matrix;
 
 /**
  * Wolf Threshold.

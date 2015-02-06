@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright Â© Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //
@@ -22,10 +22,15 @@
 
 package Catalano.Imaging.Filters;
 
+import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 
 /**
  * Distance Transform.
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class DistanceTransform {
@@ -55,6 +60,8 @@ public class DistanceTransform {
     };
     
     private float[][] image;
+    private float max;
+    private IntPoint ued;
     
     /**
      * Get Distance metric.
@@ -110,6 +117,22 @@ public class DistanceTransform {
      */
     public void setMaskDistance(float[][] maskDistance) {
         this.maskDistance = maskDistance;
+    }
+
+    /**
+     * Get Maximum distance from transform.
+     * @return Maximum distance.
+     */
+    public float getMaximumDistance() {
+        return max;
+    }
+
+    /**
+     * Get the Ultimate eroded point.
+     * @return UED.
+     */
+    public IntPoint getUltimateErodedPoint() {
+        return ued;
     }
     
     /**
@@ -177,7 +200,7 @@ public class DistanceTransform {
 
             //Bottom -> Top - Right -> Left
             for (int i = height - 2; i > 1; i--) {
-                for (int j = width - 3; j > 1; j--) {
+                for (int j = width - 2; j > 1; j--) {
 
                     if (image[i][j] > 0){
                         float d1 = maskDistance[1][2] + image[i][j + 1];
@@ -190,10 +213,15 @@ public class DistanceTransform {
                 }
             }
             
-            for (int i = 0; i < image.length; i++) {
-                for (int j = 0; j < image[0].length; j++) {
+            max = -Float.MAX_VALUE;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
                     if (image[i][j] == Float.POSITIVE_INFINITY){
                         image[i][j] = 0;
+                    }
+                    if(image[i][j] > max){
+                        max = image[i][j];
+                        ued = new IntPoint(i, j);
                     }
                 }
             }

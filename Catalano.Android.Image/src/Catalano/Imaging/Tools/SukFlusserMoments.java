@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2014
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © Asad Ali
@@ -245,7 +245,6 @@ public class SukFlusserMoments {
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height; i++) {
                 if(fb.getGray(i, j) > 0){
-                    int g = fb.getGray(i, j);
                     sum += (Math.pow(x[k], p) * Math.pow(y[k], q) * fb.getGray(i, j));
                     k++;
                 }

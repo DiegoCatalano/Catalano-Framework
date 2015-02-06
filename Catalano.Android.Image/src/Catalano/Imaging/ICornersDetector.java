@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2013
+// Copyright � Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008

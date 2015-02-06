@@ -1,11 +1,9 @@
-// Catalano Imaging Library
+﻿// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public

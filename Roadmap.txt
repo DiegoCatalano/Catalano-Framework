@@ -33,7 +33,6 @@ Version updates and fixes:
    - New: Separable Convolution.
    - New: Image Pyramids.
    - New: Weber Local Descriptor.
-   - New: The Ovuscule (Active Contour).
    - New: CLAHE (Contrast Limited Adaptive Histogram Equalization).
    - New: Fast Radial Symmetry Transform.
    - New: Histogram Matching.
@@ -118,7 +117,7 @@ Version updates and fixes:
 * Catalano.Math.Transforms
     - New: Fast Hilbert Transform.
 
-    - Added: FFTShift in Fourier Transform.
+    - Added: FFTShift, FFTShift2 in Fourier Transform.
 
     - Fixed: FFT, FFT2 in Fourier Transform. Now is working in Asymetric scaling. Removed power of 2 limitation in FFT and FFT2.
 
