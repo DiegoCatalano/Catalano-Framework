@@ -1,4 +1,4 @@
-﻿// Catalano Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015

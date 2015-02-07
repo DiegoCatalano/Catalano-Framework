@@ -26,6 +26,10 @@ import Catalano.Imaging.Filters.Grayscale;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 
+/**
+ * FastBitmap for manipulation of images.
+ * @author Diego Catalano
+ */
 public class FastBitmap {
     Bitmap b;
     int[] pixels;
@@ -700,7 +704,7 @@ public class FastBitmap {
      */
     public Bitmap toBitmap(){
         if (isRGB())
-                b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
+                b.setPixels(pixels, 0, Math.max(strideX, strideY), 0, 0, b.getWidth(), b.getHeight());
         else{
         	
         	int size = getHeight() * getWidth();
@@ -708,7 +712,7 @@ public class FastBitmap {
 				int g = pixels[i] >> 16 & 0xFF;
         		pixels[i] = 255 << 24 | g << 16 | g << 8 | g;
 			}
-            b.setPixels(pixels, 0, stride, 0, 0, b.getWidth(), b.getHeight());
+            b.setPixels(pixels, 0, Math.max(strideX, strideY), 0, 0, b.getWidth(), b.getHeight());
         }
         return b;
     }
