@@ -108,9 +108,6 @@ public class SobelEdgeDetector implements IBaseInPlace{
                     }
                 }
             }
-            
-            copy.recycle();
-            
         }
         else{
             throw new IllegalArgumentException("SobelEdgeDetector only works in grayscale images.");

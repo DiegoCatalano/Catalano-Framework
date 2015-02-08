@@ -96,7 +96,6 @@ public class ConservativeSmoothing implements IBaseInPlace{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        copy.recycle();
     }
     
     private class CThread implements Runnable {

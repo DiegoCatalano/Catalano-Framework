@@ -97,7 +97,6 @@ public class BinaryDilatation implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int[][] kernel){
@@ -128,7 +127,6 @@ public class BinaryDilatation implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int[][] se){

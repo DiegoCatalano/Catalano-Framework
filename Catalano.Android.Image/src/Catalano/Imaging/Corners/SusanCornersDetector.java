@@ -43,9 +43,7 @@ public class SusanCornersDetector implements ICornersDetector{
     /**
      * Initialize a new instance of the SusanCornersDetector class.
      */
-    public SusanCornersDetector() {
-        
-    }
+    public SusanCornersDetector() {}
 
     /**
      * Initialize a new instance of the SusanCornersDetector class.
@@ -104,7 +102,6 @@ public class SusanCornersDetector implements ICornersDetector{
     		FastBitmap copy = new FastBitmap(fastBitmap);
     		copy.toGrayscale();
     		corners = FindCorners(copy);
-    		copy.recycle();
     		return corners;
     	}
     	else{

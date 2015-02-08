@@ -97,7 +97,6 @@ public class Dilatation implements IBaseInPlace{
                     fastBitmap.setGray(i, j, max);
                 }
             }
-            copy.recycle();
         }
         if (fastBitmap.isRGB()){
             if (kernel == null)
@@ -139,7 +138,6 @@ public class Dilatation implements IBaseInPlace{
                     fastBitmap.setRGB(i, j, maxR, maxG, maxB);
                 }
             }
-            copy.recycle();
         }
     }
     

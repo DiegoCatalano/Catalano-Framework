@@ -84,7 +84,6 @@ public class DifferenceEdgeDetector implements IBaseInPlace{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        copy.recycle();
     }
     
     private class Run implements Runnable {

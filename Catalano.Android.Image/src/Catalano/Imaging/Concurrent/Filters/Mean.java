@@ -176,8 +176,6 @@ public class Mean implements IBaseInPlace{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
-        copy.recycle();
     }
     
     private class Run implements Runnable {

@@ -170,9 +170,6 @@ public class ConservativeSmoothing implements IBaseInPlace{
                 }
             }
         }
-        
-        copy.recycle();
-        
     }
     
     private int CalcLines(int radius){

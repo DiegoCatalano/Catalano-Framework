@@ -151,6 +151,5 @@ public class DifferenceOfGaussian implements IBaseInPlace{
         
         Subtract sub = new Subtract(b);
         sub.applyInPlace(fastBitmap);
-        b.recycle();
     }
 }

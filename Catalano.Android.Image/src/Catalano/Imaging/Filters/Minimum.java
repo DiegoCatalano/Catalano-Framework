@@ -115,7 +115,6 @@ public class Minimum implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int radius){

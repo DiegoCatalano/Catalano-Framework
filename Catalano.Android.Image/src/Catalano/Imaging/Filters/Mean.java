@@ -362,7 +362,6 @@ public class Mean implements IBaseInPlace{
                 }
             break;
         }
-        copy.recycle();
     }
     
     private int CalcLines(int radius){

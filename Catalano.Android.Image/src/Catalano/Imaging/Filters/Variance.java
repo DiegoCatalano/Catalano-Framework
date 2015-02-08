@@ -142,6 +142,5 @@ public class Variance implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
 }

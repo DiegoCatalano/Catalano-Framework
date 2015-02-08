@@ -71,8 +71,6 @@ public class Dilatation implements IBaseInPlace{
             createKernel(radius);
         
         Parallel(fastBitmap);
-        
-        copy.recycle();
     }
     
     private void Parallel(FastBitmap fastBitmap){

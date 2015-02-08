@@ -180,7 +180,6 @@ public class AlphaTrimmedMean implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int radius){

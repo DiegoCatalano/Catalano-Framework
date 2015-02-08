@@ -153,7 +153,6 @@ public class Crop {
             }
 
             fastBitmap.setImage(fb);
-            fb.recycle();
         }
         else{
             
@@ -165,7 +164,6 @@ public class Crop {
                 }
             }
             fastBitmap.setImage(fb);
-            fb.recycle();
         }
     }
 }

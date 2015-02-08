@@ -94,7 +94,6 @@ public class Erosion implements IBaseInPlace{
                     fastBitmap.setGray(i, j, min);
                 }
             }
-            copy.recycle();
         }
         if (fastBitmap.isRGB()){
             if (kernel == null)
@@ -138,7 +137,6 @@ public class Erosion implements IBaseInPlace{
                     fastBitmap.setRGB(i, j, minR, minG, minB);
                 }
             }
-            copy.recycle();
         }
     }
     

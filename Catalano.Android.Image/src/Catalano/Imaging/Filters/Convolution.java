@@ -179,7 +179,6 @@ public class Convolution implements IBaseInPlace{
                     fastBitmap.setGray(x, y, gray);
                 }
             }
-            copy.recycle();
         }
         else{
             int r,g,b;
@@ -238,7 +237,6 @@ public class Convolution implements IBaseInPlace{
                     fastBitmap.setRGB(x, y, r, g, b);
                 }
             }
-            copy.recycle();
         }
     }
     

@@ -134,6 +134,5 @@ public class FastVariance implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
 }

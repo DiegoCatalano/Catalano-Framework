@@ -20,3 +20,5 @@
 /Catalano.Vision/build/
 /Catalano.Vision/dist/
 *.netbeans_automatic_build
+/Catalano.Neuro/build/
+/Catalano.Neuro/dist/

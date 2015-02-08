@@ -131,7 +131,6 @@ public class Median implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int radius){

@@ -106,7 +106,6 @@ public class BlobDetection {
                     }
                 }
             }
-            copy.recycle();
             return blobs;
         }
         else{

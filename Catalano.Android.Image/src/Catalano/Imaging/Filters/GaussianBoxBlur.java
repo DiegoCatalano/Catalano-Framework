@@ -81,8 +81,6 @@ public class GaussianBoxBlur implements IBaseInPlace{
             BoxBlurRGB(fastBitmap, copy, r);
             BoxBlurRGB(copy, fastBitmap, r);
         }
-        copy.recycle();
-        
     }
     
     private void BoxBlurGray(FastBitmap copy, FastBitmap original, int r){

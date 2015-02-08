@@ -278,9 +278,6 @@ public class CannyEdgeDetector implements IBaseInPlace{
             // STEP 4 - Hysteresis Threshold
             HysteresisThreshold threshold = new HysteresisThreshold(lowThreshold, highThreshold);
             threshold.applyInPlace(fastBitmap);
-            
-            //Dispose the copy
-            blurredImage.recycle();
         }
         else{
             throw new IllegalArgumentException("CannyEdgeDetector only works in grayscale images.");

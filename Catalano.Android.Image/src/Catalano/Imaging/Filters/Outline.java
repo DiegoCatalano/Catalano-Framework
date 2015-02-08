@@ -53,8 +53,6 @@ public class Outline implements IBaseInPlace{
             
             Subtract sub = new Subtract(copy);
             sub.applyInPlace(fastBitmap);
-            
-            copy.recycle();
         }
         else{
             throw new IllegalArgumentException("Outline only works in grayscale images.");

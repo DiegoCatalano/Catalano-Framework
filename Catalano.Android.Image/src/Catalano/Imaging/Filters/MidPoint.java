@@ -111,7 +111,6 @@ public class MidPoint implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int radius){

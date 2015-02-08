@@ -93,7 +93,6 @@ public class HomogenityEdgeDetector implements IBaseInPlace{
                     fastBitmap.setGray(i, j, max);
                 }
             }
-            copy.recycle();
         }
         else{
             throw new IllegalArgumentException("Homogenity Edge Detector only works with grayscale images.");

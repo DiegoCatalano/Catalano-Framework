@@ -91,7 +91,6 @@ public class Minimum implements IBaseInPlace{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        copy.recycle();
     }
     
     private class CThread implements Runnable {

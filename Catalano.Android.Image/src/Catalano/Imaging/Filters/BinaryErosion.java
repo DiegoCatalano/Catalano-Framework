@@ -101,7 +101,6 @@ public class BinaryErosion implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int[][] kernel){
@@ -132,7 +131,6 @@ public class BinaryErosion implements IBaseInPlace{
                 }
             }
         }
-        copy.recycle();
     }
     
     private int CalcLines(int[][] se){

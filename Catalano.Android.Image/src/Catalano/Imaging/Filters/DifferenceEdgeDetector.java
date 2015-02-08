@@ -87,7 +87,6 @@ public class DifferenceEdgeDetector implements IBaseInPlace{
                     fastBitmap.setGray(x, y, max);
                 }
             }
-            copy.recycle();
         }
         else{
             throw new IllegalArgumentException("DifferenceEdgeDetector only works in grayscale images.");

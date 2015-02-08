@@ -71,8 +71,6 @@ public class Erosion implements IBaseInPlace{
             createKernel(radius);
         
         Parallel(fastBitmap);
-        
-        copy.recycle();
     }
     
     private void Parallel(FastBitmap fastBitmap){
