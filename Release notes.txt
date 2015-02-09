@@ -1,3 +1,172 @@
+Catalano Framework 1.4 release notes
+-----------------------------------------
+
+Version updates and fixes:
+
+* Catalano.Android.Image
+    - Added: Clear method in FastBitmap.
+    - Added: get; setCoordinateSystem. (Now you can work with X and Y coordinates or I and J like the matrix.)
+    - Added: getData method.
+    - Added: indicateGrayscale in FastBitmap. (Used to optimized some filters to avoid clone in the memory.)
+
+    - Optimized: Several operation filters (e.g grayscale, log, etc...)*
+    - Optimized: Several filters that need to do a copy**.
+* There are directly accessing the pixels.
+** There are using recycle internally when needs some copies.
+
+* Catalano.Core.Structs
+   - New: Binary Heap.
+
+* Catalano.Image
+   - Added: get; setCoordinateSystem.
+   - Added: get; setRGBData method.
+   - Added: get; setGrayData method.
+
+   - Fixed: some constructors in FastBitmap when are loading argb images.
+
+* Catalano.Image.Filters
+   - New: Separable Convolution.
+   - New: Image Pyramids.
+   - New: Weber Local Descriptor.
+   - New: CLAHE (Contrast Limited Adaptive Histogram Equalization).
+   - New: Fast Radial Symmetry Transform.
+   - New: Histogram Matching.
+   - New: Alpha Trimmed Mean Filter.
+   - New: Outline.
+   - New: Mode.
+   - New: Unsharp Mask.
+   - New: Fast Variance.
+   - New: Poisson Noise.
+
+   - Added: Ultimate Eroded Point in Distance Transform.
+   - Added: Geometric mean in Grayscale conversion.
+   - Added: getMaximumDistance in Distance Transform.
+   - Added: support grayscale in Flood Fill.
+
+   - Removed: get; setArithmetic in Sauvola/Niblack/WolfJoulion Threshold. (these filters are using separable convolution for to enhance the performance)
+
+   - Renamed: Wolf Joulion Threshold to Wolf Jolion Threshold
+   - Renamed: Fast Gaussian Blur to Gaussian Box Blur.
+
+   - Fixed: Distance Transform wasn't working with image pixels around the bottom borders.
+   - Fixed: Replicate option in Convolution (fixed in Concurrent too).
+   - Fixed: Gaussian Box Blur in grayscale images.
+   - Fixed: Objective Fidelity was returning infinity values when occur 0 difference.
+
+* Catalano.Image.Tools
+   - New: Suk Flusser Moments.
+   - New: Color Moments.
+   - New: Kernel.
+   - New: Chain Code.
+   - New: Contour.
+   - New: Filters Sequence.
+
+   - Fixed: Smooth Noise Robust in Convolution Kernel.
+   - Fixed: Blob Detection for grayscale images.
+   - Added: new method Compute in Hu Moments.
+   - Added: Ultimate Eroded Points in Shape Descriptors.
+   - Added: Roughness in Shape Descriptors.
+
+* Catalano.Image.Concurrent.Filters
+   - New: Alpha Trimmed Mean.
+   - New: Fast Variance.
+
+* Catalano.Vision.Temporal
+   - New: Mean Background Detector.
+   - New: Median Background Detector.
+
+* Catalano.MachineLearning
+   - New: K Nearest Neighbour.
+
+* Catalano.Math
+    - New: Taylor Series.
+
+    - Added: reshape, isSymmetric, isEqual in Matrix.
+    - Added: generic Transpose in Matrix.
+    - Added: getReal, getImaginary in ComplexNumber for 1,2 dimensions.
+    - Added: Sum in Matrix.
+    - Added: CreateMatrix2D in Matrix.
+    - Added: CreateMatrix1D in Matrix.
+    - Added: Greatest common divisor in Tools.
+    - Added: new overload in Chessboard distance.
+
+* Catalano.Math.Decompositions
+    - New: LU Decomposition.
+    - New: QR Decomposition.
+    - New: Singular Value Decomposition.
+
+* Catalano.Math.Graph
+   - New: Page Rank.
+   - New: Hits.
+
+   - Added: isSymmetric, setStochasticMatrix, CreateStochasticMatrix in Adjacency Matrix.
+
+* Catalano.Math.Graph.Pathfinding
+   - New: ANode.
+   - New: NodeMap.
+   - New: AStar.
+
+* Catalano.Math.Geometry
+   - New: Discrete Curve Evolution.
+
+* Catalano.Math.Transforms
+    - New: Fast Hilbert Transform.
+
+    - Added: FFTShift, FFTShift2 in Fourier Transform.
+
+    - Fixed: FFT, FFT2 in Fourier Transform. Now is working in Asymetric scaling. Removed power of 2 limitation in FFT and FFT2.
+
+* Catalano.Statistics
+   - New: Dissimilarity.
+   - New: Approximation.
+
+   - Added: Decimal scale in Normalization
+
+   - Renamed: DataPreprocessing to Normalization.
+
+   - Fixed: Pearson Correlation in Tools.
+
+* Catalano.Statistics.Kernels
+   - Added: Bessel.
+   - Added: Circular.
+   - Added: Dirichlet.
+   - Added: Histogram Intersection.
+   - Added: Hyper Secant.
+   - Added: Inverse Multiquadric.
+   - Added: Multiquadric.
+   - Added: Rational Quadratic.
+   - Added: Tensor.
+   - Added: Wave.
+
+   - Added: Alpha Trimmed Mean in Tools.
+   - Added: Sum in Tools.
+
+* Catalano.Statistics.Regression
+   - New: Regression Analysis.
+   - New: Logarithmic Regression.
+   - New: Exponential Regression.
+   - New: Power Regression.
+   - New: Polynomial Regression.
+
+* Android Compatibility
+  - Compiled against Android 2.2 (API 8). May work with newer versions.
+
+
+
+
+Catalano Framework 1.3.1 release notes
+-----------------------------------------
+
+
+Version updates and fixes:
+
+* Catalano.Image.Tools
+
+   - Fixed: Objective Fidelity. (Division by zero)
+
+
+
+
 Catalano Framework 1.3 release notes
 -----------------------------------------
 
@@ -109,6 +278,10 @@ Version updates and fixes:
 
    - Added: Replicate option in Convolution.
 
+* Catalano.Math.Geometry
+
+   - New: Ramer Douglas Peucker
+
 * Catalano.Math
 
    - New: Matrix3x3
@@ -122,8 +295,7 @@ Version updates and fixes:
 
    - Changed: FastMath to Approximation.
 
-* Android Compatibility
-  - Compiled against Android 2.2 (API 8). May work with newer versions.
+
 
 
 Catalano Framework 1.2 release notes
