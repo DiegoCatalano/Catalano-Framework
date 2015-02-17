@@ -1,2 +1,9 @@
 Catalano Framework 1.5 road map
 -----------------------------------------
+
+* Catalano.Math
+    - Added: Outer Product in the Matrix.
+
+* Catalano.Math.Decompositions
+    - New: Eigenvalue Decomposition.
+    - New: Cholesky Decomposition.

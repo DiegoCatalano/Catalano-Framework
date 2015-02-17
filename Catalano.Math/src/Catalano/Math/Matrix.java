@@ -479,6 +479,51 @@ public final class Matrix {
     }
     
     /**
+     * Create a new copy.
+     * @param A Matrix to be copied.
+     * @return New matrix.
+     */
+    public static double[][] Copy(double[][] A){
+        double[][] m = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[i][j] = A[i][j];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Create a new copy.
+     * @param A Matrix to be copied.
+     * @return New matrix.
+     */
+    public static int[][] Copy(int[][] A){
+        int[][] m = new int[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[i][j] = A[i][j];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Create a new copy.
+     * @param A Matrix to be copied.
+     * @return New matrix.
+     */
+    public static float[][] Copy(float[][] A){
+        float[][] m = new float[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[i][j] = A[i][j];
+            }
+        }
+        return m;
+    }
+    
+    /**
      * Divides a matrix with a scalar value.
      * @param A Matrix.
      * @param scalar Scalar value.
@@ -1260,6 +1305,63 @@ public final class Matrix {
             result[i] = r;
         }
         return result;
+    }
+    
+    /**
+     * Outer Product.
+     * Outer Product u x v is equivalent to a matrix multiplication uv^t.
+     * @param u Coordinate vector.
+     * @param v Coordinate vector.
+     * @return Matrix.
+     */
+    public static double[][] OuterProduct(double[] u, double[] v){
+        double[][] r = new double[u.length][v.length];
+        
+        for (int i = 0; i < u.length; i++) {
+            for (int j = 0; j < v.length; j++) {
+                r[i][j] = u[i] * v[j];
+            }
+        }
+        
+        return r;
+    }
+    
+    /**
+     * Outer Product.
+     * Outer Product u x v is equivalent to a matrix multiplication uv^t.
+     * @param u Coordinate vector.
+     * @param v Coordinate vector.
+     * @return Matrix.
+     */
+    public static int[][] OuterProduct(int[] u, int[] v){
+        int[][] r = new int[u.length][v.length];
+        
+        for (int i = 0; i < u.length; i++) {
+            for (int j = 0; j < v.length; j++) {
+                r[i][j] = u[i] * v[j];
+            }
+        }
+        
+        return r;
+    }
+    
+    /**
+     * Outer Product.
+     * Outer Product u x v is equivalent to a matrix multiplication uv^t.
+     * @param u Coordinate vector.
+     * @param v Coordinate vector.
+     * @return Matrix.
+     */
+    public static float[][] OuterProduct(float[] u, float[] v){
+        float[][] r = new float[u.length][v.length];
+        
+        for (int i = 0; i < u.length; i++) {
+            for (int j = 0; j < v.length; j++) {
+                r[i][j] = u[i] * v[j];
+            }
+        }
+        
+        return r;
     }
     
     /**
@@ -2095,6 +2197,16 @@ public final class Matrix {
         }
         
         return vector;
+    }
+    
+    public static double[][] SubMatrix(double[][] data, int rows, int cols){
+        double[][] m = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                m[i][j] = data[i][j];
+            }
+        }
+        return m;
     }
     
     public static int[] SubMatrix(int[] data, int first){

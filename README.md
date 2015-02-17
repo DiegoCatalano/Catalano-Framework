@@ -11,6 +11,7 @@ The project is organized under the same architecture found in the afore mentione
   - Statistics
   - Machine Learning
   - Neural Network
+  - Vision
 
 Version
 ----
