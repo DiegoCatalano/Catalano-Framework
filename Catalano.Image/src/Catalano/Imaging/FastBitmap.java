@@ -258,14 +258,13 @@ public class FastBitmap {
      * @return Space color.
      */
     public ColorSpace getColorSpace(){
-        ColorSpace space = ColorSpace.RGB;
         if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
-            space = ColorSpace.Grayscale;
+            return ColorSpace.Grayscale;
         }
         else if (getType() == BufferedImage.TYPE_INT_ARGB) {
-        	space = ColorSpace.ARGB;
+        	return ColorSpace.ARGB;
         }
-        return space;
+        return ColorSpace.RGB;
     }
     
     /**
