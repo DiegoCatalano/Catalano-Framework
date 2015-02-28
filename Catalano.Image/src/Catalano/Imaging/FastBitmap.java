@@ -612,7 +612,7 @@ public class FastBitmap {
             }
         }
         else{
-            int size = pixelsGRAY.length;
+            int size = pixels.length;
             for (int i = 0; i < size; i++) {
                 pixels[i] = 0;
             }
