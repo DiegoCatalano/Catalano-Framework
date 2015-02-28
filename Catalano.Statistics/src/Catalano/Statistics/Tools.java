@@ -132,6 +132,14 @@ public class Tools {
         return a;
     }
     
+    public static double Max(double[] x){
+        double m = x[0];
+        for (int i = 1; i < x.length; i++)
+            if(x[i] > m) m = x[i];
+        
+        return m;
+    }
+    
     public static double Mean(double[] x){
         double r = 0;
         for (int i = 0; i < x.length; i++) {
@@ -139,6 +147,14 @@ public class Tools {
         }
         
         return r / x.length;
+    }
+    
+    public static double Min(double[] x){
+        double m = x[0];
+        for (int i = 1; i < x.length; i++)
+            if(x[i] < m) m = x[i];
+        
+        return m;
     }
     
     public static double GeometricMean(double[] x){

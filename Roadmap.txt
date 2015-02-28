@@ -2,8 +2,12 @@ Catalano Framework 1.5 road map
 -----------------------------------------
 
 * Catalano.Math
+    - Added: Norm1, Norm2, NormF and NormP in the Matrix.
     - Added: Outer Product in the Matrix.
 
 * Catalano.Math.Decompositions
     - New: Eigenvalue Decomposition.
     - New: Cholesky Decomposition.
+
+* Catalano.Statistics
+    - Added: Max and Min in the Tools.

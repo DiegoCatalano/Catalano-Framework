@@ -603,6 +603,7 @@ public class FastBitmap {
     
     /**
      * Clear all the image.
+     * Set all pixels with value 0.
      */
     public void Clear(){
         if(isGrayscale()){

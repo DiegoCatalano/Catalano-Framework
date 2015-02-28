@@ -22,6 +22,7 @@
 package Catalano.Math;
 
 import Catalano.Core.IntPoint;
+import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
 
 /**
@@ -1305,6 +1306,152 @@ public final class Matrix {
             result[i] = r;
         }
         return result;
+    }
+    
+    /**
+     * Calculate 1-norm of a matrix.
+     * @param A Matrix.
+     * @return 1-norm of a matrix.
+     */
+    public static double Norm1(double[][] A){
+        
+        double max = 0;
+        for (int j = 0; j < A[0].length; j++) {
+            double sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += Math.abs(A[i][j]);
+            }
+            max = Math.max(max, sum);
+        }
+        
+        return max;
+        
+    }
+    
+    /**
+     * Calculate 1-norm of a matrix.
+     * @param A Matrix.
+     * @return 1-norm of a matrix.
+     */
+    public static int Norm1(int[][] A){
+        
+        int max = 0;
+        for (int j = 0; j < A[0].length; j++) {
+            int sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += Math.abs(A[i][j]);
+            }
+            max = Math.max(max, sum);
+        }
+        
+        return max;
+        
+    }
+    
+    /**
+     * Calculate 1-norm of a matrix.
+     * @param A Matrix.
+     * @return 1-norm of a matrix.
+     */
+    public static float Norm1(float[][] A){
+        
+        float max = 0;
+        for (int j = 0; j < A[0].length; j++) {
+            float sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += Math.abs(A[i][j]);
+            }
+            max = Math.max(max, sum);
+        }
+        
+        return max;
+        
+    }
+    
+    /**
+     * Calculate 2-norm of a matrix.
+     * @param A Matrix.
+     * @return 2-norm of a matrix.
+     */
+    public static double Norm2(double[][] A){
+        return new SingularValueDecomposition(A).getS()[0][0];
+    }
+    
+    /**
+     * Calculate Frobenius norm of a matrix.
+     * @param A Matrix.
+     * @return Frobenius norm.
+     */
+    public static double NormF(double[][] A){
+        
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.pow(Math.abs(A[i][j]), 2);
+            }
+        }
+        
+        return Math.sqrt(sum);
+        
+    }
+    
+    /**
+     * Calculate Frobenius norm of a matrix.
+     * @param A Matrix.
+     * @return Frobenius norm.
+     */
+    public static double NormF(int[][] A){
+        
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.pow(Math.abs(A[i][j]), 2);
+            }
+        }
+        
+        return Math.sqrt(sum);
+        
+    }
+    
+    /**
+     * Calculate Frobenius norm of a matrix.
+     * @param A Matrix.
+     * @return Frobenius norm.
+     */
+    public static float NormF(float[][] A){
+        
+        float sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                sum += Math.pow(Math.abs(A[i][j]), 2);
+            }
+        }
+        
+        return (float)Math.sqrt(sum);
+        
+    }
+    
+    /**
+     * Calculate Infinity norm of a matrix.
+     * @param A Matrix.
+     * @return Infinity norm.
+     */
+    public static double NormInfinity(double[][] A){
+        
+    }
+    
+    /**
+     * Calculate P norm of a vector.
+     * @param v Vector.
+     * @param p P must be an integer greater than 1.
+     * @return P norm.
+     */
+    public static double NormP(double[] v, int p){
+        double sum = 0;
+        for (int i = 0; i < v.length; i++) {
+            sum += Math.pow(Math.abs(v[i]), p);
+        }
+        return Math.pow(sum, 1.0/(double)p);
     }
     
     /**
