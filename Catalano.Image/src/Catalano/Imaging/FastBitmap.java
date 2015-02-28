@@ -262,6 +262,9 @@ public class FastBitmap {
         if (getType() == BufferedImage.TYPE_BYTE_GRAY) {
             space = ColorSpace.Grayscale;
         }
+        else if (getType() == BufferedImage.TYPE_INT_ARGB) {
+        	space = ColorSpace.ARGB;
+        }
         return space;
     }
     
