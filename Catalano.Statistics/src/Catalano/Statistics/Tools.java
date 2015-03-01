@@ -27,6 +27,12 @@ package Catalano.Statistics;
  */
 public class Tools {
     
+    public static double CoefficientOfVariation(double[] x){
+        double mean = Mean(x);
+        double std = Math.sqrt(Variance(x, mean));
+        return std / mean;
+    }
+    
     public static double Covariance(double[] x, double[] y){
         if (x.length != y.length) {
             try {
@@ -189,8 +195,11 @@ public class Tools {
     }
     
     public static double Variance(double[] x){
+        return Variance(x, Mean(x));
+    }
+    
+    public static double Variance(double[] x, double mean){
         double sum = 0;
-        double mean = Mean(x);
         for (int i = 0; i < x.length; i++) {
             sum += Math.pow((x[i] - mean), 2);
         }

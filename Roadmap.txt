@@ -10,4 +10,5 @@ Catalano Framework 1.5 road map
     - New: Cholesky Decomposition.
 
 * Catalano.Statistics
+    - Added: Coefficient of Variation in the Tools.
     - Added: Max and Min in the Tools.
