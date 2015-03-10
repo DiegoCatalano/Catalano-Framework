@@ -79,9 +79,6 @@ public class Stopwatch {
      * @return Status.
      */
     public boolean isRunning(){
-        if (t1 != 0) {
-            return true;
-        }
-        return false;
+        return t1 != 0;
     }
 }

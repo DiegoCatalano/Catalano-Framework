@@ -81,5 +81,4 @@ public class CentroidDefuzzifier implements IDefuzzifier{
 
         return weightSum / membershipSum;
     }
-    
 }

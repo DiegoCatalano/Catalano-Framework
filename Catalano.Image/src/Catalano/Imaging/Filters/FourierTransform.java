@@ -27,7 +27,6 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Tools.ImagePadding;
 import Catalano.Math.ComplexNumber;
 
 /**
@@ -39,11 +38,6 @@ public class FourierTransform {
     private ComplexNumber[][] data;
     private int width, height;
     private boolean fourierTransformed = false;
-    private boolean useZeroPadding = false;
-    private int oriWidth;
-    private int oriHeight;
-    private int nW;
-    private int nH;
 
     /**
      * Initialize a new instance of the FourierTransform class.
@@ -54,21 +48,12 @@ public class FourierTransform {
             this.width = fastBitmap.getWidth();
             this.height = fastBitmap.getHeight();
             
-            boolean a = Catalano.Math.Tools.IsPowerOf2(width);
-            boolean b = Catalano.Math.Tools.IsPowerOf2(height);
-            
-            if (a == false || b == false){
-                ZeroPadding(fastBitmap);
-                this.width = fastBitmap.getWidth();
-                this.height = fastBitmap.getHeight();
-            }
-            
             data = new ComplexNumber[height][width];
 
             for (int x = 0; x < height; x++) {
                 for (int y = 0; y < width; y++) {
                     data[x][y] = new ComplexNumber(0, 0);
-                    data[x][y].real = (float) fastBitmap.getGray(x, y) / 255;
+                    data[x][y].real = (float) fastBitmap.getGray(x, y);
                 }
             }
         }
@@ -79,20 +64,6 @@ public class FourierTransform {
                 e.printStackTrace();
             }
         }
-    }
-    
-    private void ZeroPadding(FastBitmap fastBitmap){
-        
-        this.oriWidth = fastBitmap.getWidth();
-        this.oriHeight = fastBitmap.getHeight();
-
-        this.nW = Catalano.Math.Tools.NextPowerOf2(oriWidth);
-        this.nH = Catalano.Math.Tools.NextPowerOf2(oriHeight);
-
-        ImagePadding expand = new ImagePadding(nW - oriWidth, nH - oriHeight);
-        expand.applyInPlace(fastBitmap);
-        this.useZeroPadding = true;
-        
     }
 
     /**
@@ -150,10 +121,10 @@ public class FourierTransform {
             }
         }
         
-        if (useZeroPadding && !fourierTransformed){
-            Crop crop = new Crop((nH - oriHeight) / 2, (nW - oriWidth) / 2, oriWidth, oriHeight);
-            crop.ApplyInPlace(fb);
-        }
+//        if (useZeroPadding && !fourierTransformed){
+//            Crop crop = new Crop((nH - oriHeight) / 2, (nW - oriWidth) / 2, oriWidth, oriHeight);
+//            crop.ApplyInPlace(fb);
+//        }
         
         return fb;
     }

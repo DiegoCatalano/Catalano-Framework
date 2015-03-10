@@ -843,7 +843,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(int x, int y){
-        return pixelsGRAY[x*strideX+y*strideY] < 0 ? pixelsGRAY[x*strideX+y*strideY] + 256 : pixelsGRAY[x*strideX+y*strideY];
+        return pixelsGRAY[x*strideX+y*strideY] & 0xFF;
     }
     
     /**
@@ -852,7 +852,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(IntPoint point){
-        return pixelsGRAY[point.x*getWidth()+point.y] < 0 ? pixelsGRAY[point.x*getWidth()+point.y] + 256 : pixelsGRAY[point.x*getWidth()+point.y];
+        return pixelsGRAY[point.x*getWidth()+point.y] & 0xFF;
     }
     
     /**

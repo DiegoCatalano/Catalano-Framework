@@ -92,10 +92,7 @@ public class FloatRange{
      * @return True if the value is inside of the range, otherwise returns false.
      */
     public boolean isInside(float x){
-        if ((x >= min) && (x <= max)) {
-            return true;
-        }
-        return false;
+        return (x >= min) && (x <= max);
     }
     
     /**
@@ -128,12 +125,7 @@ public class FloatRange{
     public boolean equals(Object obj) {
         if (obj.getClass().isAssignableFrom(FloatRange.class)) {
             FloatRange range = (FloatRange)obj;
-            if (this.min == range.getMin() && this.max == range.getMax()) {
-                return true;
-            }
-            else{
-                return false;
-            }
+            return this.min == range.getMin() && this.max == range.getMax();
         }
         else{
             return false;

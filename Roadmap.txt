@@ -1,9 +1,15 @@
 Catalano Framework 1.5 road map
 -----------------------------------------
 
+* Catalano.Image
+    - Optimized: getGray() now is using bitwise operation.
+
 * Catalano.Math
+    - Added: Digital Root in the Tools.
     - Added: Norm1, Norm2, NormF and NormP in the Matrix.
     - Added: Outer Product in the Matrix.
+
+    - Fixed: FFT2 in the FourierTransform.
 
 * Catalano.Math.Decompositions
     - New: Eigenvalue Decomposition.

@@ -122,6 +122,7 @@ public class DoublePoint {
      * Adds values of two points.
      * @param point1 DoublePoint.
      * @param point2 DoublePoint.
+     * @return A new DoublePoint with the add operation.
      */
     public DoublePoint Add(DoublePoint point1, DoublePoint point2){
         DoublePoint result = new DoublePoint(point1);
@@ -151,6 +152,7 @@ public class DoublePoint {
      * Subtract values of two points.
      * @param point1 DoublePoint.
      * @param point2 DoublePoint.
+     * @return A new DoublePoint with the subtraction operation.
      */
     public DoublePoint Subtract(DoublePoint point1, DoublePoint point2){
         DoublePoint result = new DoublePoint(point1);
@@ -180,6 +182,7 @@ public class DoublePoint {
      * Multiply values of two points.
      * @param point1 DoublePoint.
      * @param point2 DoublePoint.
+     * @return A new DoublePoint with the multiplication operation.
      */
     public DoublePoint Multiply(DoublePoint point1, DoublePoint point2){
         DoublePoint result = new DoublePoint(point1);
@@ -209,6 +212,7 @@ public class DoublePoint {
      * Divides values of two points.
      * @param point1 DoublePoint.
      * @param point2 DoublePoint.
+     * @return A new DoublePoint with the division operation.
      */
     public DoublePoint Divide(DoublePoint point1, DoublePoint point2){
         DoublePoint result = new DoublePoint(point1);

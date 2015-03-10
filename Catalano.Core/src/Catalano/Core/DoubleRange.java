@@ -92,10 +92,7 @@ public class DoubleRange{
      * @return True if the value is inside of the range, otherwise returns false.
      */
     public boolean isInside(double x){
-        if ((x >= min) && (x <= max)) {
-            return true;
-        }
-        return false;
+        return (x >= min) && (x <= max);
     }
     
     /**
@@ -128,12 +125,7 @@ public class DoubleRange{
     public boolean equals(Object obj) {
         if (obj.getClass().isAssignableFrom(DoubleRange.class)) {
             DoubleRange range = (DoubleRange)obj;
-            if (this.min == range.getMin() && this.max == range.getMax()) {
-                return true;
-            }
-            else{
-                return false;
-            }
+            return this.min == range.getMin() && this.max == range.getMax();
         }
         return false;
     }

@@ -89,6 +89,18 @@ public final class Tools {
     }
     
     /**
+     * Return the digital root from a number.
+     * Example:
+     * Number: 24365
+     * Digital root: 2+4+3+6+5 = 20 = 2+0 = 2
+     * @param n Number.
+     * @return Digital root.
+     */
+    public static int DigitalRoot(int n){
+        return 1 + (n - 1) % 9;
+    }
+    
+    /**
      * Gets the greatest common divisor between two integers.
      * @param a First integer.
      * @param b Second integer.
@@ -143,7 +155,7 @@ public final class Tools {
     
     /**
      * Returns the previous power of 2 after the input value x.
-     * @param  Input value x.
+     * @param  x value x.
      * @return Returns the previous power of 2 after the input value x.
      */
     public static int PreviousPowerOf2(int x){

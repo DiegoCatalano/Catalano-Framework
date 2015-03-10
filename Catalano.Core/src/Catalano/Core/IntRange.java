@@ -92,10 +92,7 @@ public class IntRange{
      * @return True if the value is inside of the range, otherwise returns false.
      */
     public boolean isInside(int x){
-        if ((x >= min) && (x <= max)) {
-            return true;
-        }
-        return false;
+        return (x >= min) && (x <= max);
     }
     
     /**
@@ -128,12 +125,7 @@ public class IntRange{
     public boolean equals(Object obj) {
         if (obj.getClass().isAssignableFrom(IntRange.class)) {
             IntRange range = (IntRange)obj;
-            if (this.min == range.getMin() && this.max == range.getMax()) {
-                return true;
-            }
-            else{
-                return false;
-            }
+            return this.min == range.getMin() && this.max == range.getMax();
         }
         else{
             return false;

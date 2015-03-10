@@ -121,6 +121,7 @@ public class FloatPoint {
      * Adds values of two points.
      * @param point1 FloatPoint.
      * @param point2 FloatPoint.
+     * @return A new FloatPoint with the add operation.
      */
     public FloatPoint Add(FloatPoint point1, FloatPoint point2){
         FloatPoint result = new FloatPoint(point1);
@@ -150,6 +151,7 @@ public class FloatPoint {
      * Subtracts values of two points.
      * @param point1 FloatPoint.
      * @param point2 FloatPoint.
+     * @return A new FloatPoint with the subtract operation.
      */
     public FloatPoint Subtract(FloatPoint point1, FloatPoint point2){
         FloatPoint result = new FloatPoint(point1);
@@ -179,6 +181,7 @@ public class FloatPoint {
      * Multiply values of two points.
      * @param point1 FloatPoint.
      * @param point2 FloatPoint.
+     * @return A new FloatPoint with the multiplication operation.
      */
     public FloatPoint Multiply(FloatPoint point1, FloatPoint point2){
         FloatPoint result = new FloatPoint(point1);
@@ -208,6 +211,7 @@ public class FloatPoint {
      * Divide values of two points.
      * @param point1 FloatPoint.
      * @param point2 FloatPoint.
+     * @return A new FloatPoint with the division operation.
      */
     public FloatPoint Divide(FloatPoint point1, FloatPoint point2){
         FloatPoint result = new FloatPoint(point1);

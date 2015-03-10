@@ -1432,15 +1432,6 @@ public final class Matrix {
     }
     
     /**
-     * Calculate Infinity norm of a matrix.
-     * @param A Matrix.
-     * @return Infinity norm.
-     */
-    public static double NormInfinity(double[][] A){
-        
-    }
-    
-    /**
      * Calculate P norm of a vector.
      * @param v Vector.
      * @param p P must be an integer greater than 1.
