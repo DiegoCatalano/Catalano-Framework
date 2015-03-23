@@ -22,8 +22,9 @@
 package Catalano.Imaging;
 
 import Catalano.Core.IntPoint;
+import Catalano.Imaging.Shapes.IntPolygon;
 import Catalano.Imaging.Shapes.IntRectangle;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fast Graphics.
@@ -33,8 +34,16 @@ import java.util.ArrayList;
 public class FastGraphics {
     
     private FastBitmap fastBitmap;
-    private int r = 0, g = 0, b = 0;
+    private Color color;
     private int gray = 0;
+    
+    /**
+     * Set color.
+     * @param color Color.
+     */
+    public void setColor(Color color){
+        this.color = color;
+    }
     
     /**
      * Set color.
@@ -43,9 +52,7 @@ public class FastGraphics {
      * @param blue Blue channel.
      */
     public void setColor(int red, int green, int blue){
-        this.r = red;
-        this.g = green;
-        this.b = blue;
+        color = new Color(red, green, blue);
     }
     
     /**
@@ -94,14 +101,14 @@ public class FastGraphics {
             int radiusError = 1-i;
 
             while(i >= j){
-              fastBitmap.setRGB(i + x, j + y, r, g, b);
-              fastBitmap.setRGB(j + x, i + y, r, g, b);
-              fastBitmap.setRGB(-i + x, j + y, r, g, b);
-              fastBitmap.setRGB(-j + x, i + y, r, g, b);
-              fastBitmap.setRGB(-i + x, -j + y, r, g, b);
-              fastBitmap.setRGB(-j + x, -i + y, r, g, b);
-              fastBitmap.setRGB(i + x, -j + y, r, g, b);
-              fastBitmap.setRGB(j + x, -i + y, r, g, b);
+              fastBitmap.setRGB(i + x, j + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(j + x, i + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(-i + x, j + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(-j + x, i + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(-i + x, -j + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(-j + x, -i + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(i + x, -j + y, color.r, color.g, color.b);
+              fastBitmap.setRGB(j + x, -i + y, color.r, color.g, color.b);
 
               j++;
               if(radiusError<0)
@@ -174,7 +181,7 @@ public class FastGraphics {
             }
             int numerator = longest >> 1 ;
             for (int i=0;i<=longest;i++) {
-                fastBitmap.setRGB(x, y, r, g, b);
+                fastBitmap.setRGB(x, y, color.r, color.g, color.b);
                 numerator += shortest ;
                 if (!(numerator<longest)) {
                     numerator -= longest ;
@@ -218,11 +225,28 @@ public class FastGraphics {
     }
     
     /**
+     * Draw Polygon.
+     * @param polygon Polygon.
+     */
+    public void DrawPolygon(IntPolygon polygon){
+        DrawPolygon(polygon.getX(), polygon.getY());
+    }
+    
+    /**
+     * Draw Polygon.
+     * @param polygon Polygon.
+     * @param nPoints Number of points.
+     */
+    public void DrawPolygon(IntPolygon polygon, int nPoints){
+        DrawPolygon(polygon.getX(), polygon.getY(), nPoints);
+    }
+    
+    /**
      * Draw Polygon
      * @param points List of points.
      * @param n Number of points.
      */
-    public void DrawPolygon(ArrayList<IntPoint> points, int n){
+    public void DrawPolygon(List<IntPoint> points, int n){
         if (points.size() > 2 && n > 2){
             for (int i = 1; i < n; i++) {
                 DrawLine(points.get(i), points.get(i - 1));
@@ -238,7 +262,7 @@ public class FastGraphics {
      * Draw Polygon
      * @param points List of points.
      */
-    public void DrawPolygon(ArrayList<IntPoint> points){
+    public void DrawPolygon(List<IntPoint> points){
         DrawPolygon(points, points.size());
     }
     
@@ -304,16 +328,16 @@ public class FastGraphics {
         if (fastBitmap.isRGB()){
             
             for (int j = y; j < y + width; j++) {
-                fastBitmap.setRGB(x, j, r, g, b);
+                fastBitmap.setRGB(x, j, color);
             }
             
             for (int j = y; j < y + width; j++) {
-                fastBitmap.setRGB(x + height, j, r, g, b);
+                fastBitmap.setRGB(x + height, j, color);
             }
             
             for (int i = x; i < x + height; i++) {
-                fastBitmap.setRGB(i, y, r, g, b);
-                fastBitmap.setRGB(i, y + width, r, g, b);
+                fastBitmap.setRGB(i, y, color);
+                fastBitmap.setRGB(i, y + width, color);
             }
             
         } else{

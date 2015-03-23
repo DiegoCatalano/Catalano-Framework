@@ -26,6 +26,8 @@ package Catalano.Statistics;
  * @author Diego Catalano
  */
 public class Tools {
+
+    private Tools() {}
     
     public static double CoefficientOfVariation(double[] x){
         double mean = Mean(x);

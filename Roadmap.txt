@@ -2,7 +2,14 @@ Catalano Framework 1.5 road map
 -----------------------------------------
 
 * Catalano.Image
+    - New: Color.
     - Optimized: getGray() now is using bitwise operation.
+
+* Catalano.Imaging.ActiveContour
+    - New: Ovuscule.
+
+* Catalano.Imaging.Shapes
+    - New: IntPolygon.
 
 * Catalano.Math
     - Added: Digital Root in the Tools.

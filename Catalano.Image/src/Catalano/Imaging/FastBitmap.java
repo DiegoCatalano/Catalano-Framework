@@ -753,6 +753,16 @@ public class FastBitmap {
      * Set RGB.
      * @param x X axis coordinates.
      * @param y Y axis coordinates.
+     * @param color RGB color.
+     */
+    public void setRGB(int x, int y, Color color){
+        setRGB(x, y, color.r, color.g, color.b);
+    }
+    
+    /**
+     * Set RGB.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
      * @param red Red channel's value.
      * @param green Green channel's value.
      * @param blue Blue channel's value.
@@ -760,6 +770,15 @@ public class FastBitmap {
     public void setRGB(int x, int y, int red, int green, int blue){
         int a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
         pixels[x*strideX+y*strideY] = a << 24 | red << 16 | green << 8 | blue;
+    }
+    
+    /**
+     * Set RGB.
+     * @param point IntPoint.
+     * @param color RGB color.
+     */
+    public void setRGB(IntPoint point, Color color){
+        setRGB(point.x, point.y, color.r, color.g, color.b);
     }
     
     /**
