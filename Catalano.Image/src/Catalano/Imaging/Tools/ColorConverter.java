@@ -21,6 +21,8 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Imaging.Color;
+
 /**
  * Convert between different color spaces supported.
  * RGB -> CMYK -> RGB
@@ -75,7 +77,16 @@ public class ColorConverter {
     public static float[] CIE10_F11 = {103.866f, 100f, 65.627f};
     
     /**
-     * RFB -> CMYK
+     * RGB -> CMYK
+     * @param color Color.
+     * @return CMYK color space. Normalized.
+     */
+    public static float[] RGBtoCMYK(Color color){
+        return RGBtoCMYK(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> CMYK
      * @param red Values in the range [0..255].
      * @param green Values in the range [0..255].
      * @param blue Values in the range [0..255].
@@ -117,6 +128,15 @@ public class ColorConverter {
         rgb[2] = (int)(255 * (1-y) * (1-k));
         
         return rgb;
+    }
+    
+    /**
+     * RGB -> YUV.
+     * @param color Color.
+     * @return YUV color space.
+     */
+    public static float[] RGBtoYUV(Color color){
+        return RGBtoYUV(color.r, color.g, color.b);
     }
     
     /**
@@ -173,6 +193,15 @@ public class ColorConverter {
     
     /**
      * RGB -> YIQ.
+     * @param color Color.
+     * @return YIQ color space.
+     */
+    public static float[] RGBtoYIQ(Color color){
+        return RGBtoYIQ(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> YIQ.
      * @param red Values in the range [0..255].
      * @param green Values in the range [0..255].
      * @param blue Values in the range [0..255].
@@ -221,6 +250,10 @@ public class ColorConverter {
         rgb[2] = b;
         
         return rgb;
+    }
+    
+    public static float[] RGBtoYCbCr(Color color, YCbCrColorSpace colorSpace){
+        return RGBtoYCbCr(color.r, color.g, color.b, colorSpace);
     }
     
     public static float[] RGBtoYCbCr(int red, int green, int blue, YCbCrColorSpace colorSpace){
@@ -274,6 +307,15 @@ public class ColorConverter {
     
     /**
      * Rg-Chromaticity space is already known to remove ambiguities due to illumination or surface pose.
+     * @param color Color.
+     * @return Normalized RGChromaticity. Range[0..1].
+     */
+    public static double[] RGChromaticity(Color color){
+        return RGChromaticity(color.r, color.g, color.b);
+    }
+    
+    /**
+     * Rg-Chromaticity space is already known to remove ambiguities due to illumination or surface pose.
      * @see Neural Information Processing - Chi Sing Leung. p. 668
      * @param red Red coefficient.
      * @param green Green coefficient.
@@ -304,6 +346,16 @@ public class ColorConverter {
         color[4] = Math.atan(rS / gS);
         
         return color;
+    }
+    
+    /**
+     * RGB -> HSV.
+     * Adds (hue + 360) % 360 for represent hue in the range [0..359].
+     * @param color Color.
+     * @return HSV color space.
+     */
+    public static float[] RGBtoHSV(Color color){
+        return RGBtoHSV(color.r, color.g, color.b);
     }
     
     /**
@@ -402,6 +454,15 @@ public class ColorConverter {
     
     /**
      * RGB -> YCC.
+     * @param color Color.
+     * @return YCC color space. In the range [0..1].
+     */
+    public static float[] RGBtoYCC(Color color){
+        return RGBtoYCC(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> YCC.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
@@ -444,6 +505,15 @@ public class ColorConverter {
         rgb[2] = (int)(b * 255f);
         
         return rgb;
+    }
+    
+    /**
+     * RGB -> YCoCg.
+     * @param color Color.
+     * @return YCoCg color space.
+     */
+    public static float[] RGBtoYCoCg(Color color){
+        return RGBtoYCoCg(color.r, color.g, color.b);
     }
     
     /**
@@ -493,7 +563,16 @@ public class ColorConverter {
     }
     
     /**
-     * RGB -> XYZ
+     * RGB -> XYZ.
+     * @param color Color.
+     * @return XYZ color space.
+     */
+    public static float[] RGBtoXYZ(Color color){
+        return RGBtoXYZ(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> XYZ.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
@@ -631,6 +710,15 @@ public class ColorConverter {
     
     /**
      * RGB -> HunterLAB.
+     * @param color Color.
+     * @return HunterLAB color space.
+     */
+    public static float[] RGBtoHunterLAB(Color color){
+        return RGBtoHunterLAB(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> HunterLAB.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
@@ -651,6 +739,15 @@ public class ColorConverter {
     public static int[] HunterLABtoRGB(float l, float a, float b){
         float[] xyz = HunterLABtoXYZ(l, a, b);
         return XYZtoRGB(xyz[0], xyz[1], xyz[2]);
+    }
+    
+    /**
+     * RGB -> HLS.
+     * @param color Color.
+     * @return HLS color space.
+     */
+    public static float[] RGBtoHSL(Color color){
+        return RGBtoHLS(color.r, color.g, color.b);
     }
     
     /**
@@ -772,6 +869,16 @@ public class ColorConverter {
     
     /**
      * RGB -> CIE-LAB.
+     * @param color Color.
+     * @param tristimulus XYZ Tristimulus.
+     * @return CIE-LAB color space.
+     */
+    public static float[] RGBtoLAB(Color color, float[] tristimulus){
+        return RGBtoLAB(color.r, color.g, color.b, tristimulus);
+    }
+    
+    /**
+     * RGB -> CIE-LAB.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
@@ -877,6 +984,15 @@ public class ColorConverter {
     
     /**
      * RGB -> C1C2C3.
+     * @param color Color.
+     * @return C1C2C3 color space.
+     */
+    public static float[] RGBtoC1C2C3(Color color){
+        return RGBtoC1C2C3(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> C1C2C3.
      * @param r Red coefficient. Values in the range [0..255].
      * @param g Green coefficient. Values in the range [0..255].
      * @param b Blue coefficient. Values in the range [0..255].
@@ -892,6 +1008,15 @@ public class ColorConverter {
         
         return c;
         
+    }
+    
+    /**
+     * RGB -> O1O2.
+     * @param color Color.
+     * @return O1O2 color space.
+     */
+    public static float[] RGBtoO1O2(Color color){
+        return RGBtoO1O2(color.r, color.g, color.b);
     }
     
     /**
@@ -914,14 +1039,21 @@ public class ColorConverter {
     
     /**
      * RGB -> Grayscale.
+     * @param color Color.
+     * @return Grayscale color space.
+     */
+    public static float RGBtoGrayscale(Color color){
+        return RGBtoGrayscale(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> Grayscale.
      * @param r Red coefficient. Values in the range [0..255].
      * @param g Green coefficient. Values in the range [0..255].
      * @param b Blue coefficient. Values in the range [0..255].
      * @return Grayscale color space.
      */
     public static float RGBtoGrayscale(int r, int g, int b){
-        
         return r*0.2125f + g*0.7154f + b*0.0721f;
-        
     }
 }
