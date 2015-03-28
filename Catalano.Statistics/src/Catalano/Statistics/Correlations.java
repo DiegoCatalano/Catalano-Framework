@@ -32,22 +32,6 @@ public final class Correlations {
      */
     private Correlations(){};
     
-    public static double Mici(double[] p, double[] q){
-        double x = Tools.Variance(p);
-        double y = Tools.Variance(q);
-        
-        double a = Tools.Covariance(p, q);
-        return x + y - Math.sqrt(Math.pow(x - y, 2) + 4 * Tools.Covariance(p, q));
-    }
-    
-    public static double Mici2(double[] p, double[] q){
-        double x = Tools.Variance(p);
-        double y = Tools.Variance(q);
-        double corr = Tools.Covariance(p, q) / Math.sqrt(x * y);
-        
-        return x + y - Math.sqrt(Math.pow(x + y, 2) + 4 * x * y * (1 - corr * corr));
-    }
-    
     /**
      * Inner Product
      * @param p Vector 1

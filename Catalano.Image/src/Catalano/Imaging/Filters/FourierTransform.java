@@ -4,8 +4,6 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov at gmail.com
 //
 // In Aforge.NET, its called ComplexImage. But i adapted to this framework, i just changed the name.
 //
@@ -28,6 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Math.ComplexNumber;
+import Catalano.Math.Tools;
 
 /**
  * Fourier Transform.
@@ -59,7 +58,7 @@ public class FourierTransform {
         }
         else{
             try {
-                throw new Exception("ComplexImage works only with Grayscale images");
+                throw new Exception("FourierTransform works only with Grayscale images");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,20 +110,42 @@ public class FourierTransform {
      * @return FastBitmap.
      */
     public FastBitmap toFastBitmap(){
+        
         FastBitmap fb = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         
-        double scale = ( fourierTransformed ) ? Math.sqrt( width * height ) : 1;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                fb.setGray(x, y, (int)Math.max( 0, Math.min( 255, data[x][y].getMagnitude() * scale * 255 )));
+        if(fourierTransformed){
+            
+            //Calculate the magnitude
+            double[][] mag = new double[height][width];
+            double min = Double.MAX_VALUE;
+            double max = -Double.MAX_VALUE;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    //Compute log for perceptual scaling and +1 since log(0) is undefined.
+                    mag[i][j] = Math.log(data[i][j].getMagnitude() + 1);
+                    
+                    if(mag[i][j] < min) min = mag[i][j];
+                    if(mag[i][j] > max) max = mag[i][j];
+                }
+            }
+            
+            //Scale the image
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    fb.setGray(i, j, (int)Tools.Scale(min, max, 0, 255, mag[i][j]));
+                }
             }
         }
-        
-//        if (useZeroPadding && !fourierTransformed){
-//            Crop crop = new Crop((nH - oriHeight) / 2, (nW - oriWidth) / 2, oriWidth, oriHeight);
-//            crop.ApplyInPlace(fb);
-//        }
+        else{
+            
+            //Show only the real part
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    fb.setGray(i, j, (int)data[i][j].real);
+                }
+            }
+            
+        }
         
         return fb;
     }
