@@ -5,6 +5,9 @@ Catalano Framework 1.5 road map
     - New: Color.
     - Optimized: getGray() now is using bitwise operation.
 
+* Catalano.Imaging.Filters
+    - New: Median Cut.
+
 * Catalano.Imaging.ActiveContour
     - New: Ovuscule.
 
