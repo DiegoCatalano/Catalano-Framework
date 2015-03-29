@@ -119,6 +119,43 @@ public class Color {
      * Blue channel's component.
      */
     public int b = 0;
+    
+    /**
+     * Count many colors has in the image.
+     * @param fastBitmap Image to be procesed.
+     * @return Number of colors.
+     */
+    public static int Count(FastBitmap fastBitmap){
+        
+        if(fastBitmap.isGrayscale()){
+
+            byte[] maxColors = new byte[256];
+            int colors = 0;
+            
+            byte[] data = fastBitmap.getGrayData();
+            for (int i = 0; i < data.length; i++)
+                    maxColors[data[i]] = 1;
+
+            for (int i = 0; i < 256; i++)
+                if(maxColors[i] == 1) colors++;
+
+            return colors;
+    
+        }
+        
+        byte[] maxColors = new byte[16777216];
+        int colors = 0;
+
+        int[] data = fastBitmap.getRGBData();
+        for (int i = 0; i < data.length; i++)
+                maxColors[data[i]] = 1;
+
+        for (int i = 0; i < 16777216; i++)
+            if(maxColors[i] == 1) colors++;
+
+        return colors;
+        
+    }
 
     /**
      * Initialize a new instance of the Color class.
