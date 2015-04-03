@@ -23,7 +23,7 @@
 package Catalano.Imaging.Corners;
 
 import Catalano.Imaging.FastBitmap;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Features from Accelerated Segment Test (FAST) corners detector.
@@ -135,7 +135,7 @@ public class FastCornersDetector {
         this.algorithm = algorithm;
     }
     
-    public ArrayList<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
+    public List<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
         
         switch (algorithm){
             case FAST_9:

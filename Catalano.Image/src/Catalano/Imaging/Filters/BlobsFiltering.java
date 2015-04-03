@@ -26,7 +26,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import Catalano.Imaging.Tools.Blob;
 import Catalano.Imaging.Tools.BlobDetection;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Eliminates blobs with certain area or size.
@@ -194,7 +194,7 @@ public class BlobsFiltering implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        ArrayList<Blob> blobs = new BlobDetection().ProcessImage(fastBitmap);
+        List<Blob> blobs = new BlobDetection().ProcessImage(fastBitmap);
         
         switch(filter){
             case Area:

@@ -143,6 +143,14 @@ public class LUDecomposition implements java.io.Serializable {
    }
    
    /**
+    * Matrix inverse or pseudoinverse.
+    * @return Matrix inverse.
+    */
+   public double[][] inverse(){
+       return solve(Matrix.Identity(m, m));
+   }
+   
+   /**
     * Get the Lower triangular factor.
     * @return L.
     */

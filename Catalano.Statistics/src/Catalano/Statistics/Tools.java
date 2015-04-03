@@ -36,13 +36,8 @@ public class Tools {
     }
     
     public static double Covariance(double[] x, double[] y){
-        if (x.length != y.length) {
-            try {
-                throw new IllegalArgumentException("The size of both matrix needs be equal");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (x.length != y.length)
+            throw new IllegalArgumentException("The size of both matrix needs be equal");
         
         double meanX = 0, meanY = 0;
         for (int i = 0; i < x.length; i++) {
@@ -65,26 +60,16 @@ public class Tools {
     
     public static double Fisher(double n){
         
-        if ((n <= -1) || (n >= 1)) {
-            try {
-                throw new IllegalArgumentException("Fisher works with number between -1 < x < 1");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if ((n <= -1) || (n >= 1))
+            throw new IllegalArgumentException("Fisher works with number between -1 < x < 1");
         
         double r = (1 + n) / (1 - n);
         return 0.5 * Math.log(r);
     }
     
     public static double Inclination(double[] x, double[] y){
-        if (x.length != y.length) {
-            try {
-                throw new IllegalArgumentException("The size of both matrix needs be equal");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (x.length != y.length)
+            throw new IllegalArgumentException("The size of both matrix needs be equal");
         
         double meanX = 0; double meanY = 0;
         for (int i = 0; i < x.length; i++) {
@@ -105,26 +90,16 @@ public class Tools {
     }
     
     public static double InverseFisher(double n){
-        if ((n <= -1) || (n >= 1)) {
-            try {
-                throw new IllegalArgumentException("Fisher works with number between -1 < x < 1");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if ((n <= -1) || (n >= 1))
+            throw new IllegalArgumentException("Fisher works with number between -1 < x < 1");
         
         double r = (Math.pow(Math.E,2 * n) - 1) / (Math.pow(Math.E,2 * n) + 1);
         return r;
     }
     
     public static double Interception(double[] x, double[] y){
-        if (x.length != y.length) {
-            try {
-                throw new IllegalArgumentException("The size of both matrix needs be equal");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (x.length != y.length)
+            throw new IllegalArgumentException("The size of both matrix needs be equal");
         
         double meanX = 0; double meanY = 0;
         for (int i = 0; i < x.length; i++) {

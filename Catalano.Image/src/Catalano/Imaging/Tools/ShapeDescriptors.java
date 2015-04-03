@@ -31,6 +31,7 @@ import Catalano.Imaging.Filters.DistanceTransform;
 import Catalano.Math.Distance;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Shape Descriptors.
@@ -102,7 +103,7 @@ public final class ShapeDescriptors {
      * @param contour Contour of the image.
      * @return Feret diameter.
      */
-    public static double FeretDiameter(ArrayList<IntPoint> contour){
+    public static double FeretDiameter(List<IntPoint> contour){
         double maxDiameter = 0;
         for (IntPoint p : contour) {
             for (IntPoint pp : contour) {
@@ -121,8 +122,8 @@ public final class ShapeDescriptors {
      * @param contour Contour of the shape.
      * @return Feret Points.
      */
-    public static ArrayList<IntPoint> FeretPoints(ArrayList<IntPoint> contour){
-        ArrayList<IntPoint> lst = new ArrayList<IntPoint>();
+    public static List<IntPoint> FeretPoints(List<IntPoint> contour){
+        List<IntPoint> lst = new ArrayList<IntPoint>();
         
         IntPoint p1 = new IntPoint();
         IntPoint p2 = new IntPoint();
@@ -179,7 +180,7 @@ public final class ShapeDescriptors {
      * @param contour Contour of the shape.
      * @return Minimum circumscribed circle.
      */
-    public static double MinimumCircumscribedCircle(IntPoint starPoint, ArrayList<IntPoint> contour){
+    public static double MinimumCircumscribedCircle(IntPoint starPoint, List<IntPoint> contour){
         
         double max = Double.MIN_VALUE;
         for (IntPoint p : contour) {
@@ -268,7 +269,7 @@ public final class ShapeDescriptors {
      * @param fastBitmap Image to be processed.
      * @return List of points contains
      */
-    public static ArrayList<IntPoint> UltimateErodedPoints(FastBitmap fastBitmap){
+    public static List<IntPoint> UltimateErodedPoints(FastBitmap fastBitmap){
         
         ArrayList<IntPoint> points = new ArrayList<IntPoint>();
         
@@ -276,7 +277,7 @@ public final class ShapeDescriptors {
         float[][] dist = dt.Compute(fastBitmap);
         
         BlobDetection bd = new BlobDetection();
-        ArrayList<Blob> blobs = bd.ProcessImage(fastBitmap);
+        List<Blob> blobs = bd.ProcessImage(fastBitmap);
         
         for (Blob blob : blobs) {
             ArrayList<IntPoint> lst = blob.getPoints();

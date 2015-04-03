@@ -22,3 +22,5 @@
 *.netbeans_automatic_build
 /Catalano.Neuro/build/
 /Catalano.Neuro/dist/
+/Catalano.IO/nbproject/private/
+/Catalano.IO/build/

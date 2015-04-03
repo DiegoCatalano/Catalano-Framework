@@ -22,6 +22,7 @@
 package Catalano.Math;
 
 import Catalano.Core.IntPoint;
+import Catalano.Math.Decompositions.LUDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
 
@@ -522,6 +523,15 @@ public final class Matrix {
             }
         }
         return m;
+    }
+    
+    /**
+     * Determinant of matrix.
+     * @param A Matrix.
+     * @return Determinant of matrix.
+     */
+    public static double Determinant(double[][] A){
+        return new LUDecomposition(A).determinant();
     }
     
     /**
@@ -1585,6 +1595,31 @@ public final class Matrix {
         
         for (int i = 0; i < order; i++) matrix[i][i] = 1;
         return matrix;
+    }
+    
+    /**
+     * Gets the Identity matrix of the given size.
+     * @param m Number of rows.
+     * @param n Number of columns.
+     * @return Identity matrix.
+     */
+    public static double[][] Identity(int m, int n){
+        double[][] A = new double[m][n];
+        for (int i = 0; i < m; i++) {
+          for (int j = 0; j < n; j++) {
+            A[i][j] = (i == j ? 1.0 : 0.0);
+          }
+        }
+        return A;
+    }
+    
+    /**
+     * Matrix inverse or pseudoinverse.
+     * @param A Matrix.
+     * @return Matrix inverse.
+     */
+    public static double[][] Inverse(double[][] A){
+        return new LUDecomposition(A).inverse();
     }
     
     /**

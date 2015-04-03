@@ -30,6 +30,7 @@ import Catalano.Imaging.Corners.SusanCornersDetector;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Tools.IntegralImage;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fast Retina Keypoint (FREAK) detector.
@@ -95,7 +96,7 @@ public class FastRetinaKeypointDetector {
         this.Detector = new SusanCornersDetector();
     }
         
-    public ArrayList<FastRetinaKeypoint> ProcessImage(FastBitmap fastBitmap){
+    public List<FastRetinaKeypoint> ProcessImage(FastBitmap fastBitmap){
         
         if (fastBitmap.isGrayscale()){
             grayImage = new FastBitmap(fastBitmap);
@@ -106,9 +107,9 @@ public class FastRetinaKeypointDetector {
         }
         
         // 1. Extract corners points from the image.
-        ArrayList<IntPoint> corners = Detector.ProcessImage(grayImage);
+        List<IntPoint> corners = Detector.ProcessImage(grayImage);
 
-        ArrayList<FastRetinaKeypoint> features = new ArrayList<FastRetinaKeypoint>();
+        List<FastRetinaKeypoint> features = new ArrayList<FastRetinaKeypoint>();
         for (int i = 0; i < corners.size(); i++)
             features.add(new FastRetinaKeypoint(corners.get(i).x, corners.get(i).y));
 

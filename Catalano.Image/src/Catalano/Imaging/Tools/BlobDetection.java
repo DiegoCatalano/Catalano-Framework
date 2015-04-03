@@ -26,6 +26,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Shapes.IntRectangle;
 import Catalano.Math.Geometry.PointsCloud;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -39,7 +40,7 @@ public class BlobDetection {
     private FastBitmap copy;
     private int size; //All blobs
     private int rR = 0,rG = 0,rB = 0;
-    private ArrayList<Blob> blobs;
+    private List<Blob> blobs;
     private Blob blob; //Blob object
     private int id = 0; //ID blob
     private boolean filterBlob = false;
@@ -81,7 +82,7 @@ public class BlobDetection {
         return this.idBigBlob;
     }
 
-    public ArrayList<Blob> ProcessImage(FastBitmap fastBitmap) {
+    public List<Blob> ProcessImage(FastBitmap fastBitmap) {
         
         if(fastBitmap.isGrayscale()){
             width = fastBitmap.getWidth();

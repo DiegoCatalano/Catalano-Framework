@@ -26,7 +26,7 @@ package Catalano.Imaging.Corners;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Corners detector's interface.
@@ -40,5 +40,5 @@ public interface ICornersDetector {
      * @param fastBitmap Image to be processed
      * @return List of feature points.
      */
-    ArrayList<IntPoint> ProcessImage(FastBitmap fastBitmap);
+    List<IntPoint> ProcessImage(FastBitmap fastBitmap);
 }

@@ -24,13 +24,14 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Extract blobs with specified ID.
  * @author Diego Catalano
  */
 public class ExtractBlob {
-    private ArrayList<Blob> blobs;
+    private List<Blob> blobs;
 
     /**
      * Initialize a new instance of the ExtractBlob class.

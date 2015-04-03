@@ -25,6 +25,8 @@
 
 package Catalano.Math.Decompositions;
 
+import Catalano.Math.Constants;
+import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 
    /** Singular Value Decomposition.

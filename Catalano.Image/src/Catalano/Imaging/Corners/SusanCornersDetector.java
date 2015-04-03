@@ -27,6 +27,7 @@ package Catalano.Imaging.Corners;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Susan corners detector.
@@ -37,7 +38,7 @@ public class SusanCornersDetector implements ICornersDetector{
     
     private int differenceThreshold = 25;
     private int geometricalThreshold = 18;
-    private ArrayList<IntPoint> corners = new ArrayList<IntPoint>();
+    private List<IntPoint> corners = new ArrayList<IntPoint>();
     private int[] rowRadius = { 1, 2, 3, 3, 3, 2, 1 };
 
     /**
@@ -95,7 +96,7 @@ public class SusanCornersDetector implements ICornersDetector{
      * @return A list of points considered corners.
      */
     @Override
-    public ArrayList<IntPoint> ProcessImage(FastBitmap fastBitmap){
+    public List<IntPoint> ProcessImage(FastBitmap fastBitmap){
         
         FastBitmap l = new FastBitmap(fastBitmap);
         

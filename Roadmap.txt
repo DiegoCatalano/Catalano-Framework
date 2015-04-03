@@ -3,7 +3,10 @@ Catalano Framework 1.5 road map
 
 * Catalano.Image
     - New: Color.
+
     - Optimized: getGray() now is using bitwise operation.
+
+    - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
 
 * Catalano.Imaging.Filters
     - New: Median Cut.
@@ -14,7 +17,11 @@ Catalano Framework 1.5 road map
 * Catalano.Imaging.Shapes
     - New: IntPolygon.
 
+* Catalano.IO
+    - New: CSV Parser.
+
 * Catalano.Math
+    - Added: Determinant, Inverse in the Matrix.
     - Added: Digital Root in the Tools.
     - Added: Norm1, Norm2, NormF and NormP in the Matrix.
     - Added: Outer Product in the Matrix.

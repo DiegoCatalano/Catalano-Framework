@@ -29,6 +29,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Math.Constants;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Harris Corners Detector.
@@ -233,7 +234,7 @@ public class HarrisCornersDetector implements ICornersDetector{
     
 
     @Override
-    public ArrayList<IntPoint> ProcessImage(FastBitmap fastBitmap) {
+    public List<IntPoint> ProcessImage(FastBitmap fastBitmap) {
         
         FastBitmap gray;
         
