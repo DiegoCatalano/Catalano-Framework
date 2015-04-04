@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class CSVParser {
     
-    private char delimiter = ';';
+    private char delimiter = ',';
     private int startRow = 0;
     private int startCol = 0;
     String charset = "UTF8";
@@ -37,6 +39,11 @@ public class CSVParser {
         this.delimiter = delimiter;
         this.startRow = startRow;
         this.startCol = startColumn;
+    }
+    
+    public <T> List<T> ReadParse(String filename, Class clazz){
+        String[][] data = Read(filename);
+        return toObject(data, clazz);
     }
     
     public String[][] Read(String filename){
@@ -73,4 +80,66 @@ public class CSVParser {
         
     }
     
+    /**
+     * Convert the CSV string to user definied type.
+     * The method find the constructor that contains the maximum parameters.
+     * @param <T> Object type.
+     * @param data CSV data.
+     * @param cls Object type.
+     * @return List of user definied type.
+     */
+    public <T> List<T> toObject(String[][] data, Class cls){
+        
+        int p = 0;
+        Class[] paramTypes = null;
+        
+        for (Constructor con : cls.getConstructors()) {
+            if(con.getParameterCount() > p){
+                p = con.getParameterCount();
+                paramTypes = con.getParameterTypes();
+            }
+        }
+        
+        List<T> lst = new ArrayList<>();
+       
+        try{
+            for (int i = 0; i < data.length; i++) {
+                Constructor c = cls.getConstructor(paramTypes);
+                Object[] obj = new Object[paramTypes.length];
+                for (int j = 0; j < paramTypes.length; j++) {
+                    //String cannot be cast in int type.
+                    if(paramTypes[j] == int.class){
+                        obj[j] = Integer.parseInt(data[i][j]);
+                    }
+                    else if(paramTypes[j] == double.class){
+                        obj[j] = Double.parseDouble(data[i][j]);
+                    }
+                    else if(paramTypes[j] == float.class){
+                        obj[j] = Double.parseDouble(data[i][j]);
+                    }
+                    else if(paramTypes[j] == String.class){
+                        obj[j] = data[i][j];
+                    }
+                }
+                
+                lst.add((T) c.newInstance(obj));
+            }
+            return lst;
+        }
+        catch (NoSuchMethodException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SecurityException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
