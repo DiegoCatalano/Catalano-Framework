@@ -9,10 +9,13 @@ package Catalano.IO;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,6 +32,14 @@ public class CSVParser {
     private int startCol = 0;
     String charset = "UTF8";
 
+    public char getDelimiter() {
+        return delimiter;
+    }
+
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
+    }
+
     public CSVParser() {}
     
     public CSVParser(char delimiter) {
@@ -41,18 +52,31 @@ public class CSVParser {
         this.startCol = startColumn;
     }
     
-    public <T> List<T> ReadParse(String filename, Class clazz){
+    /**
+     * Read CSV and convert to object type.
+     * The method find the constructor that contains the maximum parameters.
+     * @param <T> Object type.
+     * @param filename CSV filename.
+     * @param clazz Object type.
+     * @return List of user definied type.
+     */
+    public <T> List<T> Read(String filename, Class clazz){
         String[][] data = Read(filename);
         return toObject(data, clazz);
     }
     
+    /**
+     * Read CSV.
+     * @param filename Filename.
+     * @return CSV table of string.
+     */
     public String[][] Read(String filename){
         
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filename), charset));
             
             String line;
-            List<String> lines = new ArrayList<>();
+            List<String> lines = new ArrayList<String>();
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
@@ -77,7 +101,6 @@ public class CSVParser {
         }
         
         return null;
-        
     }
     
     /**
@@ -88,7 +111,7 @@ public class CSVParser {
      * @param cls Object type.
      * @return List of user definied type.
      */
-    public <T> List<T> toObject(String[][] data, Class cls){
+    private <T> List<T> toObject(String[][] data, Class cls){
         
         int p = 0;
         Class[] paramTypes = null;
@@ -100,13 +123,13 @@ public class CSVParser {
             }
         }
         
-        List<T> lst = new ArrayList<>();
+        List<T> lst = new ArrayList<T>();
        
         try{
-            for (int i = 0; i < data.length; i++) {
+            for (int i = startRow; i < data.length; i++) {
                 Constructor c = cls.getConstructor(paramTypes);
                 Object[] obj = new Object[paramTypes.length];
-                for (int j = 0; j < paramTypes.length; j++) {
+                for (int j = startCol; j < paramTypes.length; j++) {
                     //String cannot be cast in int type.
                     if(paramTypes[j] == int.class){
                         obj[j] = Integer.parseInt(data[i][j]);
@@ -141,5 +164,66 @@ public class CSVParser {
             Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public void Write(String[][] data, String filename){
+        try {
+            FileWriter fw = new FileWriter(filename);
+            
+            boolean isLastCol;
+            for (int i = 0; i < data.length; i++) {
+                isLastCol = false;
+                for (int j = 0; j < data[0].length; j++) {
+                    if(j==data[0].length-1) isLastCol = true;
+                    if(isLastCol)
+                        fw.append(data[i][j]);
+                    else
+                        fw.append(data[i][j] + delimiter);
+                }
+                fw.append("\r\n");
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public <T> void Write(List<T> objects, String filename){
+        try {
+            FileWriter fw = new FileWriter(filename);
+            
+            boolean isLastCol;
+            for (int i = 0; i < objects.size(); i++) {
+                isLastCol = false;
+                Object o = objects.get(i);
+                Method[] m = o.getClass().getDeclaredMethods();
+                for (int j = 0; j < m.length; j++) {
+                    if(j==m.length - 1) isLastCol = true;
+                    if(m[j].getName().startsWith("get")){
+                        if(isLastCol)
+                            fw.append(m[j].invoke(o).toString());
+                        else
+                            fw.append(m[j].invoke(o).toString() + delimiter);
+                    }
+                }
+                fw.append("\r\n");
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
