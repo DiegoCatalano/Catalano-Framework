@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +30,7 @@ public class CSVParser {
     private int startRow = 0;
     private int startCol = 0;
     String charset = "UTF8";
+    String newLine = System.getProperty("line.separator");
 
     public char getDelimiter() {
         return delimiter;
@@ -180,7 +180,7 @@ public class CSVParser {
                     else
                         fw.append(data[i][j] + delimiter);
                 }
-                fw.append("\r\n");
+                fw.append(newLine);
             }
             
             fw.flush();
@@ -210,7 +210,7 @@ public class CSVParser {
                             fw.append(m[j].invoke(o).toString() + delimiter);
                     }
                 }
-                fw.append("\r\n");
+                fw.append(newLine);
             }
             
             fw.flush();
