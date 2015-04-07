@@ -1,8 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano IO Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2015
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 package Catalano.IO;
 
@@ -20,7 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Reads CSV file
+ * CSV Parser, handle csv files.
  * @author Diego Catalano
  */
 public class CSVParser {
@@ -31,20 +47,41 @@ public class CSVParser {
     String charset = "UTF8";
     String newLine = System.getProperty("line.separator");
 
+    /**
+     * Get the delimiter.
+     * @return Delimiter.
+     */
     public char getDelimiter() {
         return delimiter;
     }
 
+    /**
+     * Set the delimiter.
+     * @param delimiter Delimiter.
+     */
     public void setDelimiter(char delimiter) {
         this.delimiter = delimiter;
     }
 
+    /**
+     * Initialize a new instance of the CSVParser class.
+     */
     public CSVParser() {}
     
+    /**
+     * Initialize a new instance of the Blur class.
+     * @param delimiter Delimiter.
+     */
     public CSVParser(char delimiter) {
         this.delimiter = delimiter;
     }
     
+    /**
+     * Initialize a new instance of the Blur class.
+     * @param delimiter Delimiter.
+     * @param startRow Start row.
+     * @param startColumn Start column.
+     */
     public CSVParser(char delimiter, int startRow, int startColumn){
         this.delimiter = delimiter;
         this.startRow = startRow;
@@ -165,6 +202,11 @@ public class CSVParser {
         return null;
     }
     
+    /**
+     * Write the matrix of string in csv file format.
+     * @param data Data.
+     * @param filename Filename.
+     */
     public void Write(String[][] data, String filename){
         try {
             FileWriter fw = new FileWriter(filename);
@@ -188,6 +230,5 @@ public class CSVParser {
         } catch (IOException ex) {
             Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 }
