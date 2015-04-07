@@ -4,7 +4,6 @@
 /Catalano.Statistics/build/
 *.class
 *.jar
-*.html
 *.png
 *.xml
 /Catalano.Core/dist/
