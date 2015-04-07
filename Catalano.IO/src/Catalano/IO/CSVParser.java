@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -190,40 +189,5 @@ public class CSVParser {
             Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
-    
-    public <T> void Write(List<T> objects, String filename){
-        try {
-            FileWriter fw = new FileWriter(filename);
-            
-            boolean isLastCol;
-            for (int i = 0; i < objects.size(); i++) {
-                isLastCol = false;
-                Object o = objects.get(i);
-                Method[] m = o.getClass().getDeclaredMethods();
-                for (int j = 0; j < m.length; j++) {
-                    if(j==m.length - 1) isLastCol = true;
-                    if(m[j].getName().startsWith("get")){
-                        if(isLastCol)
-                            fw.append(m[j].invoke(o).toString());
-                        else
-                            fw.append(m[j].invoke(o).toString() + delimiter);
-                    }
-                }
-                fw.append(newLine);
-            }
-            
-            fw.flush();
-            fw.close();
-            
-        } catch (IOException ex) {
-            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
