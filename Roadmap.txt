@@ -9,6 +9,7 @@ Catalano Framework 1.5 road map
     - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
 
 * Catalano.Imaging.Filters
+    - New: Watershed.
     - New: Median Cut.
 
 * Catalano.Imaging.ActiveContour
@@ -18,6 +19,7 @@ Catalano Framework 1.5 road map
     - New: IntPolygon.
 
 * Catalano.IO
+    - New: Serialization.
     - New: CSV Parser.
 
 * Catalano.Math
