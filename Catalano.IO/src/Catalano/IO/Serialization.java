@@ -22,10 +22,13 @@
 
 package Catalano.IO;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
@@ -40,13 +43,39 @@ public class Serialization {
     private Serialization() {}
     
     /**
+     * Serialize the object.
+     * @param o Object.
+     * @return Bytes.
+     */
+    public static byte[] Serialize(Object o){
+        byte[] bytes = null;
+        ObjectOutputStream oos = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(bos);
+            oos.writeObject(o);
+            bytes = bos.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                oos.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return bytes;
+    }
+    
+    /**
      * Serialize object.
      * @param object Object.
      * @param filename Filename to save the data.
      */
     public static void Serialize(Object object, String filename){
+        FileOutputStream fOut = null;
         try {
-            FileOutputStream fOut = new FileOutputStream(filename);
+            fOut = new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(fOut);
             out.writeObject(object);
             out.close();
@@ -55,7 +84,32 @@ public class Serialization {
             Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fOut.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+    }
+    
+    /**
+     * Deserialize object.
+     * @param bytes Bytes.
+     * @return Object.
+     */
+    public static Object Deserialize(byte[] bytes){
+        Object o = null;
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            ObjectInput oi = new ObjectInputStream(bis);
+            o = oi.readObject();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return o;
     }
     
     /**
