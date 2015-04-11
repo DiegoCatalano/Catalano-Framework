@@ -625,6 +625,104 @@ public class FastBitmap {
     public void setBlue(IntPoint point, int value){
     	setBlue(point.x, point.y, value);
     }
+    
+    /**
+     * Set directly RGB value.
+     * @param offset Offset.
+     * @param red Red channel's value.
+     * @param green Green channel's value.
+     * @param blue Blue channel's value.
+     */
+    public void setDirectRGB(int offset, int red, int green, int blue){
+    	pixels[offset] = 255 << 24 | red << 16 | green << 8 | blue;
+    }
+    
+    /**
+     * Set directly RGB value.
+     * @param offset Offset.
+     * @param rgb RGB array.
+     */
+    public void setDirectRGB(int offset, int[] rgb){
+    	pixels[offset] = 255 << 24 | rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Get directly gray channel's value.
+     * @param offset Offset.
+     * @return Gray channel's value.
+     */
+    public int getDirectGray(int offset){
+    	return pixels[offset] & 0xFF;
+    }
+    
+    /**
+     * Set directly gray channel's value.
+     * @param offset Offset.
+     * @param value Gray channel's value.
+     */
+    public void setDirectGray(int offset, int value){
+    	pixels[offset] =  255 << 24 | value << 16 | value << 8 | value;
+    }
+    
+    /**
+     * Get directly red channel's value.
+     * @param offset Offset.
+     * @return Red channel's value.
+     */
+    public int getDirectRed(int offset){
+    	return pixels[offset] >> 16 & 0xFF;
+    }
+    
+    /**
+     * Set directly red channel's value.
+     * @param offset Offset.
+     * @param value Red channel's value.
+     */
+    public void setDirectRed(int offset, int value){
+        int g = pixels[offset] >> 8 & 0xFF;
+        int b = pixels[offset] & 0xFF;
+        pixels[offset] =  255 << 24 | value << 16 | g << 8 | b;
+    }
+    
+    /**
+     * Get directly green channel's value.
+     * @param offset Offset.
+     * @return Green channel's value.
+     */
+    public int getDirectGreen(int offset){
+    	return pixels[offset] >> 8 & 0xFF;
+    }
+    
+    /**
+     * Set directly green channel's value.
+     * @param offset Offset.
+     * @param value Green channel's value.
+     */
+    public void setDirectGreen(int offset, int value){
+        int r = pixels[offset] >> 16 & 0xFF;
+        int b = pixels[offset] & 0xFF;
+        pixels[offset] =  255 << 24 | r << 16 | value << 8 | b;
+    }
+    
+    /**
+     * Get directly blue channel's value.
+     * @param offset Offset.
+     * @return Blue channel's value.
+     */
+    public int getDirectBlue(int offset){
+    	return pixels[offset] & 0xFF;
+    }
+    
+    /**
+     * Set directly blue channel's value.
+     * @param offset Offset.
+     * @param value Blue channel's value.
+     */
+    public void setDirectBlue(int offset, int value){
+        int r = pixels[offset] >> 16 & 0xFF;
+        int g = pixels[offset] >> 8 & 0xFF;
+        pixels[offset] =  255 << 24 | r << 16 | g << 8 | value;
+    }
 
     /**
      * Set image to FastBitmap.
