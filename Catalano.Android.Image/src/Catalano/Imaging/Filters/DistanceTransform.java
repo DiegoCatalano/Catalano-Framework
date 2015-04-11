@@ -108,7 +108,7 @@ public class DistanceTransform {
             float[] fPixels = new float[bPixels.length];
 
             for (int i=0; i<width*height; i++)
-                if (bPixels[i]!=0)
+                if ((bPixels[i] & 0xFF) !=0)
                     fPixels[i] = Float.MAX_VALUE;
 
             int[][] pointBufs = new int[2][width];
@@ -180,7 +180,7 @@ public class DistanceTransform {
         int distSqr = Integer.MAX_VALUE;    // this value is used only if edges are not background
         for (int x=0; x<width; x++, offset++) {
             pNextDiag = points[x];
-            if (bPixels[offset] == 0) {
+            if ((bPixels[offset] & 0xFF) == 0) {
                 points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
             } else {                        // foreground pixel:
                 float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr, distance);
@@ -195,7 +195,7 @@ public class DistanceTransform {
         pDiag = -1;
         for (int x=width-1; x>=0; x--, offset--) {
             pNextDiag = points[x];
-            if (bPixels[offset] == 0) {
+            if ((bPixels[offset] & 0xFF) == 0) {
                 points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
             } else {                        // foreground pixel:
                 float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr, distance);

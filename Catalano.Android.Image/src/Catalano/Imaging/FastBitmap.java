@@ -475,7 +475,7 @@ public class FastBitmap {
      * @return Gray channel's value.
      */
     public int getGray(int x, int y){
-        return pixels[x * strideX + y * strideY] >> 16 & 0xFF;
+        return pixels[x * strideX + y * strideY] & 0xFF;
     }
     
     /**
@@ -709,7 +709,7 @@ public class FastBitmap {
         	
         	int size = getHeight() * getWidth();
         	for (int i = 0; i < size; i++) {
-				int g = pixels[i] >> 16 & 0xFF;
+				int g = pixels[i] & 0xFF;
         		pixels[i] = 255 << 24 | g << 16 | g << 8 | g;
 			}
             b.setPixels(pixels, 0, Math.max(strideX, strideY), 0, 0, b.getWidth(), b.getHeight());
