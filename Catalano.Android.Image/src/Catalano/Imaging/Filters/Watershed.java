@@ -48,11 +48,40 @@ public class Watershed implements IBaseInPlace{
     private int       intEncodeXMask;               // needed for encoding x & y in a single int (watershed): mask for x
     private int       intEncodeYMask;               // needed for encoding x & y in a single int (watershed): mask for y
     private int       intEncodeShift;               // needed for encoding x & y in a single int (watershed): shift of y
+    
+    private DistanceTransform.Distance distance = DistanceTransform.Distance.Euclidean;
+    private float tolerance = 0.5f;
 
     /**
      * Initializes a new instance of the Watershed class.
      */
     public Watershed() {}
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param tolerance Tolerance.
+     */
+    public Watershed(float tolerance){
+        this.tolerance = tolerance;
+    }
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param tolerance Tolerance.
+     * @param distance Distance.
+     */
+    public Watershed(float tolerance, DistanceTransform.Distance distance){
+        this.tolerance = tolerance;
+        this.distance = distance;
+    }
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param distance Distance.
+     */
+    public Watershed(DistanceTransform.Distance distance){
+        this.distance = distance;
+    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
@@ -65,7 +94,7 @@ public class Watershed implements IBaseInPlace{
     
     private void Watershed(FastBitmap fastBitmap){
         
-        DistanceTransform dt = new DistanceTransform(DistanceTransform.Distance.Euclidean);
+        DistanceTransform dt = new DistanceTransform(distance);
         float[][] distance = dt.Compute(fastBitmap);
         
         //Convert 2D to 1D - ImageJ Compatibility
@@ -90,10 +119,10 @@ public class Watershed implements IBaseInPlace{
         
         //Analise e marque as maxima em imagem de background
         float maxSortingError = 1.1f * SQRT2/2f;
-        analyseAndMarkMaxima(distance1D, back, maxPoints, 0.5, maxSortingError);
+        analyseAndMarkMaxima(distance1D, back, maxPoints, tolerance, maxSortingError);
         
         //Transform em 8bit 0..255
-        FastBitmap outImage = make8Bit(distance, back, 0, dt.getMaximumDistance(), -808080.0);
+        FastBitmap outImage = make8Bit(distance, back, dt.getMaximumDistance(), -808080.0);
         
         cleanupMaxima(outImage, back, maxPoints);
         watershedSegment(outImage);
@@ -127,27 +156,30 @@ public class Watershed implements IBaseInPlace{
             for (int x = 0, i = x+y*distance[0].length; x < distance[0].length; x++, i++) {
                 float v = distance[y][x];
                 float vTrue = trueEdmHeight(x, y, distance1D, distance[0].length, distance.length);
-                if (v==globalMin) continue;
-                if (x==0 || x==distance[0].length-1 || y==0 || y==distance.length-1) continue;
-                if (v<threshold) continue;
-                boolean isMax = true;
-                /* check wheter we have a local maximum.
-                 Note: For an EDM, we need all maxima: those of the EDM-corrected values
-                 (needed by findMaxima) and those of the raw values (needed by cleanupMaxima) */
-                boolean isInner = (y!=0 && y!=distance.length-1) && (x!=0 && x!=distance[0].length-1); //not necessary, but faster than isWithin
-                for (int d=0; d<8; d++) {                         // compare with the 8 neighbor pixels
-                    if (isInner || isWithin(x, y, d, distance[0].length, distance.length)) {
-                        float vNeighbor = distance[y+DIR_Y_OFFSET[d]][x+DIR_X_OFFSET[d]];
-                        float vNeighborTrue = trueEdmHeight(x+DIR_X_OFFSET[d], y+DIR_Y_OFFSET[d], distance1D, distance[0].length, distance.length);
-                        if (vNeighbor > v && vNeighborTrue > vTrue) {
-                            isMax = false;
-                            break;
+                if(!(v==globalMin)){
+                    if (!(x==0 || x==distance[0].length-1 || y==0 || y==distance.length-1)){
+                        if (!(v<threshold)){
+                            boolean isMax = true;
+                            /* check wheter we have a local maximum.
+                             Note: For an EDM, we need all maxima: those of the EDM-corrected values
+                             (needed by findMaxima) and those of the raw values (needed by cleanupMaxima) */
+                            boolean isInner = (y!=0 && y!=distance.length-1) && (x!=0 && x!=distance[0].length-1); //not necessary, but faster than isWithin
+                            for (int d=0; d<8; d++) {                         // compare with the 8 neighbor pixels
+                                if (isInner || isWithin(x, y, d, distance[0].length, distance.length)) {
+                                    float vNeighbor = distance[y+DIR_Y_OFFSET[d]][x+DIR_X_OFFSET[d]];
+                                    float vNeighborTrue = trueEdmHeight(x+DIR_X_OFFSET[d], y+DIR_Y_OFFSET[d], distance1D, distance[0].length, distance.length);
+                                    if (vNeighbor > v && vNeighborTrue > vTrue) {
+                                        isMax = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (isMax) {
+                                types[i] = (byte)1;
+                                nMax++;
+                            }
                         }
                     }
-                }
-                if (isMax) {
-                    types[i] = (byte)1;
-                    nMax++;
                 }
             }
         }
@@ -167,7 +199,7 @@ public class Watershed implements IBaseInPlace{
         
     }
     
-   private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, double tolerance, float maxSortingError) {
+   private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, float tolerance, float maxSortingError) {
         int width = back.getWidth();
         int height = back.getHeight();
         int[] types =  back.getData();
@@ -175,7 +207,6 @@ public class Watershed implements IBaseInPlace{
         int [] pList = new int[width*height];       //here we enter points starting from a maximum
       
         for (int iMax=nMax-1; iMax>=0; iMax--) {    //process all maxima now, starting from the highest
-            if (iMax%100 == 0 && Thread.currentThread().isInterrupted()) return;
             int offset0 = (int)maxPoints[iMax];     //type cast gets 32 lower bits, where pixel index is encoded
             //int offset0 = maxPoints[iMax].offset;
             if ((types[offset0]&(byte)4)!=0)      //this maximum has been reached from another one, skip it
@@ -190,7 +221,6 @@ public class Watershed implements IBaseInPlace{
                 types[offset0] |= ((byte)16|(byte)2);   //mark first point as equal height (to itself) and listed
                 int listLen = 1;                    //number of elements in the list
                 int listI = 0;                      //index of current element in the list
-                boolean isEdgeMaximum = (x0==0 || x0==width-1 || y0==0 || y0==height-1);
                 sortingError = false;       //if sorting was inaccurate: a higher maximum was not handled so far
                 boolean maxPossible = true;         //it may be a true maximum
                 double xEqual = x0;                 //for creating a single point: determine average over the
@@ -230,9 +260,6 @@ public class Watershed implements IBaseInPlace{
                                 pList[listLen] = offset2;
                                 listLen++;              //we have found a new point within the tolerance
                                 types[offset2] |= (byte)2;
-                                if (x2==0 || x2==width-1 || y2==0 || y2==height-1) {
-                                    isEdgeMaximum = true;
-                                }
                                 if (v2==v0) {           //prepare finding center of equal points (in case single point needed)
                                     types[offset2] |= (byte)16;
                                     xEqual += x2;
@@ -280,7 +307,7 @@ public class Watershed implements IBaseInPlace{
         } // for all maxima iMax
     }
     
-    private FastBitmap make8Bit(float[][] distance, FastBitmap back, float globalMin, float globalMax, double threshold){
+    private FastBitmap make8Bit(float[][] distance, FastBitmap back, float globalMax, double threshold){
         
         int width = distance[0].length;
         int height = distance.length;

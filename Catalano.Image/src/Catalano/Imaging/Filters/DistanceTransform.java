@@ -35,7 +35,29 @@ import Catalano.Imaging.FastBitmap;
  */
 public class DistanceTransform {
     
-    public static enum Distance {Chessboard, Euclidean, Manhattan, SquaredEuclidean};
+    /**
+     * Distance.
+     */
+    public static enum Distance {
+        /**
+         * Chessboard.
+         */
+        Chessboard,
+        
+        /**
+         * Euclidean.
+         */
+        Euclidean,
+        
+        /**
+         * Manhattan.
+         */
+        Manhattan,
+        
+        /**
+         * Squared Euclidean.
+         */
+        SquaredEuclidean};
     
     private float[][] image;
     private float max = 0;
@@ -259,6 +281,5 @@ public class DistanceTransform {
         }
         
         return fb;
-        
     }
 }

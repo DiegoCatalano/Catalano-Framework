@@ -35,9 +35,34 @@ import Catalano.Imaging.FastBitmap;
  */
 public class DistanceTransform {
     
+    /**
+     * Distance.
+     */
+    public static enum Distance {
+        /**
+         * Chessboard.
+         */
+        Chessboard,
+        
+        /**
+         * Euclidean.
+         */
+        Euclidean,
+        
+        /**
+         * Manhattan.
+         */
+        Manhattan,
+        
+        /**
+         * Squared Euclidean.
+         */
+        SquaredEuclidean};
+    
     private float[][] image;
     private float max = 0;
     private IntPoint ued;
+    private Distance distance = Distance.Euclidean;
 
     /**
      * Get Maximum distance from transform.
@@ -60,6 +85,14 @@ public class DistanceTransform {
      * Default distance: Euclidean.
      */
     public DistanceTransform() {}
+    
+    /**
+     * Initialize a new instance of the DistanceTransform class.
+     * @param distance Distance.
+     */
+    public DistanceTransform(Distance distance){
+        this.distance = distance;
+    }
     
     /**
      * Compute Distance Transform.
@@ -98,17 +131,35 @@ public class DistanceTransform {
 
             image = new float[height][width];
             int p = 0;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if(fPixels[p] < 0f)
-                        image[i][j] = 0;
-                    else
-                        image[i][j] = (float)Math.sqrt(fPixels[p]);
-                    if(image[i][j] > max){
-                        max = image[i][j];
-                        ued = new IntPoint(i, j);
+            
+            if(distance == Distance.Euclidean){
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        if(fPixels[p] < 0f)
+                            image[i][j] = 0;
+                        else
+                            image[i][j] = (float)Math.sqrt(fPixels[p]);
+                        if(image[i][j] > max){
+                            max = image[i][j];
+                            ued = new IntPoint(i, j);
+                        }
+                        p++;
                     }
-                    p++;
+                }
+            }
+            else{
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        if(fPixels[p] < 0f)
+                            image[i][j] = 0;
+                        else
+                            image[i][j] = fPixels[p];
+                        if(image[i][j] > max){
+                            max = image[i][j];
+                            ued = new IntPoint(i, j);
+                        }
+                        p++;
+                    }
                 }
             }
         
@@ -132,7 +183,7 @@ public class DistanceTransform {
             if (bPixels[offset] == 0) {
                 points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
             } else {                        // foreground pixel:
-                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr);
+                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr, distance);
                 if (fPixels[offset] > dist2) fPixels[offset] = dist2;
             }
             pPrev = points[x];
@@ -147,7 +198,7 @@ public class DistanceTransform {
             if (bPixels[offset] == 0) {
                 points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
             } else {                        // foreground pixel:
-                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr);
+                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr, distance);
                 if (fPixels[offset] > dist2) fPixels[offset] = dist2;
             }
             pPrev = points[x];
@@ -155,18 +206,18 @@ public class DistanceTransform {
         }
     }
     
-    private float minDist2 (int[] points, int pPrev, int pDiag, int x, int y, int distSqr) {
+    private float minDist2 (int[] points, int pPrev, int pDiag, int x, int y, int distSqr, Distance distance) {
         int p0 = points[x];              // the nearest background point for the same x in the previous line
         int nearestPoint = p0;
         if (p0 != -1) {
             int x0 = p0& 0xffff; int y0 = (p0>>16)&0xffff;
-            int dist1Sqr = (x-x0)*(x-x0)+(y-y0)*(y-y0);
+            int dist1Sqr = calcDistance(x, y, x0, y0, distance);
             if (dist1Sqr < distSqr)
                 distSqr = dist1Sqr;
         }
         if (pDiag!=p0 && pDiag!=-1) {
             int x1 = pDiag&0xffff; int y1 = (pDiag>>16)&0xffff;
-            int dist1Sqr = (x-x1)*(x-x1)+(y-y1)*(y-y1);
+            int dist1Sqr = calcDistance(x, y, x1, y1, distance);
             if (dist1Sqr < distSqr) {
                 nearestPoint = pDiag;
                 distSqr = dist1Sqr;
@@ -174,7 +225,7 @@ public class DistanceTransform {
         }
         if (pPrev!=pDiag && pPrev!=-1) {
             int x1 = pPrev& 0xffff; int y1 = (pPrev>>16)&0xffff;
-            int dist1Sqr = (x-x1)*(x-x1)+(y-y1)*(y-y1);
+            int dist1Sqr = calcDistance(x, y, x1, y1, distance);
             if (dist1Sqr < distSqr) {
                 nearestPoint = pPrev;
                 distSqr = dist1Sqr;
@@ -182,6 +233,25 @@ public class DistanceTransform {
         }
         points[x] = nearestPoint;
         return (float)distSqr;
+    }
+    
+    private int calcDistance(int x, int y, int x0, int y0, Distance distance){
+        int v = 0;
+        switch(distance){
+            case Euclidean:
+                v = (x-x0)*(x-x0)+(y-y0)*(y-y0);
+            break;
+            case Manhattan:
+                v = Math.abs(x-x0) + Math.abs(y-y0);
+            break;
+            case Chessboard:
+                v = Math.max(Math.abs(x-x0), Math.abs(y-y0));
+            break;
+            case SquaredEuclidean:
+                v = (x-x0)*(x-x0)+(y-y0)*(y-y0);
+            break;
+        }
+        return v;
     }
     
     /**
@@ -211,6 +281,5 @@ public class DistanceTransform {
         }
         
         return fb;
-        
     }
 }
