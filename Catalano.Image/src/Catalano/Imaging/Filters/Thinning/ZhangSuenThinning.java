@@ -25,6 +25,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Zhang-Suen Thinning.
@@ -41,7 +42,7 @@ public class ZhangSuenThinning implements IBaseInPlace, IThinning{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()) {
-            ArrayList<IntPoint> skeleton = getSkeletonPoints(fastBitmap);
+            List<IntPoint> skeleton = getSkeletonPoints(fastBitmap);
             fastBitmap.Clear();
             
             for (IntPoint p : skeleton) {
@@ -55,9 +56,9 @@ public class ZhangSuenThinning implements IBaseInPlace, IThinning{
     }
 
     @Override
-    public ArrayList<IntPoint> getSkeletonPoints(FastBitmap fastBitmap) {
+    public List<IntPoint> getSkeletonPoints(FastBitmap fastBitmap) {
         
-        ArrayList<IntPoint> lstSkeleton = new ArrayList<IntPoint>();
+        List<IntPoint> lstSkeleton = new ArrayList<IntPoint>();
         
         if (!fastBitmap.isGrayscale()) {
             try {

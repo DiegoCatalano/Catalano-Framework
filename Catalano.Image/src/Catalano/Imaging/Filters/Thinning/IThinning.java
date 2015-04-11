@@ -23,12 +23,12 @@ package Catalano.Imaging.Filters.Thinning;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents algorithm specified for to thinning.
  * @author Diego Catalano
  */
 public interface IThinning {
-    public ArrayList<IntPoint> getSkeletonPoints(FastBitmap fastBitmap);
+    public List<IntPoint> getSkeletonPoints(FastBitmap fastBitmap);
 }

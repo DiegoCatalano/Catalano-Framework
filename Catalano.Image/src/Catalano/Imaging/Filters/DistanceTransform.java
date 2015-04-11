@@ -35,89 +35,9 @@ import Catalano.Imaging.FastBitmap;
  */
 public class DistanceTransform {
     
-    /**
-     * Distance metric.
-     */
-    public static enum Distance {
-        /**
-         * Chessboard metric.
-         */
-        Chessboard,
-        /**
-         * Euclidean metric.
-         */
-        Euclidean,
-        /**
-         * Manhattan metric.
-         */
-        Manhattan};
-    private Distance distance = Distance.Euclidean;
-    
-    private float[][] maskDistance = {
-        {1.4142f,1,1.4142f},
-        {1,0,1},
-        {1.4142f,1,1.4142f}
-    };
-    
     private float[][] image;
-    private float max;
+    private float max = 0;
     private IntPoint ued;
-    
-    /**
-     * Get Distance metric.
-     * @return Distance metric.
-     */
-    public Distance getDistance(){
-        return distance;
-    }
-    
-    /**
-     * Set Distance metric.
-     * @param distance Distance metric.
-     */
-    public void setDistance(Distance distance){
-        
-        this.distance = distance;
-        switch(distance){
-            case Chessboard:
-                this.maskDistance = new float[][]{
-                {1,1,1},
-                {1,0,1},
-                {1,1,1}
-                };
-            break;
-            case Manhattan:
-                this.maskDistance = new float[][]{
-                {2,1,2},
-                {1,0,1},
-                {2,1,2}
-                };
-            break;
-            case Euclidean:
-                this.maskDistance = new float[][]{
-                {1.4142135f,1,1.4142135f},
-                {1,0,1},
-                {1.4142135f,1,1.4142135f}
-                };
-            break;
-        }
-    }
-
-    /**
-     * Get Mask distance.
-     * @return Mask distance.
-     */
-    public float[][] getMaskDistance() {
-        return maskDistance;
-    }
-
-    /**
-     * Set Mask distance.
-     * @param maskDistance Mask distance.
-     */
-    public void setMaskDistance(float[][] maskDistance) {
-        this.maskDistance = maskDistance;
-    }
 
     /**
      * Get Maximum distance from transform.
@@ -142,22 +62,6 @@ public class DistanceTransform {
     public DistanceTransform() {}
     
     /**
-     * Initialize a new instance of the DistanceTransform class.
-     * @param distance Distance metric.
-     */
-    public DistanceTransform(Distance distance){
-        setDistance(distance);
-    }
-    
-    /**
-     * Initialize a new instance of the DistanceTransform class.
-     * @param maskDistance Distance mask.
-     */
-    public DistanceTransform(float[][] maskDistance){
-        this.maskDistance = maskDistance;
-    }
-    
-    /**
      * Compute Distance Transform.
      * @param fastBitmap Image to be processed.
      * @return Distance map.
@@ -167,71 +71,117 @@ public class DistanceTransform {
         if (fastBitmap.isGrayscale()){
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
+            byte[] bPixels = fastBitmap.getGrayData();
+            float[] fPixels = new float[bPixels.length];
+
+            for (int i=0; i<width*height; i++)
+                if (bPixels[i]!=0)
+                    fPixels[i] = Float.MAX_VALUE;
+
+            int[][] pointBufs = new int[2][width];
+
+            // pass 1 & 2: increasing y
+            for (int x=0; x<width; x++) {
+                pointBufs[0][x] = -1;
+                pointBufs[1][x] = -1;
+            }
+            for (int y=0; y<height; y++)
+                edmLine(bPixels, fPixels, pointBufs, width, y*width, y);
+
+            //pass 3 & 4: decreasing y
+            for (int x=0; x<width; x++) {
+                pointBufs[0][x] = -1;
+                pointBufs[1][x] = -1;
+            }
+            for (int y=height-1; y>=0; y--)
+                edmLine(bPixels, fPixels, pointBufs, width, y*width, y);
 
             image = new float[height][width];
-
-            //Initialize Distance Map
+            int p = 0;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-
-                    if (fastBitmap.getGray(i, j) == 0){
+                    if(fPixels[p] < 0f)
                         image[i][j] = 0;
-                    }
-                    else{
-                        image[i][j] = Float.POSITIVE_INFINITY;
-                    }
-                }
-            }
-
-            //Top -> Bottom - Left -> Right
-            for (int i = 1; i < height - 1; i++) {
-                for (int j = 1; j < width - 1; j++) {
-
-                    if (image[i][j] > 0){
-                        float d1 = maskDistance[1][0] + image[i][j - 1];
-                        float d2 = maskDistance[0][0] + image[i - 1][j - 1];
-                        float d3 = maskDistance[0][1] + image[i - 1][j];
-                        float d4 = maskDistance[0][2] + image[i - 1][j + 1];
-                        image[i][j] = Math.min(d1, Math.min(d2, Math.min(d3, d4)));
-                    }
-
-                }
-            }
-
-            //Bottom -> Top - Right -> Left
-            for (int i = height - 2; i > 1; i--) {
-                for (int j = width - 2; j > 1; j--) {
-
-                    if (image[i][j] > 0){
-                        float d1 = maskDistance[1][2] + image[i][j + 1];
-                        float d2 = maskDistance[2][2] + image[i + 1][j + 1];
-                        float d3 = maskDistance[2][1] + image[i + 1][j];
-                        float d4 = maskDistance[2][0] + image[i + 1][j - 1];
-                        image[i][j] = Math.min(image[i][j], Math.min(d1, Math.min(d2, Math.min(d3, d4))));
-                    }
-
-                }
-            }
-            
-            max = -Float.MAX_VALUE;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (image[i][j] == Float.POSITIVE_INFINITY){
-                        image[i][j] = 0;
-                    }
+                    else
+                        image[i][j] = (float)Math.sqrt(fPixels[p]);
                     if(image[i][j] > max){
                         max = image[i][j];
                         ued = new IntPoint(i, j);
                     }
+                    p++;
                 }
             }
-            
+        
             return image;
         }
         else{
             throw new IllegalArgumentException("Distance Transform only works in grayscale images.");
         }
         
+    }
+    
+    // Handle a line; two passes: left-to-right and right-to-left
+    private void edmLine(byte[] bPixels, float[] fPixels, int[][] pointBufs, int width, int offset, int y) {
+        int[] points = pointBufs[0];        // the buffer for the left-to-right pass
+        int pPrev = -1;
+        int pDiag = -1;               // point at (-/+1, -/+1) to current one (-1,-1 in the first pass)
+        int pNextDiag;
+        int distSqr = Integer.MAX_VALUE;    // this value is used only if edges are not background
+        for (int x=0; x<width; x++, offset++) {
+            pNextDiag = points[x];
+            if (bPixels[offset] == 0) {
+                points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
+            } else {                        // foreground pixel:
+                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr);
+                if (fPixels[offset] > dist2) fPixels[offset] = dist2;
+            }
+            pPrev = points[x];
+            pDiag = pNextDiag;
+        }
+        offset--; //now points to the last pixel in the line
+        points = pointBufs[1];              // the buffer for the right-to-left pass. Low short contains x, high short y
+        pPrev = -1;
+        pDiag = -1;
+        for (int x=width-1; x>=0; x--, offset--) {
+            pNextDiag = points[x];
+            if (bPixels[offset] == 0) {
+                points[x] = x | y<<16;      // remember coordinates as a candidate for nearest background point
+            } else {                        // foreground pixel:
+                float dist2 = minDist2(points, pPrev, pDiag, x, y, distSqr);
+                if (fPixels[offset] > dist2) fPixels[offset] = dist2;
+            }
+            pPrev = points[x];
+            pDiag = pNextDiag;
+        }
+    }
+    
+    private float minDist2 (int[] points, int pPrev, int pDiag, int x, int y, int distSqr) {
+        int p0 = points[x];              // the nearest background point for the same x in the previous line
+        int nearestPoint = p0;
+        if (p0 != -1) {
+            int x0 = p0& 0xffff; int y0 = (p0>>16)&0xffff;
+            int dist1Sqr = (x-x0)*(x-x0)+(y-y0)*(y-y0);
+            if (dist1Sqr < distSqr)
+                distSqr = dist1Sqr;
+        }
+        if (pDiag!=p0 && pDiag!=-1) {
+            int x1 = pDiag&0xffff; int y1 = (pDiag>>16)&0xffff;
+            int dist1Sqr = (x-x1)*(x-x1)+(y-y1)*(y-y1);
+            if (dist1Sqr < distSqr) {
+                nearestPoint = pDiag;
+                distSqr = dist1Sqr;
+            }
+        }
+        if (pPrev!=pDiag && pPrev!=-1) {
+            int x1 = pPrev& 0xffff; int y1 = (pPrev>>16)&0xffff;
+            int dist1Sqr = (x-x1)*(x-x1)+(y-y1)*(y-y1);
+            if (dist1Sqr < distSqr) {
+                nearestPoint = pPrev;
+                distSqr = dist1Sqr;
+            }
+        }
+        points[x] = nearestPoint;
+        return (float)distSqr;
     }
     
     /**
@@ -242,18 +192,6 @@ public class DistanceTransform {
         
         int width = image[0].length;
         int height = image.length;
-        
-        double max = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-//                if (image[i][j] == Float.POSITIVE_INFINITY){
-//                    image[i][j] = 0;
-//                }
-                if (image[i][j] > max){
-                    max = image[i][j];
-                }
-            }
-        }
         
         FastBitmap fb = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         
