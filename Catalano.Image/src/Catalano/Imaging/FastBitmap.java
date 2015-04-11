@@ -1056,6 +1056,15 @@ public class FastBitmap {
     }
     
     /**
+     * Set directly ARGB values.
+     * @param offset Offset.
+     * @param argb ARGB array.
+     */
+    public void setDirectARGB(int offset, int[] argb){
+        pixels[offset] = argb[0] << 24| argb[1] << 16| argb[2] << 8 | argb[3];
+    }
+    
+    /**
      * Set directly RGB values.
      * @param offset Offset.
      * @param red Red channel's value.
@@ -1065,6 +1074,26 @@ public class FastBitmap {
     public void setDirectRGB(int offset, int red, int green, int blue){
         int a = pixels[offset] >> 24 & 0xFF;
         pixels[offset] = a << 24 | red << 16| green << 8 | blue;
+    }
+    
+    /**
+     * Set directly RGB values.
+     * @param offset Offset.
+     * @param rgb RGB array.
+     */
+    public void setDirectRGB(int offset, int[] rgb){
+        int a = pixels[offset] >> 24 & 0xFF;
+        pixels[offset] = a << 24 | rgb[0] << 16| rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Set directly RGB values.
+     * @param offset Offset.
+     * @param color Color.
+     */
+    public void setDirectRGB(int offset, Color color){
+        int a = pixels[offset] >> 24 & 0xFF;
+        pixels[offset] = a << 24 | color.r << 16| color.g << 8 | color.b;
     }
     
     /**

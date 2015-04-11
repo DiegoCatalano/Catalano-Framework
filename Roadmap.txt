@@ -4,6 +4,8 @@ Catalano Framework 1.5 road map
 * Catalano.Image
     - New: Color.
 
+    - Added: get;set DirectRed, DirectGreen, ...
+
     - Optimized: getGray() now is using bitwise operation.
 
     - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
