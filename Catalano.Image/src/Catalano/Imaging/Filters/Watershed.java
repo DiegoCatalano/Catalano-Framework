@@ -48,11 +48,40 @@ public class Watershed implements IBaseInPlace{
     private int       intEncodeXMask;               // needed for encoding x & y in a single int (watershed): mask for x
     private int       intEncodeYMask;               // needed for encoding x & y in a single int (watershed): mask for y
     private int       intEncodeShift;               // needed for encoding x & y in a single int (watershed): shift of y
+    
+    private DistanceTransform.Distance distance = DistanceTransform.Distance.Euclidean;
+    private float tolerance = 0.5f;
 
     /**
      * Initializes a new instance of the Watershed class.
      */
     public Watershed() {}
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param tolerance Tolerance.
+     */
+    public Watershed(float tolerance){
+        this.tolerance = tolerance;
+    }
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param tolerance Tolerance.
+     * @param distance Distance.
+     */
+    public Watershed(float tolerance, DistanceTransform.Distance distance){
+        this.tolerance = tolerance;
+        this.distance = distance;
+    }
+    
+    /**
+     * Initializes a new instance of the Watershed class.
+     * @param distance Distance.
+     */
+    public Watershed(DistanceTransform.Distance distance){
+        this.distance = distance;
+    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
@@ -65,7 +94,7 @@ public class Watershed implements IBaseInPlace{
     
     private void Watershed(FastBitmap fastBitmap){
         
-        DistanceTransform dt = new DistanceTransform();
+        DistanceTransform dt = new DistanceTransform(distance);
         float[][] distance = dt.Compute(fastBitmap);
         
         //Convert 2D to 1D - ImageJ Compatibility
@@ -90,7 +119,7 @@ public class Watershed implements IBaseInPlace{
         
         //Analise e marque as maxima em imagem de background
         float maxSortingError = 1.1f * SQRT2/2f;
-        analyseAndMarkMaxima(distance1D, back, maxPoints, 0.5, maxSortingError);
+        analyseAndMarkMaxima(distance1D, back, maxPoints, tolerance, maxSortingError);
         
         //Transform em 8bit 0..255
         FastBitmap outImage = make8Bit(distance, back, dt.getMaximumDistance(), -808080.0);
@@ -170,7 +199,7 @@ public class Watershed implements IBaseInPlace{
         
     }
     
-   private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, double tolerance, float maxSortingError) {
+   private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, float tolerance, float maxSortingError) {
         int width = back.getWidth();
         int height = back.getHeight();
         byte[] types =  (byte[])back.getGrayData();
