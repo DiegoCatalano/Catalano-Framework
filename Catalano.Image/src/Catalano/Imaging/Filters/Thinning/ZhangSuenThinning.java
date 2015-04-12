@@ -4,6 +4,8 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
+// Code adapted from ImageJ, thanks to Wayne Rasband.
+//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -21,17 +23,34 @@
 
 package Catalano.Imaging.Filters.Thinning;
 
-import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Zhang-Suen Thinning.
  * @author Diego Catalano
  */
-public class ZhangSuenThinning implements IBaseInPlace, IThinning{
+public class ZhangSuenThinning implements IBaseInPlace{
+    
+	private int[] table  =
+		 {0,0,0,0,0,0,1,3,0,0,3,1,1,0,1,3,0,0,0,0,0,0,0,0,0,0,2,0,3,0,3,3,
+		  0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,3,0,2,2,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,3,0,0,0,0,0,0,0,3,0,0,0,3,0,2,0,
+		  0,0,3,1,0,0,1,3,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		  3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  2,3,1,3,0,0,1,3,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  2,3,0,1,0,0,0,1,0,0,0,0,0,0,0,0,3,3,0,1,0,0,0,0,2,2,0,0,2,0,0,0};
+		  
+	private int[] table2  =
+		 {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,0,0,0,0,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+		  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		  0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
     /**
      * Initialize a new instance of the ZhangSuenThinning class.
@@ -42,159 +61,74 @@ public class ZhangSuenThinning implements IBaseInPlace, IThinning{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()) {
-            List<IntPoint> skeleton = getSkeletonPoints(fastBitmap);
-            fastBitmap.Clear();
-            
-            for (IntPoint p : skeleton) {
-                fastBitmap.setGray(p, 255);
-            }
+            int pass = 0;
+            int pixelsRemoved;
+            do {
+                    pixelsRemoved = thin(pass++, table, fastBitmap);
+                    pixelsRemoved += thin(pass++, table, fastBitmap);
+            } while (pixelsRemoved>0);
+            do {
+                    // use a second table to remove "stuck" pixels
+                    pixelsRemoved = thin(pass++, table2, fastBitmap);
+                    pixelsRemoved += thin(pass++, table2, fastBitmap);
+            } while (pixelsRemoved>0);
         }
         else{
             throw new IllegalArgumentException("Zhang Suen Thinning only works with grayscale image.");
         }
         
     }
-
-    @Override
-    public List<IntPoint> getSkeletonPoints(FastBitmap fastBitmap) {
-        
-        List<IntPoint> lstSkeleton = new ArrayList<IntPoint>();
-        
-        if (!fastBitmap.isGrayscale()) {
-            try {
-                throw new Exception("works only with grayscale image");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        //Zhang-Suen Thinning
+    
+    private int thin(int pass, int[] table, FastBitmap fastBitmap) {
+        int p1, p2, p3, p4, p5, p6, p7, p8, p9;
         int height = fastBitmap.getHeight();
         int width = fastBitmap.getWidth();
-        
-        int image[][] = new int[height][width];
-        int mark[][] = new int[height][width];
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                image[x][y] = (fastBitmap.getGray(x, y) == 255) ? 1 : 0;
-            }
-        }
 
-        boolean hasdelete = true;
-        while (hasdelete) {
-            
-            hasdelete = false;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    if (image[x][y] == 1) {
-                        int nb[] = getNeighbors(image, x, y, width, height);
-                        int a = 0;
-                        for (int i = 2; i < 9; i++) {
-                            if ((nb[i] == 0) && (nb[i + 1] == 1)) {
-                                a++;
-                            }
+        byte[] pixels = fastBitmap.getGrayData();
+        byte[] pixels2 = new byte[width * height];
+        System.arraycopy(fastBitmap.getGrayData(), 0, pixels2, 0, width * height);
+        int v, index, code;
+        int offset, rowOffset = width;
+        int pixelsRemoved = 0;
+        for (int y=1; y<=height - 2; y++) {
+                offset = y * width + 1;
+                for (int x=1; x<=width - 2; x++) {
+                        p5 = pixels2[offset];
+                        v = p5;
+                        if (v!=0) {
+                                p1 = pixels2[offset-rowOffset-1];
+                                p2 = pixels2[offset-rowOffset];
+                                p3 = pixels2[offset-rowOffset+1];
+                                p4 = pixels2[offset-1];
+                                p6 = pixels2[offset+1];
+                                p7 = pixels2[offset+rowOffset-1];
+                                p8 = pixels2[offset+rowOffset];
+                                p9 = pixels2[offset+rowOffset+1];
+                                index = 0;
+                                if (p1!=0) index |= 1;
+                                if (p2!=0) index |= 2;
+                                if (p3!=0) index |= 4;
+                                if (p6!=0) index |= 8;
+                                if (p9!=0) index |= 16;
+                                if (p8!=0) index |= 32;
+                                if (p7!=0) index |= 64;
+                                if (p4!=0) index |= 128;
+                                code = table[index];
+                                if ((pass&1)==1) { //odd pass
+                                        if (code==2||code==3) {
+                                                v = 0;
+                                                pixelsRemoved++;
+                                        }
+                                } else { //even pass
+                                        if (code==1||code==3) {
+                                                v = 0;
+                                                pixelsRemoved++;
+                                        }
+                                }
                         }
-                        if ((nb[9] == 0) && (nb[2] == 1)) {
-                            a++;
-                        }
-                        int b = nb[2] + nb[3] + nb[4] + nb[5] + nb[6] + nb[7] + nb[8] + nb[9];
-                        int p1 = nb[2] * nb[4] * nb[6];
-                        int p2 = nb[4] * nb[6] * nb[8];
-                        if ((a == 1) && ((b >= 2) && (b <= 6))
-                                && (p1 == 0) && (p2 == 0)) {
-                            mark[x][y] = 0;
-                            hasdelete = true;
-                        } else {
-                            mark[x][y] = 1;
-                        }
-                    } else {
-                        mark[x][y] = 0;
-                    }
+                        pixels[offset++] = (byte)v;
                 }
-            }
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    image[x][y] = mark[x][y];
-                }
-            }
-
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    if (image[x][y] == 1) {
-                        int nb[] = getNeighbors(image, x, y, width, height);
-                        int a = 0;
-                        for (int i = 2; i < 9; i++) {
-                            if ((nb[i] == 0) && (nb[i + 1] == 1)) {
-                                a++;
-                            }
-                        }
-                        if ((nb[9] == 0) && (nb[2] == 1)) {
-                            a++;
-                        }
-                        int b = nb[2] + nb[3] + nb[4] + nb[5] + nb[6] + nb[7] + nb[8] + nb[9];
-                        int p1 = nb[2] * nb[4] * nb[8];
-                        int p2 = nb[2] * nb[6] * nb[8];
-                        if ((a == 1) && ((b >= 2) && (b <= 6))
-                                && (p1 == 0) && (p2 == 0)) {
-                            mark[x][y] = 0;
-                            hasdelete = true;
-                        } else {
-                            mark[x][y] = 1;
-                        }
-                    } else {
-                        mark[x][y] = 0;
-                    }
-                }
-            }
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    image[x][y] = mark[x][y];
-                }
-            }
         }
-        
-        //retrieve skeleton points
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                if (image[x][y] == 1)
-                    lstSkeleton.add(new IntPoint(x,y));
-            }
-        }
-
-        return lstSkeleton;
-    }
-    
-    private int[] getNeighbors(int image[][], int x, int y, int height, int width) {
-        
-        int a[] = new int[10];
-        for (int n = 1; n < 10; n++) {
-            a[n] = 0;
-        }
-        if (y - 1 >= 0) {
-            a[2] = image[x][y - 1];
-            if (x + 1 < width) {
-                a[3] = image[x + 1][y - 1];
-            }
-            if (x - 1 >= 0) {
-                a[9] = image[x - 1][y - 1];
-            }
-        }
-        if (y + 1 < height) {
-            a[6] = image[x][y + 1];
-            if (x + 1 < width) {
-                a[5] = image[x + 1][y + 1];
-            }
-            if (x - 1 >= 0) {
-                a[7] = image[x - 1][y + 1];
-            }
-        }
-        if (x + 1 < width) {
-            a[4] = image[x + 1][y];
-        }
-        if (x - 1 >= 0) {
-            a[8] = image[x - 1][y];
-        }
-        return a;
+        return pixelsRemoved;
     }
 }
