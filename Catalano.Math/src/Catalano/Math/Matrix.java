@@ -1046,32 +1046,6 @@ public final class Matrix {
         }
 
         return result;
-        
-//        double[][] C = new double[A.length][B[0].length];
-//        
-//        if (A[0].length == B.length) {
-//            for (int i = 0; i < A.length; i++) {
-//                double Aik = A[i][0];
-//                for (int j = 0; j < A[0].length; j++)
-//                    C[i][j] = Aik * B[0][j];
-//                for (int k = 1; k < B.length; k++) {
-//                    Aik = A[i][k];
-//                    for (int j = 0; j < B[0].length; j++) {
-//                        C[i][j] += Aik * B[k][j];
-//                    }
-//                }
-//            }
-//            return C;
-//            
-//        }
-//        else{
-//            try {
-//                throw new IllegalArgumentException("Illegal size of matrix");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return C;
     }
     
     /**
@@ -2247,6 +2221,198 @@ public final class Matrix {
     }
     
     /**
+     * Remove columns from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static int[][] RemoveColumn(int[][] A, int[] index){
+        
+        if(A[0].length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        int[][] B = new int[A.length][A[0].length - index.length];
+        int idx;
+        int p;
+        int c;
+        for (int i = 0; i < A.length; i++) {
+            idx = index[0];
+            p = 0;
+            c = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j == idx){
+                    if(p < index.length - 1)
+                        idx = index[++p];
+                }
+                else{
+                    B[i][c++] = A[i][j];
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove columns from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static double[][] RemoveColumn(double[][] A, int[] index){
+        
+        if(A[0].length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        double[][] B = new double[A.length][A[0].length - index.length];
+        int idx;
+        int p;
+        int c;
+        for (int i = 0; i < A.length; i++) {
+            idx = index[0];
+            p = 0;
+            c = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j == idx){
+                    if(p < index.length - 1)
+                        idx = index[++p];
+                }
+                else{
+                    B[i][c++] = A[i][j];
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove columns from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static float[][] RemoveColumn(float[][] A, int[] index){
+        
+        if(A[0].length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        float[][] B = new float[A.length][A[0].length - index.length];
+        int idx;
+        int p;
+        int c;
+        for (int i = 0; i < A.length; i++) {
+            idx = index[0];
+            p = 0;
+            c = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j == idx){
+                    if(p < index.length - 1)
+                        idx = index[++p];
+                }
+                else{
+                    B[i][c++] = A[i][j];
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove rows from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static int[][] RemoveRows(int[][] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        int[][] B = new int[A.length - index.length][A[0].length];
+        int idx;
+        int p;
+        int c;
+        
+        idx = index[0];
+        p = c = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i == idx){
+                if(p < index.length - 1)
+                    idx = index[++p];
+            }
+            else{
+                for (int j = 0; j < A[0].length; j++) {
+                    B[c][j] = A[i][j];
+                }
+                c++;
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove rows from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static double[][] RemoveRows(double[][] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        double[][] B = new double[A.length - index.length][A[0].length];
+        int idx;
+        int p;
+        int c;
+        
+        idx = index[0];
+        p = c = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i == idx){
+                if(p < index.length - 1)
+                    idx = index[++p];
+            }
+            else{
+                for (int j = 0; j < A[0].length; j++) {
+                    B[c][j] = A[i][j];
+                }
+                c++;
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove rows from the matrix.
+     * @param A Matrix.
+     * @param index Indexes.
+     * @return Matrix.
+     */
+    public static float[][] RemoveRows(float[][] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        float[][] B = new float[A.length - index.length][A[0].length];
+        int idx;
+        int p;
+        int c;
+        
+        idx = index[0];
+        p = c = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i == idx){
+                if(p < index.length - 1)
+                    idx = index[++p];
+            }
+            else{
+                for (int j = 0; j < A[0].length; j++) {
+                    B[c][j] = A[i][j];
+                }
+                c++;
+            }
+        }
+        return B;
+    }
+    
+    /**
      * Convert vector to matrix.
      * @param vector Vector.
      * @param m Size of rows.
@@ -2726,6 +2892,24 @@ public final class Matrix {
      * @param A Matrix.
      * @return Vector.
      */
+    public static double[] toDoubleArray(double[][] A){
+        double[] m = new double[A.length * A[0].length];
+        
+        int index = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[index] = A[i][j];
+                index++;
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Convert Matrix to Vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
     public static double[] toDoubleArray(float[][] A){
         double[] m = new double[A.length * A[0].length];
         
@@ -2733,6 +2917,24 @@ public final class Matrix {
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
                 m[index] = A[i][j];
+                index++;
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Convert Matrix to Vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
+    public static int[] toIntArray(int[][] A){
+        int[] m = new int[A.length * A[0].length];
+        
+        int index = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[index] = (int)A[i][j];
                 index++;
             }
         }
@@ -2780,6 +2982,24 @@ public final class Matrix {
      * @param A Matrix.
      * @return Vector.
      */
+    public static float[] toFloatArray(int[][] A){
+        float[] m = new float[A.length * A[0].length];
+        
+        int index = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                m[index] = (float)A[i][j];
+                index++;
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Convert Matrix to Vector.
+     * @param A Matrix.
+     * @return Vector.
+     */
     public static float[] toFloatArray(double[][] A){
         float[] m = new float[A.length * A[0].length];
         
@@ -2798,7 +3018,7 @@ public final class Matrix {
      * @param A Matrix.
      * @return Vector.
      */
-    public static float[] toFloatArray(int[][] A){
+    public static float[] toFloatArray(float[][] A){
         float[] m = new float[A.length * A[0].length];
         
         int index = 0;

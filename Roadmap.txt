@@ -25,10 +25,12 @@ Catalano Framework 1.5 road map
     - New: IntPolygon.
 
 * Catalano.IO
+    - New: ARFF Parser.
     - New: Serialization.
     - New: CSV Parser.
 
 * Catalano.Math
+    - Added: Remove Rows and Columns in the Matrix.
     - Added: Determinant, Inverse in the Matrix.
     - Added: Digital Root in the Tools.
     - Added: Norm1, Norm2, NormF and NormP in the Matrix.

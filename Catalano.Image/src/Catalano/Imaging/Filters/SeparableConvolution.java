@@ -33,7 +33,7 @@ public class SeparableConvolution implements IBaseInPlace{
     private int width,height;
     private double[] kernelX;
     private double[] kernelY;
-    private int division;
+    private double division;
     private boolean useDiv = false;
     private boolean replicate = false;
 
@@ -41,7 +41,7 @@ public class SeparableConvolution implements IBaseInPlace{
      * Sets division.
      * @param division Division.
      */
-    public void setDivision(int division) {
+    public void setDivision(double division) {
         this.division = division;
         useDiv = true;
     }
@@ -99,7 +99,7 @@ public class SeparableConvolution implements IBaseInPlace{
         int lines = (kernelX.length - 1) / 2;
         
         if(replicate && !useDiv)
-            setDivision((int)SumKernel(kernelX, kernelY));
+            setDivision(SumKernel(kernelX, kernelY));
         
         int div = 0;
         if (fastBitmap.isGrayscale()) {
@@ -270,7 +270,7 @@ public class SeparableConvolution implements IBaseInPlace{
     }
     
     private double SumKernel(double[] h, double[] v){
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < h.length; i++) {
             for (int j = 0; j < v.length; j++) {
                 sum += h[i] * v[j];
