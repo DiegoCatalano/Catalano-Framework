@@ -25,7 +25,6 @@
 
 package Catalano.Math.Decompositions;
 
-import Catalano.Math.Constants;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 
@@ -72,7 +71,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
        if(matrix.length == 0 && matrix[0].length == 0)
            throw new IllegalArgumentException("Matrix does not have any rows or columns.");
 
-      double[][] A = matrix.clone();
+      double[][] A = Matrix.Copy(matrix);
       m = matrix.length;
       n = matrix[0].length;
 
@@ -451,14 +450,14 @@ public class SingularValueDecomposition implements java.io.Serializable {
 
                // Make the singular values positive.
    
-               if (s[k] <= 0.0) {
-                  s[k] = (s[k] < 0.0 ? -s[k] : 0.0);
-                  if (wantv) {
-                     for (int i = 0; i <= pp; i++) {
-                        V[i][k] = -V[i][k];
-                     }
-                  }
-               }
+//               if (s[k] <= 0.0) {
+//                  s[k] = (s[k] < 0.0 ? -s[k] : 0.0);
+//                  if (wantv) {
+//                     for (int i = 0; i <= pp; i++) {
+//                        V[i][k] = -V[i][k];
+//                     }
+//                  }
+//               }
    
                // Order the singular values.
    
@@ -471,12 +470,16 @@ public class SingularValueDecomposition implements java.io.Serializable {
                   s[k+1] = t;
                   if (wantv && (k < n-1)) {
                      for (int i = 0; i < n; i++) {
-                        t = V[i][k+1]; V[i][k+1] = V[i][k]; V[i][k] = t;
+                        t = V[i][k+1];
+                        V[i][k+1] = V[i][k];
+                        V[i][k] = -t;
                      }
                   }
                   if (wantu && (k < m-1)) {
                      for (int i = 0; i < m; i++) {
-                        t = U[i][k+1]; U[i][k+1] = U[i][k]; U[i][k] = t;
+                        t = U[i][k+1];
+                        U[i][k+1] = U[i][k];
+                        U[i][k] = t; //TODO: Original U[i][k] = t;
                      }
                   }
                   k++;
@@ -502,15 +505,15 @@ public class SingularValueDecomposition implements java.io.Serializable {
     * @return Right singular vectors.
     */
    public double[][] getV () {
-//       double[][] v = new double[n][n];
-//       
-//       for (int i = 0; i < v.length; i++) {
-//           for (int j = 0; j < v[0].length; j++) {
-//               v[i][j] = V[i][j];
-//           }
-//       }
+       double[][] v = new double[n][n];
        
-       return V;
+       for (int i = 0; i < v.length; i++) {
+           for (int j = 0; j < v[0].length; j++) {
+               v[i][j] = V[i][j];
+           }
+       }
+       
+       return v;
        
    }
 
