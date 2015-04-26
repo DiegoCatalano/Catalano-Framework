@@ -21,6 +21,7 @@
 
 package Catalano.Math;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Core.IntPoint;
 import Catalano.Math.Decompositions.LUDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
@@ -2218,6 +2219,36 @@ public final class Matrix {
             }
         }
         return true;
+    }
+    
+    /**
+     * Calculate the rank of the matrix.
+     * @param A matrix.
+     * @return Rank of the matrix.
+     */
+    public static int Rank(double[][] A){
+        SingularValueDecomposition svd = new SingularValueDecomposition(A, false, false);
+        return svd.rank();
+    }
+    
+    /**
+     * Calculate the rank of the matrix.
+     * @param A Matrix.
+     * @return Rank in the matrix.
+     */
+    public static int Rank(int[][] A){
+        SingularValueDecomposition svd = new SingularValueDecomposition(ArraysUtil.toDouble(A), false, false);
+        return svd.rank();
+    }
+    
+    /**
+     * Calculate the rank of the matrix.
+     * @param A Matrix.
+     * @return Rank in the matrix.
+     */
+    public static int Rank(float[][] A){
+        SingularValueDecomposition svd = new SingularValueDecomposition(ArraysUtil.toDouble(A), false, false);
+        return svd.rank();
     }
     
     /**

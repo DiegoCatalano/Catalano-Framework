@@ -60,6 +60,53 @@ public class SingularValueDecomposition implements java.io.Serializable {
    @serial column dimension.
    */
    private int m, n;
+   
+    boolean wantu = true;
+    boolean wantv = true;
+
+    /**
+     * Check if need to compute U.
+     * @return True if the U is computed, otherwise false.
+     */
+    public boolean isWantU() {
+        return wantu;
+    }
+
+    /**
+     * Compute U.
+     * @param wantu True if need to compute U, otherwise false.
+     */
+    public void setWantU(boolean wantu) {
+        this.wantu = wantu;
+    }
+
+    /**
+     * Check if need to compute V.
+     * @return True if the V is computed, otherwise false.
+     */
+    public boolean isWantV() {
+        return wantv;
+    }
+
+    /**
+     * Compute V.
+     * @param wantv True if need to compute V, otherwise false.
+     */
+    public void setWantV(boolean wantv) {
+        this.wantv = wantv;
+    }
+   
+    /**
+     * Initializes a new instance of the SingularValueDecomposition class.
+     * @param matrix Matrix.
+     * @param wantU Compute U.
+     * @param wantV Compute V.
+     */
+   public SingularValueDecomposition(double[][] matrix, boolean wantU, boolean wantV){
+       this.wantu = wantU;
+       this.wantv = wantV;
+       Compute(matrix);
+   }
 
    /**
     * Initializes a new instance of the SingularValueDecomposition class.
@@ -67,6 +114,10 @@ public class SingularValueDecomposition implements java.io.Serializable {
     * @exception IllegalArgumentException Matrix does not have any rows or columns.
     */
    public SingularValueDecomposition (double[][] matrix) {
+       Compute(matrix);
+   }
+   
+   private void Compute(double[][] matrix){
        
        if(matrix.length == 0 && matrix[0].length == 0)
            throw new IllegalArgumentException("Matrix does not have any rows or columns.");
@@ -86,8 +137,6 @@ public class SingularValueDecomposition implements java.io.Serializable {
       V = new double [n][n];
       double[] e = new double [n];
       double[] work = new double [m];
-      boolean wantu = true;
-      boolean wantv = true;
 
       // Reduce A to bidiagonal form, storing the diagonal elements
       // in s and the super-diagonal elements in e.
@@ -325,7 +374,6 @@ public class SingularValueDecomposition implements java.io.Serializable {
          k++;
 
          // Perform the task indicated by kase.
-
          switch (kase) {
 
             // Deflate negligible s(p).
@@ -435,7 +483,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
                      for (int i = 0; i < m; i++) {
                         t = cs*U[i][j] + sn*U[i][j+1];
                         U[i][j+1] = -sn*U[i][j] + cs*U[i][j+1];
-                        U[i][j] = t;
+                        U[i][j] = t; //TODO: Original +
                      }
                   }
                }
@@ -449,18 +497,16 @@ public class SingularValueDecomposition implements java.io.Serializable {
             case 4: {
 
                // Make the singular values positive.
-   
-//               if (s[k] <= 0.0) {
-//                  s[k] = (s[k] < 0.0 ? -s[k] : 0.0);
-//                  if (wantv) {
-//                     for (int i = 0; i <= pp; i++) {
-//                        V[i][k] = -V[i][k];
-//                     }
-//                  }
-//               }
+               if (s[k] <= 0.0) {
+                  s[k] = (s[k] < 0.0 ? -s[k] : 0.0);
+                  if (wantv) {
+                     for (int i = 0; i <= pp; i++) {
+                        V[i][k] = -V[i][k];
+                     }
+                  }
+               }
    
                // Order the singular values.
-   
                while (k < pp) {
                   if (s[k] >= s[k+1]) {
                      break;
@@ -479,7 +525,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
                      for (int i = 0; i < m; i++) {
                         t = U[i][k+1];
                         U[i][k+1] = U[i][k];
-                        U[i][k] = t; //TODO: Original U[i][k] = t;
+                        U[i][k] = t; //Original +
                      }
                   }
                   k++;
