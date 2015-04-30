@@ -38,7 +38,56 @@ import Catalano.Imaging.IBaseInPlace;
  * @author Diego Catalano
  */
 public class ColorFiltering implements IBaseInPlace{
+    
     private IntRange red, green, blue;
+
+    /**
+     * Get range from red channel.
+     * @return Red range.
+     */
+    public IntRange getRed() {
+        return red;
+    }
+
+    /**
+     * Set range of the red channel.
+     * @param red Red range.
+     */
+    public void setRed(IntRange red) {
+        this.red = red;
+    }
+
+    /**
+     * Get range from green channel.
+     * @return Green range.
+     */
+    public IntRange getGreen() {
+        return green;
+    }
+
+    /**
+     * Set range of the green channel.
+     * @param green Green range.
+     */
+    public void setGreen(IntRange green) {
+        this.green = green;
+    }
+
+    /**
+     * Get range of the blue channel.
+     * @return Blue range.
+     */
+    public IntRange getBlue() {
+        return blue;
+    }
+
+    /**
+     * Set range of the blue channel.
+     * @param blue Blue range.
+     */
+    public void setBlue(IntRange blue) {
+        this.blue = blue;
+    }
 
     /**
      * Initialize a new instance of the ColorFiltering class.

@@ -174,4 +174,30 @@ public class Color {
         this.b = blue;
     }
     
+    /**
+     * Initialize a new instance of the Color class.
+     * @param rgb RGB array.
+     */
+    public Color(int[] rgb){
+        this.r = rgb[0];
+        this.g = rgb[1];
+        this.b = rgb[2];
+    }
+    
+    /**
+     * Compare two colors.
+     * @param c1 First color.
+     * @param c2 Second color.
+     * @return True if the color is the same, otherwise false.
+     */
+    public static boolean isEqual(Color c1, Color c2){
+        if((c1.r == c2.r)
+            && (c1.g == c2.g)
+            && (c1.b == c2.b))
+            return true;
+        
+        return false;
+            
+    }
+    
 }

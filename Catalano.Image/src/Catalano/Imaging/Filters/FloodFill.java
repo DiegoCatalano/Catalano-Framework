@@ -22,8 +22,10 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntPoint;
+import Catalano.Imaging.Color;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -55,9 +57,14 @@ public class FloodFill implements IBaseInPlace{
     };
     
     private Algorithm algorithm = Algorithm.FourWay;
-    int x,y;
-    int r,g,b;
-    int gray;
+    
+    IntPoint startPoint;
+    private Color replace;
+    private int gray;
+    
+    public FloodFill(int x, int y, Color color){
+        
+    }
 
     /**
      * Initialize a new instance of the FloodFill class.
@@ -68,11 +75,8 @@ public class FloodFill implements IBaseInPlace{
      * @param b Blue channel value.
      */
     public FloodFill(int x, int y, int r, int g, int b) {
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.startPoint = new IntPoint(x, y);
+        this.replace = new Color(r, g, b);
     }
     
     /**
@@ -85,11 +89,8 @@ public class FloodFill implements IBaseInPlace{
      * @param algorithm Floodfill algorithm.
      */
     public FloodFill(int x, int y, int r, int g, int b, Algorithm algorithm) {
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.startPoint = new IntPoint(x, y);
+        this.replace = new Color(r, g, b);
         this.algorithm = algorithm;
     }
     
@@ -101,11 +102,18 @@ public class FloodFill implements IBaseInPlace{
      * @param b Blue channel value.
      */
     public FloodFill(IntPoint p, int r, int g, int b){
-        this.x = p.x;
-        this.y = p.y;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.startPoint = p;
+        this.replace = new Color(r, g, b);
+    }
+    
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param p Point(x,y).
+     * @param color Color.
+     */
+    public FloodFill(IntPoint p, Color color){
+        this.startPoint = p;
+        this.replace = color;
     }
     
     /**
@@ -117,11 +125,8 @@ public class FloodFill implements IBaseInPlace{
      * @param algorithm Floodfill algorithm.
      */
     public FloodFill(IntPoint p, int r, int g, int b, Algorithm algorithm) {
-        this.x = p.x;
-        this.y = p.y;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.startPoint = p;
+        this.replace = new Color(r,g,b);
         this.algorithm = algorithm;
     }
     
@@ -132,8 +137,7 @@ public class FloodFill implements IBaseInPlace{
      * @param gray Gray channel value.
      */
     public FloodFill(int x, int y, int gray) {
-        this.x = x;
-        this.y = y;
+        this.startPoint = new IntPoint(x, y);
         this.gray = gray;
     }
     
@@ -145,8 +149,7 @@ public class FloodFill implements IBaseInPlace{
      * @param algorithm Floodfill algorithm.
      */
     public FloodFill(int x, int y, int gray, Algorithm algorithm){
-        this.x = x;
-        this.y = y;
+        this.startPoint = new IntPoint(x, y);
         this.algorithm = algorithm;
     }
     
@@ -156,8 +159,7 @@ public class FloodFill implements IBaseInPlace{
      * @param gray Gray channel value.
      */
     public FloodFill(IntPoint p, int gray){
-        this.x = p.x;
-        this.y = p.y;
+        this.startPoint = p;
         this.gray = gray;
     }
     
@@ -168,8 +170,7 @@ public class FloodFill implements IBaseInPlace{
      * @param algorithm Floodfill algorithm.
      */
     public FloodFill(IntPoint p, int gray, Algorithm algorithm){
-        this.x = p.x;
-        this.y = p.y;
+        this.startPoint = p;
         this.gray = gray;
         this.algorithm = algorithm;
     }
@@ -197,41 +198,7 @@ public class FloodFill implements IBaseInPlace{
      * @param b Blue channel value.
      */
     public void setRGB(int r, int g, int b){
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
-
-    /**
-     * X-axis.
-     * @return X-axis.
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * X-axis.
-     * @param x X-axis.
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * Y-axis.
-     * @return Y-axis.
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * Y-axis.
-     * @param y Y-axis.
-     */
-    public void setY(int y) {
-        this.y = y;
+        this.replace = new Color(r, g, b);
     }
     
     /**
@@ -239,7 +206,7 @@ public class FloodFill implements IBaseInPlace{
      * @return IntPoint.
      */
     public IntPoint getPoint(){
-        return new IntPoint(x,y);
+        return startPoint;
     }
     
     /**
@@ -248,8 +215,7 @@ public class FloodFill implements IBaseInPlace{
      * @param y Y-axis.
      */
     public void setPoint(int x, int y){
-        this.x = x;
-        this.y = y;
+        this.startPoint = new IntPoint(x, y);
     }
     
     @Override
@@ -258,47 +224,36 @@ public class FloodFill implements IBaseInPlace{
         if(fastBitmap.isRGB()){
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
-            Stack<IntPoint> examList = new Stack();
+            LinkedList<IntPoint> examList = new LinkedList();
 
-            int iR = fastBitmap.getRed(x, y);
-            int iG = fastBitmap.getGreen(x, y);
-            int iB = fastBitmap.getBlue(x, y);
-            int iRGB = iR+iG+iB;
-
-            int _r = r;
-            int _g = g;
-            int _b = b;
-            int _RGB = _r + _g + _b;
-
+            Color old = new Color(fastBitmap.getRGB(startPoint));
 
             switch(algorithm){
                 case FourWay:
-                    if (iRGB != _RGB) {
-                        examList.push(new IntPoint(x,y));
+                    if (!Color.isEqual(old, replace)) {
+                        examList.addFirst(new IntPoint(startPoint));
+                        
                         while (examList.size() > 0) {
-                            IntPoint p = examList.pop();
-                            _r = fastBitmap.getRed(p.x, p.y);
-                            _g = fastBitmap.getGreen(p.x, p.y);
-                            _b = fastBitmap.getBlue(p.x, p.y);
-                            _RGB = _r + _g + _b;
+                            IntPoint p = examList.removeLast();
+                            old = new Color(fastBitmap.getRGB(p));
 
-                            if (_RGB == iRGB) {
-                                x = p.x;
-                                y = p.y;
+                            if (!Color.isEqual(old, replace)) {
+                                int x = p.x;
+                                int y = p.y;
 
-                                fastBitmap.setRGB(x, y, r, g, b);
+                                fastBitmap.setRGB(x, y, replace);
 
                                 if (y-1 > 0) {
-                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                    examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
-                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                    examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                                 }
                                 if (x+1 < height) {
-                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                    examList.addFirst(new IntPoint(x+1,y));        // check south neighbor
                                 }
                                 if (x-1 > 0) {
-                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                    examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                             }
                         }
@@ -306,44 +261,40 @@ public class FloodFill implements IBaseInPlace{
                     break;
 
                 case EightWay:
-                    if (iRGB != _RGB) {
-                        examList.push(new IntPoint(x,y));
+                    if (!Color.isEqual(old, replace)) {
+                        examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
                             IntPoint p = examList.pop();
-                            _r = fastBitmap.getRed(p.x, p.y);
-                            _g = fastBitmap.getGreen(p.x, p.y);
-                            _b = fastBitmap.getBlue(p.x, p.y);
-                            _RGB = _r + _g + _b;
 
-                            if (_RGB == iRGB) {
-                                x = p.x;
-                                y = p.y;
+                            if (Color.isEqual(old, replace)) {
+                                int x = p.x;
+                                int y = p.y;
 
-                                fastBitmap.setRGB(x, y, r, g, b);
+                                fastBitmap.setRGB(x, y, replace);
 
                                 if ((x-1 > 0) && (y-1 > 0)) {
-                                    examList.push(new IntPoint(x-1,y-1));        // check north-west neighbor
+                                    examList.addFirst(new IntPoint(x-1,y-1));        // check north-west neighbor
                                 }
                                 if (x-1 > 0) {
-                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                    examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                                 if ((x+1 < height) && (y+1 < width)) {
-                                    examList.push(new IntPoint(x+1,y+1));        // check north-east neighbor
+                                    examList.addFirst(new IntPoint(x+1,y+1));        // check north-east neighbor
                                 }
                                 if (y-1 > 0) {
-                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                    examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
-                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                    examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                                 }
                                 if ((x+1 < height) && (y-1 > 0)) {
-                                    examList.push(new IntPoint(x+1,y-1));        // check south-west neighbor
+                                    examList.addFirst(new IntPoint(x+1,y-1));        // check south-west neighbor
                                 }
                                 if (x+1 < height) {
-                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                    examList.addFirst(new IntPoint(x+1,y));        // check south neighbor
                                 }
                                 if ((x+1 < height) && (y+1 < width)) {
-                                    examList.push(new IntPoint(x+1,y+1));        // check south-east neighbor
+                                    examList.addFirst(new IntPoint(x+1,y+1));        // check south-east neighbor
                                 }
                             }
                         }
@@ -354,9 +305,9 @@ public class FloodFill implements IBaseInPlace{
         else if (fastBitmap.isGrayscale()){
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
-            Stack<IntPoint> examList = new Stack();
+            LinkedList<IntPoint> examList = new LinkedList();
 
-            int iGray = fastBitmap.getGray(x, y);
+            int iGray = fastBitmap.getGray(startPoint);
             
             int _gray = gray;
             int _Gray = _gray;
@@ -365,29 +316,29 @@ public class FloodFill implements IBaseInPlace{
             switch(algorithm){
                 case FourWay:
                     if (iGray != _Gray) {
-                        examList.push(new IntPoint(x,y));
+                        examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
-                            IntPoint p = examList.pop();
+                            IntPoint p = examList.removeLast();
                             _gray = fastBitmap.getGray(p.x, p.y);
                             _Gray = _gray;
 
                             if (_Gray == iGray) {
-                                x = p.x;
-                                y = p.y;
+                                int x = p.x;
+                                int y = p.y;
 
                                 fastBitmap.setGray(x, y, gray);
 
                                 if (y-1 > 0) {
-                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                    examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
-                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                    examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                                 }
                                 if (x+1 < height) {
-                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                    examList.addFirst(new IntPoint(x+1,y));        // check south neighbor
                                 }
                                 if (x-1 > 0) {
-                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                    examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                             }
                         }
@@ -396,41 +347,41 @@ public class FloodFill implements IBaseInPlace{
 
                 case EightWay:
                     if (iGray != _Gray) {
-                        examList.push(new IntPoint(x,y));
+                        examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
                             IntPoint p = examList.pop();
                             _gray = fastBitmap.getGray(p.x, p.y);
                             _Gray = _gray;
 
                             if (_Gray == iGray) {
-                                x = p.x;
-                                y = p.y;
+                                int x = p.x;
+                                int y = p.y;
 
                                 fastBitmap.setGray(x, y, gray);
 
                                 if ((x-1 > 0) && (y-1 > 0)) {
-                                    examList.push(new IntPoint(x-1,y-1));        // check north-west neighbor
+                                    examList.addFirst(new IntPoint(x-1,y-1));        // check north-west neighbor
                                 }
                                 if (x-1 > 0) {
-                                    examList.push(new IntPoint(x-1,y));        // check north neighbor
+                                    examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                                 if ((x+1 < height) && (y+1 < width)) {
-                                    examList.push(new IntPoint(x+1,y+1));        // check north-east neighbor
+                                    examList.addFirst(new IntPoint(x+1,y+1));        // check north-east neighbor
                                 }
                                 if (y-1 > 0) {
-                                    examList.push(new IntPoint(x,y-1));        // check west neighbor
+                                    examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
-                                    examList.push(new IntPoint(x,y+1));        // check east neighbor
+                                    examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                                 }
                                 if ((x+1 < height) && (y-1 > 0)) {
-                                    examList.push(new IntPoint(x+1,y-1));        // check south-west neighbor
+                                    examList.addFirst(new IntPoint(x+1,y-1));        // check south-west neighbor
                                 }
                                 if (x+1 < height) {
-                                    examList.push(new IntPoint(x+1,y));        // check south neighbor
+                                    examList.addFirst(new IntPoint(x+1,y));        // check south neighbor
                                 }
                                 if ((x+1 < height) && (y+1 < width)) {
-                                    examList.push(new IntPoint(x+1,y+1));        // check south-east neighbor
+                                    examList.addFirst(new IntPoint(x+1,y+1));        // check south-east neighbor
                                 }
                             }
                         }
@@ -443,73 +394,3 @@ public class FloodFill implements IBaseInPlace{
         }
     }
 }
-//
-///**
-// * A simple stack in points for image manipulation.
-// * @author Diego Catalano
-// */
-// class PointStack {
-//    
-//    int[] dataX;
-//    int[] dataY;
-//    
-//    int walk = 0;
-//
-//    /**
-//     * Create stack.
-//     * @param width width of image
-//     * @param height height of image
-//     */
-//    public PointStack(int width, int height) {
-//        dataX = new int[height*height*3];
-//        dataY = new int[width*width*3];
-//    }
-//    
-//    /**
-//     * Pushes a value into the stack.
-//     */
-//    public void push(IntPoint p){
-//        dataX[walk] = p.x;
-//        dataY[walk] = p.y;
-//        walk++;
-//    }
-//    
-//    /**
-//     * Pops a value off of the stack.
-//     */
-//    public IntPoint pop(){
-//        walk--;
-//        return new IntPoint(dataX[walk],dataY[walk]);
-//    }
-//    
-//    /**
-//     * Peeks at the top of the stack.
-//     */
-//    public IntPoint peak(){
-//        return new IntPoint(dataX[walk - 1], dataY[walk - 1]);
-//    }
-//    
-//    /**
-//     * Clears the stack.
-//     */
-//    public void clear(){
-//        walk = 0;
-//    }
-//    
-//    /**
-//     * Returns the size of the stack.
-//     */
-//    public int size(){
-//        return walk;
-//    }
-//    
-//    /**
-//     * Return true if is empty, otherwise false.
-//     */
-//    public boolean isEmpty(){
-//        if (walk > 0) {
-//            return false;
-//        }
-//        return true;
-//    }
-//}

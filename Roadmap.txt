@@ -14,6 +14,9 @@ Catalano Framework 1.5 road map
     - New: Watershed.
     - New: Median Cut.
 
+    - Optimized: Blob Detection.
+    - Optimized: Flood Fill.
+
     - Fixed: ZhangSuen Thinning.
     - Fixed: Distance Transform.
     - Fixed: Fourier Transform.
