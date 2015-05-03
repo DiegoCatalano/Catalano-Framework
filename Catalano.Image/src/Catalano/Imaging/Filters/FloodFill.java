@@ -26,7 +26,6 @@ import Catalano.Imaging.Color;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  * Flood Fill filter.
@@ -62,8 +61,15 @@ public class FloodFill implements IBaseInPlace{
     private Color replace;
     private int gray;
     
+    /**
+     * Initialize a new instance of the FloodFill class.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @param color Color.
+     */
     public FloodFill(int x, int y, Color color){
-        
+        this.startPoint = new IntPoint(x, y);
+        this.replace = color;
     }
 
     /**

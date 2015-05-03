@@ -97,6 +97,20 @@ public class ObjectiveFidelity {
     }
     
     /**
+     * Calculate mean absolute error.
+     * @return Mean absolute error.
+     */
+    public double getMAE(){
+        double sumError = 0;
+        for (int x = 0; x < original.getHeight(); x++) {
+            for (int y = 0; y < original.getWidth(); y++) {
+                sumError += Math.abs(reconstructed.getGray(x, y) - original.getGray(x, y));
+            }
+        }
+        return (1/(double)(original.getWidth() * original.getHeight())) * sumError;
+    }
+    
+    /**
      * Calculate Root mean square Error.
      * @return MSE.
      */

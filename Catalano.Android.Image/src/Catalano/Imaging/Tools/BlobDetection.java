@@ -26,7 +26,8 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Shapes.IntRectangle;
 import Catalano.Math.Geometry.PointsCloud;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Detects blobs.
@@ -39,7 +40,7 @@ public class BlobDetection {
     private FastBitmap copy;
     private int size; //All blobs
     private int rR = 0,rG = 0,rB = 0;
-    private ArrayList<Blob> blobs;
+    private List<Blob> blobs;
     private Blob blob; //Blob object
     private int id = 0; //ID blob
     private boolean filterBlob = false;
@@ -81,7 +82,7 @@ public class BlobDetection {
         return this.idBigBlob;
     }
 
-    public ArrayList<Blob> ProcessImage(FastBitmap fastBitmap) {
+    public List<Blob> ProcessImage(FastBitmap fastBitmap) {
         
         if(fastBitmap.isGrayscale()){
             width = fastBitmap.getWidth();
@@ -137,7 +138,7 @@ public class BlobDetection {
     
     private void TagBlob(int x,int y, int r, int g, int b){
         ArrayList<IntPoint> blobPoints = new ArrayList<IntPoint>();
-        Stack<IntPoint> examList = new Stack<IntPoint>();
+        LinkedList<IntPoint> examList = new LinkedList<IntPoint>();
         
         int xc = 0,yc = 0; //Centroid
         int blobArea = 0; //Area total
@@ -148,9 +149,9 @@ public class BlobDetection {
         int iRGB = iR << 16 | iG << 8 | iB;
         
         int _r,_g,_b;
-        examList.push(new IntPoint(x,y));
+        examList.addFirst(new IntPoint(x,y));
         while (examList.size() > 0) {
-            IntPoint p = examList.pop();
+            IntPoint p = examList.removeLast();
             _r = copy.getRed(p.x, p.y);
             _g = copy.getGreen(p.x, p.y);
             _b = copy.getBlue(p.x, p.y);
@@ -167,16 +168,16 @@ public class BlobDetection {
                 yc += p.y;
                 
                 if (x-1 > 0) {
-                    examList.push(new IntPoint(x-1,y));        // check west neighbor
+                    examList.addFirst(new IntPoint(x-1,y));        // check west neighbor
                 }
                 if (x+1 < height) {
-                    examList.push(new IntPoint(x+1,y));        // check east neighbor
+                    examList.addFirst(new IntPoint(x+1,y));        // check east neighbor
                 }
                 if (y-1 > 0) {
-                    examList.push(new IntPoint(x,y-1));        // check north neighbor
+                    examList.addFirst(new IntPoint(x,y-1));        // check north neighbor
                 }
                 if (y+1 < width) {
-                    examList.push(new IntPoint(x,y+1));        // check south neighbor
+                    examList.addFirst(new IntPoint(x,y+1));        // check south neighbor
                 }
             }
         }

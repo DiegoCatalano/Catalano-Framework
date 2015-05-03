@@ -27,6 +27,9 @@ Catalano Framework 1.5 road map
 * Catalano.Imaging.Shapes
     - New: IntPolygon.
 
+* Catalano.Imaging.Tools
+    - Added: MAE in Objective Fidelity.
+
 * Catalano.IO
     - New: ARFF Parser.
     - New: Serialization.

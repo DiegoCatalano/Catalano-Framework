@@ -118,13 +118,17 @@ public class CSVParser {
             }
             
             if(lines.size() > 0) {
-                String[] temp = lines.get(0).split(String.valueOf(delimiter));
+                String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
                 String[][] data = new String[lines.size()][temp.length];
+                int idxI = 0;
                 for (int i = startRow; i < lines.size(); i++) {
+                    int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
                     for (int j = startCol; j < temp.length; j++) {
-                        data[i][j] = temp[j];
+                        data[idxI][idxJ] = temp[j];
+                        idxJ++;
                     }
+                    idxI++;
                 }
 
                 return data;
@@ -162,19 +166,21 @@ public class CSVParser {
         List<T> lst = new ArrayList<T>();
        
         try{
-            for (int i = startRow; i < data.length; i++) {
+            for (int i = 0; i < data.length - startRow - 1; i++) {
                 Constructor c = cls.getConstructor(paramTypes);
                 Object[] obj = new Object[paramTypes.length];
-                for (int j = startCol; j < paramTypes.length; j++) {
-                    //String cannot be cast in int type.
+                for (int j = 0; j < paramTypes.length; j++) {
                     if(paramTypes[j] == int.class){
                         obj[j] = Integer.parseInt(data[i][j]);
+                    }
+                    else if(paramTypes[j] == boolean.class){
+                        obj[j] = Boolean.parseBoolean(data[i][j]);
                     }
                     else if(paramTypes[j] == double.class){
                         obj[j] = Double.parseDouble(data[i][j]);
                     }
                     else if(paramTypes[j] == float.class){
-                        obj[j] = Double.parseDouble(data[i][j]);
+                        obj[j] = Float.parseFloat(data[i][j]);
                     }
                     else if(paramTypes[j] == String.class){
                         obj[j] = data[i][j];
