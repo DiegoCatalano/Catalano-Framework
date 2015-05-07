@@ -34,6 +34,26 @@ public final class Approximation {
     private Approximation() {}
     
     /**
+     * Calculate absolute number.
+     * @param x Number.
+     * @return Abs(x).
+     */
+    public static int abs(int x){
+        final int i = x >>> 31;
+        return (x ^ (~i + 1)) + i;
+    }
+    
+    /**
+     * Calculate absolute number.
+     * @param x Number.
+     * @return Abs(x).
+     */
+    public static long abs(long x){
+        final long l = x >>> 63;
+        return (x ^ (~l + 1)) + l;
+    }
+    
+    /**
      * Calculate Pow.
      * The pow is calculate following the formula:
      * Formula: Exp(y * Log(x))

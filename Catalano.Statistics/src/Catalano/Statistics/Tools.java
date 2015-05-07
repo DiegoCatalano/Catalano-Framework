@@ -171,6 +171,14 @@ public class Tools {
         return r1 / r2;
     }
     
+    public static double Sum(double[] x){
+        double sum = 0;
+        for (int i = 0; i < x.length; i++) {
+            sum += x[i];
+        }
+        return sum;
+    }
+    
     public static double Variance(double[] x){
         return Variance(x, Mean(x));
     }

@@ -185,6 +185,16 @@ public class Color {
     }
     
     /**
+     * Initialize a new instance of the Color class.
+     * @param rgb Packed RGB.
+     */
+    public Color(int rgb){
+        this.r = rgb >> 16 & 0xFF;
+        this.g = rgb >> 8 & 0xFF;
+        this.b = rgb & 0xFF;
+    }
+    
+    /**
      * Compare two colors.
      * @param c1 First color.
      * @param c2 Second color.
