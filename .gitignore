@@ -5,7 +5,6 @@
 *.class
 *.jar
 *.png
-*.xml
 /Catalano.Core/dist/
 /Catalano.Math/dist/
 /Catalano.Statistics/dist/
