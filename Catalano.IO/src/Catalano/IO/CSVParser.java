@@ -44,7 +44,7 @@ public class CSVParser {
     private char delimiter = ',';
     private int startRow = 0;
     private int startCol = 0;
-    String charset = "UTF8";
+    String charset = "UTF-16";
     String newLine = System.getProperty("line.separator");
 
     /**
@@ -163,7 +163,7 @@ public class CSVParser {
             }
         }
         
-        List<T> lst = new ArrayList<T>();
+        List<T> lst = new ArrayList<T>(data.length);
        
         try{
             for (int i = 0; i < data.length - startRow - 1; i++) {
