@@ -1,25 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Math Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2015
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 package Catalano.Math.Distances;
 
 /**
- *
- * @author Diego
+ * Chebyshev distance.
+ * Is a metric defined on a vector space where the distance between two vectors is the greatest of their differences along any coordinate dimension.
+ * 
+ * @author Diego Catalano
  */
 public class ChebyshevDistance implements IDistance{
 
+    /**
+     * Initializes a new instance of the ChevyshevDistance class.
+     */
     public ChebyshevDistance() {}
 
     @Override
-    public double Compute(double[] x, double[] y) {
-        double max = Math.abs(x[0] - y[0]);
+    public double Compute(double[] u, double[] v) {
+        double max = Math.abs(u[0] - v[0]);
         
-        for (int i = 1; i < x.length; i++){
-            double abs = Math.abs(x[i] - y[i]);
+        for (int i = 1; i < u.length; i++){
+            double abs = Math.abs(u[i] - v[i]);
             if (abs > max) max = abs;
         }
         

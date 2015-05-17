@@ -1,28 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Math Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2015
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 package Catalano.Math.Distances;
 
 /**
- *
- * @author Diego
+ * Cosine Distance.
+ * Calculate the angular cosine distance.
+ * 
+ * @author Diego Catalano
  */
 public class CosineDistance implements IDistance{
 
+    /**
+     * Initializes a new instance of the CosineDistance class.
+     */
     public CosineDistance() {}
 
     @Override
-    public double Compute(double[] x, double[] y) {
+    public double Compute(double[] u, double[] v) {
         double sumProduct = 0;
         double sumP = 0, sumQ = 0;
         
-        for (int i = 0; i < x.length; i++) {
-            sumProduct += x[i] * y[i];
-            sumP += Math.pow(Math.abs(x[i]),2);
-            sumQ += Math.pow(Math.abs(y[i]),2);
+        for (int i = 0; i < u.length; i++) {
+            sumProduct += u[i] * v[i];
+            sumP += Math.pow(Math.abs(u[i]),2);
+            sumQ += Math.pow(Math.abs(v[i]),2);
         }
         
         sumP = Math.sqrt(sumP);
