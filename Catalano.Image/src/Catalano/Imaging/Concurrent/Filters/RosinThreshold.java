@@ -25,6 +25,7 @@ package Catalano.Imaging.Concurrent.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
+import Catalano.Math.Distances.Distance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Histogram;
 
@@ -90,7 +91,7 @@ public class RosinThreshold implements IBaseInPlace{
 
             int lastValue = values[lastIndex];
 
-            double d = Catalano.Math.Distance.Euclidean(maxIndex, maxValue, lastIndex, lastValue);
+            double d = Distance.Euclidean(maxIndex, maxValue, lastIndex, lastValue);
 
             int threshold = lastIndex;
             if (d != 0){

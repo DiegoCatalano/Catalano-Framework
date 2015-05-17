@@ -25,6 +25,7 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.DistanceTransform;
+import Catalano.Math.Distances.Distance;
 import java.util.ArrayList;
 
 /**
@@ -160,7 +161,7 @@ public class NearestNeighborMatrix {
                             double minDistance = Double.MAX_VALUE;
                             IntPoint point = new IntPoint();
                             for (IntPoint p : boundary) {
-                                double dist = Catalano.Math.Distance.SquaredEuclidean(i, j, p.x, p.y);
+                                double dist = Distance.SquaredEuclidean(i, j, p.x, p.y);
                                 if (dist < minDistance){
                                     minDistance = dist;
                                     point = p;
@@ -195,7 +196,7 @@ public class NearestNeighborMatrix {
                         double minDistance = Double.MAX_VALUE;
                         IntPoint point = new IntPoint();
                         for (IntPoint p : boundary) {
-                            double dist = Catalano.Math.Distance.SquaredEuclidean(i, j, p.x, p.y);
+                            double dist = Distance.SquaredEuclidean(i, j, p.x, p.y);
                             if (dist < minDistance){
                                 minDistance = dist;
                                 point = p;
@@ -229,4 +230,3 @@ public class NearestNeighborMatrix {
         
     }
 }
-

@@ -33,6 +33,7 @@ import java.util.Random;
  * @author Diego Catalano
  */
 public class QLearning{
+    
     // amount of possible states
     private int states;
     // amount of possible actions
@@ -121,8 +122,6 @@ public class QLearning{
         this.discountFactor = Math.max(0.0, Math.min(1.0, discountFactor ));
     }
     
-    
-    
     /**
      *  Initializes a new instance of the QLearning class.
      * @param states Amount of possible states.
@@ -131,26 +130,26 @@ public class QLearning{
      * @param randomize Randomize action estimates or not.
      */
     public QLearning( int states, int actions, IExplorationPolicy explorationPolicy, boolean randomize ){
-    this.states  = states;
-    this.actions = actions;
-    this.explorationPolicy = explorationPolicy;
+        this.states  = states;
+        this.actions = actions;
+        this.explorationPolicy = explorationPolicy;
 
-    // create Q-array
-    qvalues = new double[states][];
-    for ( int i = 0; i < states; i++ ){
-        qvalues[i] = new double[actions];
-    }
-
-    // do randomization
-    if (randomize){
-        Random r = new Random();
-
+        // create Q-array
+        qvalues = new double[states][];
         for ( int i = 0; i < states; i++ ){
-            for ( int j = 0; j < actions; j++ ){
-                qvalues[i][j] = r.nextDouble() / 10;
+            qvalues[i] = new double[actions];
+        }
+
+        // do randomization
+        if (randomize){
+            Random r = new Random();
+
+            for ( int i = 0; i < states; i++ ){
+                for ( int j = 0; j < actions; j++ ){
+                    qvalues[i][j] = r.nextDouble() / 10;
+                }
             }
         }
-    }
     }
     
     /**
@@ -170,21 +169,20 @@ public class QLearning{
      * @param nextState Next state.
      */
     public void UpdateState( int previousState, int action, double reward, int nextState ){
-    // next state's action estimations
-    double[] nextActionEstimations = qvalues[nextState];
-                // find maximum expected summary reward from the next state
-    double maxNextExpectedReward = nextActionEstimations[0];
+        // next state's action estimations
+        double[] nextActionEstimations = qvalues[nextState];
+                    // find maximum expected summary reward from the next state
+        double maxNextExpectedReward = nextActionEstimations[0];
 
-    for ( int i = 1; i < actions; i++ ){
-            if ( nextActionEstimations[i] > maxNextExpectedReward )
-                    maxNextExpectedReward = nextActionEstimations[i];
-    }
+        for ( int i = 1; i < actions; i++ ){
+                if ( nextActionEstimations[i] > maxNextExpectedReward )
+                        maxNextExpectedReward = nextActionEstimations[i];
+        }
 
-    // previous state's action estimations
-    double[] previousActionEstimations = qvalues[previousState];
-    // update expexted summary reward of the previous state
-    previousActionEstimations[action] *= (1.0 - learningRate);
-    previousActionEstimations[action] += (learningRate * (reward + discountFactor * maxNextExpectedReward));
+        // previous state's action estimations
+        double[] previousActionEstimations = qvalues[previousState];
+        // update expexted summary reward of the previous state
+        previousActionEstimations[action] *= (1.0 - learningRate);
+        previousActionEstimations[action] += (learningRate * (reward + discountFactor * maxNextExpectedReward));
     }
-   
 }

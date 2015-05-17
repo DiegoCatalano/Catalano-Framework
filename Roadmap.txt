@@ -36,6 +36,7 @@ Catalano Framework 1.5 road map
     - New: CSV Parser.
 
 * Catalano.Math
+    - New: Distances namespace (All distances is refactored).
     - New: Rational Number.
 
     - Added: Remove Rows and Columns in the Matrix.
@@ -51,5 +52,7 @@ Catalano Framework 1.5 road map
     - New: Cholesky Decomposition.
 
 * Catalano.Statistics
+    - Added: Jensen Shannon divergence.
+    - Added: Kullback Leibler divergence.
     - Added: Coefficient of Variation in the Tools.
     - Added: Max and Min in the Tools.

@@ -28,7 +28,7 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.DistanceTransform;
-import Catalano.Math.Distance;
+import Catalano.Math.Distances.Distance;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +184,7 @@ public final class ShapeDescriptors {
         
         double max = Double.MIN_VALUE;
         for (IntPoint p : contour) {
-            double d = Catalano.Math.Distance.SquaredEuclidean(p, starPoint);
+            double d = Distance.SquaredEuclidean(p, starPoint);
             if (d > max){
                 max = d;
             }

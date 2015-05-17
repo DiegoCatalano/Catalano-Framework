@@ -22,6 +22,8 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.Math.Distances.EuclideanDistance;
+import Catalano.Math.Distances.IDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IKernel;
 import java.util.ArrayList;
@@ -37,12 +39,10 @@ import java.util.Map;
  */
 public class KNearestNeighbors<T> {
     
-    public static enum Distance {Euclidean, SquaredEuclidean, Manhattan};
-    
     private int k;
     private List<double[]> input;
     private T output[];
-    private Distance distance = Distance.Euclidean;
+    private IDistance distance = new EuclideanDistance();
     private IKernel kernel;
     private boolean useKernel = false;
 
@@ -85,7 +85,7 @@ public class KNearestNeighbors<T> {
         this.output = output;
     }
     
-    public KNearestNeighbors(List<double[]> input, T[] output, Distance distance){
+    public KNearestNeighbors(List<double[]> input, T[] output, IDistance distance){
         this.k = 3;
         this.input = input;
         this.output = output;
@@ -98,7 +98,7 @@ public class KNearestNeighbors<T> {
         this.output = output;
     }
     
-    public KNearestNeighbors(int k, List<double[]> input, T[] output, Distance distance) {
+    public KNearestNeighbors(int k, List<double[]> input, T[] output, IDistance distance) {
         setK(k);
         this.input = input;
         this.output = output;
@@ -132,38 +132,8 @@ public class KNearestNeighbors<T> {
             
         }else{
             
-            double sum;
-            switch(distance){
-                case Euclidean:
-                    for (int i = 0; i < sizeF; i++) {
-                        sum = 0;
-                        double[] featureModel = input.get(i);
-                        for (int j = 0; j < lengthF; j++) {
-                            sum += Math.pow(feature[j] - featureModel[j], 2);
-                        }
-                        dist[i] = Math.sqrt(sum);
-                    }
-                break;
-                case SquaredEuclidean:
-                    for (int i = 0; i < sizeF; i++) {
-                        sum = 0;
-                        double[] featureModel = input.get(i);
-                        for (int j = 0; j < lengthF; j++) {
-                            sum += Math.pow(feature[j] - featureModel[j], 2);
-                        }
-                        dist[i] = sum;
-                    }
-                break;
-                case Manhattan:
-                    for (int i = 0; i < sizeF; i++) {
-                        sum = 0;
-                        double[] featureModel = input.get(i);
-                        for (int j = 0; j < lengthF; j++) {
-                            sum += Math.abs(feature[j] - featureModel[j]);
-                        }
-                        dist[i] = sum;
-                    }
-                break;
+            for (int i = 0; i < sizeF; i++) {
+                dist[i] = this.distance.Compute(feature, input.get(i));
             }
         }
         
