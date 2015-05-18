@@ -27,6 +27,7 @@ package Catalano.Statistics.Kernels;
 /**
  * Multiquadric Kernel.
  * The multiquadric kernel is only conditionally positive-definite.
+ * 
  * @author Diego Catalano
  */
 public class Multiquadric implements IKernel{

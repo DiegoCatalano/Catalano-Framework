@@ -54,6 +54,8 @@ Catalano Framework 1.5 road map
     - New: Cholesky Decomposition.
 
 * Catalano.Statistics
+    - New: Thin Plate Splines Kernel.
+
     - Added: Jensen Shannon divergence.
     - Added: Kullback Leibler divergence.
     - Added: Coefficient of Variation in the Tools.
