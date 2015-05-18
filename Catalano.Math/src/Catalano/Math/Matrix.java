@@ -654,6 +654,54 @@ public final class Matrix {
     }
     
     /**
+     * Return a matrix from specified columns.
+     * @param A Matrix.
+     * @param indexess Indexes.
+     * @return Matrix.
+     */
+    public static double[][] getColumns(double[][] A, int[] indexes){
+        double[][] m = new double[A.length][indexes.length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[i][indexes[j]];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Return a matrix from specified columns.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static int[][] getColumns(int[][] A, int[] indexes){
+        int[][] m = new int[A.length][indexes.length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[i][indexes[j]];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Return a matrix from specified columns.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static float[][] getColumns(float[][] A, int[] indexes){
+        float[][] m = new float[A.length][indexes.length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[i][indexes[j]];
+            }
+        }
+        return m;
+    }
+    
+    /**
      * Return a vector from a specified row in a matrix.
      * @param A Matrix.
      * @param n Number of row.
@@ -699,6 +747,54 @@ public final class Matrix {
             v[i] = A[n][i];
         }
         return v;
+    }
+    
+    /**
+     * Return a matrix from a specified row indexes.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static double[][] getRows(double[][] A, int[] indexes){
+        double[][] m = new double[indexes.length][A[0].length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[indexes[i]][j];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Return a matrix from a specified row indexes.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static int[][] getRows(int[][] A, int[] indexes){
+        int[][] m = new int[indexes.length][A[0].length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[indexes[i]][j];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Return a matrix from a specified row indexes.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static float[][] getRows(float[][] A, int[] indexes){
+        float[][] m = new float[indexes.length][A[0].length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[indexes[i]][j];
+            }
+        }
+        return m;
     }
     
     /**
@@ -1010,6 +1106,108 @@ public final class Matrix {
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
                 A[i][j] -= scalar;
+            }
+        }
+    }
+    
+    /**
+     * Swap column.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapColumn(double[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                double t1 = A[i][a];
+                double t2 = A[i][b];
+                A[i][a] = t2;
+                A[i][b] = t1;
+            }
+        }
+    }
+    
+    /**
+     * Swap column.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapColumn(int[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                int t1 = A[i][a];
+                int t2 = A[i][b];
+                A[i][a] = t2;
+                A[i][b] = t1;
+            }
+        }
+    }
+    
+    /**
+     * Swap column.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapColumn(float[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                float t1 = A[i][a];
+                float t2 = A[i][b];
+                A[i][a] = t2;
+                A[i][b] = t1;
+            }
+        }
+    }
+    
+    /**
+     * Swap row.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapRow(double[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                double t1 = A[a][j];
+                double t2 = A[b][j];
+                A[a][j] = t2;
+                A[b][j] = t1;
+            }
+        }
+    }
+    
+    /**
+     * Swap row.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapRow(int[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                int t1 = A[a][j];
+                int t2 = A[b][j];
+                A[a][j] = t2;
+                A[b][j] = t1;
+            }
+        }
+    }
+    
+    /**
+     * Swap row.
+     * @param A Matrix.
+     * @param a Origin index.
+     * @param b Destiny index.
+     */
+    public static void SwapRow(float[][] A, int a, int b){
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                float t1 = A[a][j];
+                float t2 = A[b][j];
+                A[a][j] = t2;
+                A[b][j] = t1;
             }
         }
     }
