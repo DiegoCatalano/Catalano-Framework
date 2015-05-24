@@ -27,6 +27,7 @@ import Catalano.Statistics.Histogram;
 /**
  * Local binary patterns (LBP) is a type of feature used for classification in computer vision.
  * LBP was first described in 1994. It has since been found to be a powerful feature for texture classification.
+ * 
  * @author Diego Catalano
  */
 public class LocalBinaryPattern {

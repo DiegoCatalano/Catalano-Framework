@@ -44,7 +44,8 @@ public class CSVParser {
     private char delimiter = ',';
     private int startRow = 0;
     private int startCol = 0;
-    String charset = "UTF-16";
+    
+    String charset = "UTF-8";
     String newLine = System.getProperty("line.separator");
 
     /**

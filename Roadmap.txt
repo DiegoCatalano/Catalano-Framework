@@ -28,6 +28,8 @@ Catalano Framework 1.5 road map
     - New: IntPolygon.
 
 * Catalano.Imaging.Tools
+    - New: Local Ternary Pattern.
+
     - Added: MAE in Objective Fidelity.
 
 * Catalano.IO
