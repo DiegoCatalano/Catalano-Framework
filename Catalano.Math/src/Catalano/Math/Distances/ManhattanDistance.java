@@ -37,10 +37,6 @@ public class ManhattanDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double sum = 0;
-        for (int i = 0; i < u.length; i++) {
-            sum += Math.abs(u[i] - v[i]);
-        }
-        return sum;
+        return Distance.Manhattan(u, v);
     }
 }

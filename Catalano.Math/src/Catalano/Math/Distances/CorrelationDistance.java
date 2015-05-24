@@ -35,28 +35,6 @@ public class CorrelationDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double p = 0;
-        double q = 0;
-        
-        for (int i = 0; i < u.length; i++) {
-            p += -u[i];
-            q += -v[i];
-        }
-        
-        p /= u.length;
-        q /= v.length;
-        
-        double num = 0;
-        double den1 = 0;
-        double den2 = 0;
-        for (int i = 0; i < u.length; i++)
-        {
-            num += (u[i] + p) * (v[i] + q);
-
-            den1 += Math.abs(Math.pow(u[i] + p, 2));
-            den2 += Math.abs(Math.pow(v[i] + p, 2));
-        }
-
-        return 1 - (num / (Math.sqrt(den1) * Math.sqrt(den2)));
+        return Distance.Correlation(u, v);
     }
 }

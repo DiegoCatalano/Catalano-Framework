@@ -401,6 +401,49 @@ public final class Distance {
     }
     
     /**
+     * Gets the Jensen Shannon divergence.
+     * @param u U vector.
+     * @param v V vector.
+     * @return The Jensen Shannon divergence between u and v.
+     */
+    public static double JensenShannonDivergence(double[] u, double[] v) {
+        double[] m = new double[u.length];
+        for (int i = 0; i < m.length; i++) {
+            m[i] = (u[i] + v[i]) / 2;
+        }
+
+        return (KullbackLeiblerDivergence(u, m) + KullbackLeiblerDivergence(v, m)) / 2;
+    }
+    
+    /**
+     * Gets the Kullback Leibler divergence.
+     * @param u U vector.
+     * @param v V vector.
+     * @return The Kullback Leibler divergence between u and v.
+     */
+    public static double KullbackLeiblerDivergence(double[] u, double[] v) {
+        
+        if(u.length != v.length)
+            throw new IllegalArgumentException("The size of u and v must be equal.");
+        
+        boolean intersection = false;
+        double kl = 0.0;
+
+        for (int i = 0; i < u.length; i++) {
+            if (u[i] != 0.0 && v[i] != 0.0) {
+                intersection = true;
+                kl += u[i] * Math.log(u[i] / v[i]);
+            }
+        }
+
+        if (intersection) {
+            return kl;
+        } else {
+            return Double.POSITIVE_INFINITY;
+        }
+    }
+    
+    /**
      * Gets the Manhattan distance between two points.
      * @param p A point in space.
      * @param q A point in space.
@@ -467,17 +510,17 @@ public final class Distance {
     
     /**
      * Gets the Minkowski distance between two points.
-     * @param p A point in space.
-     * @param q A point in space.
-     * @param r Order between two points.
+     * @param u A point in space.
+     * @param v A point in space.
+     * @param p Order between two points.
      * @return The Minkowski distance between x and y.
      */
-    public static double Minkowski(double[] p, double[] q, int r){
+    public static double Minkowski(double[] u, double[] v, double p){
         double distance = 0;
-        for (int i = 0; i < p.length; i++) {
-            distance += Math.pow(Math.abs(p[i] - q[i]),r);
+        for (int i = 0; i < u.length; i++) {
+            distance += Math.pow(Math.abs(u[i] - v[i]),p);
         }
-        return Math.pow(distance,1/r);
+        return Math.pow(distance,1/p);
     }
     
     /**

@@ -36,14 +36,6 @@ public class SquaredEuclideanDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double d = 0.0, t;
-
-        for (int i = 0; i < u.length; i++)
-        {
-            t = u[i] - v[i];
-            d += t * t;
-        }
-
-        return d;
+        return Distance.SquaredEuclidean(u, v);
     }
 }

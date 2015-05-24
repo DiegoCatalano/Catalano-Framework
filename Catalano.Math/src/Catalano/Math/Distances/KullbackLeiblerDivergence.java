@@ -23,18 +23,18 @@
 package Catalano.Math.Distances;
 
 /**
- * Jaccard distance.
+ * Kullback Leibler divergence.
  * @author Diego Catalano
  */
-public class JaccardDistance implements IDistance{
+public class KullbackLeiblerDivergence implements IDistance{
 
     /**
-     * Initializes a new instance of the JaccardDistance class.
+     * Initializes a new instance of the KullbackLeiblerDivergence class.
      */
-    public JaccardDistance() {}
+    public KullbackLeiblerDivergence() {}
 
     @Override
     public double Compute(double[] u, double[] v) {
-        return Distance.JaccardDistance(u, v);
+        return Distance.KullbackLeiblerDivergence(u, v);
     }
 }

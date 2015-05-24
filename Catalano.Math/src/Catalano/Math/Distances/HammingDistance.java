@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class HammingDistance implements IDistance{
+public class HammingDistance {
 
     /**
      * Initializes a new instance of the HammingDistance class.
@@ -47,16 +47,5 @@ public class HammingDistance implements IDistance{
             if(first.charAt(i) != second.charAt(i)) d++;
         }
         return d;
-    }
-
-    @Override
-    public double Compute(double[] u, double[] v) {
-        double distance = 0;
-        
-        for (int i = 0; i < u.length; i++) {
-            if (u[i] != v[i]) distance++;
-        }
-        
-        return distance;
     }
 }

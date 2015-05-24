@@ -35,14 +35,6 @@ public class BrayCurtisDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double sumP, sumN;
-        sumP = sumN = 0;
-        
-        for (int i = 0; i < u.length; i++) {
-            sumN += Math.abs(u[i] - v[i]);
-            sumP += Math.abs(u[i] + v[i]);
-        }
-        
-        return sumN/sumP;
+        return Distance.BrayCurtis(u, v);
     }
 }

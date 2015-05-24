@@ -120,7 +120,6 @@ public class KNearestNeighbors<T> {
     public T Compute(double[] feature){
         
         int sizeF = input.size();
-        int lengthF = feature.length;
         double[] dist = new double[sizeF];
         
         //Compute distance.

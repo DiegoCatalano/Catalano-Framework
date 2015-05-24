@@ -66,10 +66,6 @@ public class MinkowskiDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double distance = 0;
-        for (int i = 0; i < u.length; i++) {
-            distance += Math.pow(Math.abs(u[i] - v[i]),p);
-        }
-        return Math.pow(distance,1/p);
+        return Distance.Minkowski(u, v, p);
     }
 }

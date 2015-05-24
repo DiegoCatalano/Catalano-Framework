@@ -37,20 +37,6 @@ public class CosineDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double sumProduct = 0;
-        double sumP = 0, sumQ = 0;
-        
-        for (int i = 0; i < u.length; i++) {
-            sumProduct += u[i] * v[i];
-            sumP += Math.pow(Math.abs(u[i]),2);
-            sumQ += Math.pow(Math.abs(v[i]),2);
-        }
-        
-        sumP = Math.sqrt(sumP);
-        sumQ = Math.sqrt(sumQ);
-        
-        double result = 1 - (sumProduct/(sumP*sumQ));
-        
-        return result;
+        return Distance.Cosine(u, v);
     }
 }

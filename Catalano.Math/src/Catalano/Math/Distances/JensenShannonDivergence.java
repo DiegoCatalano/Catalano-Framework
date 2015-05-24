@@ -23,18 +23,18 @@
 package Catalano.Math.Distances;
 
 /**
- * Jaccard distance.
+ * Jensen Shannon divergence.
  * @author Diego Catalano
  */
-public class JaccardDistance implements IDistance{
+public class JensenShannonDivergence implements IDistance{
 
     /**
-     * Initializes a new instance of the JaccardDistance class.
+     * Initializes a new instance of the JensenShannonDivergence class.
      */
-    public JaccardDistance() {}
+    public JensenShannonDivergence() {}
 
     @Override
     public double Compute(double[] u, double[] v) {
-        return Distance.JaccardDistance(u, v);
+        return Distance.JensenShannonDivergence(u, v);
     }
 }

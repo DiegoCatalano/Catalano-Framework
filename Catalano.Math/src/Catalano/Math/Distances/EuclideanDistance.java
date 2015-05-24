@@ -37,14 +37,6 @@ public class EuclideanDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double d = 0.0, t;
-
-        for (int i = 0; i < u.length; i++)
-        {
-            t = u[i] - v[i];
-            d += t * t;
-        }
-
-        return Math.sqrt(d);
+        return Distance.Euclidean(u, v);
     }
 }

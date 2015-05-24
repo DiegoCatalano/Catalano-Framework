@@ -37,13 +37,6 @@ public class ChebyshevDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double max = Math.abs(u[0] - v[0]);
-        
-        for (int i = 1; i < u.length; i++){
-            double abs = Math.abs(u[i] - v[i]);
-            if (abs > max) max = abs;
-        }
-        
-        return max;
+        return Distance.Chebyshev(u, v);
     }
 }

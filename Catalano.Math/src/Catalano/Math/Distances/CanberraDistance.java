@@ -35,12 +35,6 @@ public class CanberraDistance implements IDistance{
 
     @Override
     public double Compute(double[] u, double[] v) {
-        double distance = 0;
-        
-        for (int i = 0; i < u.length; i++) {
-            distance += Math.abs(u[i] - v[i]) / (Math.abs(u[i]) + Math.abs(v[i]));
-        }
-        
-        return distance;
+        return Distance.Canberra(u, v);
     }
 }
