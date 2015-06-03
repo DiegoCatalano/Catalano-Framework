@@ -79,37 +79,34 @@ public class KNearestNeighbors<T> {
         this.useKernel = true;
     }
     
+    public KNearestNeighbors(){
+        this.k = 3;
+    }
+    
     public KNearestNeighbors(List<double[]> input, T[] output){
         this.k = 3;
         this.input = input;
         this.output = output;
     }
     
-    public KNearestNeighbors(List<double[]> input, T[] output, IDistance distance){
-        this.k = 3;
+    public KNearestNeighbors(List<double[]> input, T[] output, int k){
         this.input = input;
         this.output = output;
-        this.distance = distance;
-    }
-
-    public KNearestNeighbors(int k, List<double[]> input, T[] output) {
-        setK(k);
-        this.input = input;
-        this.output = output;
+        this.k = k;
     }
     
-    public KNearestNeighbors(int k, List<double[]> input, T[] output, IDistance distance) {
-        setK(k);
+    public KNearestNeighbors(List<double[]> input, T[] output, int k, IDistance distance){
         this.input = input;
         this.output = output;
+        this.k = k;
         this.distance = distance;
     }
     
-    public KNearestNeighbors(int k, List<double[]> input, T[] output, IKernel kernel) {
-        setK(k);
+    public KNearestNeighbors(List<double[]> input, T[] output, int k, IKernel kernel){
         this.input = input;
         this.output = output;
-        setKernel(kernel);
+        this.k = k;
+        this.kernel = kernel;
     }
     
     /**
@@ -124,16 +121,11 @@ public class KNearestNeighbors<T> {
         
         //Compute distance.
         if(useKernel){
-            
-            for (int i = 0; i < sizeF; i++) {
+            for (int i = 0; i < sizeF; i++)
                 dist[i] = this.kernel.Function(feature, input.get(i));
-            }
-            
         }else{
-            
-            for (int i = 0; i < sizeF; i++) {
+            for (int i = 0; i < sizeF; i++)
                 dist[i] = this.distance.Compute(feature, input.get(i));
-            }
         }
         
         //If k is 1, we can retrive the object quickly.

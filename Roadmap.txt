@@ -4,7 +4,7 @@ Catalano Framework 1.5 road map
 * Catalano.Image
     - New: Color.
 
-    - Added: get;set DirectRed, DirectGreen, ...
+    - Added: Overloads in get;set Red, Green, ...
 
     - Optimized: getGray() now is using bitwise operation.
 
@@ -30,10 +30,10 @@ Catalano Framework 1.5 road map
 * Catalano.Imaging.Tools
     - New: Local Ternary Pattern.
 
+    - Added: Universal Quality Index in Objective Fidelity.
     - Added: MAE in Objective Fidelity.
 
 * Catalano.IO
-    - New: ARFF Parser.
     - New: Serialization.
     - New: CSV Parser.
 
@@ -51,6 +51,10 @@ Catalano Framework 1.5 road map
 
     - Fixed: FFT2 in the FourierTransform.
 
+* Catalano.Math.Distances
+    - New: ChiSquare Distance.
+    - New: Intersection Distance.
+
 * Catalano.Math.Decompositions
     - New: Eigenvalue Decomposition.
     - New: Cholesky Decomposition.
@@ -58,6 +62,7 @@ Catalano Framework 1.5 road map
 * Catalano.Statistics
     - New: Thin Plate Splines Kernel.
 
+    - Added: Normalize in Histogram.
     - Added: Jensen Shannon divergence.
     - Added: Kullback Leibler divergence.
     - Added: Coefficient of Variation in the Tools.

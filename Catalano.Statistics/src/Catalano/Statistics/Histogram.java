@@ -29,6 +29,7 @@ package Catalano.Statistics;
  * @author Diego Catalano
  */
 public class Histogram {
+    
     private int[]   values;
     private double  mean = 0;
     private double  stdDev = 0;
@@ -60,10 +61,6 @@ public class Histogram {
         return MatchHistograms(histA.values, histB.values);
     }
     
-    private int[] MatchHistograms(int[] hist){
-        return MatchHistograms(this.values, hist);
-    }
-    
     public static double[] CDF(int[] values){
         int length = values.length;
         int n = 0;
@@ -85,6 +82,20 @@ public class Histogram {
     
     public static double[] CDF(Histogram hist){
         return CDF(hist.values);
+    }
+    
+    public static double[] Normalize(int[] values){
+        int sum = 0;
+        for (int i = 0; i < values.length; i++) {
+            sum += values[i];
+        }
+        
+        double[] norm = new double[values.length];
+        for (int i = 0; i < norm.length; i++) {
+            norm[i] = values[i] / (double)sum;
+        }
+        
+        return norm;
     }
 
     /**
@@ -199,5 +210,13 @@ public class Histogram {
         median = HistogramStatistics.Median( values );
         mode = HistogramStatistics.Mode(values);
         entropy = HistogramStatistics.Entropy(values);
+    }
+    
+    public double[] Normalize(){
+        double[] h = new double[values.length];
+        for (int i = 0; i < h.length; i++) {
+            h[i] = values[i] / (double)total;
+        }
+        return h;
     }
 }

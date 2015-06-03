@@ -202,4 +202,48 @@ public class ObjectiveFidelity {
         sum = 10D * Math.log10(sum);
         return sum;
     }
+    
+    /**
+     * Calculate Universal Quality Index.
+     * References: Wang, Zhou, and Alan C. Bovik. "A universal image quality index." Signal Processing Letters, IEEE 9.3 (2002): 81-84.
+     * 
+     * @return Universal Image Quality Index.
+     */
+    public double getUniversalQualityIndex(){
+        
+        double xMean = 0;
+        double yMean = 0;
+        
+        //Calculate mean
+        int width = original.getWidth();
+        int height = original.getHeight();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                xMean += original.getGray(i, j);
+                yMean += reconstructed.getGray(i, j);
+            }
+        }
+        
+        xMean /= (double)(width*height);
+        yMean /= (double)(width*height);
+        
+        //Calculate std deviation
+        double xStd = 0;
+        double yStd = 0;
+        double xyStd = 0;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                xStd += Math.pow(original.getGray(i, j) - xMean, 2);
+                yStd += Math.pow(reconstructed.getGray(i, j) - yMean, 2);
+                xyStd += (original.getGray(i, j) - xMean) * (reconstructed.getGray(i, j) - yMean);
+            }
+        }
+        
+        xStd /= (double)(width*height - 1);
+        yStd /= (double)(width*height - 1);
+        xyStd /= (double)(width*height - 1);
+        
+        return (4 * xyStd * xMean * yMean) / ((xStd + yStd) * (xMean*xMean + yMean*yMean));
+        
+    }
 }
