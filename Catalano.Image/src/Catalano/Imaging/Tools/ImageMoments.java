@@ -155,6 +155,40 @@ public final class ImageMoments {
     }
     
     /**
+     * Compute projection skewness.
+     * @param fastBitmap Image.
+     * @return Projection skewness.
+     */
+    public static DoublePoint getProjectionSkewness(FastBitmap fastBitmap){
+        double u30 = ImageMoments.getCentralMoment(fastBitmap, 3, 0);
+        double u03 = ImageMoments.getCentralMoment(fastBitmap, 0, 3);
+        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
+        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        
+        double skx = u30 / Math.pow(u20, 1.5);
+        double sky = u03 / Math.pow(u02, 1.5);
+        
+        return new DoublePoint(skx, sky);
+    }
+    
+    /**
+     * Compute projection kurtosis.
+     * @param fastBitmap Image.
+     * @return Projection kurtorsis.
+     */
+    public static DoublePoint getProjectionKurtosis(FastBitmap fastBitmap){
+        double u40 = ImageMoments.getCentralMoment(fastBitmap, 4, 0);
+        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
+        double u04 = ImageMoments.getCentralMoment(fastBitmap, 0, 4);
+        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        
+        double skx = (u40 / Math.pow(u20, 2)) - 3;
+        double sky = (u04 / Math.pow(u02, 2)) - 3;
+        
+        return new DoublePoint(skx, sky);
+    }
+    
+    /**
      * Normalized Central Moment.
      * @param fastBitmap Image.
      * @param p Order p.
@@ -164,7 +198,26 @@ public final class ImageMoments {
     public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q) {
             double gama = ((p + q) / 2) + 1;
             double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
-            double m00gama = Math.pow(ImageMoments.getCentralMoment(fastBitmap, p, q), gama);
+            double m00gama = Math.pow(mpq, gama);
             return mpq / m00gama;
+    }
+    
+    /**
+     * Abo-Zaid Normalized Central Moment.
+     * @param fastBitmap Image.
+     * @param p Order p.
+     * @param q Order q.
+     * @return Abo-Zaid normalized central moment.
+     */
+    public static double getZaidNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q){
+        
+        double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
+        double m00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
+        double m20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
+        double m02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        
+        return mpq * (1 / m00)
+                   * Math.pow(m00 / (m20 + m02), (p+q) / 2);
+        
     }
 }
