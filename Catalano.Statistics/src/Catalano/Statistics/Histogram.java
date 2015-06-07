@@ -39,6 +39,7 @@ public class Histogram {
     private int     min;
     private int     max;
     private long    total;
+    private int     bins = 256;
     
     public static int[] MatchHistograms(int[] histA, int[] histB){
         int length = histA.length;
@@ -84,6 +85,11 @@ public class Histogram {
         return CDF(hist.values);
     }
     
+    /**
+     * Normalize histogram.
+     * @param values Values.
+     * @return Normalized histogram.
+     */
     public static double[] Normalize(int[] values){
         int sum = 0;
         for (int i = 0; i < values.length; i++) {
@@ -104,6 +110,17 @@ public class Histogram {
      */
     public Histogram(int[] values) {
         this.values = values;
+        update();
+    }
+    
+    /**
+     * Initializes a new instance of the Histogram class.
+     * @param values Values.
+     * @param bins Number of bins.
+     */
+    public Histogram(int[] values, int bins){
+        this.values = values;
+        this.bins = bins;
         update();
     }
 
@@ -178,16 +195,28 @@ public class Histogram {
     public long getTotal() {
         return total;
     }
+
+    /**
+     * Get number of bins.
+     * @return Number of bins.
+     */
+    public int getBins() {
+        return bins;
+    }
     
     /**
      * Update histogram.
      */
     private void update(){
+        
         int i, n = values.length;
 
         max = 0;
         min = n;
         total = 0;
+        
+        int maxVal = -Integer.MAX_VALUE;
+        int minVal = Integer.MAX_VALUE;
 
         // calculate min and max
         for ( i = 0; i < n; i++ )
@@ -201,9 +230,37 @@ public class Histogram {
                 if ( i < min )
                     min = i;
 
+                maxVal = Math.max(maxVal, values[i]);
+                minVal = Math.min(minVal, values[i]);
                 total += values[i];
             }
         }
+        
+        double k = (maxVal - minVal) / (double)bins;
+        int[] h = new int[bins];
+        
+        for (int j = 0; j < values.length; j++) {
+            double _min = minVal;
+            double _max = _min + k;
+            
+            //First interval.
+            if(values[j] >= _min && values[j] <= _max)
+                h[0]++;
+            
+            _min += k;
+            _max += k;
+            
+            //Others interval.
+            for (int l = 1; l < bins; l++) {
+                if(values[j] > _min && values[j] <= _max)
+                    h[l]++;
+                
+                _min += k;
+                _max += k;
+            }
+        }
+        
+        this.values = h;
 
         mean   = HistogramStatistics.Mean( values );
         stdDev = HistogramStatistics.StdDev( values, mean );
@@ -212,6 +269,10 @@ public class Histogram {
         entropy = HistogramStatistics.Entropy(values);
     }
     
+    /**
+     * Normalize histogram.
+     * @return Normalized histogram.
+     */
     public double[] Normalize(){
         double[] h = new double[values.length];
         for (int i = 0; i < h.length; i++) {
