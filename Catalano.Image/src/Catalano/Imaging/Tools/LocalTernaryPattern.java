@@ -130,8 +130,8 @@ public class LocalTernaryPattern {
             }
         }
         
-        this.upperHistogram = new Histogram(upper);
-        this.lowerHistogram = new Histogram(lower);
+        this.upperHistogram = new Histogram(upper, 256);
+        this.lowerHistogram = new Histogram(lower, 256);
         
     }
     

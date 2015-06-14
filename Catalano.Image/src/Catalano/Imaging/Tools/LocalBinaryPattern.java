@@ -72,6 +72,6 @@ public class LocalBinaryPattern {
                 g[sum]++;
             }
         }
-        return new Histogram(g);
+        return new Histogram(g, 256);
     }
 }

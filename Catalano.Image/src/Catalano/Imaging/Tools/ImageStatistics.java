@@ -84,13 +84,20 @@ public class ImageStatistics {
         return blue;
     }
     
-    
-    
     /**
      * Initialize a new instance of the ImageStatistics class.
      * @param fastBitmap Image to be processed.
      */
     public ImageStatistics(FastBitmap fastBitmap) {
+        this(fastBitmap, 256);
+    }
+    
+    /**
+     * Initialize a new instance of the ImageStatistics class.
+     * @param fastBitmap Image to be processed.
+     * @param bins Number of bins.
+     */
+    public ImageStatistics(FastBitmap fastBitmap, int bins){
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         
@@ -111,7 +118,7 @@ public class ImageStatistics {
                 }
             }
             
-            gray = new Histogram(g);
+            gray = new Histogram(g, bins);
             
         }
         else if (fastBitmap.isRGB()){
@@ -133,75 +140,12 @@ public class ImageStatistics {
                     pixels++;
                 }
             }
-            red = new Histogram(r);
-            green = new Histogram(g);
-            blue = new Histogram(b);
+            red = new Histogram(r, bins);
+            green = new Histogram(g, bins);
+            blue = new Histogram(b, bins);
         }
     }
     
-    /**
-     * Initialize a new instance of the ImageStatistics class.
-     * @param fastBitmap Image to be processed.
-     * @param bins Number of bins.
-     */
-    public ImageStatistics(FastBitmap fastBitmap, int bins) {
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        
-        pixels = 0;
-        red = green = blue = gray = null;
-        
-        if (fastBitmap.isGrayscale()) {
-            int[] g = new int[bins];
-            
-            int G;
-            
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    G = fastBitmap.getGray(x, y);
-                    
-                    int bG = G * bins / 256;
-                    g[bG] = g[bG] + 1;
-                    pixels++;
-                }
-            }
-            
-            gray = new Histogram(g);
-            
-        }
-        else if (fastBitmap.isRGB()){
-            int[] r = new int[bins];
-            int[] g = new int[bins];
-            int[] b = new int[bins];
-
-            int R,G,B;
-
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    R = fastBitmap.getRed(x, y);
-                    G = fastBitmap.getGreen(x, y);
-                    B = fastBitmap.getBlue(x, y);
-                    
-                    int bR, bG, bB;
-                    bR = R * bins / 256;
-                    bG = G * bins / 256;
-                    bB = B * bins / 256;
-                    
-                    r[bR] = r[bR] + 1;
-                    r[bG] = r[bG] + 1;
-                    r[bB] = r[bB] + 1;
-                    
-                    
-                    pixels++;
-                }
-            }
-            red = new Histogram(r);
-            green = new Histogram(g);
-            blue = new Histogram(b);
-        }
-        
-    }
-
     /**
      * Count pixels.
      * @return amount of pixels.

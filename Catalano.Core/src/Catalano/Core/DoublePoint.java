@@ -29,6 +29,7 @@ package Catalano.Core;
  * @author Diego Catalano
  */
 public class DoublePoint {
+    
     /**
      * X axis coordinate.
      */

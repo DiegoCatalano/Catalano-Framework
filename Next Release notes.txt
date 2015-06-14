@@ -1,0 +1,80 @@
+Catalano Framework 1.5 road map
+-----------------------------------------
+
+* Catalano.Core
+    - Added: Serialization in DoubleRange,FloatRange and IntRange.
+
+* Catalano.Image
+    - New: Color.
+
+    - Added: Overloads in get;set Red, Green, ...
+
+    - Optimized: getGray() now is using bitwise operation.
+
+    - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
+
+* Catalano.Imaging.Filters
+    - New: Watershed.
+    - New: Median Cut.
+
+    - Optimized: Blob Detection.
+    - Optimized: Flood Fill.
+
+    - Fixed: ZhangSuen Thinning.
+    - Fixed: Distance Transform.
+    - Fixed: Fourier Transform.
+
+* Catalano.Imaging.ActiveContour
+    - New: Ovuscule.
+
+* Catalano.Imaging.Shapes
+    - New: IntPolygon.
+
+* Catalano.Imaging.Tools
+    - New: Orthogonal Variant Moments.
+    - New: Maitra Moments.
+    - New: Local Ternary Pattern.
+
+    - Reworked: Hu moments for FastBitmap.
+    - Reworked: Image moments
+
+    - Added: AboZaid Normalized central moment in Image moments.
+    - Added: getCentroid, getOrientation in Image moments.
+    - Added: eighth moment in Hu moments.
+    - Added: Universal Quality Index in Objective Fidelity.
+    - Added: MAE in Objective Fidelity.
+
+* Catalano.IO
+    - New: Serialization.
+    - New: CSV Parser.
+
+* Catalano.Math
+    - New: Distances namespace (All distances is refactored).
+    - New: Rational Number.
+
+    - Added: SwapColumn, SwapRow in the Matrix.
+    - Added: getColumns, getRows in the Matrix.
+    - Added: Remove Rows and Columns in the Matrix.
+    - Added: Determinant, Inverse in the Matrix.
+    - Added: Digital Root in the Tools.
+    - Added: Norm1, Norm2, NormF and NormP in the Matrix.
+    - Added: Outer Product in the Matrix.
+
+    - Fixed: FFT2 in the FourierTransform.
+
+* Catalano.Math.Distances
+    - New: ChiSquare Distance.
+    - New: Intersection Distance.
+
+* Catalano.Math.Decompositions
+    - New: Eigenvalue Decomposition.
+    - New: Cholesky Decomposition.
+
+* Catalano.Statistics
+    - New: Thin Plate Splines Kernel.
+
+    - Added: Normalize in Histogram.
+    - Added: Jensen Shannon divergence.
+    - Added: Kullback Leibler divergence.
+    - Added: Coefficient of Variation in the Tools.
+    - Added: Max and Min in the Tools.

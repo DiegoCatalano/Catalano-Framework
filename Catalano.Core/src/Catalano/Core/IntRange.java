@@ -23,11 +23,14 @@
 //
 package Catalano.Core;
 
+import java.io.Serializable;
+
 /**
  * Represents an integer range with minimum and maximum values.
  * @author Diego Catalano
  */
-public class IntRange{
+public class IntRange implements Serializable{
+    
     int min,max;
 
     /**

@@ -24,11 +24,14 @@
 
 package Catalano.Core;
 
+import java.io.Serializable;
+
 /**
  * Represents a double range with minimum and maximum values.
  * @author Diego Catalano
  */
-public class DoubleRange{
+public class DoubleRange implements Serializable{
+    
     double min,max;
 
     /**

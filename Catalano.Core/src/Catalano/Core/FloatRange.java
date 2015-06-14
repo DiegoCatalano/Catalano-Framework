@@ -23,11 +23,14 @@
 //
 package Catalano.Core;
 
+import java.io.Serializable;
+
 /**
  * Represents a float range with minimum and maximum values.
  * @author Diego Catalano
  */
-public class FloatRange{
+public class FloatRange implements Serializable{
+    
     float min,max;
 
     /**

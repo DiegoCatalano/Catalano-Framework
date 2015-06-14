@@ -39,7 +39,7 @@ public class Histogram {
     private int     min;
     private int     max;
     private long    total;
-    private int     bins = 256;
+    private int     bins = 10;
     
     public static int[] MatchHistograms(int[] histA, int[] histB){
         int length = histA.length;
