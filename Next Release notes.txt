@@ -14,6 +14,7 @@ Catalano Framework 1.5 road map
     - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
 
 * Catalano.Imaging.Filters
+    - New: Weighted Median.
     - New: Watershed.
     - New: Median Cut.
 
