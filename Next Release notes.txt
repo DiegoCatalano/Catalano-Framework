@@ -46,6 +46,8 @@ Catalano Framework 1.5 road map
     - Added: Universal Quality Index in Objective Fidelity.
     - Added: MAE in Objective Fidelity.
 
+    - Fixed: bins in ImageStatistics now is working.
+
 * Catalano.IO
     - New: Serialization.
     - New: CSV Parser.

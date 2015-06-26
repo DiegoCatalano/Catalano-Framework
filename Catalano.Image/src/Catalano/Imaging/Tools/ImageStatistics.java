@@ -25,7 +25,6 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Statistics.Histogram;
 
 /**
  * Gather statistics about image in Gray or RGB color space.
@@ -105,7 +104,7 @@ public class ImageStatistics {
         red = green = blue = gray = null;
         
         if (fastBitmap.isGrayscale()) {
-            int[] g = new int[256];
+            int[] g = new int[bins];
             
             int G;
             
@@ -113,7 +112,7 @@ public class ImageStatistics {
                 for (int y = 0; y < width; y++) {
                     G = fastBitmap.getGray(x, y);
                     
-                    g[G]++;
+                    g[G * bins / 256]++;
                     pixels++;
                 }
             }
@@ -122,9 +121,9 @@ public class ImageStatistics {
             
         }
         else if (fastBitmap.isRGB()){
-            int[] r = new int[256];
-            int[] g = new int[256];
-            int[] b = new int[256];
+            int[] r = new int[bins];
+            int[] g = new int[bins];
+            int[] b = new int[bins];
 
             int R,G,B;
 
@@ -134,9 +133,9 @@ public class ImageStatistics {
                     G = fastBitmap.getGreen(x, y);
                     B = fastBitmap.getBlue(x, y);
 
-                    r[R]++;
-                    g[G]++;
-                    b[B]++;
+                    r[R * bins / 256]++;
+                    g[G * bins / 256]++;
+                    b[B * bins / 256]++;
                     pixels++;
                 }
             }
