@@ -28,7 +28,8 @@ import java.util.Arrays;
 
 /**
  * Weighted Median filter.
- * The Weighted median filter is normally used to reduce noise in an image.
+ * The Weighted median filter is like median filter, but the weights means the "number of votes" of the position.
+ * 
  * @author Diego Catalano
  */
 public class WeightedMedian implements IBaseInPlace{

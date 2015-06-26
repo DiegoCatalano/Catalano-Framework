@@ -151,7 +151,7 @@ public class ObjectiveFidelity {
      * Reference: A New Objective Fidelity Criterion For Image Processing: Derivative SNR - Hakki Tarkan Yalazan, and Melek D. Yucel.
      * @return D-SNR.
      */
-    public double getDerivativeSNR(){
+    public double getDSNR(){
         
         int w = original.getWidth();
         int h = original.getHeight();

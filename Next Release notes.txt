@@ -74,6 +74,7 @@ Catalano Framework 1.5 road map
 * Catalano.Statistics
     - New: Thin Plate Splines Kernel.
 
+    - Added: Skewness and Kurtosis in Histogram Statistics.
     - Added: Normalize in Histogram.
     - Added: Jensen Shannon divergence.
     - Added: Kullback Leibler divergence.

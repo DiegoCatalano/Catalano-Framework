@@ -38,88 +38,36 @@ public final class HistogramStatistics {
     private HistogramStatistics() {}
     
     /**
-     * Calculate Mean value.
+     * Calculate entropy value.
      * @param values Values.
-     * @return Mean.
+     * @return Returns entropy value of the specified histogram array.
      */
-    public static double Mean( int[] values ) {
-        int     hits;
-        long    total = 0;
-        double  mean = 0;
-
-        // for all values
-        for ( int i = 0, n = values.length; i < n; i++ ) {
-            hits = values[i];
-            // accumulate mean
-            mean += i * hits;
-            // accumalate total
-            total += hits;
-        }
-        return ( total == 0 ) ? 0 : mean / total;
-    }
-    
-    /**
-     * Calculate standart deviation.
-     * @param values Values.
-     * @return Standart deviation.
-     */
-    public static double StdDev( int[] values ){
-        return StdDev( values, Mean( values ) );
-    }
-    
-    /**
-     * Calculate standart deviation.
-     * @param values Values.
-     * @param mean Mean.
-     * @return Standart deviation.
-     */
-    public static double StdDev( int[] values, double mean ){
-        double  stddev = 0;
-        double  diff;
-        int     hits;
+    public static double Entropy( int[] values ){
+        int     n = values.length;
         int     total = 0;
+        double  entropy = 0;
+        double  p;
 
-        // for all values
-        for ( int i = 0, n = values.length; i < n; i++ )
-        {
-            hits = values[i];
-            diff = (double) i - mean;
-            // accumulate std.dev.
-            stddev += diff * diff * hits;
-            // accumalate total
-            total += hits;
-        }
-
-        return ( total == 0 ) ? 0 : Math.sqrt( stddev / total );
-    }
-    
-    /**
-     * Calculate Median value.
-     * @param values Values.
-     * @return Median.
-     */
-    public static int Median( int[] values ){
-        int total = 0, n = values.length;
-
-        // for all values
+        // calculate total amount of hits
         for ( int i = 0; i < n; i++ )
         {
-            // accumalate total
             total += values[i];
         }
 
-        int halfTotal = total / 2;
-        int median = 0, v = 0;
-
-        // find median value
-        for ( ; median < n; median++ )
+        if ( total != 0 )
         {
-            v += values[median];
-            if ( v >= halfTotal )
-                break;
+            // for all values
+            for ( int i = 0; i < n; i++ )
+            {
+                // get item's probability
+                p = (double) values[i] / total;
+                // calculate entropy
+                if ( p != 0 )
+                    entropy += ( -p * (Math.log10(p)/Math.log10(2)) );
+            }
         }
-
-        return median;
+        Math.log(10);
+        return entropy;
     }
     
     /**
@@ -159,36 +107,90 @@ public final class HistogramStatistics {
     }
     
     /**
-     * Calculate entropy value.
+     * Calculate Kurtosis value.
      * @param values Values.
-     * @return Returns entropy value of the specified histagram array.
+     * @return Returns kurtosis value of the specified histogram array.
      */
-    public static double Entropy( int[] values ){
-        int     n = values.length;
-        int     total = 0;
-        double  entropy = 0;
-        double  p;
+    public static double Kurtosis(int[] values){
+        double mean = Mean(values);
+        double std = StdDev(values, mean);
+        return Kurtosis(values, mean, std);
+    }
+    
+    /**
+     * Calculate Kurtosis value.
+     * @param values Values.
+     * @param mean Specified mean.
+     * @param stdDeviation Specified standard deviation.
+     * @return Returns kurtosis value of the specified histogram array.
+     */
+    public static double Kurtosis(int[] values, double mean, double stdDeviation){
+        double n = 0;
+        for (int i = 0; i < values.length; i++)
+            n += values[i];
+        
+        double part1 = n * (n + 1);
+        part1 /= ((n - 1) * (n - 2) * (n - 3));
+        
+        double part2 = 0;
+        for (int i = 0; i < values.length; i++) {
+            part2 += Math.pow((i - mean) / stdDeviation, 4) * values[i];
+        }
+        
+        double part3 = 3 * Math.pow((n - 1), 2);
+        part3 /= (n - 2) * (n - 3);
+        
+        return part1 * part2 - part3;
+    }
+    
+    /**
+     * Calculate Mean value.
+     * @param values Values.
+     * @return Mean.
+     */
+    public static double Mean( int[] values ) {
+        int     hits;
+        long    total = 0;
+        double  mean = 0;
 
-        // calculate total amount of hits
+        // for all values
+        for ( int i = 0, n = values.length; i < n; i++ ) {
+            hits = values[i];
+            // accumulate mean
+            mean += i * hits;
+            // accumalate total
+            total += hits;
+        }
+        return ( total == 0 ) ? 0 : mean / total;
+    }
+    
+   /**
+     * Calculate Median value.
+     * @param values Values.
+     * @return Median.
+     */
+    public static int Median( int[] values ){
+        int total = 0, n = values.length;
+
+        // for all values
         for ( int i = 0; i < n; i++ )
         {
+            // accumalate total
             total += values[i];
         }
 
-        if ( total != 0 )
+        int halfTotal = total / 2;
+        int median = 0, v = 0;
+
+        // find median value
+        for ( ; median < n; median++ )
         {
-            // for all values
-            for ( int i = 0; i < n; i++ )
-            {
-                // get item's probability
-                p = (double) values[i] / total;
-                // calculate entropy
-                if ( p != 0 )
-                    entropy += ( -p * (Math.log10(p)/Math.log10(2)) );
-            }
+            v += values[median];
+            if ( v >= halfTotal )
+                break;
         }
-        Math.log(10);
-        return entropy;
+
+        return median;
     }
     
     /**
@@ -208,5 +210,73 @@ public final class HistogramStatistics {
             }
         }
         return mode;
+    }
+    
+    /**
+     * Calculate Skewness value.
+     * @param values Values.
+     * @return Returns skewness value of the specified histogram array.
+     */
+    public static double Skewness(int[] values){
+        double mean = Mean(values);
+        double std = StdDev(values, mean);
+        return Skewness(values, mean, std);
+    }
+    
+    /**
+     * Calculate Skewness value.
+     * @param values Values.
+     * @param mean Specified mean.
+     * @param stdDeviation Specified standard deviation.
+     * @return Returns skewness value of the specified histogram array.
+     */
+    public static double Skewness(int[] values, double mean, double stdDeviation){
+        double n = 0;
+        for (int i = 0; i < values.length; i++)
+            n += values[i];
+        
+        double part1 = n / (n - 1) * (n - 2);
+        
+        double part2 = 0;
+        for (int i = 0; i < values.length; i++) {
+            part2 += Math.pow((i - mean) / stdDeviation, 3) * values[i];
+        }
+        
+        return part1 * part2;
+    }
+    
+    /**
+     * Calculate standart deviation.
+     * @param values Values.
+     * @return Standart deviation.
+     */
+    public static double StdDev( int[] values ){
+        return StdDev( values, Mean( values ) );
+    }
+    
+    /**
+     * Calculate standart deviation.
+     * @param values Values.
+     * @param mean Mean.
+     * @return Standart deviation.
+     */
+    public static double StdDev( int[] values, double mean ){
+        double  stddev = 0;
+        double  diff;
+        int     hits;
+        int     total = 0;
+
+        // for all values
+        for ( int i = 0, n = values.length; i < n; i++ )
+        {
+            hits = values[i];
+            diff = (double) i - mean;
+            // accumulate std.dev.
+            stddev += diff * diff * hits;
+            // accumalate total
+            total += hits;
+        }
+
+        return ( total == 0 ) ? 0 : Math.sqrt( stddev / (total - 1) );
     }
 }
