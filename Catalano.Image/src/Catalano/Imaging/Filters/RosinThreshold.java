@@ -24,10 +24,10 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.Tools.ImageHistogram;
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Math.Distances.Distance;
 import Catalano.Math.Matrix;
-import Catalano.Statistics.Histogram;
 
 /**
  * Rosin Threshold.
@@ -75,7 +75,7 @@ public class RosinThreshold implements IBaseInPlace{
         if(fastBitmap.isGrayscale()) {
             
             ImageStatistics stat = new ImageStatistics(fastBitmap);
-            Histogram hist = stat.getHistogramGray();
+            ImageHistogram hist = stat.getHistogramGray();
             
             int[] values = hist.getValues();
             

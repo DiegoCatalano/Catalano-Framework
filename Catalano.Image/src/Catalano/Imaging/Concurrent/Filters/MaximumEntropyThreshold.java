@@ -23,8 +23,8 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.Tools.ImageHistogram;
 import Catalano.Imaging.Tools.ImageStatistics;
-import Catalano.Statistics.Histogram;
 
 /**
  * Automatic threshold based on the entropy.
@@ -56,7 +56,7 @@ public class MaximumEntropyThreshold implements IBaseInPlace{
     public int CalculateThreshold(FastBitmap fastBitmap){
         
         ImageStatistics stat = new ImageStatistics(fastBitmap);
-        Histogram hist = stat.getHistogramGray();
+        ImageHistogram hist = stat.getHistogramGray();
         int[] histogram = hist.getValues();
         
         // Normalize histogram, that is makes the sum of all bins equal to 1.

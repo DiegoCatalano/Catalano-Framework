@@ -22,7 +22,6 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Statistics.Histogram;
 
 /**
  * Local Ternary Pattern (LTP) is a type of feature used for classification in computer vision.
@@ -35,8 +34,8 @@ import Catalano.Statistics.Histogram;
 public class LocalTernaryPattern {
     
     private int threshold = 5;
-    private Histogram upperHistogram;
-    private Histogram lowerHistogram;
+    private ImageHistogram upperHistogram;
+    private ImageHistogram lowerHistogram;
 
     /**
      * Get threshold value.
@@ -58,7 +57,7 @@ public class LocalTernaryPattern {
      * Get the Upper histogram.
      * @return Histogram.
      */
-    public Histogram getUpperHistogram() {
+    public ImageHistogram getUpperHistogram() {
         return upperHistogram;
     }
 
@@ -66,7 +65,7 @@ public class LocalTernaryPattern {
      * Get the Lower histogram.
      * @return Histogram.
      */
-    public Histogram getLowerHistogram() {
+    public ImageHistogram getLowerHistogram() {
         return lowerHistogram;
     }
 
@@ -130,8 +129,8 @@ public class LocalTernaryPattern {
             }
         }
         
-        this.upperHistogram = new Histogram(upper, 256);
-        this.lowerHistogram = new Histogram(lower, 256);
+        this.upperHistogram = new ImageHistogram(upper);
+        this.lowerHistogram = new ImageHistogram(lower);
         
     }
     

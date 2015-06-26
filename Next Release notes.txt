@@ -32,12 +32,13 @@ Catalano Framework 1.5 road map
     - New: IntPolygon.
 
 * Catalano.Imaging.Tools
+    - New: Image Histogram.
     - New: Orthogonal Variant Moments.
     - New: Maitra Moments.
     - New: Local Ternary Pattern.
 
     - Reworked: Hu moments for FastBitmap.
-    - Reworked: Image moments
+    - Reworked: Image moments.
 
     - Added: AboZaid Normalized central moment in Image moments.
     - Added: getCentroid, getOrientation in Image moments.

@@ -22,7 +22,6 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Statistics.Histogram;
 
 /**
  * Local binary patterns (LBP) is a type of feature used for classification in computer vision.
@@ -42,7 +41,7 @@ public class LocalBinaryPattern {
      * @param fastBitmap Imae to be processed.
      * @return LBP Histogram.
      */
-    public Histogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale()) {
             try {
                 throw new Exception("LBP works only with grayscale images.");
@@ -72,6 +71,6 @@ public class LocalBinaryPattern {
                 g[sum]++;
             }
         }
-        return new Histogram(g, 256);
+        return new ImageHistogram(g);
     }
 }

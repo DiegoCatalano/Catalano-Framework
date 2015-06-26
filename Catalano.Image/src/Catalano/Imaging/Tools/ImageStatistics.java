@@ -33,10 +33,10 @@ import Catalano.Statistics.Histogram;
  */
 public class ImageStatistics {
     
-    private Histogram gray;
-    private Histogram red;
-    private Histogram green;
-    private Histogram blue;
+    private ImageHistogram gray;
+    private ImageHistogram red;
+    private ImageHistogram green;
+    private ImageHistogram blue;
     
     private int pixels;
 
@@ -44,7 +44,7 @@ public class ImageStatistics {
      * Histogram of gray channel.
      * @return Histogram.
      */
-    public Histogram getHistogramGray(){
+    public ImageHistogram getHistogramGray(){
         if (gray == null)
             throw new IllegalArgumentException("Histogram gray is null");
         
@@ -55,7 +55,7 @@ public class ImageStatistics {
      * Histogram of red channel.
      * @return Histogram.
      */
-    public Histogram getHistogramRed() {
+    public ImageHistogram getHistogramRed() {
         if (red == null)
             throw new IllegalArgumentException("Histogram red is null");
         
@@ -66,7 +66,7 @@ public class ImageStatistics {
      * Histogram of green channel.
      * @return Histogram.
      */
-    public Histogram getHistogramGreen() {
+    public ImageHistogram getHistogramGreen() {
         if (green == null)
             throw new IllegalArgumentException("Histogram green is null");
         
@@ -77,7 +77,7 @@ public class ImageStatistics {
      * Histogram of blue channel.
      * @return Histogram.
      */
-    public Histogram getHistogramBlue() {
+    public ImageHistogram getHistogramBlue() {
         if (blue == null)
             throw new IllegalArgumentException("Histogram blue is null");
         
@@ -118,7 +118,7 @@ public class ImageStatistics {
                 }
             }
             
-            gray = new Histogram(g, bins);
+            gray = new ImageHistogram(g);
             
         }
         else if (fastBitmap.isRGB()){
@@ -140,9 +140,9 @@ public class ImageStatistics {
                     pixels++;
                 }
             }
-            red = new Histogram(r, bins);
-            green = new Histogram(g, bins);
-            blue = new Histogram(b, bins);
+            red = new ImageHistogram(r);
+            green = new ImageHistogram(g);
+            blue = new ImageHistogram(b);
         }
     }
     
