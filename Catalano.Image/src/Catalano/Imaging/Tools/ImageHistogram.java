@@ -33,6 +33,7 @@ import Catalano.Statistics.HistogramStatistics;
 public class ImageHistogram {
     
     private int[]   values;
+    
     private double  mean = 0;
     private double  stdDev = 0;
     private double  entropy = 0;

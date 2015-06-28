@@ -1,4 +1,3 @@
 Shannon Edge Detector
-KNN for regression
 Phase Congruency
 Image Pyramids (upscale)

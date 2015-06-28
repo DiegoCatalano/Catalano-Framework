@@ -40,7 +40,7 @@ public class ImageStatistics {
     private int pixels;
 
     /**
-     * Histogram of gray channel.
+     * Image histogram of gray channel.
      * @return Histogram.
      */
     public ImageHistogram getHistogramGray(){
@@ -51,7 +51,7 @@ public class ImageStatistics {
     }
     
     /**
-     * Histogram of red channel.
+     * Image histogram of red channel.
      * @return Histogram.
      */
     public ImageHistogram getHistogramRed() {
@@ -62,7 +62,7 @@ public class ImageStatistics {
     }
     
     /**
-     * Histogram of green channel.
+     * Image histogram of green channel.
      * @return Histogram.
      */
     public ImageHistogram getHistogramGreen() {
@@ -73,7 +73,7 @@ public class ImageStatistics {
     }
         
     /**
-     * Histogram of blue channel.
+     * Image histogram of blue channel.
      * @return Histogram.
      */
     public ImageHistogram getHistogramBlue() {
