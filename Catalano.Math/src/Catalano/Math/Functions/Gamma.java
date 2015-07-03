@@ -349,7 +349,7 @@ public final class Gamma {
             x = 1.0 - x;
         }
 
-        if (x <= 10.0 & x == Math.floor(x))
+        if (x <= 10.0 && x == Math.floor(x))
         {
             y = 0.0;
             int n = (int)Math.floor(x);
