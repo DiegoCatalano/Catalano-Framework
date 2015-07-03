@@ -67,7 +67,7 @@ public class PageRank {
      * @param factor Damping factor.
      */
     public void setFactor(double factor) {
-        this.factor = Math.min(0, Math.max(factor, 1));
+        this.factor = Math.min(1, Math.max(0, factor));
     }
 
     /**
