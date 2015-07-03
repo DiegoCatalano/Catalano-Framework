@@ -164,7 +164,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
             s[k] = -s[k];
          }
          for (int j = k+1; j < n; j++) {
-            if ((k < nct) & (s[k] != 0.0))  {
+            if ((k < nct) && (s[k] != 0.0))  {
 
             // Apply the transformation.
 
