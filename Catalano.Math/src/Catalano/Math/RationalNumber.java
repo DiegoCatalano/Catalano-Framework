@@ -122,8 +122,8 @@ public class RationalNumber {
             throw new IllegalArgumentException("The denominator must be different from zero.");
         
         if(denominator.compareTo(new BigInteger("0")) < 0){
-            this.num.multiply(new BigInteger("-1"));
-            this.den.multiply(new BigInteger("-1"));
+            this.num = this.num.multiply(new BigInteger("-1"));
+            this.den = this.den.multiply(new BigInteger("-1"));
         }
         
         if(alwaysFactorize)
