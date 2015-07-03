@@ -324,7 +324,7 @@ public class Rule {
         for ( int i = 0; i < tokens.length; i++ ){
             // if its unary and there is an "IS" token before, we must change positions
             if ( ( unaryOperators.indexOf( tokens[i].toUpperCase( ) ) >= 0 ) &&
-                    ( i > 1 ) && ( tokens[i - 1].toUpperCase( ) == "IS" ) )
+                    ( i > 1 ) && ( tokens[i - 1].toUpperCase( ).equals("IS") ) )
             {
                 // placing VAR name
                 tokens[i - 1] = tokens[i - 2];
