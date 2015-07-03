@@ -66,7 +66,6 @@ public final class HistogramStatistics {
                     entropy += ( -p * (Math.log10(p)/Math.log10(2)) );
             }
         }
-        Math.log(10);
         return entropy;
     }
     
