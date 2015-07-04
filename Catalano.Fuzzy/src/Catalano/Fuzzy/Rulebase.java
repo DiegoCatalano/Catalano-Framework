@@ -84,7 +84,7 @@ public class Rulebase {
         Rule[] r = new Rule[rules.size()];
 
         for (int i = 0; i < rules.size(); i++) {
-            r[i] = rules.get(i);
+            r[i] = rules.get(Integer.toString(i));
         }
         
         //for ( KeyValuePair<String, Rule> kvp : rules )
