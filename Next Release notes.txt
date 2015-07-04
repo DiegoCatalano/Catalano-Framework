@@ -25,6 +25,10 @@ Catalano Framework 1.5 road map
     - Fixed: Distance Transform.
     - Fixed: Fourier Transform.
 
+* Catalano.Imaging.Filters.Artistic
+    - New: Lut folder (Contains luts for gradient map).
+    - Fixed: Gradient Map.
+
 * Catalano.Imaging.ActiveContour
     - New: Ovuscule.
 

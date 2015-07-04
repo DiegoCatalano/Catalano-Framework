@@ -1,3 +1,4 @@
+Ridge Regression - working
 Shannon Edge Detector
 Phase Congruency
 Image Pyramids (upscale)

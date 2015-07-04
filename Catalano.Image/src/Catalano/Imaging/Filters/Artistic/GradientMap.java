@@ -36,6 +36,7 @@ public class GradientMap implements IBaseInPlace{
     private FastBitmap gradient;
     private int[][] lut;
     private boolean useLut = false;
+    private boolean invert = false;
 
     /**
      * Get Gradient image.
@@ -70,6 +71,14 @@ public class GradientMap implements IBaseInPlace{
         this.lut = lut;
         this.useLut = true;
     }
+
+    public boolean isInvert() {
+        return invert;
+    }
+
+    public void setInvert(boolean invert) {
+        this.invert = invert;
+    }
     
     /**
      * Initialize a new instance of the GradientMap class.
@@ -86,33 +95,43 @@ public class GradientMap implements IBaseInPlace{
     public GradientMap(int[][] lut) {
         setLut(lut);
     }
+    
+    /**
+     * Initialize a new instance of the GradientMap class.
+     * @param lut Gradient LUT.
+     */
+    public GradientMap(int[][] lut, boolean invert) {
+        setLut(lut);
+        this.invert = invert;
+    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        if (fastBitmap.isRGB()){
+        if (fastBitmap.isGrayscale()){
             
             if(!useLut)
                 lut = LUT(gradient);
-            
-            fastBitmap.toGrayscale();
-            fastBitmap.toRGB();
 
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
 
+            fastBitmap.toRGB();
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
 
                     int r = fastBitmap.getRed(i, j);
-                    fastBitmap.setRGB(i, j, lut[r][0], lut[r][1], lut[r][2]);
+                    if(!invert)
+                        fastBitmap.setRGB(i, j, lut[r][1], lut[r][2], lut[r][3]);
+                    else
+                        fastBitmap.setRGB(i, j, lut[255 - r][1], lut[255 - r][2], lut[255 - r][3]);
 
                 }
             }
             
         }
         else{
-            throw new IllegalArgumentException("Gradient Map only works in RGB images.");
+            throw new IllegalArgumentException("Gradient Map only works in grayscale images.");
         }
         
     }
