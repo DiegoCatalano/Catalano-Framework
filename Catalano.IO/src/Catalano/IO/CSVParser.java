@@ -65,6 +65,22 @@ public class CSVParser {
     }
 
     /**
+     * Get new line separator.
+     * @return New line separator.
+     */
+    public String getNewLine() {
+        return newLine;
+    }
+
+    /**
+     * Set new line separator.
+     * @param newLine New line separator.
+     */
+    public void setNewLine(String newLine) {
+        this.newLine = newLine;
+    }
+
+    /**
      * Initialize a new instance of the CSVParser class.
      */
     public CSVParser() {}
@@ -120,7 +136,7 @@ public class CSVParser {
             
             if(lines.size() > 0) {
                 String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
-                String[][] data = new String[lines.size()][temp.length];
+                String[][] data = new String[lines.size() - startRow][temp.length - startCol];
                 int idxI = 0;
                 for (int i = startRow; i < lines.size(); i++) {
                     int idxJ = 0;
@@ -227,6 +243,66 @@ public class CSVParser {
                         fw.append(data[i][j]);
                     else
                         fw.append(data[i][j] + delimiter);
+                }
+                fw.append(newLine);
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Write the matrix of integer in csv file format.
+     * @param data Data.
+     * @param filename Filename.
+     */
+    public void Write(int[][] data, String filename){
+        try {
+            FileWriter fw = new FileWriter(filename);
+            
+            boolean isLastCol;
+            for (int i = 0; i < data.length; i++) {
+                isLastCol = false;
+                for (int j = 0; j < data[0].length; j++) {
+                    if(j==data[0].length-1) isLastCol = true;
+                    if(isLastCol)
+                        fw.append(String.valueOf(data[i][j]));
+                    else
+                        fw.append(String.valueOf(data[i][j] + delimiter));
+                }
+                fw.append(newLine);
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Write the matrix of integer in csv file format.
+     * @param data Data.
+     * @param filename Filename.
+     */
+    public void Write(double[][] data, String filename){
+        try {
+            FileWriter fw = new FileWriter(filename);
+            
+            boolean isLastCol;
+            for (int i = 0; i < data.length; i++) {
+                isLastCol = false;
+                for (int j = 0; j < data[0].length; j++) {
+                    if(j==data[0].length-1) isLastCol = true;
+                    if(isLastCol)
+                        fw.append(String.valueOf(data[i][j]));
+                    else
+                        fw.append(String.valueOf(data[i][j] + delimiter));
                 }
                 fw.append(newLine);
             }
