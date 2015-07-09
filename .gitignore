@@ -17,9 +17,11 @@
 /Catalano.Fuzzy/dist/
 /Catalano.Vision/build/
 /Catalano.Vision/dist/
-*.netbeans_automatic_build
 /Catalano.Neuro/build/
 /Catalano.Neuro/dist/
 /Catalano.IO/nbproject/private/
 /Catalano.IO/build/
 /Catalano.IO/dist/
+/Catalano.Android.Image/bin/
+/Catalano.Android.Image/gen/
+/Catalano.Android.Image/libs/
