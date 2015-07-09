@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ import Catalano.Imaging.Tools.Blob;
 import Catalano.Imaging.Tools.BlobDetection;
 import Catalano.Math.Geometry.PointsCloud;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Extract Biggest Blob from an image.
@@ -56,7 +57,7 @@ public class ExtractBiggestBlob implements IBaseInPlace{
         if(fastBitmap.isGrayscale()){
             
             BlobDetection bd = new BlobDetection();
-            ArrayList<Blob> blobs = bd.ProcessImage(fastBitmap);
+            List<Blob> blobs = bd.ProcessImage(fastBitmap);
             
             int id = bd.getIdBiggestBlob();
             

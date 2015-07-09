@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.cm
 //
 //    This library is free software; you can redistribute it and/or
@@ -270,7 +270,7 @@ public class FloodFill implements IBaseInPlace{
                     if (!Color.isEqual(old, replace)) {
                         examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
-                            IntPoint p = examList.pop();
+                            IntPoint p = examList.removeFirst();
 
                             if (Color.isEqual(old, replace)) {
                                 int x = p.x;
@@ -355,7 +355,7 @@ public class FloodFill implements IBaseInPlace{
                     if (iGray != _Gray) {
                         examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
-                            IntPoint p = examList.pop();
+                            IntPoint p = examList.removeFirst();
                             _gray = fastBitmap.getGray(p.x, p.y);
                             _Gray = _gray;
 

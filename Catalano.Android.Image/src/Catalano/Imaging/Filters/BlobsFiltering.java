@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import Catalano.Imaging.Tools.Blob;
 import Catalano.Imaging.Tools.BlobDetection;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Eliminates blobs with certain area or size.
@@ -190,7 +190,7 @@ public class BlobsFiltering implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        ArrayList<Blob> blobs = new BlobDetection().ProcessImage(fastBitmap);
+        List<Blob> blobs = new BlobDetection().ProcessImage(fastBitmap);
         
         switch(filter){
             case Area:
