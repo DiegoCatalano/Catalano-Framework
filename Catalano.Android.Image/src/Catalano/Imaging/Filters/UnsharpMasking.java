@@ -124,6 +124,5 @@ public class UnsharpMasking implements IBaseInPlace{
         else{
             throw new IllegalArgumentException("Unsharp mask only works in grayscale or rgb images.");
         }
-        blur.recycle();
     }
 }

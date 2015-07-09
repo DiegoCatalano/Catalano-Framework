@@ -46,55 +46,125 @@ public class KNearestNeighbors<T> {
     private IKernel kernel;
     private boolean useKernel = false;
 
+    /**
+     * Get number of neighbours.
+     * @return Number of neighbours.
+     */
     public int getK() {
         return k;
     }
 
+    /**
+     * Set number of neighbours.
+     * @param k Number of neighbours.
+     */
     public void setK(int k) {
         this.k = Math.max(1, k);
     }
 
+    /**
+     * Get the input features.
+     * @return List of features.
+     */
     public List<double[]> getInput() {
         return input;
     }
 
+    /**
+     * Set the input features.
+     * @param input Input features.
+     */
     public void setInput(List<double[]> input) {
         this.input = input;
     }
 
+    /**
+     * Get the output.
+     * @return Output.
+     */
     public T[] getOutput() {
         return output;
     }
 
+    /**
+     * Set the output.
+     * @param output Output.
+     */
     public void setOutput(T[] output) {
         this.output = output;
     }
 
+    /**
+     * Get the kernel metric.
+     * @return Kernel.
+     */
     public IKernel getKernel() {
         return kernel;
     }
 
+    /**
+     * Set the kernel metric.
+     * @param kernel Kernel.
+     */
     public void setKernel(IKernel kernel) {
         this.kernel = kernel;
         this.useKernel = true;
     }
-    
+
+    /**
+     * Get the distance metric.
+     * @return Distance.
+     */
+    public IDistance getDistance() {
+        return distance;
+    }
+
+    /**
+     * Set the distance metric.
+     * @param distance Distance.
+     */
+    public void setDistance(IDistance distance) {
+        this.distance = distance;
+        this.useKernel = false;
+    }
+
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     */
     public KNearestNeighbors(){
         this.k = 3;
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param input List of fearures.
+     * @param output Array of output.
+     */
     public KNearestNeighbors(List<double[]> input, T[] output){
         this.k = 3;
         this.input = input;
         this.output = output;
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param input List of fearures.
+     * @param output Array of output.
+     * @param k Number of neighbours.
+     */
     public KNearestNeighbors(List<double[]> input, T[] output, int k){
         this.input = input;
         this.output = output;
         this.k = k;
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param input List of fearures.
+     * @param output Array of output.
+     * @param k Number of neighbours.
+     * @param distance Distance.
+     */
     public KNearestNeighbors(List<double[]> input, T[] output, int k, IDistance distance){
         this.input = input;
         this.output = output;
@@ -102,6 +172,13 @@ public class KNearestNeighbors<T> {
         this.distance = distance;
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param input List of fearures.
+     * @param output Array of output.
+     * @param k Number of neighbours.
+     * @param kernel Kernel.
+     */
     public KNearestNeighbors(List<double[]> input, T[] output, int k, IKernel kernel){
         this.input = input;
         this.output = output;
