@@ -16,9 +16,7 @@ public class ReplaceRGBChannel implements IBaseInPlace{
     public enum RGB{R, G, B};
     private RGB rgb;
 
-    public ReplaceRGBChannel() {
-        
-    }
+    public ReplaceRGBChannel() {}
     
     public ReplaceRGBChannel(FastBitmap fastBitmap, RGB rgb) {
         this.band = fastBitmap;

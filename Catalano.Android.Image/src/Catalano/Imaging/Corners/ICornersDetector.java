@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright � Diego Catalano, 2015
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -26,7 +26,7 @@ package Catalano.Imaging.Corners;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Corners detector's interface.
@@ -40,5 +40,5 @@ public interface ICornersDetector {
      * @param fastBitmap Image to be processed
      * @return List of feature points.
      */
-    ArrayList<IntPoint> ProcessImage(FastBitmap fastBitmap);
+    List<IntPoint> ProcessImage(FastBitmap fastBitmap);
 }

@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,8 +23,6 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The filter does image binarization using specified threshold value. All pixels with intensities equal or higher than threshold value are converted to white pixels. All other pixels with intensities below threshold value are converted to black pixels.

@@ -1,10 +1,10 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Peter Kovesi, 2004-2010
+// Copyright Â© Peter Kovesi, 2004-2010
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -170,7 +170,7 @@ public class FastRadialSymmetryTransform implements IBaseInPlace{
                     }
                 }
                 
-                //Problema está aki
+                //Problema estï¿½ aki
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
                         o[posY[i][j] - 1][posX[i][j] - 1]++;

@@ -1,11 +1,11 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Arlington, 2013
-// Copyright © Saulo, 2013
+// Copyright Â© Arlington, 2013
+// Copyright Â© Saulo, 2013
 // scsm at ecmp.poli.br
 //
 //    This library is free software; you can redistribute it and/or

@@ -1,7 +1,7 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
 // Code adapted from ImageJ, thanks to Wayne Rasband.
@@ -21,7 +21,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Imaging.Filters.Thinning;
+package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
