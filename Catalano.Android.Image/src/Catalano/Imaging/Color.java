@@ -134,7 +134,7 @@ public class Color {
             
             int[] data = fastBitmap.getData();
             for (int i = 0; i < data.length; i++)
-                    maxColors[data[i] & 0xFF] = 1;
+                    maxColors[data[i]] = 1;
 
             for (int i = 0; i < 256; i++)
                 if(maxColors[i] == 1) colors++;
@@ -182,6 +182,16 @@ public class Color {
         this.r = rgb[0];
         this.g = rgb[1];
         this.b = rgb[2];
+    }
+    
+    /**
+     * Initialize a new instance of the Color class.
+     * @param rgb Packed RGB.
+     */
+    public Color(int rgb){
+        this.r = rgb >> 16 & 0xFF;
+        this.g = rgb >> 8 & 0xFF;
+        this.b = rgb & 0xFF;
     }
     
     /**

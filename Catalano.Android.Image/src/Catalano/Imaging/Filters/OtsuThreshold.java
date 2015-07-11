@@ -23,8 +23,8 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.Tools.ImageHistogram;
 import Catalano.Imaging.Tools.ImageStatistics;
-import Catalano.Statistics.Histogram;
 
 /**
  * Otsu Threshold.
@@ -70,7 +70,7 @@ public class OtsuThreshold implements IBaseInPlace{
     public int CalculateThreshold(FastBitmap fastBitmap) {
         
         ImageStatistics stat = new ImageStatistics(fastBitmap);
-        Histogram hist = stat.getHistogramGray();
+        ImageHistogram hist = stat.getHistogramGray();
 
         int[] histogram = hist.getValues();
         int total = fastBitmap.getWidth() * fastBitmap.getHeight();

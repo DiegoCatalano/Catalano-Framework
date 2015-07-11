@@ -25,7 +25,6 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Statistics.Histogram;
 
 /**
  * Gather statistics about image in Gray or RGB color space.
@@ -33,53 +32,53 @@ import Catalano.Statistics.Histogram;
  */
 public class ImageStatistics {
     
-    private Histogram gray;
-    private Histogram red;
-    private Histogram green;
-    private Histogram blue;
+    private ImageHistogram gray;
+    private ImageHistogram red;
+    private ImageHistogram green;
+    private ImageHistogram blue;
     
     private int pixels;
 
     /**
-     * Histogram of gray channel.
+     * Image histogram of gray channel.
      * @return Histogram.
      */
-    public Histogram getHistogramGray(){
+    public ImageHistogram getHistogramGray(){
         if (gray == null)
-        	throw new IllegalArgumentException("Histogram gray null");
+            throw new IllegalArgumentException("Histogram gray is null");
         
         return gray;
     }
     
     /**
-     * Histogram of red channel.
+     * Image histogram of red channel.
      * @return Histogram.
      */
-    public Histogram getHistogramRed() {
+    public ImageHistogram getHistogramRed() {
         if (red == null)
-        	throw new IllegalArgumentException("Histogram red null");
+            throw new IllegalArgumentException("Histogram red is null");
         
         return red;
     }
     
     /**
-     * Histogram of green channel.
+     * Image histogram of green channel.
      * @return Histogram.
      */
-    public Histogram getHistogramGreen() {
+    public ImageHistogram getHistogramGreen() {
         if (green == null)
-        	throw new IllegalArgumentException("Histogram green null");
+            throw new IllegalArgumentException("Histogram green is null");
         
         return green;
     }
         
     /**
-     * Histogram of blue channel.
+     * Image histogram of blue channel.
      * @return Histogram.
      */
-    public Histogram getHistogramBlue() {
+    public ImageHistogram getHistogramBlue() {
         if (blue == null)
-        	throw new IllegalArgumentException("Histogram blue null");
+            throw new IllegalArgumentException("Histogram blue is null");
         
         return blue;
     }
@@ -89,52 +88,7 @@ public class ImageStatistics {
      * @param fastBitmap Image to be processed.
      */
     public ImageStatistics(FastBitmap fastBitmap) {
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        
-        pixels = 0;
-        red = green = blue = gray = null;
-        
-        if (fastBitmap.isGrayscale()) {
-            int[] g = new int[256];
-            
-            int G;
-            
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    G = fastBitmap.getGray(x, y);
-                    
-                    g[G]++;
-                    pixels++;
-                }
-            }
-            
-            gray = new Histogram(g);
-            
-        }
-        else if (fastBitmap.isRGB()){
-            int[] r = new int[256];
-            int[] g = new int[256];
-            int[] b = new int[256];
-
-            int R,G,B;
-
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    R = fastBitmap.getRed(x, y);
-                    G = fastBitmap.getGreen(x, y);
-                    B = fastBitmap.getBlue(x, y);
-
-                    r[R]++;
-                    g[G]++;
-                    b[B]++;
-                    pixels++;
-                }
-            }
-            red = new Histogram(r);
-            green = new Histogram(g);
-            blue = new Histogram(b);
-        }
+        this(fastBitmap, 256);
     }
     
     /**
@@ -142,7 +96,7 @@ public class ImageStatistics {
      * @param fastBitmap Image to be processed.
      * @param bins Number of bins.
      */
-    public ImageStatistics(FastBitmap fastBitmap, int bins) {
+    public ImageStatistics(FastBitmap fastBitmap, int bins){
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         
@@ -158,13 +112,12 @@ public class ImageStatistics {
                 for (int y = 0; y < width; y++) {
                     G = fastBitmap.getGray(x, y);
                     
-                    int bG = G * bins / 256;
-                    g[bG] = g[bG] + 1;
+                    g[G * bins / 256]++;
                     pixels++;
                 }
             }
             
-            gray = new Histogram(g);
+            gray = new ImageHistogram(g);
             
         }
         else if (fastBitmap.isRGB()){
@@ -179,27 +132,19 @@ public class ImageStatistics {
                     R = fastBitmap.getRed(x, y);
                     G = fastBitmap.getGreen(x, y);
                     B = fastBitmap.getBlue(x, y);
-                    
-                    int bR, bG, bB;
-                    bR = R * bins / 256;
-                    bG = G * bins / 256;
-                    bB = B * bins / 256;
-                    
-                    r[bR] = r[bR] + 1;
-                    r[bG] = r[bG] + 1;
-                    r[bB] = r[bB] + 1;
-                    
-                    
+
+                    r[R * bins / 256]++;
+                    g[G * bins / 256]++;
+                    b[B * bins / 256]++;
                     pixels++;
                 }
             }
-            red = new Histogram(r);
-            green = new Histogram(g);
-            blue = new Histogram(b);
+            red = new ImageHistogram(r);
+            green = new ImageHistogram(g);
+            blue = new ImageHistogram(b);
         }
-        
     }
-
+    
     /**
      * Count pixels.
      * @return amount of pixels.

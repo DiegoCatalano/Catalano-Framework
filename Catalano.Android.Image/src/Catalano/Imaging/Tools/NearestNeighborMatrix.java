@@ -160,7 +160,7 @@ public class NearestNeighborMatrix {
                             double minDistance = Double.MAX_VALUE;
                             IntPoint point = new IntPoint();
                             for (IntPoint p : boundary) {
-                                double dist = Catalano.Math.Distance.SquaredEuclidean(i, j, p.x, p.y);
+                                double dist = Catalano.Math.Distances.Distance.SquaredEuclidean(i, j, p.x, p.y);
                                 if (dist < minDistance){
                                     minDistance = dist;
                                     point = p;
@@ -195,7 +195,7 @@ public class NearestNeighborMatrix {
                         double minDistance = Double.MAX_VALUE;
                         IntPoint point = new IntPoint();
                         for (IntPoint p : boundary) {
-                            double dist = Catalano.Math.Distance.SquaredEuclidean(i, j, p.x, p.y);
+                            double dist = Catalano.Math.Distances.Distance.SquaredEuclidean(i, j, p.x, p.y);
                             if (dist < minDistance){
                                 minDistance = dist;
                                 point = p;
@@ -229,4 +229,3 @@ public class NearestNeighborMatrix {
         
     }
 }
-

@@ -25,8 +25,12 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Imaging.FastBitmap;
+
 /**
- * Compute Hu Moments.
+ * Hu Moments.
+ * Compute 8 moments from hu, the last was proposed by J. Flusser and T. Suk.
+ * 
  * Compute RST invariants.
  */
 public class HuMoments {
@@ -38,21 +42,21 @@ public class HuMoments {
     
     /**
      * Compute Hu moments.
-     * @param image Matrix.
-     * @return Moments.
+     * @param fastBitmap Image.
+     * @return 8 Moments.
      */
-    public double[] Compute(double[][] image){
+    public double[] Compute(FastBitmap fastBitmap){
         
-        double[] moments = new double[7];
+        double[] moments = new double[8];
 
         double
-        n20 = ImageMoments.getNormalizedCentralMoment(2, 0, image),
-        n02 = ImageMoments.getNormalizedCentralMoment(0, 2, image),
-        n30 = ImageMoments.getNormalizedCentralMoment(3, 0, image),
-        n12 = ImageMoments.getNormalizedCentralMoment(1, 2, image),
-        n21 = ImageMoments.getNormalizedCentralMoment(2, 1, image),
-        n03 = ImageMoments.getNormalizedCentralMoment(0, 3, image),
-        n11 = ImageMoments.getNormalizedCentralMoment(1, 1, image);
+        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0),
+        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2),
+        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0),
+        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2),
+        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1),
+        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3),
+        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1);
         
         //First moment
         moments[0] = n20 + n02;
@@ -64,25 +68,29 @@ public class HuMoments {
         moments[2] = Math.pow(n30 - (3 * (n12)), 2)
                    + Math.pow((3 * n21 - n03), 2);
         
-        //Fourty moment
+        //Fourth moment
         moments[3] = Math.pow((n30 + n12), 2) + Math.pow((n12 + n03), 2);
         
-        //Fifty moment
+        //Fifth moment
         moments[4] = (n30 - 3 * n12) * (n30 + n12)
                      * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
                      + (3 * n21 - n03) * (n21 + n03)
                      * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
         
-        //Sixty moment
+        //Sixth moment
         moments[5] = (n20 - n02)
                      * (Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2))
                      + 4 * n11 * (n30 + n12) * (n21 + n03);
         
-        //Seventy moment
+        //Seventh moment
         moments[6] = (3 * n21 - n03) * (n30 + n12)
                      * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
                      + (n30 - 3 * n12) * (n21 + n03)
                      * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
+        
+        //Eighth moment
+        moments[7] = n11 * (Math.pow((n30 + n12), 2) - Math.pow((n03 + n21), 2))
+                         - (n20 - n02) * (n30 + n12) * (n03 + n21);
         
         
         return moments;
@@ -90,60 +98,66 @@ public class HuMoments {
 
     /**
      * Compute Hu moment.
-     * @param image Image as Array.
-     * @param n Invariant Moment. [1..7].
+     * @param fastBitmap Image.
+     * @param n Invariant Moment. [1..8].
      * @return Hu moment.
      */
-    public static double getHuMoment (double[][] image,int n) {
-        //Ensures the values are in the range [1..7].
-        n = Math.min(7, Math.max(1, n));
+    public static double getHuMoment (FastBitmap fastBitmap, int n) {
+        
+        //Ensures the values are in the range [1..8].
+        n = Math.min(8, Math.max(1, n));
         
         double result = 0.0;
 
         double
-        n20 = ImageMoments.getNormalizedCentralMoment(2, 0, image),
-        n02 = ImageMoments.getNormalizedCentralMoment(0, 2, image),
-        n30 = ImageMoments.getNormalizedCentralMoment(3, 0, image),
-        n12 = ImageMoments.getNormalizedCentralMoment(1, 2, image),
-        n21 = ImageMoments.getNormalizedCentralMoment(2, 1, image),
-        n03 = ImageMoments.getNormalizedCentralMoment(0, 3, image),
-        n11 = ImageMoments.getNormalizedCentralMoment(1, 1, image);
+        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0),
+        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2),
+        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0),
+        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2),
+        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1),
+        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3),
+        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1);
 
         switch (n) {
         case 1:
-                result = n20 + n02;
-                break;
+            result = n20 + n02;
+            break;
         case 2:
-                result = Math.pow((n20 - 02), 2) + Math.pow(2 * n11, 2);
-                break;
+            result = Math.pow((n20 - 02), 2) + Math.pow(2 * n11, 2);
+            break;
         case 3:
-                result = Math.pow(n30 - (3 * (n12)), 2)
-                                + Math.pow((3 * n21 - n03), 2);
-                break;
+            result = Math.pow(n30 - (3 * (n12)), 2)
+                    + Math.pow((3 * n21 - n03), 2);
+            break;
         case 4:
-                result = Math.pow((n30 + n12), 2) + Math.pow((n12 + n03), 2);
-                break;
+            result = Math.pow((n30 + n12), 2) + Math.pow((n12 + n03), 2);
+            break;
         case 5:
-                result = (n30 - 3 * n12) * (n30 + n12)
-                                * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
-                                + (3 * n21 - n03) * (n21 + n03)
-                                * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
-                break;
+            result = (n30 - 3 * n12) * (n30 + n12)
+                    * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
+                    + (3 * n21 - n03) * (n21 + n03)
+                    * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
+            break;
         case 6:
-                result = (n20 - n02)
-                                * (Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2))
-                                + 4 * n11 * (n30 + n12) * (n21 + n03);
-                break;
+            result = (n20 - n02)
+                    * (Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2))
+                    + 4 * n11 * (n30 + n12) * (n21 + n03);
+            break;
         case 7:
-                result = (3 * n21 - n03) * (n30 + n12)
-                                * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
-                                + (n30 - 3 * n12) * (n21 + n03)
-                                * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
-                break;
+            result = (3 * n21 - n03) * (n30 + n12)
+                    * (Math.pow((n30 + n12), 2) - 3 * Math.pow((n21 + n03), 2))
+                    + (n30 - 3 * n12) * (n21 + n03)
+                    * (3 * Math.pow((n30 + n12), 2) - Math.pow((n21 + n03), 2));
+            break;
+        case 8:
+            result = n11 * (Math.pow((n30 + n12), 2) - Math.pow((n03 + n21), 2))
+                     - (n20 - n02) * (n30 + n12) * (n03 + n21);
+            break;
 
         default:
-                throw new IllegalArgumentException("Invalid number for Hu moment.");
+            throw new IllegalArgumentException("Invalid number for Hu moment.");
         }
+        
         return result;
     }
 }
