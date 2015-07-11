@@ -1,10 +1,10 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Edward Wiggin
+// Copyright ï¿½ Edward Wiggin
 // xjed09 at gmail.com
 //
 //

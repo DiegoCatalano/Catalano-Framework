@@ -1,10 +1,10 @@
 // Catalano Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright Â© Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © Stephan Saafeld, 2013
+// Copyright Â© Stephan Saafeld, 2013
 // saalfeld at mpi-cbg.de
 //
 //    This library is free software; you can redistribute it and/or
