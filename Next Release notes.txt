@@ -18,6 +18,8 @@ Catalano Framework 1.5 road map
     - New: Watershed.
     - New: Median Cut.
 
+    - Added: FourWay or EightWay in BlobDetection.
+
     - Optimized: Blob Detection.
     - Optimized: Flood Fill.
 
