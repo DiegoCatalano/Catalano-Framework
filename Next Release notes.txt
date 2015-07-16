@@ -38,6 +38,7 @@ Catalano Framework 1.5 road map
     - New: IntPolygon.
 
 * Catalano.Imaging.Tools
+    - New: Document Skew Checker.
     - New: Image Histogram.
     - New: Orthogonal Variant Moments.
     - New: Maitra Moments.
