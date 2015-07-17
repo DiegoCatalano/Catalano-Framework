@@ -50,6 +50,7 @@ public class RotateBicubic implements IBaseInPlace {
     private int fillRed = 0;
     private int fillGreen = 0;
     private int fillBlue = 0;
+    private int fillGray = 0;
 
     /**
      * Get Angle.
@@ -93,6 +94,14 @@ public class RotateBicubic implements IBaseInPlace {
         this.fillRed = red;
         this.fillGreen = green;
         this.fillBlue = blue;
+    }
+    
+    /**
+     * Set Fill color.
+     * @param gray Gray channel's value.
+     */
+    public void setFillColor(int gray){
+        this.fillGray = gray;
     }
 
     /**
@@ -162,7 +171,7 @@ public class RotateBicubic implements IBaseInPlace {
                     // validate source pixel's coordinates
                     if ( ( oi1 < 0 ) || ( oj1 < 0 ) || ( oi1 >= height ) || ( oj1 >= width ) ){
                         // fill destination image with filler
-                        destinationData.setGray(i, j, 0);
+                        destinationData.setGray(i, j, fillGray);
                     }
                     else
                     {

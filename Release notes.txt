@@ -38,6 +38,7 @@ Version updates and fixes:
    - New: Fast Variance.
    - New: Poisson Noise.
 
+   - Added: setFillColor grayscale support in Rotate.
    - Added: Ultimate Eroded Point in Distance Transform.
    - Added: Geometric mean in Grayscale conversion.
    - Added: getMaximumDistance in Distance Transform.

@@ -49,6 +49,7 @@ public class RotateNearestNeighbor implements IBaseInPlace {
     private int fillRed = 0;
     private int fillGreen = 0;
     private int fillBlue = 0;
+    private int fillGray = 0;
 
     /**
      * Get Angle.
@@ -92,6 +93,15 @@ public class RotateNearestNeighbor implements IBaseInPlace {
         this.fillRed = red;
         this.fillGreen = green;
         this.fillBlue = blue;
+    }
+    
+    
+    /**
+     * Set Fill color.
+     * @param gray Gray channel's value.
+     */
+    public void setFillColor(int gray){
+        this.fillGray = gray;
     }
 
     /**
@@ -153,7 +163,7 @@ public class RotateNearestNeighbor implements IBaseInPlace {
                     if ( ( oi < 0 ) || ( oj < 0 ) || ( oi >= height ) || ( oj >= width ) )
                     {
                         // fill destination image with filler
-                        destinationData.setGray(i, j, 0);
+                        destinationData.setGray(i, j, fillGray);
                     }
                     else
                     {
