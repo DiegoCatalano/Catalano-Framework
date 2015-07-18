@@ -40,6 +40,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Tools.IntegralImage;
 import Catalano.Math.Constants;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -90,7 +91,7 @@ public class FastRetinaKeypointDescriptor {
         this.pattern = pattern;
     }
     
-        public void Compute(ArrayList<FastRetinaKeypoint> points)
+        public void Compute(List<FastRetinaKeypoint> points)
         {
             final int CV_FREAK_SMALLEST_KP_SIZE = FastRetinaKeypointPattern.Size;
             final int CV_FREAK_NB_SCALES = FastRetinaKeypointPattern.Scales;

@@ -34,6 +34,13 @@ Catalano Framework 1.5 road map
 * Catalano.Imaging.ActiveContour
     - New: Ovuscule.
 
+* Catalano.Imaging.Corners
+    - Added: ICornersFeatureDetector.
+
+* Catalano.Imaging.Corners.FREAK.
+    - Added: ICornersFeatureDetector support in Fast Retina Keypoint Detector.
+    - Added: toBinary() and toHex() in Fast Retina Keypoint class.
+
 * Catalano.Imaging.Shapes
     - New: IntPolygon.
 

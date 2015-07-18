@@ -24,6 +24,8 @@
 
 package Catalano.Imaging.Corners.FREAK;
 
+import Catalano.Core.IntPoint;
+
 /**
  * Fast Retina Keypoint (FREAK) point.
  * @author Diego Catalano
@@ -104,5 +106,41 @@ public class FastRetinaKeypoint {
     public FastRetinaKeypoint(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+    
+    /**
+     * Convert the binary descriptor to a string of binary values.
+     * @return A string containing a binary value representing this point's descriptor.
+     */
+    public String toBinary(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < descriptor.length; i++) {
+            for (int j = 0; j < 8; j++)
+            {
+                boolean set = (descriptor[i] & (1 << j)) != 0;
+                sb.append(set ? "1" : "0");
+            }
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * Convert the binary descriptor to a string of hexadecimal values.
+     * @return A string containing a hexadecimal value representing this point's descriptor.
+     */
+    public String toHex(){
+        StringBuilder sb = new StringBuilder(descriptor.length*2);
+        for (int i = 0; i < descriptor.length; i++) {
+            sb.append(String.format("%02X ",descriptor[i]));
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * Convert Fast Retina Keypoint to Int Point.
+     * @return IntPoint.
+     */
+    public IntPoint toIntPoint(){
+        return new IntPoint(x, y);
     }
 }

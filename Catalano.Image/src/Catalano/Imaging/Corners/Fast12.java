@@ -73,7 +73,7 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class Fast12 {
+public class Fast12 implements ICornersFeatureDetector{
     
     private int threshold = 20;
     private boolean suppress = true;
@@ -141,6 +141,7 @@ public class Fast12 {
         this.suppress = suppress;
     }
     
+    @Override
     public List<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
         
         FastBitmap gray;

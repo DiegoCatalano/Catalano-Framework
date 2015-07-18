@@ -61,6 +61,7 @@ package Catalano.Imaging.Corners;
 import Catalano.Imaging.FastBitmap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Features from Accelerated Segment Test (FAST) corners detector.
@@ -75,7 +76,7 @@ import java.util.Collections;
  * 
  * @author Diego Catalano
  */
-public class Fast9 {
+public class Fast9 implements ICornersFeatureDetector{
     
     private int threshold = 20;
     private boolean suppress = true;
@@ -143,7 +144,8 @@ public class Fast9 {
         this.suppress = suppress;
     }
     
-    public ArrayList<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
+    @Override
+    public List<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
         
         FastBitmap gray;
         if (fastBitmap.isGrayscale()){
@@ -155,7 +157,7 @@ public class Fast9 {
         }
         
         if (isSuppressed()){
-            ArrayList<FeaturePoint> lst = detect(gray, threshold);
+            List<FeaturePoint> lst = detect(gray, threshold);
             lst = nonMaxSuppression(fastBitmap.getWidth(), fastBitmap.getHeight(), lst);
             return lst;
         }
@@ -163,9 +165,9 @@ public class Fast9 {
         return detect(gray, threshold);
     }
     
-    private ArrayList<FeaturePoint> detect(FastBitmap fb, int threshold){
+    private List<FeaturePoint> detect(FastBitmap fb, int threshold){
         
-        ArrayList<FeaturePoint> corners = new ArrayList<FeaturePoint>();
+        List<FeaturePoint> corners = new ArrayList<FeaturePoint>();
         
         int width = fb.getWidth();
         int height = fb.getHeight();
@@ -6021,9 +6023,9 @@ public class Fast9 {
                 return false;
     }
     
-    private static ArrayList<FeaturePoint> nonMaxSuppression(int width, int height, ArrayList<FeaturePoint> features){
+    private static List<FeaturePoint> nonMaxSuppression(int width, int height, List<FeaturePoint> features){
             int[][] pixels = new int[height][width];
-            ArrayList<FeaturePoint> nonMaxFeatures = new ArrayList<FeaturePoint>();
+            List<FeaturePoint> nonMaxFeatures = new ArrayList<FeaturePoint>();
             
             for (int i = 0; i < features.size(); ++i) {
                     FeaturePoint fp = features.get(i);

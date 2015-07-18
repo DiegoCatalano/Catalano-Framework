@@ -29,7 +29,7 @@ import java.util.List;
  * Features from Accelerated Segment Test (FAST) corners detector.
  * @author Diego Catalano
  */
-public class FastCornersDetector {
+public class FastCornersDetector implements ICornersFeatureDetector{
 
     public static enum Algorithm {FAST_9, FAST_12};
     private int threshold = 20;
@@ -135,6 +135,7 @@ public class FastCornersDetector {
         this.algorithm = algorithm;
     }
     
+    @Override
     public List<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
         
         switch (algorithm){

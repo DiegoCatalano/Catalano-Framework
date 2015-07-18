@@ -76,7 +76,7 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class Fast9 {
+public class Fast9 implements ICornersFeatureDetector{
     
     private int threshold = 20;
     private boolean suppress = true;
@@ -144,6 +144,7 @@ public class Fast9 {
         this.suppress = suppress;
     }
     
+    @Override
     public List<FeaturePoint> ProcessImage(FastBitmap fastBitmap){
         
         FastBitmap gray;

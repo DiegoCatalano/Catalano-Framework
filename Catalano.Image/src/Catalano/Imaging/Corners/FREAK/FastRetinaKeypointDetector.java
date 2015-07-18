@@ -25,7 +25,9 @@
 package Catalano.Imaging.Corners.FREAK;
 
 import Catalano.Core.IntPoint;
+import Catalano.Imaging.Corners.FeaturePoint;
 import Catalano.Imaging.Corners.ICornersDetector;
+import Catalano.Imaging.Corners.ICornersFeatureDetector;
 import Catalano.Imaging.Corners.SusanCornersDetector;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Tools.IntegralImage;
@@ -75,6 +77,8 @@ public class FastRetinaKeypointDetector {
     private FastRetinaKeypointDescriptor descriptor;
 
     public ICornersDetector Detector;
+    
+    public ICornersFeatureDetector FDetector;
         
     public FastRetinaKeypointDescriptor GetDescriptor() {
         if (descriptor == null || pattern == null){
@@ -90,6 +94,10 @@ public class FastRetinaKeypointDetector {
     
     public FastRetinaKeypointDetector(ICornersDetector cornerDetector){
         this.Detector = cornerDetector;
+    }
+    
+    public FastRetinaKeypointDetector(ICornersFeatureDetector cornerFeatureDetector){
+        this.FDetector = cornerFeatureDetector;
     }
 
     public FastRetinaKeypointDetector() {
@@ -107,11 +115,19 @@ public class FastRetinaKeypointDetector {
         }
         
         // 1. Extract corners points from the image.
-        List<IntPoint> corners = Detector.ProcessImage(grayImage);
-
         List<FastRetinaKeypoint> features = new ArrayList<FastRetinaKeypoint>();
-        for (int i = 0; i < corners.size(); i++)
-            features.add(new FastRetinaKeypoint(corners.get(i).x, corners.get(i).y));
+        if(Detector != null){
+            List<IntPoint> corners = Detector.ProcessImage(grayImage);
+
+            for (int i = 0; i < corners.size(); i++)
+                features.add(new FastRetinaKeypoint(corners.get(i).x, corners.get(i).y));
+        }
+        else{
+            List<FeaturePoint> corners = FDetector.ProcessImage(grayImage);
+
+            for (int i = 0; i < corners.size(); i++)
+                features.add(new FastRetinaKeypoint(corners.get(i).x, corners.get(i).y));
+        }
 
         // 2. Compute the integral for the given image
         integral = IntegralImage.FromFastBitmap(grayImage);
