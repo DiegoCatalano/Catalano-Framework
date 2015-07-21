@@ -640,7 +640,7 @@ public final class Matrix {
     /**
      * Return a vector from a specified column in a matrix.
      * @param A Matrix.
-     * @param n Number of column.
+     * @param n Index of column.
      * @return Vector.
      */
     public static float[] getColumn(float[][] A, int n){
@@ -650,6 +650,24 @@ public final class Matrix {
         for (int i = 0; i < rows; i++) {
             v[i] = A[i][n];
         }
+        return v;
+    }
+    
+    /**
+     * Return a vector from a specified column in a matrix.
+     * @param <T> Type.
+     * @param A Matrix.
+     * @param n Index of column.
+     * @return Vector.
+     */
+    public static <T> T[] getColumn(T[][] A, int n){
+        int rows = A.length;
+        T[] v = (T[])Array.newInstance(A[0][n].getClass(), rows);
+        
+        for (int i = 0; i < rows; i++) {
+            v[i] = A[i][n];
+        }
+        
         return v;
     }
     
@@ -693,6 +711,23 @@ public final class Matrix {
      */
     public static float[][] getColumns(float[][] A, int[] indexes){
         float[][] m = new float[A.length][indexes.length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = A[i][indexes[j]];
+            }
+        }
+        return m;
+    }
+    
+    /**
+     * Return a matrix from specified columns.
+     * @param <T> Type.
+     * @param A Matrix.
+     * @param indexes Indexes.
+     * @return Matrix.
+     */
+    public static <T> T[][] getColumns(T[][] A, int[] indexes){
+        T[][] m = (T[][])Array.newInstance(A[0][0].getClass(), A.length, indexes.length);
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[0].length; j++) {
                 m[i][j] = A[i][indexes[j]];

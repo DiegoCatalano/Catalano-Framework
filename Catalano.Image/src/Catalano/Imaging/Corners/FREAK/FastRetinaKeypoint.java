@@ -143,4 +143,17 @@ public class FastRetinaKeypoint {
     public IntPoint toIntPoint(){
         return new IntPoint(x, y);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        FastRetinaKeypoint p = (FastRetinaKeypoint)obj;
+        
+        byte[] d = p.descriptor;
+        for (int i = 0; i < d.length; i++)
+            if(descriptor[i] != d[i])
+                return false;
+        
+        return true;
+        
+    }
 }

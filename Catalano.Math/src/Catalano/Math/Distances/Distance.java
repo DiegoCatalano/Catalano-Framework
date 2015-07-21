@@ -329,44 +329,22 @@ public final class Distance {
     }
     
     /**
-     * Gets the Hamming distance between two points.
-     * @param p A point in space.
-     * @param q A point in space.
-     * @return The Hamming distance between x and y.
+     * Gets the Hamming distance between two strings.
+     * @param first First string.
+     * @param second Second string.
+     * @return The Hamming distance between p and q.
      */
-    public static double Hamming(double[] p, double[] q){
-        double distance = 0;
+    public static int Hamming(String first, String second){
         
-        for (int i = 0; i < p.length; i++) {
-            if (p[i] != q[i]) distance++;
-        }
+        if(first.length() != second.length())
+            throw new IllegalArgumentException("The size of string must be the same.");
         
-        return distance;
-    }
-    
-    /**
-     * Gets the Hamming distance between two points.
-     * @param x1 X1 axis coordinate.
-     * @param y1 Y1 axis coordinate.
-     * @param x2 X2 axis coordinate.
-     * @param y2 Y2 axis coordinate.
-     * @return The Hamming distance between x and y.
-     */
-    public static double Hamming(double x1, double y1, double x2, double y2){
-        double distance = 0;
-        if (x1 != x2) distance++;
-        if (y1 != y2) distance++;
-        return distance;
-    }
-    
-    /**
-     * Gets the Hamming distance between two points.
-     * @param p IntPoint with X and Y axis coordinates.
-     * @param q IntPoint with X and Y axis coordinates.
-     * @return The Hamming distance between x and y.
-     */
-    public static double Hamming(IntPoint p, IntPoint q){
-        return Hamming(p.x,p.y,q.x,q.y);
+        int diff = 0;
+        for (int i = 0; i < first.length(); i++) 
+            if(first.charAt(i) != second.charAt(i))
+                diff++;
+        return diff;
+        
     }
     
     /**
