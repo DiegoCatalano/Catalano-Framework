@@ -146,8 +146,8 @@ public class HistogramOfOrientedGradients {
                     {
                         for (int y = 0; y < cellSize; y++)
                         {
-                            double ang = direction[startCellY + y][startCellX + x];
-                            double mag = magnitude[startCellY + y][startCellX + x];
+                            double ang = direction[startCellX + x][startCellY + y];
+                            double mag = magnitude[startCellX + x][startCellY + y];
 
                             // Get its angular bin
                             int bin = (int)Math.floor((ang + Math.PI) * binWidth);

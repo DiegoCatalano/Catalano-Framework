@@ -94,13 +94,15 @@ public class LocalTernaryPattern {
         int[] upper = new int[256];
         int[] lower = new int[256];
         
-        int sumU = 0;
-        int sumL = 0;
+        int sumU;
+        int sumL;
         
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         for (int i = 1; i < height - 1; i++) {
             for (int j = 1; j < width - 1; j++) {
+                
+                sumU = sumL = 0;
                 
                 //Compute ternary
                 int[][] ternary = TernaryMatrix(fastBitmap, i, j);
