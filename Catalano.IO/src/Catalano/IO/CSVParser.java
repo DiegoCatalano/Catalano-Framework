@@ -124,7 +124,6 @@ public class CSVParser {
      * @return CSV table of string.
      */
     public String[][] Read(String filename){
-        
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filename), charset));
             
@@ -143,6 +142,42 @@ public class CSVParser {
                     temp = lines.get(i).split(String.valueOf(delimiter));
                     for (int j = startCol; j < temp.length; j++) {
                         data[idxI][idxJ] = temp[j];
+                        idxJ++;
+                    }
+                    idxI++;
+                }
+
+                return data;
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    public double[][] ReadAsDouble(String filename){
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filename), charset));
+            
+            String line;
+            List<String> lines = new ArrayList<String>();
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            
+            if(lines.size() > 0) {
+                String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
+                double[][] data = new double[lines.size() - startRow][temp.length - startCol];
+                int idxI = 0;
+                for (int i = startRow; i < lines.size(); i++) {
+                    int idxJ = 0;
+                    temp = lines.get(i).split(String.valueOf(delimiter));
+                    for (int j = startCol; j < temp.length; j++) {
+                        data[idxI][idxJ] = Double.valueOf(temp[j]);
                         idxJ++;
                     }
                     idxI++;

@@ -40,7 +40,7 @@ import java.util.Map;
 public class KNearestNeighbors<T> {
     
     private int k;
-    private List<double[]> input;
+    private double[][] input;
     private T output[];
     private IDistance distance = new EuclideanDistance();
     private IKernel kernel;
@@ -66,7 +66,7 @@ public class KNearestNeighbors<T> {
      * Get the input features.
      * @return List of features.
      */
-    public List<double[]> getInput() {
+    public double[][] getInput() {
         return input;
     }
 
@@ -74,7 +74,7 @@ public class KNearestNeighbors<T> {
      * Set the input features.
      * @param input Input features.
      */
-    public void setInput(List<double[]> input) {
+    public void setInput(double[][] input) {
         this.input = input;
     }
 
@@ -140,7 +140,7 @@ public class KNearestNeighbors<T> {
      * @param input List of fearures.
      * @param output Array of output.
      */
-    public KNearestNeighbors(List<double[]> input, T[] output){
+    public KNearestNeighbors(double[][] input, T[] output){
         this.k = 3;
         this.input = input;
         this.output = output;
@@ -152,7 +152,7 @@ public class KNearestNeighbors<T> {
      * @param output Array of output.
      * @param k Number of neighbours.
      */
-    public KNearestNeighbors(List<double[]> input, T[] output, int k){
+    public KNearestNeighbors(double[][] input, T[] output, int k){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -165,7 +165,7 @@ public class KNearestNeighbors<T> {
      * @param k Number of neighbours.
      * @param distance Distance.
      */
-    public KNearestNeighbors(List<double[]> input, T[] output, int k, IDistance distance){
+    public KNearestNeighbors(double[][] input, T[] output, int k, IDistance distance){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -179,7 +179,7 @@ public class KNearestNeighbors<T> {
      * @param k Number of neighbours.
      * @param kernel Kernel.
      */
-    public KNearestNeighbors(List<double[]> input, T[] output, int k, IKernel kernel){
+    public KNearestNeighbors(double[][] input, T[] output, int k, IKernel kernel){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -193,16 +193,16 @@ public class KNearestNeighbors<T> {
      */
     public T Compute(double[] feature){
         
-        int sizeF = input.size();
+        int sizeF = input.length;
         double[] dist = new double[sizeF];
         
         //Compute distance.
         if(useKernel){
             for (int i = 0; i < sizeF; i++)
-                dist[i] = this.kernel.Function(feature, input.get(i));
+                dist[i] = this.kernel.Function(feature, input[i]);
         }else{
             for (int i = 0; i < sizeF; i++)
-                dist[i] = this.distance.Compute(feature, input.get(i));
+                dist[i] = this.distance.Compute(feature, input[i]);
         }
         
         //If k is 1, we can retrive the object quickly.

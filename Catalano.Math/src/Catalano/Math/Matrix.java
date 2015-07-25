@@ -26,6 +26,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Math.Decompositions.LUDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
+import java.util.List;
 
 /**
  * Defines a set of methods that works on multidimensional arrays and vectors.
@@ -2490,7 +2491,7 @@ public final class Matrix {
      * @param index Indexes.
      * @return Matrix.
      */
-    public static int[][] RemoveColumn(int[][] A, int[] index){
+    public static int[][] RemoveColumns(int[][] A, int[] index){
         
         if(A[0].length - index.length <= 0)
             throw new IllegalArgumentException("The number of columns is less or equal zero.");
@@ -2517,12 +2518,75 @@ public final class Matrix {
     }
     
     /**
+     * Remove column from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return Matrix.
+     */
+    public static double[][] RemoveColumn(double[][] A, int index){
+        double[][] B = new double[A.length][A[0].length - 1];
+        int idx;
+        for (int i = 0; i < A.length; i++) {
+            idx = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    B[i][idx] = A[i][j];
+                    idx++;
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove column from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return Matrix.
+     */
+    public static int[][] RemoveColumn(int[][] A, int index){
+        int[][] B = new int[A.length][A[0].length - 1];
+        int idx;
+        for (int i = 0; i < A.length; i++) {
+            idx = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    B[i][idx] = A[i][j];
+                    idx++;
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
+     * Remove column from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return Matrix.
+     */
+    public static float[][] RemoveColumn(float[][] A, int index){
+        float[][] B = new float[A.length][A[0].length - 1];
+        int idx;
+        for (int i = 0; i < A.length; i++) {
+            idx = 0;
+            for (int j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    B[i][idx] = A[i][j];
+                    idx++;
+                }
+            }
+        }
+        return B;
+    }
+    
+    /**
      * Remove columns from the matrix.
      * @param A Matrix.
      * @param index Indexes.
      * @return Matrix.
      */
-    public static double[][] RemoveColumn(double[][] A, int[] index){
+    public static double[][] RemoveColumns(double[][] A, int[] index){
         
         if(A[0].length - index.length <= 0)
             throw new IllegalArgumentException("The number of columns is less or equal zero.");
@@ -2554,7 +2618,7 @@ public final class Matrix {
      * @param index Indexes.
      * @return Matrix.
      */
-    public static float[][] RemoveColumn(float[][] A, int[] index){
+    public static float[][] RemoveColumns(float[][] A, int[] index){
         
         if(A[0].length - index.length <= 0)
             throw new IllegalArgumentException("The number of columns is less or equal zero.");
@@ -3251,6 +3315,20 @@ public final class Matrix {
     }
     
     /**
+     * Convert List of array to Matrix.
+     * @param list List of array.
+     * @return Matrix.
+     */
+    public static double[][] toDoubleMatrix(List<double[]> list){
+        double[][] m = new double[list.size()][list.get(0).length];
+        for (int i = 0; i < m.length; i++) {
+            m[i] = list.get(i);
+        }
+        
+        return m;
+    }
+    
+    /**
      * Convert Matrix to Vector.
      * @param A Matrix.
      * @return Vector.
@@ -3305,6 +3383,20 @@ public final class Matrix {
     }
     
     /**
+     * Convert List of array to Matrix.
+     * @param list List of array.
+     * @return Matrix.
+     */
+    public static int[][] toIntMatrix(List<int[]> list){
+        int[][] m = new int[list.size()][list.get(0).length];
+        for (int i = 0; i < m.length; i++) {
+            m[i] = list.get(i);
+        }
+        
+        return m;
+    }
+    
+    /**
      * Convert Matrix to Vector.
      * @param A Matrix.
      * @return Vector.
@@ -3355,6 +3447,20 @@ public final class Matrix {
                 index++;
             }
         }
+        return m;
+    }
+    
+    /**
+     * Convert List of array to Matrix.
+     * @param list List of array.
+     * @return Matrix.
+     */
+    public static float[][] toFloatMatrix(List<float[]> list){
+        float[][] m = new float[list.size()][list.get(0).length];
+        for (int i = 0; i < m.length; i++) {
+            m[i] = list.get(i);
+        }
+        
         return m;
     }
 }

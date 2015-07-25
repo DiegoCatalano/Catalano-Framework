@@ -37,46 +37,51 @@ import java.util.List;
 public class KNearestNeighbors {
     
     private int k = 3;
-    private List<double[]> input;
+    private double[][] input;
+    private double[] output;
     private IDistance distance;
     private IKernel kernel;
 
-    public KNearestNeighbors(List<double[]> input) {
+    public KNearestNeighbors(double[][] input, double[] output) {
         this.input = input;
+        this.output = output;
         this.distance = new EuclideanDistance();
     }
     
-    public KNearestNeighbors(List<double[]> input, int k) {
+    public KNearestNeighbors(double[][] input, double[] output, int k) {
         this.input = input;
+        this.output = output;
         this.k = k;
         this.distance = new EuclideanDistance();
     }
     
-    public KNearestNeighbors(List<double[]> input, int k, IDistance distance) {
+    public KNearestNeighbors(double[][] input, double[] output, int k, IDistance distance) {
         this.input = input;
+        this.output = output;
         this.k = k;
         this.distance = distance;
     }
     
-    public KNearestNeighbors(List<double[]> input, int k, IKernel kernel) {
+    public KNearestNeighbors(double[][] input, double[] output, int k, IKernel kernel) {
         this.input = input;
+        this.output = output;
         this.k = k;
         this.kernel = kernel;
     }
     
     public double Compute(double[] feature){
         
-        double[] dist = new double[input.size()];
+        double[] dist = new double[input.length];
         if(kernel == null)
-            for (int i = 0; i < input.size(); i++){
-                double[] temp = input.get(i);
-                temp = Matrix.RemoveColumn(temp, temp.length - 1);
+            for (int i = 0; i < input.length; i++){
+                double[] temp = input[i];
+                //temp = Matrix.RemoveColumn(temp, temp.length - 1);
                 dist[i] = distance.Compute(temp, feature);
             }
         else
-            for (int i = 0; i < input.size(); i++){
-                double[] temp = input.get(i);
-                temp = Matrix.RemoveColumn(temp, temp.length - 1);
+            for (int i = 0; i < input.length; i++){
+                double[] temp = input[i];
+                //temp = Matrix.RemoveColumn(temp, temp.length - 1);
                 dist[i] = kernel.Function(temp, feature);
             }
         
@@ -90,9 +95,9 @@ public class KNearestNeighbors {
         Collections.sort(lst);
         
         double result = 0;
-        int lastCol = input.get(0).length - 1;
+        int lastCol = input[0].length - 1;
         for (int i = 0; i < k; i++) {
-            result += input.get(lst.get(i).index)[lastCol];
+            result += output[lst.get(i).index];
         }
         
         return result / (double)k;
