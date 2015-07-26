@@ -44,6 +44,7 @@ public class CSVParser {
     private char delimiter = ',';
     private int startRow = 0;
     private int startCol = 0;
+    private int endCol = -1;
     
     String charset = "UTF-8";
     String newLine = System.getProperty("line.separator");
@@ -81,12 +82,62 @@ public class CSVParser {
     }
 
     /**
+     * Get start row index.
+     * @return Start row index.
+     */
+    public int getStartRow() {
+        return startRow;
+    }
+
+    /**
+     * Set start row index.
+     * @param startRow Start row index.
+     */
+    public void setStartRow(int startRow) {
+        this.startRow = startRow;
+    }
+
+    /**
+     * Get start column index.
+     * @return Start column index.
+     */
+    public int getStartColumn() {
+        return startCol;
+    }
+
+    /**
+     * Set start column index.
+     * @param startCol Start column index.
+     */
+    public void setStartColumn(int startCol) {
+        this.startCol = startCol;
+    }
+
+    /**
+     * Get end column index.
+     * Default: -1, It means to get all columns.
+     * @return 
+     */
+    public int getEndColumn() {
+        return endCol;
+    }
+
+    /**
+     * Set end column index.
+     * Value: -1 for to set the last column.
+     * @param endCol End column index.
+     */
+    public void setEndColumn(int endCol) {
+        this.endCol = endCol;
+    }
+
+    /**
      * Initialize a new instance of the CSVParser class.
      */
     public CSVParser() {}
     
     /**
-     * Initialize a new instance of the Blur class.
+     * Initialize a new instance of the CSVParser class.
      * @param delimiter Delimiter.
      */
     public CSVParser(char delimiter) {
@@ -94,7 +145,17 @@ public class CSVParser {
     }
     
     /**
-     * Initialize a new instance of the Blur class.
+     * Initialize a new instance of the CSVParser class.
+     * @param delimiter Delimiter.
+     * @param startRow Start row.
+     */
+    public CSVParser(char delimiter, int startRow){
+        this.delimiter = delimiter;
+        this.startRow = startRow;
+    }
+    
+    /**
+     * Initialize a new instance of the CSVParser class.
      * @param delimiter Delimiter.
      * @param startRow Start row.
      * @param startColumn Start column.
@@ -103,6 +164,20 @@ public class CSVParser {
         this.delimiter = delimiter;
         this.startRow = startRow;
         this.startCol = startColumn;
+    }
+    
+    /**
+     * Initialize a new instance of the CSVParser class.
+     * @param delimiter Delimiter.
+     * @param startRow Start row.
+     * @param startColumn Start column.
+     * @param endColumn End column.
+     */
+    public CSVParser(char delimiter, int startRow, int startColumn, int endColumn){
+        this.delimiter = delimiter;
+        this.startRow = startRow;
+        this.startCol = startColumn;
+        this.endCol = endColumn;
     }
     
     /**
@@ -133,6 +208,11 @@ public class CSVParser {
                 lines.add(line);
             }
             
+            //Check the limits
+            if(endCol == -1)
+                endCol = lines.get(startRow).split(String.valueOf(delimiter)).length;
+            
+            
             if(lines.size() > 0) {
                 String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
                 String[][] data = new String[lines.size() - startRow][temp.length - startCol];
@@ -140,7 +220,7 @@ public class CSVParser {
                 for (int i = startRow; i < lines.size(); i++) {
                     int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
-                    for (int j = startCol; j < temp.length; j++) {
+                    for (int j = startCol; j < endCol; j++) {
                         data[idxI][idxJ] = temp[j];
                         idxJ++;
                     }
@@ -169,6 +249,10 @@ public class CSVParser {
                 lines.add(line);
             }
             
+            //Check the limits
+            if(endCol == -1)
+                endCol = lines.get(startRow).split(String.valueOf(delimiter)).length;
+            
             if(lines.size() > 0) {
                 String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
                 double[][] data = new double[lines.size() - startRow][temp.length - startCol];
@@ -176,8 +260,48 @@ public class CSVParser {
                 for (int i = startRow; i < lines.size(); i++) {
                     int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
-                    for (int j = startCol; j < temp.length; j++) {
+                    for (int j = startCol; j < endCol; j++) {
                         data[idxI][idxJ] = Double.valueOf(temp[j]);
+                        idxJ++;
+                    }
+                    idxI++;
+                }
+
+                return data;
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CSVParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    public int[][] ReadAsInt(String filename){
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filename), charset));
+            
+            String line;
+            List<String> lines = new ArrayList<String>();
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            
+            //Check the limits
+            if(endCol == -1)
+                endCol = lines.get(startRow).split(String.valueOf(delimiter)).length;
+            
+            if(lines.size() > 0) {
+                String[] temp = lines.get(startRow).split(String.valueOf(delimiter));
+                int[][] data = new int[lines.size() - startRow][temp.length - startCol];
+                int idxI = 0;
+                for (int i = startRow; i < lines.size(); i++) {
+                    int idxJ = 0;
+                    temp = lines.get(i).split(String.valueOf(delimiter));
+                    for (int j = startCol; j < endCol; j++) {
+                        data[idxI][idxJ] = Integer.valueOf(temp[j]);
                         idxJ++;
                     }
                     idxI++;

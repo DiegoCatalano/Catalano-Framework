@@ -37,7 +37,7 @@ import java.util.Map;
  * @author Diego Catalano
  * @param <T> Object.
  */
-public class KNearestNeighbors<T> {
+public class KNearestNeighbors<T> implements IClassifier {
     
     private int k;
     private double[][] input;
@@ -191,7 +191,8 @@ public class KNearestNeighbors<T> {
      * @param feature Feature to compute.
      * @return Object.
      */
-    public T Compute(double[] feature){
+    @Override
+    public T Predict(double[] feature){
         
         int sizeF = input.length;
         double[] dist = new double[sizeF];
