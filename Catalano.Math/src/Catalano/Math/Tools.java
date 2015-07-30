@@ -193,6 +193,18 @@ public final class Tools {
      * @param x Value.
      * @return Result.
      */
+    public static double Scale(DoubleRange from, DoubleRange to, double x){
+        if (from.length() == 0) return 0;
+        return ((to.length()) * (x - from.getMin()) / from.length() + to.getMin());
+    }
+    
+    /**
+     * Converts the value x (which is measured in the scale 'from') to another value measured in the scale 'to'.
+     * @param from Scale from.
+     * @param to Scale to.
+     * @param x Value.
+     * @return Result.
+     */
     public static float Scale(FloatRange from, FloatRange to, int x){
         if (from.length() == 0) return 0;
         return (float)((to.length()) * (x - from.getMin()) / from.length() + to.getMin());

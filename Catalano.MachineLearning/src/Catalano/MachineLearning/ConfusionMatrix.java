@@ -62,6 +62,9 @@ public class ConfusionMatrix {
     
     //Confusion matrix.
     private int[][] confusion;
+    
+    private double[] tp;
+    private double[] fp;
 
     /**
      * Initializes a new instance of the ConfusionMatrix class.

@@ -25,12 +25,12 @@ package Catalano.Statistics;
  * @ref Computer Imaging - Scott E Umbaugh. Chapter 6 p.283-285.
  * @author Diego Catalano
  */
-public class Normalization {
+public class Normalizations {
 
     /**
      * Don't let anyone instantiate this class.
      */
-    private Normalization() {}
+    private Normalizations() {}
     
     /**
      * Decimal scaling.
