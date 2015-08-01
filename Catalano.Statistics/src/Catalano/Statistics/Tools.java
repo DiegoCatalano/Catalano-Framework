@@ -195,4 +195,8 @@ public class Tools {
     public static double StandartDeviation(double[] x){
         return Math.sqrt(Variance(x));
     }
+    
+    public static double StandartDeviation(double[] x, double mean){
+        return Math.sqrt(Variance(x, mean));
+    }
 }

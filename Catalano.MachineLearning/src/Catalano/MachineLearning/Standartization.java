@@ -28,47 +28,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Normalization matrix.
- * Normalize each column in the matrix of given matrix.
+ * Standartize matrix.
+ * Standartize each column in the matrix.
+ * x = (x - u) / s;
  * 
  * @author Diego Catalano
  */
-public class Normalization {
+public class Standartization {
     
-    private double min = 0;
-    private double max = 1;
+    private double mean;
+    private double std;
     private List<DoubleRange> range;
+    
+    boolean find;
 
-    /**
-     * Get minimum value.
-     * @return Minimum value.
-     */
-    public double getMin() {
-        return min;
+    public double getMean() {
+        return mean;
     }
 
-    /**
-     * Set minimum value.
-     * @param min Minimum value.
-     */
-    public void setMin(double min) {
-        this.min = min;
+    public void setMean(double mean) {
+        this.mean = mean;
     }
 
-    /**
-     * Get maximum value.
-     * @return Maximum value.
-     */
-    public double getMax() {
-        return max;
+    public double getStd() {
+        return std;
     }
 
-    /**
-     * Set maximum value.
-     * @param max Maximum value.
-     */
-    public void setMax(double max) {
-        this.max = max;
+    public void setStd(double std) {
+        this.std = std;
     }
 
     /**
@@ -88,18 +75,16 @@ public class Normalization {
     }
 
     /**
-     * Initializes a new instance of the Normalization class.
+     * Initializes a new instance of the Standartization class.
      */
-    public Normalization() {}
-    
-    /**
-     * Initializes a new instance of the Normalization class.
-     * @param min Minimum value.
-     * @param max Maximum value.
-     */
-    public Normalization(double min, double max){
-        this.min = min;
-        this.max = max;
+    public Standartization() {
+        this.find = true;
+    }
+
+    public Standartization(double mean, double standardDeviation){
+        this.mean = mean;
+        this.std = standardDeviation;
+        this.find = false;
     }
     
     /**
@@ -112,13 +97,24 @@ public class Normalization {
         range = new ArrayList<DoubleRange>();
         double[][] matrix = new double[data.length][data[0].length];
         
-        for (int i = 0; i < data[0].length; i++) {
-            double[] temp = Matrix.getColumn(data, i);
-            double _min = Catalano.Statistics.Tools.Min(temp);
-            double _max = Catalano.Statistics.Tools.Max(temp);
-            if(range != null) range.add(new DoubleRange(_min,_max));
-            for (int j = 0; j < temp.length; j++) {
-                matrix[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+        if(find == true){
+            for (int i = 0; i < data[0].length; i++) {
+                double[] temp = Matrix.getColumn(data, i);
+                double _mean = Catalano.Statistics.Tools.Mean(temp);
+                double _std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
+                if(range != null) range.add(new DoubleRange(_mean,_std));
+                for (int j = 0; j < temp.length; j++) {
+                    matrix[j][i] = (data[j][i] - _mean) / _std;
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < data[0].length; i++) {
+                double[] temp = Matrix.getColumn(data, i);
+                if(range != null) range.add(new DoubleRange(mean,std));
+                for (int j = 0; j < temp.length; j++) {
+                    matrix[j][i] = (data[j][i] - mean) / std;
+                }
             }
         }
         
@@ -133,16 +129,12 @@ public class Normalization {
     public double[] ApplyRangeNormalization(double[] feature){
         
         if(range == null)
-            throw new IllegalArgumentException("The matrix must be normalized.");
+            throw new IllegalArgumentException("The matrix must be standartized.");
         
         double[] norm = new double[feature.length];
-        for (int i = 0; i < norm.length; i++) {
-            double v = Catalano.Math.Tools.Scale(range.get(i), new DoubleRange(min, max), feature[i]);
-            
-            v = v > 1 ? 1 : v;
-            v = v < 0 ? 0 : v;
-            norm[i] = v;
-        }
+        for (int i = 0; i < norm.length; i++)
+            norm[i] = (feature[i] - range.get(i).getMin()) / range.get(i).getMax();
+        
         
         return norm;
     }
@@ -155,17 +147,11 @@ public class Normalization {
     public double[][] ApplyRangeNormalization(double[][] matrix){
         
         if(range == null)
-            throw new IllegalArgumentException("The matrix must be normalized.");
+            throw new IllegalArgumentException("The matrix must be stardartized.");
         
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                double v = Catalano.Math.Tools.Scale(range.get(i), new DoubleRange(min, max), matrix[i][j]);
-
-                v = v > 1 ? 1 : v;
-                v = v < 0 ? 0 : v;
-                matrix[i][j] =  v;
-            }
-        }
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = 0; j < matrix[0].length; j++)
+                matrix[i][j] =  (matrix[i][j] - range.get(j).getMin()) / range.get(j).getMax();
         
         return matrix;
     }

@@ -184,6 +184,7 @@ public class KNearestNeighbors<T> implements IClassifier {
         this.output = output;
         this.k = k;
         this.kernel = kernel;
+        this.useKernel = true;
     }
     
     /**

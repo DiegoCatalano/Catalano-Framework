@@ -66,8 +66,12 @@ Catalano Framework 1.5 road map
     - New: Serialization.
     - New: CSV Parser.
 
+* Catalano.MachineLearning
+    - New: Standartization.
+    - New: Normalization.
+
 * Catalano.MachineLearning.Regression
-    - New: K Nearest Neighbours.
+    - New: K Nearest Neighbours (Classification and Regression).
 
 * Catalano.Math
     - New: Distances namespace (All distances is refactored).
