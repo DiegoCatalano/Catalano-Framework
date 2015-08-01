@@ -77,6 +77,7 @@ Catalano Framework 1.5 road map
     - New: Distances namespace (All distances is refactored).
     - New: Rational Number.
 
+    - Added: Pseudo Inverse in the Matrix.
     - Added: SwapColumn, SwapRow in the Matrix.
     - Added: getColumns, getRows in the Matrix.
     - Added: Remove Rows and Columns in the Matrix.
@@ -94,6 +95,8 @@ Catalano Framework 1.5 road map
 * Catalano.Math.Decompositions
     - New: Eigenvalue Decomposition.
     - New: Cholesky Decomposition.
+
+    - Added: inverse in the Singular Value Decomposition.
 
 * Catalano.Statistics
     - New: Thin Plate Splines Kernel.

@@ -25,6 +25,7 @@
 
 package Catalano.Math.Decompositions;
 
+import Catalano.Math.Constants;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 
@@ -618,5 +619,44 @@ public class SingularValueDecomposition implements java.io.Serializable {
          }
       }
       return r;
+   }
+   
+   public double threshold(){
+       return Constants.DoubleEpsilon * Math.max(m, n) * s[0];
+   }
+   
+   public double[][] inverse(){
+       
+       double e = threshold();
+       
+        // X = V*S^-1
+        int vrows = V.length;
+        int vcols = V[0].length;
+        double[][] X = new double[vrows][s.length];
+        for (int i = 0; i < vrows; i++)
+        {
+            for (int j = 0; j < vcols; j++)
+            {
+                if (Math.abs(s[j]) > e)
+                    X[i][j] = V[i][j] / s[j];
+            }
+        }
+
+        // Y = X*U'
+        int urows = U.length;
+        int ucols = U[0].length;
+        double[][] Y = new double[vrows][urows];
+        for (int i = 0; i < vrows; i++)
+        {
+            for (int j = 0; j < urows; j++)
+            {
+                double sum = 0;
+                for (int k = 0; k < ucols; k++)
+                    sum += X[i][k] * U[j][k];
+                Y[i][j] = sum;
+            }
+        }
+
+        return Y;
    }
 }

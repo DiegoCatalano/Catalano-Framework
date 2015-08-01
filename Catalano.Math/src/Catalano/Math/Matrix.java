@@ -1722,6 +1722,15 @@ public final class Matrix {
     }
     
     /**
+     * Calculate the pseudo-inverse of the matrix.
+     * @param A Matrix.
+     * @return Pseudo-inverse of the matrix.
+     */
+    public static double[][] PseudoInverse(double[][] A){
+        return new SingularValueDecomposition(A).inverse();
+    }
+    
+    /**
      * Gets the transpose of the matrix.
      * @param A Matrix.
      * @return Transposed matrix.
