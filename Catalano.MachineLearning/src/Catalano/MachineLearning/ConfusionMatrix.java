@@ -36,14 +36,13 @@ public class ConfusionMatrix {
     
     /**
      * Create confusion matrix.
-     * @param <T> Labels type.
      * @param classifier Classifier.
      * @param validation Data validation (input).
      * @param labels Labels (output).
      * @return Confusion matrix.
      */
-    public static <T> int[][] Create(IClassifier classifier, double[][] validation, T[] labels){
-        HashMap<T, Integer> unique = new HashMap<T, Integer>();
+    public static int[][] Create(IClassifier classifier, double[][] validation, int[] labels){
+        HashMap<Integer, Integer> unique = new HashMap<Integer, Integer>();
         int idx = 0;
         for (int i = 0; i < labels.length; i++) {
             if(!unique.containsKey(labels[i]))
@@ -53,7 +52,7 @@ public class ConfusionMatrix {
         int[][] confusion = new int[unique.size()][unique.size()];
         
         for (int i = 0; i < validation.length; i++) {
-            T obj = classifier.Predict(validation[i]);
+            int obj = classifier.Predict(validation[i]);
             confusion[unique.get(labels[i])][unique.get(obj)]++;
         }
         

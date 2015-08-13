@@ -1,4 +1,4 @@
-Ridge Regression - working
+KD-Tree - working
 Shannon Edge Detector
 Phase Congruency
 Image Pyramids (upscale)

@@ -39,6 +39,23 @@ public final class Distance {
     private Distance () {};
     
     /**
+     * Bhattacharyya distance between two normalized histograms.
+     * @param histogram1 Normalized histogram.
+     * @param histogram2 Normalized histogram.
+     * @return The Bhattacharyya distance between the two histograms.
+     */
+    public static double Bhattacharyya(double[] histogram1, double[] histogram2){
+        int bins = histogram1.length; // histogram bins
+        double b = 0; // Bhattacharyya's coefficient
+
+        for (int i = 0; i < bins; i++)
+            b += Math.sqrt(histogram1[i]) * Math.sqrt(histogram2[i]);
+
+        // Bhattacharyya distance between the two distributions
+        return Math.sqrt(1.0 - b);
+    }
+    
+    /**
      * Gets the Bray Curtis distance between two points.
      * @param p A point in space.
      * @param q A point in space.
@@ -203,6 +220,23 @@ public final class Distance {
      */
     public static double Chessboard(IntPoint p, IntPoint q){
         return Chessboard(p.x,p.y,q.x,q.y);
+    }
+    
+    /**
+     * Gets the Chi Square distance between two normalized histograms.
+     * @param histogram1 Histogram.
+     * @param histogram2 Histogram.
+     * @return The Chi Square distance between x and y.
+     */
+    public static double ChiSquare(double[] histogram1, double[] histogram2){
+        double r = 0;
+        for (int i = 0; i < histogram1.length; i++) {
+            double t = histogram1[i] + histogram2[i];
+            if(t != 0)
+                r += Math.pow(histogram1[i] - histogram2[i], 2) / t;
+        }
+        
+        return 0.5 * r;
     }
     
     /**

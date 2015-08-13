@@ -67,6 +67,8 @@ Catalano Framework 1.5 road map
     - New: CSV Parser.
 
 * Catalano.MachineLearning
+    - New: Codification.
+    - New: Confusion Matrix.
     - New: Standartization.
     - New: Normalization.
 
@@ -89,6 +91,7 @@ Catalano Framework 1.5 road map
     - Fixed: FFT2 in the FourierTransform.
 
 * Catalano.Math.Distances
+    - New: Bhattacharyya distance.
     - New: ChiSquare Distance.
     - New: Intersection Distance.
 

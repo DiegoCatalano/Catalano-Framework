@@ -1,9 +1,11 @@
-// Catalano Machine Learning Library
+// Catalano Math Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
+// Copyright © César Souza, 2009-2012
+// cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,12 +22,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning;
+package Catalano.Math.Distances;
 
 /**
- * The interface describe the predict of the classifier.
+ * Bhattacharyya distance measures the similarity of two discrete or continuous probability distributions.
  * @author Diego Catalano
  */
-public interface IClassifier {
-    public int Predict(double[] feature);
+public class BhattacharyyaDistance implements IDistance{
+
+    /**
+     * Initializes a new instance of the BhattacharyyaDistance class.
+     */
+    public BhattacharyyaDistance() {}
+
+    @Override
+    public double Compute(double[] u, double[] v) {
+        return Distance.Bhattacharyya(u, v);
+    }
 }

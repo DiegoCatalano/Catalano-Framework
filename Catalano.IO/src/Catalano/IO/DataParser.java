@@ -22,6 +22,9 @@
 
 package Catalano.IO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Data parse.
  * @author Diego Catalano
@@ -59,6 +62,30 @@ public final class DataParser {
     }
     
     /**
+     * Convert string matrix to double array list.
+     * @param A Matrix.
+     * @param startRow Initial row index.
+     * @param endRow End row index.
+     * @param startCol Initial column index.
+     * @param endCol End column index.
+     * @return Matrix.
+     */
+    public static List<double[]> toDoubleList(String[][] A, int startRow, int endRow, int startCol, int endCol){
+        List<double[]> lst = new ArrayList<double[]>(A.length);
+        
+        for (int i = 0; i < A.length; i++) {
+            double[] data = new double[A[0].length];
+            for (int j = 0; j < A[0].length; j++) {
+                data[j] = Double.parseDouble(A[i + startRow][j + startCol]);
+            }
+            lst.add(data);
+        }
+        
+        return lst;
+        
+    }
+    
+    /**
      * Convert string matrix to int matrix.
      * @param A Matrix.
      * @param startRow Initial row index.
@@ -84,6 +111,31 @@ public final class DataParser {
     }
     
     /**
+     * Convert string matrix to int array matrix.
+     * @param A Matrix.
+     * @param startRow Initial row index.
+     * @param endRow End row index.
+     * @param startCol Initial column index.
+     * @param endCol End column index.
+     * @return Matrix.
+     */
+    public static List<int[]> toIntList(String[][] A, int startRow, int endRow, int startCol, int endCol){
+        
+        List<int[]> lst = new ArrayList<int[]>(A.length);
+        
+        for (int i = 0; i < A.length; i++) {
+            int[] data = new int[A[0].length];
+            for (int j = 0; j < A[0].length; j++) {
+                data[j] = Integer.parseInt(A[i + startRow][j + startCol]);
+            }
+            lst.add(data);
+        }
+        
+        return lst;
+        
+    }
+    
+    /**
      * Convert string matrix to float matrix.
      * @param A Matrix.
      * @param startRow Initial row index.
@@ -105,6 +157,31 @@ public final class DataParser {
         }
         
         return data;
+        
+    }
+    
+    /**
+     * Convert string matrix to float matrix.
+     * @param A Matrix.
+     * @param startRow Initial row index.
+     * @param endRow End row index.
+     * @param startCol Initial column index.
+     * @param endCol End column index.
+     * @return Matrix.
+     */
+    public static List<float[]> toFloatList(String[][] A, int startRow, int endRow, int startCol, int endCol){
+        
+        List<float[]> lst = new ArrayList<float[]>(A.length);
+        
+        for (int i = 0; i < A.length; i++) {
+            float[] data = new float[A[0].length];
+            for (int j = 0; j < A[0].length; j++) {
+                data[j] = Float.parseFloat(A[i + startRow][j + startCol]);
+            }
+            lst.add(data);
+        }
+        
+        return lst;
         
     }
     

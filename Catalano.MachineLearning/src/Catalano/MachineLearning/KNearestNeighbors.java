@@ -41,7 +41,7 @@ public class KNearestNeighbors<T> implements IClassifier {
     
     private int k;
     private double[][] input;
-    private T output[];
+    private int[] output;
     private IDistance distance = new EuclideanDistance();
     private IKernel kernel;
     private boolean useKernel = false;
@@ -82,7 +82,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Get the output.
      * @return Output.
      */
-    public T[] getOutput() {
+    public int[] getOutput() {
         return output;
     }
 
@@ -90,7 +90,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Set the output.
      * @param output Output.
      */
-    public void setOutput(T[] output) {
+    public void setOutput(int[] output) {
         this.output = output;
     }
 
@@ -137,10 +137,10 @@ public class KNearestNeighbors<T> implements IClassifier {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of fearures.
-     * @param output Array of output.
+     * @param input List of features.
+     * @param output Labels
      */
-    public KNearestNeighbors(double[][] input, T[] output){
+    public KNearestNeighbors(double[][] input, int[] output){
         this.k = 3;
         this.input = input;
         this.output = output;
@@ -148,11 +148,11 @@ public class KNearestNeighbors<T> implements IClassifier {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of fearures.
-     * @param output Array of output.
+     * @param input List of features.
+     * @param output Labels
      * @param k Number of neighbours.
      */
-    public KNearestNeighbors(double[][] input, T[] output, int k){
+    public KNearestNeighbors(double[][] input, int[] output, int k){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -160,12 +160,12 @@ public class KNearestNeighbors<T> implements IClassifier {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of fearures.
-     * @param output Array of output.
+     * @param input List of features.
+     * @param output Labels
      * @param k Number of neighbours.
      * @param distance Distance.
      */
-    public KNearestNeighbors(double[][] input, T[] output, int k, IDistance distance){
+    public KNearestNeighbors(double[][] input, int[] output, int k, IDistance distance){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -174,12 +174,12 @@ public class KNearestNeighbors<T> implements IClassifier {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of fearures.
-     * @param output Array of output.
+     * @param input List of features.
+     * @param output Labels
      * @param k Number of neighbours.
      * @param kernel Kernel.
      */
-    public KNearestNeighbors(double[][] input, T[] output, int k, IKernel kernel){
+    public KNearestNeighbors(double[][] input, int[] output, int k, IKernel kernel){
         this.input = input;
         this.output = output;
         this.k = k;
@@ -193,7 +193,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * @return Object.
      */
     @Override
-    public T Predict(double[] feature){
+    public int Predict(double[] feature){
         
         int sizeF = input.length;
         double[] dist = new double[sizeF];
@@ -220,7 +220,7 @@ public class KNearestNeighbors<T> implements IClassifier {
         Collections.sort(lst);
         
         //Compute vote majority
-        HashMap<T, Integer> map = new HashMap<T, Integer>();
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         int max = 0;
         for (int i = 0; i < k; i++) {
             int index = lst.get(i).index;
@@ -234,14 +234,13 @@ public class KNearestNeighbors<T> implements IClassifier {
             }
         }
         
-        for(Map.Entry<T,Integer> entry : map.entrySet()) {
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()) {
           if(entry.getValue() == max)
               return entry.getKey();
 
         }
         
-        return null;
-        
+        return -1;
     }
     
     private class Score implements Comparable<Score> {
