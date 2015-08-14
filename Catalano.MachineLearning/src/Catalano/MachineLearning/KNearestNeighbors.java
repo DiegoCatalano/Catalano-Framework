@@ -257,5 +257,4 @@ public class KNearestNeighbors<T> implements IClassifier {
             return score < o.score ? -1 : score > o.score ? 1 : 0;
         }
     }
-    
 }

@@ -110,7 +110,7 @@ public class Codification {
      * @param labels Labels.
      * @return The array of symbol.
      */
-    public int[] toSymbols(String columnName, String[] labels){
+    public int[] Translate(String columnName, String[] labels){
         int[] symbols = new int[labels.length];
         for (int i = 0; i < columnNames.length; i++) {
             if(columnNames[i].equals(columnName)){
@@ -131,7 +131,7 @@ public class Codification {
      * @param name Name.
      * @return Symbol.
      */
-    public int getSymbol(String columnName, String name){
+    public int Translate(String columnName, String name){
         
         for (int i = 0; i < columnNames.length; i++) {
             if(columnNames[i].equals(columnName))

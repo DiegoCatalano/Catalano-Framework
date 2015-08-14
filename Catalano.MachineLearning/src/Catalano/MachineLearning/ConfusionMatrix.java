@@ -64,6 +64,40 @@ public class ConfusionMatrix {
     
     private double[] tp;
     private double[] fp;
+    private double[] precision;
+    private double[] fMeasure;
+
+    /**
+     * Get True Positive rate.
+     * @return TP rate.
+     */
+    public double[] getTruePositiveRate() {
+        return tp;
+    }
+    
+    /**
+     * Get False Positive rate.
+     * @return FP rate.
+     */
+    public double[] getFalsePositiveRate(){
+        return fp;
+    }
+    
+    /**
+     * Get Precision.
+     * @return Precision.
+     */
+    public double[] getPrecision(){
+        return precision;
+    }
+    
+    /**
+     * Get F-Measure.
+     * @return F-Measure.
+     */
+    public double[] getFMeasure(){
+        return fMeasure;
+    }
 
     /**
      * Initializes a new instance of the ConfusionMatrix class.
@@ -76,8 +110,59 @@ public class ConfusionMatrix {
     
     private void Compute(int[][] confusionMatrix){
         
+        int[] classes = new int[confusionMatrix[0].length];
         
+        tp = new double[confusionMatrix[0].length];
+        fp = new double[confusionMatrix[0].length];
+        precision = new double[confusionMatrix[0].length];
+        fMeasure = new double[confusionMatrix[0].length];
         
+        //Compute classes
+        for (int i = 0; i < confusionMatrix.length; i++) {
+            int sum = 0;
+            for (int j = 0; j < confusionMatrix[0].length; j++) {
+                sum += confusionMatrix[i][j];
+            }
+            classes[i] = sum;
+        }
+        
+        //Compute true positive
+        for (int i = 0; i < tp.length; i++) {
+            tp[i] = confusionMatrix[i][i] / (double)classes[i];
+        }
+        
+        //Compute false positive / precision
+        for (int j = 0; j < confusionMatrix[0].length; j++) {
+            int sum = 0;
+            int sumC = 0;
+            int sumP = 0;
+            for (int i = 0; i < confusionMatrix.length; i++) {
+                if(i != j){
+                    sum += confusionMatrix[i][j];
+                    sumC += classes[i];
+                }
+                sumP += confusionMatrix[i][j];
+            }
+            fp[j] = sum / (double)sumC;
+            sumP = sumP == 0 ? 1 : sumP;
+            precision[j] = confusionMatrix[j][j] / (double)sumP;
+        }
+        
+        //Compute F-Measure
+        for (int j = 0; j < confusionMatrix[0].length; j++) {
+            int sumFP = 0;
+            int sumFN = 0;
+            for (int i = 0; i < confusionMatrix.length; i++) {
+                if(i != j){
+                    sumFP += confusionMatrix[i][j];
+                }
+            }
+            for (int k = 0; k < confusionMatrix[0].length; k++) {
+                if(k != j){
+                    sumFN += confusionMatrix[j][k];
+                }
+            }
+            fMeasure[j] = 2 * confusionMatrix[j][j] / (double)(2 * confusionMatrix[j][j] + sumFP + sumFN);
+        }
     }
-    
 }
