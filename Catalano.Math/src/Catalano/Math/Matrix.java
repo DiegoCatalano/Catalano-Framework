@@ -834,6 +834,63 @@ public final class Matrix {
     }
     
     /**
+     * Return an array from a specified row indexes.
+     * @param A Array.
+     * @param indexes Indexes.
+     * @return Array.
+     */
+    public static double[] getRows(double[] A, int[] indexes){
+        double[] v = new double[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    /**
+     * Return an array from a specified row indexes.
+     * @param A Array.
+     * @param indexes Indexes.
+     * @return Array.
+     */
+    public static int[] getRows(int[] A, int[] indexes){
+        int[] v = new int[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    /**
+     * Return an array from a specified row indexes.
+     * @param A Array.
+     * @param indexes Indexes.
+     * @return Array.
+     */
+    public static float[] getRows(float[] A, int[] indexes){
+        float[] v = new float[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    /**
+     * Return an array from a specified row indexes.
+     * @param <T> User definied type.
+     * @param A Array.
+     * @param indexes Indexes.
+     * @return Array.
+     */
+    public static<T> T[] getRows(T[] A, int[] indexes){
+        T[] v = (T[])Array.newInstance(A[0].getClass(), indexes.length);
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    /**
      * Fill a vector with specified number.
      * @param A Vector.
      * @param number Number.

@@ -66,6 +66,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Get the input features.
      * @return List of features.
      */
+    @Override
     public double[][] getInput() {
         return input;
     }
@@ -74,6 +75,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Set the input features.
      * @param input Input features.
      */
+    @Override
     public void setInput(double[][] input) {
         this.input = input;
     }
@@ -82,6 +84,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Get the output.
      * @return Output.
      */
+    @Override
     public int[] getOutput() {
         return output;
     }
@@ -90,6 +93,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Set the output.
      * @param output Output.
      */
+    @Override
     public void setOutput(int[] output) {
         this.output = output;
     }

@@ -28,4 +28,9 @@ package Catalano.MachineLearning;
  */
 public interface IClassifier {
     public int Predict(double[] feature);
+    
+    public double[][] getInput();
+    public void setInput(double[][] data);
+    public int[] getOutput();
+    public void setOutput(int[] labels);
 }

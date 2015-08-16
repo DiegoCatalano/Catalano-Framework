@@ -117,6 +117,7 @@ public class ConfusionMatrix {
         precision = new double[confusionMatrix[0].length];
         fMeasure = new double[confusionMatrix[0].length];
         
+        
         //Compute classes
         for (int i = 0; i < confusionMatrix.length; i++) {
             int sum = 0;
@@ -126,7 +127,7 @@ public class ConfusionMatrix {
             classes[i] = sum;
         }
         
-        //Compute true positive
+        //Compute true positive / percentage correctly classified
         for (int i = 0; i < tp.length; i++) {
             tp[i] = confusionMatrix[i][i] / (double)classes[i];
         }

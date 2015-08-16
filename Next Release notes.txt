@@ -67,6 +67,7 @@ Catalano Framework 1.5 road map
     - New: CSV Parser.
 
 * Catalano.MachineLearning
+    - New: Holdout Validation.
     - New: Codification.
     - New: Confusion Matrix.
     - New: Standartization.
