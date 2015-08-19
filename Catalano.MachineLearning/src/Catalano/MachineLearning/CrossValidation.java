@@ -28,41 +28,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Holdout Validation.
- * Split percentage for trainning and the rest for the validation.
+ * Cross Validation.
+ * Split folds for trainning and the rest for the validation.
  * @author Diego Catalano
  */
-public class HoldoutValidation {
+public class CrossValidation {
     
-    private float p = .66f;
+    private int n = 10;
 
     /**
-     * Get Train percentage.
-     * @return Train percentage.
+     * Get number of folds.
+     * @return Number of folds.
      */
-    public float getTrainPercentage() {
-        return p;
+    public int getNumberOfFolds() {
+        return n;
     }
 
     /**
-     * Set Train percentage.
-     * @param percentage Train percentage.
+     * Set number of folds.
+     * @param n Number of folds.
      */
-    public void setTrainPercetange(float percentage) {
-        this.p = Math.max(0.1f, Math.min(1f, percentage));
+    public void setNumberOfFolds(int n) {
+        this.n = n;
     }
 
     /**
-     * Initializes a new instance of the HoldoutValidation class.
+     * Initializes a new instance of the CrossValidation class.
      */
-    public HoldoutValidation() {}
+    public CrossValidation() {}
     
     /**
-     * Initializes a new instance of the HoldoutValidation class.
-     * @param percentage Train percentage.
+     * Initializes a new instance of the CrossValidation class.
+     * @param numberOfFolds Number of folds.
      */
-    public HoldoutValidation(float percentage){
-        setTrainPercetange(percentage);
+    public CrossValidation(int numberOfFolds){
+        setNumberOfFolds(numberOfFolds);
     }
     
     public double Compute(IClassifier classifier, double[][] data, int[] labels){

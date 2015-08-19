@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.MachineLearning.Classification.IClassifier;
 import java.util.HashMap;
 
 /**
