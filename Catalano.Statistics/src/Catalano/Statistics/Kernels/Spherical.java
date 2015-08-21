@@ -25,30 +25,59 @@
 package Catalano.Statistics.Kernels;
 
 /**
- * Chi-Square Kernel.
- * The Chi-Square kernel comes from the Chi-Square distribution.
+ * Spherical Kernel.
+ * The spherical kernel comes from a statistics perspective. It is an example of an isotropic stationary kernel and is positive definite in R^3.
  * @author Diego Catalano
  */
-public class ChiSquare implements IKernel{
+public class Spherical implements IKernel{
+    
+    private double sigma;
 
     /**
-     * Constructs a new Chi-Square kernel.
+     * Get the kernel's sigma value.
+     * @return The kernel's sigma value.
      */
-    public ChiSquare() {}
+    public double getSigma() {
+        return sigma;
+    }
+
+    /**
+     * Set the kernel's sigma value.
+     * @param value The kernel's sigma value.
+     */
+    public void setDegree(double value) {
+        this.sigma = value;
+    }
+
+    /**
+     * Constructs a new Spherical kernel.
+     */
+    public Spherical() {}
+
+    /**
+     * Constructs a new Spherical kernel.
+     * @param sigma Sigma value.
+     */
+    public Spherical(double sigma) {
+        this.sigma = sigma;
+    }
 
     @Override
     public double Function(double[] x, double[] y) {
-        double sum = 0.0;
-        for (int i = 0; i < x.length; i++)
-        {
-            double num = x[i] - y[i];
-            double den = 0.5 * (x[i] + y[i]);
-
-            if (den != 0)
-                sum += (num * num) / den;
+        double norm = 0.0;
+        for (int i = 0; i < x.length; i++){
+            double d = x[i] - y[i];
+            norm += d * d;
         }
 
-        return 1.0 - sum;
+        norm = Math.sqrt(norm);
+
+        if (norm >= sigma){
+            return 0;
+        }
+        else{
+            norm = norm / sigma;
+            return 1.0 - 1.5 * norm + 0.5 * norm * norm * norm;
+        }
     }
-    
 }

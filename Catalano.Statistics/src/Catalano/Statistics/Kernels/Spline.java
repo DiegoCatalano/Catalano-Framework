@@ -1,9 +1,11 @@
-// Catalano Machine Learning Library
+// Catalano Statistics Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
+// Copyright © César Souza, 2009-2013
+// cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,21 +22,31 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
-
-import Catalano.MachineLearning.Classification.IClassifier;
+package Catalano.Statistics.Kernels;
 
 /**
- * Interface common for classifier performance.
+ * Spline Kernel.
+ * The Spline kernel is given as a piece-wise cubic polynomial, as derived in the works by Gunn (1998).
  * @author Diego Catalano
  */
-public interface IValidation {
+public class Spline implements IKernel{
+
     /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param data Data.
-     * @param labels Labels.
-     * @return Correctly classified rate.
+     * Constructs a new Spline kernel.
      */
-    public double Run(IClassifier classifier, double[][] data, int[] labels);
+    public Spline() {}
+
+    @Override
+    public double Function(double[] x, double[] y) {
+        double k = 1;
+        for (int i = 0; i < x.length; i++){
+            double min = Math.min(x[i], y[i]);
+            double xy = x[i] * y[i];
+
+            // prod{1}^d 1 + xy + xy*min - (x+y)/2 min² + min³/3} 
+            k *= 1.0 + xy + xy * min - ((x[i] + y[i]) / 2.0) * min * min + (min * min * min) / 3.0;
+        }
+
+        return k;
+    }
 }

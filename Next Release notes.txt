@@ -103,6 +103,13 @@ Catalano Framework 1.5 road map
     - Added: inverse in the Singular Value Decomposition.
 
 * Catalano.Statistics
+    - New: Hellinger Kernel.
+    - New: TStudent Kernel.
+    - New: Symmetric Triangle Kernel.
+    - New: Squared Sinc Kernel.
+    - New: Spline Kernel.
+    - New: Spherical Kernel.
+    - New: Log Kernel.
     - New: Thin Plate Splines Kernel.
 
     - Added: Skewness and Kurtosis in Histogram Statistics.

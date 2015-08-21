@@ -378,7 +378,6 @@ public final class Distance {
             if(first.charAt(i) != second.charAt(i))
                 diff++;
         return diff;
-        
     }
     
     /**

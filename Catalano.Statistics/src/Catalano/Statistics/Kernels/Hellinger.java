@@ -1,4 +1,4 @@
-// Catalano Machine Learning Library
+// Catalano Statistics Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -20,21 +20,27 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
-
-import Catalano.MachineLearning.Classification.IClassifier;
+package Catalano.Statistics.Kernels;
 
 /**
- * Interface common for classifier performance.
+ * Hellinger kernel is an euclidean norm of linear kernel.
  * @author Diego Catalano
  */
-public interface IValidation {
+public class Hellinger implements IKernel{
+
     /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param data Data.
-     * @param labels Labels.
-     * @return Correctly classified rate.
+     * Constructs a new Hellinger Kernel.
      */
-    public double Run(IClassifier classifier, double[][] data, int[] labels);
+    public Hellinger() {}
+
+    @Override
+    public double Function(double[] x, double[] y) {
+        double r = 0;
+        for (int i = 0; i < x.length; i++)
+        {
+            r += Math.sqrt(x[i] * y[i]);
+        }
+
+        return r;
+    }
 }

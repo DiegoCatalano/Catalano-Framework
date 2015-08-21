@@ -25,30 +25,45 @@
 package Catalano.Statistics.Kernels;
 
 /**
- * Chi-Square Kernel.
- * The Chi-Square kernel comes from the Chi-Square distribution.
+ * Logarithm Kernel.
+ * The Log kernel seems to be particularly interesting for images, but is only conditionally positive definite.
  * @author Diego Catalano
  */
-public class ChiSquare implements IKernel{
+public class Log implements IKernel{
+    
+    private double degree;
 
     /**
-     * Constructs a new Chi-Square kernel.
+     * Get the kernel's degree.
+     * @return The kernel's degree.
      */
-    public ChiSquare() {}
+    public double getDegree() {
+        return degree;
+    }
+
+    /**
+     * Set the kernel's degree.
+     * @param degree The kernel's degree.
+     */
+    public void setDegree(double degree) {
+        this.degree = degree;
+    }
+
+    /**
+     * Constructs a new Log kernel.
+     */
+    public Log() {}
 
     @Override
     public double Function(double[] x, double[] y) {
-        double sum = 0.0;
-        for (int i = 0; i < x.length; i++)
-        {
-            double num = x[i] - y[i];
-            double den = 0.5 * (x[i] + y[i]);
+        double norm = 0.0, d;
 
-            if (den != 0)
-                sum += (num * num) / den;
+        for (int k = 0; k < x.length; k++)
+        {
+            d = x[k] - y[k];
+            norm += d * d;
         }
 
-        return 1.0 - sum;
+        return -Math.log(Math.pow(norm, degree / 2.0) + 1);
     }
-    
 }

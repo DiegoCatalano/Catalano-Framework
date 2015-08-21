@@ -25,30 +25,53 @@
 package Catalano.Statistics.Kernels;
 
 /**
- * Chi-Square Kernel.
- * The Chi-Square kernel comes from the Chi-Square distribution.
+ * Symmetric Triangle Kernel.
  * @author Diego Catalano
  */
-public class ChiSquare implements IKernel{
+public class SymmetricTriangle implements IKernel{
+    
+    private double gamma;
 
     /**
-     * Constructs a new Chi-Square kernel.
+     * Get the kernel's gamma value.
+     * @return The kernel's gamma value.
      */
-    public ChiSquare() {}
+    public double getGamma() {
+        return gamma;
+    }
+
+    /**
+     * Set the kernel's gamma value.
+     * @param value The kernel's gamma value.
+     */
+    public void setGamma(double value) {
+        this.gamma = value;
+    }
+
+    /**
+     * Constructs a new Symmetric Tirangle Kernel.
+     */
+    public SymmetricTriangle() {}
+
+    /**
+     * Constructs a new Symmetric Tirangle Kernel.
+     * @param gamma Gamma value.
+     */
+    public SymmetricTriangle(double gamma) {
+        this.gamma = gamma;
+    }
 
     @Override
     public double Function(double[] x, double[] y) {
-        double sum = 0.0;
+        double norm = 0.0, d;
         for (int i = 0; i < x.length; i++)
         {
-            double num = x[i] - y[i];
-            double den = 0.5 * (x[i] + y[i]);
-
-            if (den != 0)
-                sum += (num * num) / den;
+            d = x[i] - y[i];
+            norm += d * d;
         }
 
-        return 1.0 - sum;
+        double z = 1.0 - gamma * Math.sqrt(norm);
+
+        return (z > 0) ? z : 0;
     }
-    
 }

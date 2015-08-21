@@ -27,83 +27,83 @@ public class Gaussian implements IKernel{
     private double gamma;
 
     /**
-        * Constructs a new Gaussian Kernel.
-        */
+     * Constructs a new Gaussian Kernel.
+     */
     public Gaussian(){
         sigma = 1;
     }
 
     /**
-        * Constructs a new Gaussian Kernel.
-        * @param sigma The standard deviation for the Gaussian distribution.
-        */
+     * Constructs a new Gaussian Kernel.
+     * @param sigma The standard deviation for the Gaussian distribution.
+     */
     public Gaussian(double sigma){
         this.sigma = sigma;
     }
 
     /**
-        * Gets the sigma value for the kernel.
-        * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
-        * @return Sigma value.
-        */
+     * Gets the sigma value for the kernel.
+     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
+     * @return Sigma value.
+     */
     public double getSigma(){
         return sigma;
     }
 
     /**
-        * Sets the sigma value for the kernel.
-        * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
-        * @param value Sigma value.
-        */
+     * Sets the sigma value for the kernel.
+     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
+     * @param value Sigma value.
+     */
     public void setSigma(double value){
             sigma = value;
             gamma = 1.0 / (2.0 * sigma * sigma);
     }
 
     /**
-        * Gets the sigma squared value for the kernel.
-        * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
-        * @return Sigma squared.
-        */
+     * Gets the sigma squared value for the kernel.
+     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
+     * @return Sigma squared.
+     */
     public double getSigmaSquared(){
         return sigma * sigma;
     }
 
     /**
-        * Sets the sigma squared value for the kernel.
-        * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
-        * @param value Sigma squared.
-        */
+     * Sets the sigma squared value for the kernel.
+     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
+     * @param value Sigma squared.
+     */
     public void setSigmaSquared(double value){
             sigma = Math.sqrt(value);
             gamma = 1.0 / (2.0 * value);
     }
 
     /**
-        * Gets the gamma value for the kernel.
-        * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
-        * @return Gamma value.
-        */
+     * Gets the gamma value for the kernel.
+     * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
+     * @return Gamma value.
+     */
     public double getGamma(){
         return gamma;
     }
 
     /**
-        * Sets the gamma value for the kernel.
-        * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
-        * @return Gamma value.
-        */
+     * Sets the gamma value for the kernel.
+     * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
+     * @param value Gamma value.
+     */
     public void setGamma(double value){
             gamma = value;
             sigma = Math.sqrt(1.0 / (gamma * 2.0));
     }
 
     /**
-        * Gaussian Kernel function.
-        * @param x Vector <c>x</c> in input space.
-        * @param y Vector <c>y</c> in input space.
-        * @return Dot product in feature (kernel) space.
-        */
+     * Gaussian Kernel function.
+     * @param x Vector <c>x</c> in input space.
+     * @param y Vector <c>y</c> in input space.
+     * @return Dot product in feature (kernel) space.
+     */
     public double Function(double[] x, double[] y){
         // Optimization in case x and y are
         // exactly the same object reference.

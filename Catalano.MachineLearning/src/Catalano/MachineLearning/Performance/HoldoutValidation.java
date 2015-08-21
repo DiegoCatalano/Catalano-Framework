@@ -66,7 +66,7 @@ public class HoldoutValidation implements IValidation{
     }
     
     @Override
-    public double Compute(IClassifier classifier, double[][] data, int[] labels){
+    public double Run(IClassifier classifier, double[][] data, int[] labels){
         
         //Count labels and amount.
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();

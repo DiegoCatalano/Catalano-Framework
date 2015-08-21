@@ -25,30 +25,52 @@
 package Catalano.Statistics.Kernels;
 
 /**
- * Chi-Square Kernel.
- * The Chi-Square kernel comes from the Chi-Square distribution.
+ * Generalized T-Student Kernel.
+ * The Generalized T-Student Kernel is a Mercer Kernel and thus forms a positive semi-definite Kernel matrix (Boughorbel, 2004).
  * @author Diego Catalano
  */
-public class ChiSquare implements IKernel{
+public class TStudent implements IKernel{
+    
+    private int degree;
 
     /**
-     * Constructs a new Chi-Square kernel.
+     * Gets the degree of this kernel.
+     * @return Degree.
      */
-    public ChiSquare() {}
+    public int getDegree() {
+        return degree;
+    }
+
+    /**
+     * Set the degree of this kernel.
+     * @param degree Degree.
+     */
+    public void setDegree(int degree) {
+        this.degree = degree;
+    }
+
+    /**
+     * Constructs a new TStudent kernel.
+     */
+    public TStudent() {}
+
+    /**
+     * Constructs a new TStudent kernel.
+     * @param degree Degree.
+     */
+    public TStudent(int degree) {
+        this.degree = degree;
+    }
 
     @Override
     public double Function(double[] x, double[] y) {
-        double sum = 0.0;
-        for (int i = 0; i < x.length; i++)
-        {
-            double num = x[i] - y[i];
-            double den = 0.5 * (x[i] + y[i]);
-
-            if (den != 0)
-                sum += (num * num) / den;
+        double norm = 0.0;
+        for (int i = 0; i < x.length; i++){
+            double d = x[i] - y[i];
+            norm += d * d;
         }
+        norm = Math.sqrt(norm);
 
-        return 1.0 - sum;
+        return 1.0 / (1.0 + Math.pow(norm, degree));
     }
-    
 }
