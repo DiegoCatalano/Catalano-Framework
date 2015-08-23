@@ -2,6 +2,7 @@ Catalano Framework 1.5 road map
 -----------------------------------------
 
 * Catalano.Core
+    - Added: Argsort in the ArraysUtil.
     - Added: Serialization in DoubleRange,FloatRange and IntRange.
 
 * Catalano.Image
@@ -67,6 +68,7 @@ Catalano Framework 1.5 road map
     - New: CSV Parser.
 
 * Catalano.MachineLearning
+    - New: Supplied Validation.
     - New: Holdout Validation.
     - New: Codification.
     - New: Confusion Matrix.

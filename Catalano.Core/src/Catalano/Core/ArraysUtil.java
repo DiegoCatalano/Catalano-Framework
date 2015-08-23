@@ -4,22 +4,39 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
 //
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
+// Contains some methods for arrays, distributed
+// under the BSD license. The original license terms are given below:
 //
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//   Copyright © Albert Strasheim, 2008
+//
+//   Redistribution and use in source and binary forms, with or without
+//   modification, are permitted provided that the following conditions are
+//   met:
+//
+//       * Redistributions of source code must retain the above copyright
+//         notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright
+//         notice, this list of conditions and the following disclaimer in
+//         the documentation and/or other materials provided with the distribution
+//  
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+//   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+//   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+//   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+//   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+//   POSSIBILITY OF SUCH DAMAGE.
 //
 
 package Catalano.Core;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Array Utilities.
@@ -31,6 +48,80 @@ public class ArraysUtil {
      * Don`t let anyone to instantiate this class.
      */
     private ArraysUtil() {}
+    
+    /**
+     * Returns the indices that would sort an array.
+     * @param array Array.
+     * @param ascending Ascending order.
+     * @return Array of indices.
+     */
+    public static int[] Argsort(final double[] array, final boolean ascending) {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < indexes.length; i++) {
+            indexes[i] = i;
+        }
+        Arrays.sort(indexes, new Comparator<Integer>() {
+            @Override
+            public int compare(final Integer i1, final Integer i2) {
+                return (ascending ? 1 : -1) * Double.compare(array[i1], array[i2]);
+            }
+        });
+        return asArray(indexes);
+    }
+    
+    /**
+     * Returns the indices that would sort an array.
+     * @param array Array.
+     * @param ascending Ascending order.
+     * @return Array of indices.
+     */
+    public static int[] Argsort(final int[] array, final boolean ascending) {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < indexes.length; i++) {
+            indexes[i] = i;
+        }
+        Arrays.sort(indexes, new Comparator<Integer>() {
+            @Override
+            public int compare(final Integer i1, final Integer i2) {
+                return (ascending ? 1 : -1) * Integer.compare(array[i1], array[i2]);
+            }
+        });
+        return asArray(indexes);
+    }
+    
+    /**
+     * Returns the indices that would sort an array.
+     * @param array Array.
+     * @param ascending Ascending order.
+     * @return Array of indices.
+     */
+    public static int[] Argsort(final float[] array, final boolean ascending) {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < indexes.length; i++) {
+            indexes[i] = i;
+        }
+        Arrays.sort(indexes, new Comparator<Integer>() {
+            @Override
+            public int compare(final Integer i1, final Integer i2) {
+                return (ascending ? 1 : -1) * Float.compare(array[i1], array[i2]);
+            }
+        });
+        return asArray(indexes);
+    }
+    
+    /**
+     * Convert any number class to array of integer.
+     * @param <T> Type.
+     * @param array Array.
+     * @return Integer array.
+     */
+    private static <T extends Number> int[] asArray(final T... array) {
+        int[] b = new int[array.length];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = array[i].intValue();
+        }
+        return b;
+    }
     
     /**
      * 1-D Integer array to float array.
