@@ -106,7 +106,7 @@ public class DecisionTree implements IClassifier {
     private double[][] input;
     private int[] output;
     private boolean buildModel = false;
-    private DecisionVariable[] attributes;
+    private boolean[] attributes;
     
     /**
      * Variable importance. Every time a split of a node is made on variable
@@ -198,7 +198,7 @@ public class DecisionTree implements IClassifier {
      */
     public static class Trainer {
         
-        private DecisionVariable[] attributes;
+        private boolean[] attributes;
         
         /**
          * The splitting rule.
@@ -228,7 +228,7 @@ public class DecisionTree implements IClassifier {
          * @param attributes the attributes of independent variable.
          * @param J the maximum number of leaf nodes in the tree.
          */
-        public Trainer(DecisionVariable[] attributes, int J) {
+        public Trainer(boolean[] attributes, int J) {
             this.attributes = attributes;
             
             if (J < 2) {
@@ -342,20 +342,20 @@ public class DecisionTree implements IClassifier {
             if (trueChild == null && falseChild == null) {
                 return output;
             } else {
-                if (attributes[splitFeature].type == DecisionVariable.Type.Discrete) {
+                if (attributes[splitFeature] == true) {
                     if (x[splitFeature] == splitValue) {
                         return trueChild.predict(x);
                     } else {
                         return falseChild.predict(x);
                     }
-                } else if (attributes[splitFeature].type == DecisionVariable.Type.Continuous) {
+                } else if (attributes[splitFeature] == false) {
                     if (x[splitFeature] <= splitValue) {
                         return trueChild.predict(x);
                     } else {
                         return falseChild.predict(x);
                     }
                 } else {
-                    throw new IllegalStateException("Unsupported decision variable type");
+                    throw new IllegalStateException("Unsupported attribute type: " + 0);
                 }
             }
         }
@@ -542,7 +542,7 @@ public class DecisionTree implements IClassifier {
             int N = x.length;
             Node splitNode = new Node();
 
-            if (attributes[j].type == DecisionVariable.Type.Discrete) {
+            if (attributes[j] == true) {
                 int m = attributes.length;
                 int[][] trueCount = new int[m][k];
 
@@ -578,7 +578,7 @@ public class DecisionTree implements IClassifier {
                         splitNode.falseChildOutput = falseLabel;
                     }
                 }
-            } else if(attributes[j].type == DecisionVariable.Type.Continuous){
+            } else {
                 int[] trueCount = new int[k];
                 double prevx = Double.NaN;
                 int prevy = -1;
@@ -626,9 +626,6 @@ public class DecisionTree implements IClassifier {
                     }
                 }
             }
-            else{
-                throw new IllegalStateException("Unsupported decision variable type");
-            }
 
             return splitNode;
         }
@@ -647,7 +644,7 @@ public class DecisionTree implements IClassifier {
             int[] trueSamples = new int[n];
             int[] falseSamples = new int[n];
 
-            if (attributes[node.splitFeature].type == DecisionVariable.Type.Discrete) {
+            if (attributes[node.splitFeature] == true) {
                 for (int i = 0; i < n; i++) {
                     if (samples[i] > 0) {
                         if (x[i][node.splitFeature] == node.splitValue) {
@@ -659,7 +656,7 @@ public class DecisionTree implements IClassifier {
                         }
                     }
                 }
-            } else if (attributes[node.splitFeature].type == DecisionVariable.Type.Continuous){
+            } else {
                 for (int i = 0; i < n; i++) {
                     if (samples[i] > 0) {
                         if (x[i][node.splitFeature] <= node.splitValue) {
@@ -671,9 +668,6 @@ public class DecisionTree implements IClassifier {
                         }
                     }
                 }
-            }
-            else{
-                throw new IllegalStateException("Unsupported decision variable type");
             }
 
             if (tc == 0 || fc == 0) {
@@ -777,7 +771,7 @@ public class DecisionTree implements IClassifier {
      * @param y the response variable.
      * @param J the maximum number of leaf nodes in the tree.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J) {
+    public DecisionTree(boolean[] attributes, double[][] x, int[] y, int J) {
         this(attributes, x, y, J, SplitRule.GINI);
     }
     
@@ -791,7 +785,7 @@ public class DecisionTree implements IClassifier {
      * @param J the maximum number of leaf nodes in the tree.
      * @param rule the splitting rule.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, SplitRule rule) {
+    public DecisionTree(boolean[] attributes, double[][] x, int[] y, int J, SplitRule rule) {
         this(attributes, x, y, J, null, null, rule);
     }
     
@@ -864,7 +858,7 @@ public class DecisionTree implements IClassifier {
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
      */
-    DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
+    DecisionTree(boolean[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
         
         this.input = x;
         this.output = y;
@@ -896,13 +890,7 @@ public class DecisionTree implements IClassifier {
             throw new IllegalArgumentException("Only one class.");            
         }
         
-        if (attributes == null) {
-            int s = x[0].length;
-            attributes = new DecisionVariable[s];
-            for (int i = 0; i < s; i++) {
-                attributes[i] = new DecisionVariable("F" + i);
-            }
-        }
+        if (attributes == null) attributes = new boolean[x[0].length];
                 
         this.attributes = attributes;
         this.J = J;
@@ -927,7 +915,7 @@ public class DecisionTree implements IClassifier {
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
      */
-    DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order) {
+    DecisionTree(boolean[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
@@ -946,13 +934,7 @@ public class DecisionTree implements IClassifier {
             throw new IllegalArgumentException("Only one class or negative class labels.");
         }
         
-        if (attributes == null) {
-            int s = x[0].length;
-            attributes = new DecisionVariable[s];
-            for (int i = 0; i < s; i++) {
-                attributes[i] = new DecisionVariable("F" + i);
-            }
-        }
+        if (attributes == null) attributes = new boolean[x[0].length];
                 
         this.attributes = attributes;
         this.J = Integer.MAX_VALUE;
