@@ -98,9 +98,6 @@ import java.util.concurrent.Callable;
  * Some techniques such as bagging, boosting, and random forest use more than
  * one decision tree for their analysis.
  * 
- * @see AdaBoost
- * @see GradientTreeBoost
- * @see RandomForest
  * 
  * @author Haifeng Li
  */
