@@ -1,0 +1,15 @@
+Algorithm:				Link
+
+SIFT
+SURF
+Dataset
+Preprocessing
+KMeans
+Local Phase Quantization
+Shannon Edge Detector		http://www.mathworks.com/matlabcentral/fileexchange/51124-shannon-edge-detector-for-grayscale-images
+Phase Congruency
+Image Pyramids
+Shi Tomasi Corner Detector
+Monogenic LBP 			http://sse.tongji.edu.cn/linzhang/Monogenic-LBP/monoLBP.htm
+Binary Gabor Pattern		http://sse.tongji.edu.cn/linzhang/BGP/BGP.htm
+GIST Descriptor

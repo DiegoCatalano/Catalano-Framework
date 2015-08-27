@@ -75,10 +75,14 @@ Catalano Framework 1.5 road map
     - New: Standartization.
     - New: Normalization.
 
+* Catalano.MachineLearning.Classification.DecisionTrees
+    - New: DecisionTree.
+
 * Catalano.MachineLearning.Regression
     - New: K Nearest Neighbours (Classification and Regression).
 
 * Catalano.Math
+    - New: Random.
     - New: Distances namespace (All distances is refactored).
     - New: Rational Number.
 
