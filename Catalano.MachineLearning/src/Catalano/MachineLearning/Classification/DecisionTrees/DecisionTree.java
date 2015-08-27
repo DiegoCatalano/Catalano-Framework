@@ -863,8 +863,9 @@ public class DecisionTree implements IClassifier {
      * that only numeric attributes need be sorted.
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
+     * @param rule Split rule.
      */
-    DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
+    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
         
         this.input = x;
         this.output = y;
@@ -927,7 +928,7 @@ public class DecisionTree implements IClassifier {
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
      */
-    DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order) {
+    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
