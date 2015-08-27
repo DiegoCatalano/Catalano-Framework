@@ -27,7 +27,8 @@ package Catalano.Math;
 import Catalano.Core.DoubleRange;
 import Catalano.Core.FloatRange;
 import Catalano.Core.IntRange;
-import java.util.Random;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Set of mathematical tools.
@@ -154,6 +155,16 @@ public final class Tools {
     }
     
     /**
+     * Generates a permutation of given array. This method is properly synchronized
+     * to allow correct use by more than one thread. However, if many threads
+     * need to generate pseudorandom numbers at a great rate, it may reduce
+     * contention for each thread to have its own pseudorandom-number generator.
+     */
+    public static void permutate(int[] x) {
+        random.permutate(x);
+    }
+    
+    /**
      * Returns the previous power of 2 after the input value x.
      * @param  x value x.
      * @return Returns the previous power of 2 after the input value x.
@@ -225,6 +236,45 @@ public final class Tools {
     }
     
     /**
+     * Sum of the elements.
+     * @param data Data.
+     * @return Sum(data).
+     */
+    public static double Sum(double[] data){
+        double sum = 0;
+        for (int i = 0; i < data.length; i++) {
+            sum += data[i];
+        }
+        return sum;
+    }
+    
+    /**
+     * Sum of the elements.
+     * @param data Data.
+     * @return Sum(data).
+     */
+    public static int Sum(int[] data){
+        int sum = 0;
+        for (int i = 0; i < data.length; i++) {
+            sum += data[i];
+        }
+        return sum;
+    }
+    
+    /**
+     * Sum of the elements.
+     * @param data Data.
+     * @return Sum(data).
+     */
+    public static float Sum(float[] data){
+        float sum = 0;
+        for (int i = 0; i < data.length; i++) {
+            sum += data[i];
+        }
+        return sum;
+    }
+    
+    /**
      * Calculates the logarithm with base determined.
      * @param a Value.
      * @param b Base.
@@ -243,6 +293,26 @@ public final class Tools {
     public static double TruncatedPower(double value, double degree){
         double x = Math.pow(value, degree);
         return (x > 0) ? x : 0.0;
+    }
+    
+    /**
+     * Get unique values form the array.
+     * @param values Array of values.
+     * @return Unique values.
+     */
+    public static int[] Unique(int[] values){
+        HashSet<Integer> lst = new HashSet<Integer>();
+        for (int i = 0; i < values.length; i++) {
+            lst.add(values[i]);
+        }
+        
+        int[] v = new int[lst.size()];
+        Iterator<Integer> it = lst.iterator();
+        for (int i = 0; i < v.length; i++) {
+            v[i] = it.next();
+        }
+        
+        return v;
     }
     
     /**
