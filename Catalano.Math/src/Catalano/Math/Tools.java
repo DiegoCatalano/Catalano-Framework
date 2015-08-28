@@ -179,7 +179,7 @@ public final class Tools {
      * need to generate pseudorandom numbers at a great rate, it may reduce
      * contention for each thread to have its own pseudorandom-number generator. 
      */
-    public static synchronized double random() {
+    public static synchronized double RandomNextDouble() {
         return random.nextDouble();
     }
     

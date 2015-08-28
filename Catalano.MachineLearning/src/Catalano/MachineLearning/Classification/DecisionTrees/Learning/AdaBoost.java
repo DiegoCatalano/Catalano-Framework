@@ -421,7 +421,7 @@ public class AdaBoost implements IClassifier {
         // generate sample
         int[] ans = new int[n];
         for (int i = 0; i < n; i++) {
-            double rU = Tools.random() * prob.length;
+            double rU = Tools.RandomNextDouble() * prob.length;
 
             int k = (int) (rU);
             rU -= k;  /* rU becomes rU-[rU] */

@@ -227,6 +227,48 @@ public final class Matrix {
     }
     
     /**
+     * Inner product (dot or scalar) between two vectors.
+     * @param A Vector A.
+     * @param B Vector B.
+     * @return Dot product between A and B.
+     */
+    public static double InnerProduct(double[] A, double[] B){
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            sum += A[i] * B[i];
+        }
+        return sum;
+    }
+    
+    /**
+     * Inner product (dot or scalar) between two vectors.
+     * @param A Vector A.
+     * @param B Vector B.
+     * @return Dot product between A and B.
+     */
+    public static int InnerProduct(int[] A, int[] B){
+        int sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            sum += A[i] * B[i];
+        }
+        return sum;
+    }
+    
+    /**
+     * Inner product (dot or scalar) between two vectors.
+     * @param A Vector A.
+     * @param B Vector B.
+     * @return Dot product between A and B.
+     */
+    public static float InnerProduct(float[] A, float[] B){
+        float sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            sum += A[i] * B[i];
+        }
+        return sum;
+    }
+    
+    /**
      * Elementwise Log operation.
      * @param A Vector.
      * @return Log(Vector).
@@ -1902,10 +1944,12 @@ public final class Matrix {
      * @param matrix Array.
      * @return Maximum value.
      */
-    public static double Max(double[] matrix){
+    public static double Max(double[][] matrix){
         double max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
-            max = Math.max(max, matrix[i]);
+            for (int j = 0; j < matrix[0].length; j++) {
+                max = Math.max(max, matrix[i][j]);
+            }
         }
         return max;
     }
@@ -1915,12 +1959,10 @@ public final class Matrix {
      * @param matrix Array.
      * @return Maximum value.
      */
-    public static double Max(double[][] matrix){
+    public static double Max(double[] matrix){
         double max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                max = Math.max(max, matrix[i][j]);
-            }
+            max = Math.max(max, matrix[i]);
         }
         return max;
     }
@@ -1943,12 +1985,10 @@ public final class Matrix {
      * @param matrix Array.
      * @return Maximum value.
      */
-    public static int Max(int[][] matrix){
-        int max = Integer.MIN_VALUE;
+    public static float Max(float[] matrix){
+        float max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                max = Math.max(max, matrix[i][j]);
-            }
+            max = Math.max(max, matrix[i]);
         }
         return max;
     }
@@ -1958,10 +1998,12 @@ public final class Matrix {
      * @param matrix Array.
      * @return Maximum value.
      */
-    public static float Max(float[] matrix){
-        float max = Integer.MIN_VALUE;
+    public static int Max(int[][] matrix){
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
-            max = Math.max(max, matrix[i]);
+            for (int j = 0; j < matrix[0].length; j++) {
+                max = Math.max(max, matrix[i][j]);
+            }
         }
         return max;
     }
@@ -2149,8 +2191,21 @@ public final class Matrix {
      * @param matrix Array.
      * @return Minimum value.
      */
-    public static double Min(int[] matrix){
+    public static int Min(int[] matrix){
         int min = Integer.MAX_VALUE;
+        for (int i = 0; i < matrix.length; i++) {
+            min = Math.min(min, matrix[i]);
+        }
+        return min;
+    }
+    
+    /**
+     * Get the minimum value from array.
+     * @param matrix Array.
+     * @return Minimum value.
+     */
+    public static float Min(float[] matrix){
+        float min = Integer.MAX_VALUE;
         for (int i = 0; i < matrix.length; i++) {
             min = Math.min(min, matrix[i]);
         }
@@ -2168,19 +2223,6 @@ public final class Matrix {
             for (int j = 0; j < matrix[0].length; j++) {
                 min = Math.min(min, matrix[i][j]);
             }
-        }
-        return min;
-    }
-    
-    /**
-     * Get the minimum value from array.
-     * @param matrix Array.
-     * @return Minimum value.
-     */
-    public static double Min(float[] matrix){
-        float min = Integer.MAX_VALUE;
-        for (int i = 0; i < matrix.length; i++) {
-            min = Math.min(min, matrix[i]);
         }
         return min;
     }
