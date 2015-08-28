@@ -148,7 +148,7 @@ public class DecisionTree implements IClassifier {
     /**
      * The maximum number of leaf nodes in the tree.
      */
-    private int J = 100;
+    private int J = 10;
     
     /**
      * The number of input variables to be used to determine the decision
@@ -164,9 +164,7 @@ public class DecisionTree implements IClassifier {
 
     @Override
     public int Predict(double[] feature) {
-        if(!buildModel)
-            return root.predict(feature);
-        else
+        if(buildModel)
             BuildModel(input, output, null, null);
         return root.predict(feature);
     }
@@ -194,74 +192,37 @@ public class DecisionTree implements IClassifier {
     }
 
     /**
-     * Trainer for decision tree classifiers.
+     * Get number of leafs.
+     * @return Number of leafs.
      */
-    public static class Trainer {
-        
-        private DecisionVariable[] attributes;
-        
-        /**
-         * The splitting rule.
-         */
-        private SplitRule rule = SplitRule.GINI;
-        /**
-         * The maximum number of leaf nodes in the tree.
-         */
-        private int J = 100;
+    public int getNumberOfLeafs() {
+        return J;
+    }
 
-        /**
-         * Constructor.
-         * 
-         * @param J the maximum number of leaf nodes in the tree.
-         */
-        public Trainer(int J) {
-            if (J < 2) {
-                throw new IllegalArgumentException("Invalid number of leaf nodes: " + J);
-            }
-            
-            this.J = J;
-        }
-        
-        /**
-         * Constructor.
-         * 
-         * @param attributes the attributes of independent variable.
-         * @param J the maximum number of leaf nodes in the tree.
-         */
-        public Trainer(DecisionVariable[] attributes, int J) {
-            this.attributes = attributes;
-            
-            if (J < 2) {
-                throw new IllegalArgumentException("Invalid number of leaf nodes: " + J);
-            }
-            
-            this.J = J;
-        }
-        
-        /**
-         * Sets the splitting rule.
-         * @param rule the splitting rule.
-         */
-        public void setSplitRule(SplitRule rule) {
-            this.rule = rule;
-        }
-        
-        /**
-         * Sets the maximum number of leaf nodes in the tree.
-         * @param J the maximum number of leaf nodes in the tree.
-         */
-        public void setMaximumLeafNodes(int J) {
-            if (J < 2) {
-                throw new IllegalArgumentException("Invalid number of leaf nodes: " + J);
-            }
-            
-            this.J = J;
-        }
-        
-        
-        public DecisionTree train(double[][] x, int[] y) {
-            return new DecisionTree(attributes, x, y, J, rule);
-        }
+    /**
+     * Set number of leafs.
+     * @param J Number of leafs.
+     */
+    public void setNumberOfLeafs(int J) {
+        this.buildModel = true;
+        this.J = J;
+    }
+
+    /**
+     * Get the split rule.
+     * @return Split rule.
+     */
+    public SplitRule getRule() {
+        return rule;
+    }
+
+    /**
+     * Set the split rule
+     * @param rule Split rule.
+     */
+    public void setRule(SplitRule rule) {
+        this.buildModel = true;
+        this.rule = rule;
     }
     
     /**
@@ -744,7 +705,22 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree with (most) given number of
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
+     * leaves. All attributes are assumed to be numeric.
+     *
+     * @param x the training instances. 
+     * @param y the response variable.
+     */
+    public DecisionTree(double[][] x, int[] y) {
+        this(null, x, y, 10);
+    }
+    
+    /**
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
      * leaves. All attributes are assumed to be numeric.
      *
      * @param x the training instances. 
@@ -756,7 +732,9 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree with (most) given number of
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
      * leaves. All attributes are assumed to be numeric.
      *
      * @param x the training instances. 
@@ -769,7 +747,23 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree with (most) given number of
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
+     * leaves.
+     * 
+     * @param attributes the attribute properties.
+     * @param x the training instances. 
+     * @param y the response variable.
+     */
+    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y) {
+        this(attributes, x, y, 10, SplitRule.GINI);
+    }
+    
+    /**
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
      * leaves.
      * 
      * @param attributes the attribute properties.
@@ -782,7 +776,9 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree with (most) given number of
+     * Initialize a new instance of the DecisionTree class.
+     * 
+     * Learns a classification tree with (most) given number of
      * leaves.
      * 
      * @param attributes the attribute properties.
@@ -796,7 +792,7 @@ public class DecisionTree implements IClassifier {
     }
     
     private void BuildModel(double[][] x, int[] y, int[] samples, int[][] order){
-        this.buildModel = true;
+        this.buildModel = false;
         
         if (order != null) {
             this.order = order;
@@ -854,7 +850,9 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree for AdaBoost.
+     * Initialize a new instance of the DecisionTree class (AdaBoost).
+     * 
+     * Learns a classification tree for AdaBoost.
      * @param attributes the attribute properties.
      * @param x the training instances. 
      * @param y the response variable.
@@ -866,9 +864,6 @@ public class DecisionTree implements IClassifier {
      * @param rule Split rule.
      */
     public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
-        
-        this.input = x;
-        this.output = y;
         
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
@@ -904,7 +899,9 @@ public class DecisionTree implements IClassifier {
                 attributes[i] = new DecisionVariable("F" + i);
             }
         }
-                
+        
+        this.input = x;
+        this.output = y;
         this.attributes = attributes;
         this.J = J;
         this.rule = rule;
@@ -915,7 +912,9 @@ public class DecisionTree implements IClassifier {
     }
     
     /**
-     * Constructor. Learns a classification tree for random forest.
+     * Initialize a new instance of the DecisionTree class (Random Forest).
+     * 
+     * Learns a classification tree for random forest.
      *
      * @param attributes the attribute properties.
      * @param x the training instances. 

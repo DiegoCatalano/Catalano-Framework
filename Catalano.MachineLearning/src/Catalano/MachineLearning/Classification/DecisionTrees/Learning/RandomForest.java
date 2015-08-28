@@ -79,6 +79,9 @@ import java.util.concurrent.Callable;
  */
 public class RandomForest implements IClassifier {
     
+    /**
+     * Method for choose number of random feature.
+     */
     public enum RandomSelection {
         /**
          * Sqrt(number of features).
@@ -91,20 +94,30 @@ public class RandomForest implements IClassifier {
         Log2
     }
     
+    private DecisionVariable[] attributes;
+    private double[][] input;
+    private int[] output;
+    private int T;
+    private int M;
+    private boolean buildModel = false;
+    
     /**
      * Forest of decision trees.
      */
     private List<DecisionTree> trees;
+    
     /**
      * The number of classes.
      */
     private int k = 2;
+    
     /**
      * Out-of-bag estimation of error rate, which is quite accurate given that
      * enough trees have been grown (otherwise the OOB estimate can
      * bias upward).
      */
     private double error;
+    
     /**
      * Variable importance. Every time a split of a node is made on variable
      * the (GINI, information gain, etc.) impurity criterion for the two
@@ -114,117 +127,41 @@ public class RandomForest implements IClassifier {
      * importance measure.
      */
     private double[] importance;
-    
-    /**
-     * Number of feature selection for the choose.
-     */
-    private RandomSelection rs;
 
     @Override
     public int Predict(double[] feature) {
-        return predict(feature);
+        if(buildModel)
+            BuildModel(attributes, input, output, T, M);
+        
+        int[] y = new int[k];
+
+        for (DecisionTree tree : trees) {
+            y[tree.Predict(feature)]++;
+        }
+
+        return Matrix.MaxIndex(y);
     }
 
     @Override
     public double[][] getInput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return input;
     }
 
     @Override
     public void setInput(double[][] data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.input = data;
+        this.buildModel = true;
     }
 
     @Override
     public int[] getOutput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return output;
     }
 
     @Override
     public void setOutput(int[] labels) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * Trainer for random forest classifiers.
-     */
-    public static class Trainer {
-        
-        private DecisionVariable[] attributes;
-        
-        /**
-         * The number of trees.
-         */
-        private int T = 500;
-        /**
-         * The number of random selected features to be used to determine the decision
-         * at a node of the tree. floor(sqrt(dim)) seems to give generally good performance,
-         * where dim is the number of variables.        
-         */
-        private int M = -1;
-        
-        /**
-         * Constructor.
-         * 
-         * @param T the number of trees.
-         */
-        public Trainer(int T) {
-            if (T < 1) {
-                throw new IllegalArgumentException("Invlaid number of trees: " + T);
-            }
-
-            this.T = T;
-        }
-
-        /**
-         * Constructor.
-         * 
-         * @param attributes the attributes of independent variable.
-         * @param T the number of trees.
-         */
-        public Trainer(DecisionVariable[] attributes, int T) {
-            this.attributes = attributes;
-
-            if (T < 1) {
-                throw new IllegalArgumentException("Invlaid number of trees: " + T);
-            }
-
-            this.T = T;
-        }
-        
-        /**
-         * Sets the number of trees in the random forest.
-         * @param T the number of trees.
-         */
-        public void setNumTrees(int T) {
-            if (T < 1) {
-                throw new IllegalArgumentException("Invlaid number of trees: " + T);
-            }
-
-            this.T = T;
-        }
-        
-        /**
-         * Sets the number of random selected features for splitting.
-         * @param M the number of random selected features to be used to determine
-         * the decision at a node of the tree. floor(sqrt(dim)) seems to give
-         * generally good performance, where dim is the number of variables.
-         */
-        public void setNumRandomFeatures(int M) {
-            if (M < 1) {
-                throw new IllegalArgumentException("Invalid number of random selected features for splitting: " + M);
-            }
-
-            this.M = M;
-        }
-        
-        public RandomForest train(double[][] x, int[] y) {
-            if (M < 0) {
-                return new RandomForest(attributes, x, y, T);
-            } else {
-                return new RandomForest(attributes, x, y, T, M);
-            }
-        }
+        this.output = labels;
+        this.buildModel = true;
     }
     
     /**
@@ -341,7 +278,7 @@ public class RandomForest implements IClassifier {
      * generally good performance, where dim is the number of variables.
      */
     public RandomForest(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M){
-        Compute(attributes, x, y, T, M);
+        BuildModel(attributes, x, y, T, M);
     }
     
     /**
@@ -356,13 +293,10 @@ public class RandomForest implements IClassifier {
      * generally good performance, where dim is the number of variables.
      */
     public RandomForest(DecisionVariable[] attributes, double[][] x, int[] y, int T, RandomSelection randomSelection){
-        if(randomSelection == RandomSelection.Sqrt){
-            this.rs = randomSelection;
-            Compute(attributes, x, y, T, (int)Math.floor(Math.sqrt(x[0].length)));
-        }
-        else{
-            Compute(attributes, x, y, T, (int)Tools.Log2(x[0].length) + 1);
-        }
+        if(randomSelection == RandomSelection.Sqrt)
+            BuildModel(attributes, x, y, T, (int)Math.floor(Math.sqrt(x[0].length)));
+        else
+            BuildModel(attributes, x, y, T, (int)Tools.Log2(x[0].length) + 1);
     }
     
     /**
@@ -376,7 +310,15 @@ public class RandomForest implements IClassifier {
      * the decision at a node of the tree. floor(sqrt(dim)) seems to give
      * generally good performance, where dim is the number of variables.
      */
-    private void Compute(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M) {
+    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M) {
+        this.input = x;
+        this.output = y;
+        this.T = T;
+        this.M = M;
+        this.buildModel = false;
+        
+        
+        
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
