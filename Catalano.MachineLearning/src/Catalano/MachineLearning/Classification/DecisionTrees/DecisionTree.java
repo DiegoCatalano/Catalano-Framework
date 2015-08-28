@@ -406,7 +406,7 @@ public class DecisionTree implements IClassifier {
             
             if (M < p) {
                 synchronized (DecisionTree.class) {
-                    Tools.permutate(variables);
+                    Tools.Permutate(variables);
                 }
 
                 // Random forest already runs on parallel.

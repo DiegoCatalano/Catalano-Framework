@@ -160,7 +160,7 @@ public final class Tools {
      * need to generate pseudorandom numbers at a great rate, it may reduce
      * contention for each thread to have its own pseudorandom-number generator.
      */
-    public static void permutate(int[] x) {
+    public static void Permutate(int[] x) {
         random.permutate(x);
     }
     
@@ -171,6 +171,16 @@ public final class Tools {
      */
     public static int PreviousPowerOf2(int x){
         return NextPowerOf2(x + 1) / 2;
+    }
+    
+    /**
+     * Generate a random number in [0, 1). This method is properly synchronized
+     * to allow correct use by more than one thread. However, if many threads
+     * need to generate pseudorandom numbers at a great rate, it may reduce
+     * contention for each thread to have its own pseudorandom-number generator. 
+     */
+    public static synchronized double random() {
+        return random.nextDouble();
     }
     
     /**

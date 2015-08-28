@@ -127,19 +127,39 @@ public class RandomForest implements IClassifier {
      * importance measure.
      */
     private double[] importance;
-
-    @Override
-    public int Predict(double[] feature) {
-        if(buildModel)
-            BuildModel(attributes, input, output, T, M);
-        
-        int[] y = new int[k];
-
-        for (DecisionTree tree : trees) {
-            y[tree.Predict(feature)]++;
-        }
-
-        return Matrix.MaxIndex(y);
+    
+    /**
+     * Returns the out-of-bag estimation of error rate. The OOB estimate is
+     * quite accurate given that enough trees have been grown. Otherwise the
+     * OOB estimate can bias upward.
+     * 
+     * @return the out-of-bag estimation of error rate
+     */
+    public double error() {
+        return error;
+    }
+    
+    /**
+     * Returns the variable importance. Every time a split of a node is made
+     * on variable the (GINI, information gain, etc.) impurity criterion for
+     * the two descendent nodes is less than the parent node. Adding up the
+     * decreases for each individual variable over all trees in the forest
+     * gives a fast measure of variable importance that is often very
+     * consistent with the permutation importance measure.
+     *
+     * @return the variable importance
+     */
+    public double[] importance() {
+        return importance;
+    }
+    
+    /**
+     * Returns the number of trees in the model.
+     * 
+     * @return the number of trees in the model 
+     */
+    public int size() {
+        return trees.size();
     }
 
     @Override
@@ -317,8 +337,6 @@ public class RandomForest implements IClassifier {
         this.M = M;
         this.buildModel = false;
         
-        
-        
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
@@ -427,40 +445,6 @@ public class RandomForest implements IClassifier {
         }
         
         return index;        
-    }  
-
-    /**
-     * Returns the out-of-bag estimation of error rate. The OOB estimate is
-     * quite accurate given that enough trees have been grown. Otherwise the
-     * OOB estimate can bias upward.
-     * 
-     * @return the out-of-bag estimation of error rate
-     */
-    public double error() {
-        return error;
-    }
-    
-    /**
-     * Returns the variable importance. Every time a split of a node is made
-     * on variable the (GINI, information gain, etc.) impurity criterion for
-     * the two descendent nodes is less than the parent node. Adding up the
-     * decreases for each individual variable over all trees in the forest
-     * gives a fast measure of variable importance that is often very
-     * consistent with the permutation importance measure.
-     *
-     * @return the variable importance
-     */
-    public double[] importance() {
-        return importance;
-    }
-    
-    /**
-     * Returns the number of trees in the model.
-     * 
-     * @return the number of trees in the model 
-     */
-    public int size() {
-        return trees.size();
     }
     
     /**
@@ -488,13 +472,17 @@ public class RandomForest implements IClassifier {
         trees = model;
     }
     
-    public int predict(double[] x) {
+    @Override
+    public int Predict(double[] feature) {
+        if(buildModel)
+            BuildModel(attributes, input, output, T, M);
+        
         int[] y = new int[k];
-        
+
         for (DecisionTree tree : trees) {
-            y[tree.Predict(x)]++;
+            y[tree.Predict(feature)]++;
         }
-        
+
         return Matrix.MaxIndex(y);
     }
     
