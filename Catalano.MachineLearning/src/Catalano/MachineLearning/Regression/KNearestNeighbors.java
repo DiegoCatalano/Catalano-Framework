@@ -25,7 +25,7 @@ package Catalano.MachineLearning.Regression;
 import Catalano.Math.Distances.EuclideanDistance;
 import Catalano.Math.Distances.IDistance;
 import Catalano.Math.Matrix;
-import Catalano.Statistics.Kernels.IKernel;
+import Catalano.Statistics.Kernels.IMercerKernel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +40,7 @@ public class KNearestNeighbors {
     private double[][] input;
     private double[] output;
     private IDistance distance;
-    private IKernel kernel;
+    private IMercerKernel kernel;
 
     public KNearestNeighbors(double[][] input, double[] output) {
         this.input = input;
@@ -62,7 +62,7 @@ public class KNearestNeighbors {
         this.distance = distance;
     }
     
-    public KNearestNeighbors(double[][] input, double[] output, int k, IKernel kernel) {
+    public KNearestNeighbors(double[][] input, double[] output, int k, IMercerKernel kernel) {
         this.input = input;
         this.output = output;
         this.k = k;

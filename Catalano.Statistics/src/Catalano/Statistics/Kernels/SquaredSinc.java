@@ -28,7 +28,7 @@ package Catalano.Statistics.Kernels;
  * Squared Sinc Kernel.
  * @author Diego Catalano
  */
-public class SquaredSinc implements IKernel{
+public class SquaredSinc implements IMercerKernel<double[]>{
     
     private double gamma;
 

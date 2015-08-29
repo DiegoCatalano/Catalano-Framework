@@ -30,7 +30,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class Multiquadric implements IKernel{
+public class Multiquadric implements IMercerKernel<double[]>{
     
     private double constant;
 

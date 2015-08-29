@@ -25,7 +25,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class ThinPlateSpline implements IKernel{
+public class ThinPlateSpline implements IMercerKernel<double[]>{
     
     private double sigma = 1;
 

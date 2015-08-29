@@ -10,7 +10,7 @@ package Catalano.Statistics.Kernels;
  *
  * @author Diego
  */
-public class Wave implements IKernel{
+public class Wave implements IMercerKernel<double[]>{
     
     private double sigma;
 

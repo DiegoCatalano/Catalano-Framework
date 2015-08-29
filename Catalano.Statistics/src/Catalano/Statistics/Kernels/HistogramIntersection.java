@@ -33,7 +33,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class HistogramIntersection implements IKernel{
+public class HistogramIntersection implements IMercerKernel<double[]>{
     
     private double alpha = 1;
     private double beta = 1;

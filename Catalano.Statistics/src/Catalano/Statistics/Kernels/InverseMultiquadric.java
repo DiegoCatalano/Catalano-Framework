@@ -29,7 +29,7 @@ package Catalano.Statistics.Kernels;
  * The inverse multiquadric kernel is only conditionally positive definite.
  * @author Diego Catalano
  */
-public class InverseMultiquadric implements IKernel{
+public class InverseMultiquadric implements IMercerKernel<double[]>{
     
     private double constant;
 

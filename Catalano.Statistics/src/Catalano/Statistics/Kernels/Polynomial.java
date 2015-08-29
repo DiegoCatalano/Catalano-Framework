@@ -25,16 +25,16 @@
 package Catalano.Statistics.Kernels;
 
 /**
- * Generalized T-Student Kernel.
- * The Generalized T-Student Kernel is a Mercer Kernel and thus forms a positive semi-definite Kernel matrix (Boughorbel, 2004).
+ * Polynomial Kernel.
  * @author Diego Catalano
  */
-public class TStudent implements IMercerKernel<double[]>{
+public class Polynomial implements IMercerKernel<double[]>{
     
     private int degree;
+    private double constant;
 
     /**
-     * Gets the degree of this kernel.
+     * Get the degree of the polynomial kernel.
      * @return Degree.
      */
     public int getDegree() {
@@ -42,35 +42,61 @@ public class TStudent implements IMercerKernel<double[]>{
     }
 
     /**
-     * Set the degree of this kernel.
+     * Set the degree of the polynomial kernel.
      * @param degree Degree.
      */
     public void setDegree(int degree) {
-        this.degree = degree;
+        this.degree = Math.max(1, degree);
     }
 
     /**
-     * Constructs a new TStudent kernel.
+     * Get the polynomial constant term.
+     * @return Polynomial constant term.
      */
-    public TStudent() {}
+    public double getConstant() {
+        return constant;
+    }
 
     /**
-     * Constructs a new TStudent kernel.
-     * @param degree Degree.
+     * Set the polynomial constant term.
+     * @param constant Constant term.
      */
-    public TStudent(int degree) {
-        this.degree = degree;
+    public void setConstant(double constant) {
+        this.constant = constant;
+    }
+    
+    /**
+     * Constructs a new Polynomial Kernel.
+     */
+    public Polynomial() {
+        this(2);
+    }
+
+    /**
+     * Constructs a new Polynomial Kernel.
+     * @param degree Polynomial degree.
+     */
+    public Polynomial(int degree) {
+        this(degree, 1.0);
+    }
+    
+    /**
+     * Constructs a new Polynomial Kernel.
+     * @param degree Polynomial degree.
+     * @param constant Polynomial constant term.
+     */
+    public Polynomial(int degree, double constant){
+        setDegree(degree);
+        this.constant = constant;
     }
 
     @Override
     public double Function(double[] x, double[] y) {
-        double norm = 0.0;
-        for (int i = 0; i < x.length; i++){
-            double d = x[i] - y[i];
-            norm += d * d;
-        }
-        norm = Math.sqrt(norm);
+        double sum = constant;
+        for (int i = 0; i < x.length; i++)
+            sum += x[i] * y[i];
 
-        return 1.0 / (1.0 + Math.pow(norm, degree));
+        return Math.pow(sum, degree);
     }
+    
 }

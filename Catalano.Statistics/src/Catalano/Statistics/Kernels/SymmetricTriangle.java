@@ -28,7 +28,7 @@ package Catalano.Statistics.Kernels;
  * Symmetric Triangle Kernel.
  * @author Diego Catalano
  */
-public class SymmetricTriangle implements IKernel{
+public class SymmetricTriangle implements IMercerKernel<double[]>{
     
     private double gamma;
 

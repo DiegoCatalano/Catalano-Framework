@@ -32,7 +32,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class Circular implements IKernel{
+public class Circular implements IMercerKernel<double[]> {
     
     private final double c2dPI = 2.0 / Math.PI;
     private double sigma;

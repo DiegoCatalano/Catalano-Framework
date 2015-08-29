@@ -29,7 +29,7 @@ package Catalano.Statistics.Kernels;
  * The Spline kernel is given as a piece-wise cubic polynomial, as derived in the works by Gunn (1998).
  * @author Diego Catalano
  */
-public class Spline implements IKernel{
+public class Spline implements IMercerKernel<double[]>{
 
     /**
      * Constructs a new Spline kernel.

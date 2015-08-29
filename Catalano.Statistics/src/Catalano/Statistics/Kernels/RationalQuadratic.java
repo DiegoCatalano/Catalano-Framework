@@ -10,7 +10,7 @@ package Catalano.Statistics.Kernels;
  *
  * @author Diego
  */
-public class RationalQuadratic implements IKernel{
+public class RationalQuadratic implements IMercerKernel<double[]>{
     
     private double constant;
 

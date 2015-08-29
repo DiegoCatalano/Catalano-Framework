@@ -26,7 +26,7 @@ package Catalano.Statistics.Kernels;
  * Hellinger kernel is an euclidean norm of linear kernel.
  * @author Diego Catalano
  */
-public class Hellinger implements IKernel{
+public class Hellinger implements IMercerKernel<double[]>{
 
     /**
      * Constructs a new Hellinger Kernel.

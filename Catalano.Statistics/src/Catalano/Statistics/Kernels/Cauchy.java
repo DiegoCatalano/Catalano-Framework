@@ -33,7 +33,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class Cauchy implements IKernel{
+public class Cauchy implements IMercerKernel<double[]> {
     
     private double sigma;
 

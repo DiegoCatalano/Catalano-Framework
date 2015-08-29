@@ -29,7 +29,7 @@ package Catalano.Statistics.Kernels;
  * The Chi-Square kernel comes from the Chi-Square distribution.
  * @author Diego Catalano
  */
-public class ChiSquare implements IKernel{
+public class ChiSquare implements IMercerKernel<double[]> {
 
     /**
      * Constructs a new Chi-Square kernel.

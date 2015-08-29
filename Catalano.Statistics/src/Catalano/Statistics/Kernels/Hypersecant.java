@@ -28,7 +28,7 @@ package Catalano.Statistics.Kernels;
  * Hyperbolic Secant Kernel.
  * @author Diego Catalano
  */
-public class Hypersecant implements IKernel{
+public class Hypersecant implements IMercerKernel<double[]>{
     
     private double gamma;
 

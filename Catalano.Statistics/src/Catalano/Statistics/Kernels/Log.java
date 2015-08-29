@@ -29,7 +29,7 @@ package Catalano.Statistics.Kernels;
  * The Log kernel seems to be particularly interesting for images, but is only conditionally positive definite.
  * @author Diego Catalano
  */
-public class Log implements IKernel{
+public class Log implements IMercerKernel<double[]>{
     
     private double degree;
 

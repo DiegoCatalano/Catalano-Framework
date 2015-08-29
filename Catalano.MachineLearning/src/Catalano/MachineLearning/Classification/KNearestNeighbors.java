@@ -22,11 +22,10 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.*;
 import Catalano.Math.Distances.EuclideanDistance;
 import Catalano.Math.Distances.IDistance;
 import Catalano.Math.Matrix;
-import Catalano.Statistics.Kernels.IKernel;
+import Catalano.Statistics.Kernels.IMercerKernel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class KNearestNeighbors<T> implements IClassifier {
     private double[][] input;
     private int[] output;
     private IDistance distance = new EuclideanDistance();
-    private IKernel kernel;
+    private IMercerKernel kernel;
     private boolean useKernel = false;
 
     /**
@@ -103,7 +102,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Get the kernel metric.
      * @return Kernel.
      */
-    public IKernel getKernel() {
+    public IMercerKernel getKernel() {
         return kernel;
     }
 
@@ -111,7 +110,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * Set the kernel metric.
      * @param kernel Kernel.
      */
-    public void setKernel(IKernel kernel) {
+    public void setMercerKernel(IMercerKernel kernel) {
         this.kernel = kernel;
         this.useKernel = true;
     }
@@ -184,7 +183,7 @@ public class KNearestNeighbors<T> implements IClassifier {
      * @param k Number of neighbours.
      * @param kernel Kernel.
      */
-    public KNearestNeighbors(double[][] input, int[] output, int k, IKernel kernel){
+    public KNearestNeighbors(double[][] input, int[] output, int k, IMercerKernel kernel){
         this.input = input;
         this.output = output;
         this.k = k;

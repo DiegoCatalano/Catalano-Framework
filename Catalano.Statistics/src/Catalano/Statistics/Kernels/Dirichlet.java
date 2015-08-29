@@ -28,7 +28,7 @@ package Catalano.Statistics.Kernels;
  *
  * @author Diego
  */
-public class Dirichlet implements IKernel{
+public class Dirichlet implements IMercerKernel<double[]>{
     
     private int dimension;
 

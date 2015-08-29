@@ -27,14 +27,13 @@ package Catalano.Statistics.Kernels;
  * the value of the dot product between the images of the two arguments.</para>
  * @author Diego Catalano
  */
-public interface IKernel
-{
+public interface IMercerKernel<T> {
     
     /**
      * The kernel function.
-     * @param x Vector <c>x</c> in input space.
+     * @param x Vector x in input space.
      * @param y Vector <c>y</c> in input space.
      * @return Dot product in feature (kernel) space.
      */
-    double Function(double[] x, double[] y);
+    public double Function(T x, T y);
 }

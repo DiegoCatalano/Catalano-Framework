@@ -10,11 +10,11 @@ package Catalano.Statistics.Kernels;
  *
  * @author Diego
  */
-public class Tensor implements IKernel{
+public class Tensor implements IMercerKernel<double[]>{
     
-    private IKernel[] kernels;
+    private IMercerKernel<double[]>[] kernels;
 
-    public Tensor(IKernel[] kernels) {
+    public Tensor(IMercerKernel<double[]>[] kernels) {
         this.kernels = kernels;
     }
 

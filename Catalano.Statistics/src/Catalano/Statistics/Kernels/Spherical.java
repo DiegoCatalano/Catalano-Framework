@@ -29,7 +29,7 @@ package Catalano.Statistics.Kernels;
  * The spherical kernel comes from a statistics perspective. It is an example of an isotropic stationary kernel and is positive definite in R^3.
  * @author Diego Catalano
  */
-public class Spherical implements IKernel{
+public class Spherical implements IMercerKernel<double[]>{
     
     private double sigma;
 

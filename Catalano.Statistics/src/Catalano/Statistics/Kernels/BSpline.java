@@ -32,7 +32,7 @@ import Catalano.Math.Special;
  * also a member of the Radial Basis Functions family of kernels.</para>
  * @author Diego Catalano
  */
-public class BSpline implements IKernel{
+public class BSpline implements IMercerKernel<double[]>{
     
     private int order;
 

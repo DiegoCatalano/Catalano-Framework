@@ -30,7 +30,7 @@ package Catalano.Statistics.Kernels;
  * computed using dynamic programming tables.</para>
  * @author Diego Catalano
  */
-public class Anova implements IKernel{
+public class Anova implements IMercerKernel<double[]>{
     
     private int n;  // input vector length
     private int p; // length of subsequence
