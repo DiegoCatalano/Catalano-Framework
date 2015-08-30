@@ -119,11 +119,50 @@ public final class Tools {
     }
     
     /**
+     * Check if the string is numeric.
+     * @param number Number.
+     * @return True if the string is numeric, otherwise false.
+     */
+    public static boolean isNumeric(final String number){
+        if(number.length() == 0)
+            return false;
+        
+        int dot = 0;
+        int idx = 0;
+        
+        char c = number.charAt(0);
+        boolean t = Character.isDigit(c);
+        
+        //Check if is negative or if the number starts with dot.
+        if(number.charAt(0) == '-'){
+            idx = 1;
+        }
+        else if (number.charAt(0) == '.'){
+            dot = 1;
+        }
+        
+        for (int i = idx; i < number.length(); i++) {
+            if(Character.isDigit(number.charAt(i))){
+            
+            }
+            else{
+                if(number.charAt(i) == '.')
+                    dot++;
+                else
+                    return false;
+            }
+        }
+        
+        if(dot > 1) return false;
+        return true;
+    }
+    
+    /**
      * Checks if the specified integer is power of 2.
      * @param x Integer number to check.
      * @return True: if the specified number is power of 2, otherwise returns false.
      */
-    public static boolean IsPowerOf2( int x ){
+    public static boolean isPowerOf2( int x ){
         return ( x > 0 ) ? ( ( x & ( x - 1 ) ) == 0 ) : false;
     }
     

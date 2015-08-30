@@ -106,7 +106,7 @@ public class IntPolygon {
         
         if(nPoints >= xPoints.length || nPoints >= yPoints.length){
             int newSize = nPoints * 2;
-            if(!Catalano.Math.Tools.IsPowerOf2(newSize))
+            if(!Catalano.Math.Tools.isPowerOf2(newSize))
                 newSize = Integer.highestOneBit(newSize);
             
             xPoints = Arrays.copyOf(xPoints, newSize);

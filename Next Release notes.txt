@@ -94,6 +94,7 @@ Catalano Framework 1.5 road map
     - New: Distances namespace (All distances is refactored).
     - New: Rational Number.
 
+    - Added: isNumeric in the Tools.
     - Added: Pseudo Inverse in the Matrix.
     - Added: SwapColumn, SwapRow in the Matrix.
     - Added: getColumns, getRows in the Matrix.
@@ -102,6 +103,8 @@ Catalano Framework 1.5 road map
     - Added: Digital Root in the Tools.
     - Added: Norm1, Norm2, NormF and NormP in the Matrix.
     - Added: Outer Product in the Matrix.
+
+    - Renamed: IsPowerOf2 to isPowerOf2.
 
     - Fixed: FFT2 in the FourierTransform.
 

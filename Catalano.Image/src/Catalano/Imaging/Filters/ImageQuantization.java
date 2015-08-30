@@ -43,7 +43,7 @@ public class ImageQuantization implements IBaseInPlace{
      * @param level 
      */
     public ImageQuantization(int level){
-        boolean isPower2 = Catalano.Math.Tools.IsPowerOf2(level);
+        boolean isPower2 = Catalano.Math.Tools.isPowerOf2(level);
         if (isPower2) {
             this.level = Math.min(level, 256);
         }
