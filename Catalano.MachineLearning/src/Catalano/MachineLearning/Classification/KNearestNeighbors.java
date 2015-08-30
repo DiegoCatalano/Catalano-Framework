@@ -24,6 +24,7 @@ package Catalano.MachineLearning.Classification;
 
 import Catalano.Math.Distances.EuclideanDistance;
 import Catalano.Math.Distances.IDistance;
+import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.util.ArrayList;
@@ -63,42 +64,6 @@ public class KNearestNeighbors<T> implements IClassifier {
     }
 
     /**
-     * Get the input features.
-     * @return List of features.
-     */
-    @Override
-    public double[][] getInput() {
-        return input;
-    }
-
-    /**
-     * Set the input features.
-     * @param input Input features.
-     */
-    @Override
-    public void setInput(double[][] input) {
-        this.input = input;
-    }
-
-    /**
-     * Get the output.
-     * @return Output.
-     */
-    @Override
-    public int[] getOutput() {
-        return output;
-    }
-
-    /**
-     * Set the output.
-     * @param output Output.
-     */
-    @Override
-    public void setOutput(int[] output) {
-        this.output = output;
-    }
-
-    /**
      * Get the kernel metric.
      * @return Kernel.
      */
@@ -131,64 +96,47 @@ public class KNearestNeighbors<T> implements IClassifier {
         this.distance = distance;
         this.useKernel = false;
     }
-
+    
     /**
      * Initializes a new instance of the KNearestNeighbors class.
      */
     public KNearestNeighbors(){
-        this.k = 3;
+        this(3);
     }
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of features.
-     * @param output Labels
-     */
-    public KNearestNeighbors(double[][] input, int[] output){
-        this.k = 3;
-        this.input = input;
-        this.output = output;
-    }
-    
-    /**
-     * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of features.
-     * @param output Labels
      * @param k Number of neighbours.
      */
-    public KNearestNeighbors(double[][] input, int[] output, int k){
-        this.input = input;
-        this.output = output;
-        this.k = k;
+    public KNearestNeighbors(int k){
+        this(3, new SquaredEuclideanDistance());
     }
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of features.
-     * @param output Labels
      * @param k Number of neighbours.
      * @param distance Distance.
      */
-    public KNearestNeighbors(double[][] input, int[] output, int k, IDistance distance){
-        this.input = input;
-        this.output = output;
+    public KNearestNeighbors(int k, IDistance distance){
         this.k = k;
         this.distance = distance;
     }
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param input List of features.
-     * @param output Labels
      * @param k Number of neighbours.
      * @param kernel Kernel.
      */
-    public KNearestNeighbors(double[][] input, int[] output, int k, IMercerKernel kernel){
-        this.input = input;
-        this.output = output;
+    public KNearestNeighbors(int k, IMercerKernel kernel){
         this.k = k;
         this.kernel = kernel;
         this.useKernel = true;
+    }
+    
+    @Override
+    public void Learn(double[][] input, int[] output){
+        this.input = input;
+        this.output = output;
     }
     
     /**

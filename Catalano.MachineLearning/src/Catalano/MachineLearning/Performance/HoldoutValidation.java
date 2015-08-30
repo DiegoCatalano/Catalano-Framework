@@ -112,8 +112,7 @@ public class HoldoutValidation implements IValidation{
         int[] labelsTrain = Matrix.getRows(labels, indexTraining);
         
         //Set the model in the classifier
-        classifier.setInput(train);
-        classifier.setOutput(labelsTrain);
+        classifier.Learn(train, labelsTrain);
         
         int pos = 0;
         for (int i = 0; i < indexValidation.length; i++) {

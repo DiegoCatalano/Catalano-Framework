@@ -156,40 +156,13 @@ public class DecisionTree implements IClassifier {
      */
     private int M;
     
+    private int[] samples;
+    
     /**
      * The index of training values in ascending order. Note that only numeric
      * attributes will be sorted.
      */
     private transient int[][] order;
-
-    @Override
-    public int Predict(double[] feature) {
-        if(buildModel)
-            BuildModel(input, output, null, null);
-        return root.predict(feature);
-    }
-
-    @Override
-    public double[][] getInput() {
-        return input;
-    }
-
-    @Override
-    public void setInput(double[][] data) {
-        this.input = data;
-        this.buildModel = true;
-    }
-
-    @Override
-    public int[] getOutput() {
-        return output;
-    }
-
-    @Override
-    public void setOutput(int[] labels) {
-        this.output = labels;
-        this.buildModel = true;
-    }
 
     /**
      * Get number of leafs.
@@ -299,7 +272,7 @@ public class DecisionTree implements IClassifier {
         /**
          * Evaluate the regression tree over an instance.
          */
-        public int predict(double[] x) {
+        private int predict(double[] x) {
             if (trueChild == null && falseChild == null) {
                 return output;
             } else {
@@ -709,12 +682,9 @@ public class DecisionTree implements IClassifier {
      * 
      * Learns a classification tree with (most) given number of
      * leaves. All attributes are assumed to be numeric.
-     *
-     * @param x the training instances. 
-     * @param y the response variable.
      */
-    public DecisionTree(double[][] x, int[] y) {
-        this(null, x, y, 10);
+    public DecisionTree(){
+        this(10);
     }
     
     /**
@@ -723,12 +693,10 @@ public class DecisionTree implements IClassifier {
      * Learns a classification tree with (most) given number of
      * leaves. All attributes are assumed to be numeric.
      *
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param J the maximum number of leaf nodes in the tree.
      */
-    public DecisionTree(double[][] x, int[] y, int J) {
-        this(null, x, y, J);
+    public DecisionTree(int J) {
+        this(J, SplitRule.GINI);
     }
     
     /**
@@ -737,13 +705,12 @@ public class DecisionTree implements IClassifier {
      * Learns a classification tree with (most) given number of
      * leaves. All attributes are assumed to be numeric.
      *
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param J the maximum number of leaf nodes in the tree.
      * @param rule the splitting rule.
      */
-    public DecisionTree(double[][] x, int[] y, int J, SplitRule rule) {
-        this(null, x, y, J, rule);
+    public DecisionTree(int J, SplitRule rule) {
+        this.J = J;
+        this.rule = rule;
     }
     
     /**
@@ -753,11 +720,9 @@ public class DecisionTree implements IClassifier {
      * leaves.
      * 
      * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y) {
-        this(attributes, x, y, 10, SplitRule.GINI);
+    public DecisionTree(DecisionVariable[] attributes) {
+        this(attributes, 10);
     }
     
     /**
@@ -767,12 +732,10 @@ public class DecisionTree implements IClassifier {
      * leaves.
      * 
      * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param J the maximum number of leaf nodes in the tree.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J) {
-        this(attributes, x, y, J, SplitRule.GINI);
+    public DecisionTree(DecisionVariable[] attributes, int J) {
+        this(attributes, J, SplitRule.GINI);
     }
     
     /**
@@ -782,17 +745,85 @@ public class DecisionTree implements IClassifier {
      * leaves.
      * 
      * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param J the maximum number of leaf nodes in the tree.
      * @param rule the splitting rule.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, SplitRule rule) {
-        this(attributes, x, y, J, null, null, rule);
+    public DecisionTree(DecisionVariable[] attributes, int J, SplitRule rule) {
+        this.attributes = attributes;
+        this.J = J;
+        this.rule = rule;
     }
     
-    private void BuildModel(double[][] x, int[] y, int[] samples, int[][] order){
+    /**
+     * Initialize a new instance of the DecisionTree class (AdaBoost).
+     * 
+     * Learns a classification tree for AdaBoost.
+     * @param attributes the attribute properties.
+     * @param x Data for trainning.
+     * @param y Output for classification.
+     * @param J the maximum number of leaf nodes in the tree.
+     * @param order the index of training values in ascending order. Note
+     * that only numeric attributes need be sorted.
+     * @param samples the sample set of instances for stochastic learning.
+     * samples[i] is the number of sampling for instance i.
+     * @param rule Split rule.
+     */
+    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
+        this.attributes = attributes;
+        this.input = x;
+        this.output = y;
+        this.J = J;
+        this.samples = samples;
+        this.order = order;
+        this.rule = rule;
+        Learn(x,y);
+    }
+    
+    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule){
         this.buildModel = false;
+        
+        if (x.length != y.length) {
+            throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
+        }
+
+        if (J < 2) {
+            throw new IllegalArgumentException("Invalid maximum leaves: " + J);
+        }
+
+        // class label set.
+        int[] labels = Tools.Unique(y);
+        Arrays.sort(labels);
+        
+        for (int i = 0; i < labels.length; i++) {
+            if (labels[i] < 0) {
+                throw new IllegalArgumentException("Negative class label: " + labels[i]); 
+            }
+            
+            if (i > 0 && labels[i] - labels[i-1] > 1) {
+                throw new IllegalArgumentException("Missing class: " + labels[i]+1);                 
+            }
+        }
+
+        k = labels.length;
+        if (k < 2) {
+            throw new IllegalArgumentException("Only one class.");            
+        }
+        
+        if (attributes == null) {
+            int s = x[0].length;
+            attributes = new DecisionVariable[s];
+            for (int i = 0; i < s; i++) {
+                attributes[i] = new DecisionVariable("F" + i);
+            }
+        }
+        
+        this.input = x;
+        this.output = y;
+        this.attributes = attributes;
+        this.J = J;
+        this.rule = rule;
+        this.M = attributes.length;
+        importance = new double[attributes.length];
         
         if (order != null) {
             this.order = order;
@@ -847,68 +878,6 @@ public class DecisionTree implements IClassifier {
 
             node.split(nextSplits); // Split the parent node into two children nodes
         }
-    }
-    
-    /**
-     * Initialize a new instance of the DecisionTree class (AdaBoost).
-     * 
-     * Learns a classification tree for AdaBoost.
-     * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
-     * @param J the maximum number of leaf nodes in the tree.
-     * @param order the index of training values in ascending order. Note
-     * that only numeric attributes need be sorted.
-     * @param samples the sample set of instances for stochastic learning.
-     * samples[i] is the number of sampling for instance i.
-     * @param rule Split rule.
-     */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
-        
-        if (x.length != y.length) {
-            throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
-        }
-
-        if (J < 2) {
-            throw new IllegalArgumentException("Invalid maximum leaves: " + J);
-        }
-
-        // class label set.
-        int[] labels = Tools.Unique(y);
-        Arrays.sort(labels);
-        
-        for (int i = 0; i < labels.length; i++) {
-            if (labels[i] < 0) {
-                throw new IllegalArgumentException("Negative class label: " + labels[i]); 
-            }
-            
-            if (i > 0 && labels[i] - labels[i-1] > 1) {
-                throw new IllegalArgumentException("Missing class: " + labels[i]+1);                 
-            }
-        }
-
-        k = labels.length;
-        if (k < 2) {
-            throw new IllegalArgumentException("Only one class.");            
-        }
-        
-        if (attributes == null) {
-            int s = x[0].length;
-            attributes = new DecisionVariable[s];
-            for (int i = 0; i < s; i++) {
-                attributes[i] = new DecisionVariable("F" + i);
-            }
-        }
-        
-        this.input = x;
-        this.output = y;
-        this.attributes = attributes;
-        this.J = J;
-        this.rule = rule;
-        this.M = attributes.length;
-        importance = new double[attributes.length];
-        
-        BuildModel(x, y, samples, order);
     }
     
     /**
@@ -972,5 +941,19 @@ public class DecisionTree implements IClassifier {
         if (trainRoot.findBestSplit()) {
             trainRoot.split(null);
         }
+    }
+    
+    @Override
+    public void Learn(double[][] input, int[] output){
+        this.input = input;
+        this.output = output;
+        BuildModel(attributes, input, output, J, null, null, rule);
+    }
+    
+    @Override
+    public int Predict(double[] feature) {
+        if(buildModel)
+            BuildModel(attributes, input, output, J, null, null, rule);
+        return root.predict(feature);
     }
 }

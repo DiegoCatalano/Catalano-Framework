@@ -27,10 +27,6 @@ package Catalano.MachineLearning.Classification;
  * @author Diego Catalano
  */
 public interface IClassifier {
+    public void Learn(double[][] input, int[] output);
     public int Predict(double[] feature);
-    
-    public double[][] getInput();
-    public void setInput(double[][] data);
-    public int[] getOutput();
-    public void setOutput(int[] labels);
 }

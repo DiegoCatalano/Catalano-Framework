@@ -4,8 +4,6 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2013
-// cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -87,21 +85,18 @@ public class Pearson implements IMercerKernel<double[]>{
 
     @Override
     public double Function(double[] x, double[] y) {
+        
+        //Inner product
         double xx = 0;
         double yy = 0;
         double xy = 0;
         for (int i = 0; i < x.length; i++){
-            double u = x[i] * x[i];
-            double v = y[i] * y[i];
-            double uv = x[i] * y[i];
-            xx += u;
-            yy += v;
-            xy += uv;
+            xx += x[i] * x[i];
+            yy += y[i] * y[i];
+            xy += x[i] * y[i];
         }
         
-        double sd = -2.0 * xy + xx + yy;
-        double m = constant * Math.sqrt(sd);
-
+        double m = constant * Math.sqrt(-2.0 * xy + xx + yy);
         return 1.0 / Math.pow(1.0 + m * m, omega);
     }   
 }

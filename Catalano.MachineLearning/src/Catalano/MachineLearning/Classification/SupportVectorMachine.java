@@ -28,7 +28,6 @@ import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.Core.Structs.DoubleArrayList;
 import Catalano.Math.Matrix;
 import Catalano.Math.SparseArray;
-import Catalano.Math.Tools;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import Catalano.Statistics.Kernels.Linear;
 import java.util.ArrayList;
@@ -308,7 +307,7 @@ public class SupportVectorMachine <T> {
             }
 
             // train SVM in a stochastic order.
-            int[] index = Tools.Random().permutate(n);
+            int[] index = Matrix.Indices(0, n);//Tools.Random().permutate(n);
             for (int i = 0; i < n; i++) {
                 if (weight == null) {
                     process(x[index[i]], y[index[i]]);
@@ -874,8 +873,8 @@ public class SupportVectorMachine <T> {
         this.tol = tol;
     }
 
-    public void learn(T x, int y) {
-        learn(x, y, 1.0);
+    public void Learn(T x, int y) {
+        Learn(x, y, 1.0);
     }
 
     /**
@@ -887,7 +886,7 @@ public class SupportVectorMachine <T> {
      * @param weight instance weight. Must be positive. The soft margin penalty
      * parameter for instance will be weight * C.
      */
-    public void learn(T x, int y, double weight) {
+    public void Learn(T x, int y, double weight) {
         if (y < 0 || y >= k) {
             throw new IllegalArgumentException("Invalid label");
         }
@@ -937,8 +936,8 @@ public class SupportVectorMachine <T> {
      * @param x training instances.
      * @param y training labels in [0, k), where k is the number of classes.
      */
-    public void learn(T[] x, int[] y) {
-        learn(x, y, null);
+    public void Learn(T[] x, int[] y) {
+        Learn(x, y, null);
     }
     
     /**
@@ -954,7 +953,7 @@ public class SupportVectorMachine <T> {
      * parameter for instance i will be weight[i] * C.
      */
     @SuppressWarnings("unchecked")
-    public void learn(T[] x, int[] y, double[] weight) {
+    public void Learn(T[] x, int[] y, double[] weight) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }

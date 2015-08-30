@@ -23,65 +23,10 @@ package Catalano.Statistics.Kernels;
    
 public class Gaussian implements IMercerKernel<double[]>{
     
-    private double sigma;
     private double gamma;
-
-    /**
-     * Constructs a new Gaussian Kernel.
-     */
-    public Gaussian(){
-        sigma = 1;
-    }
-
-    /**
-     * Constructs a new Gaussian Kernel.
-     * @param sigma The standard deviation for the Gaussian distribution.
-     */
-    public Gaussian(double sigma){
-        this.sigma = sigma;
-    }
-
-    /**
-     * Gets the sigma value for the kernel.
-     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
-     * @return Sigma value.
-     */
-    public double getSigma(){
-        return sigma;
-    }
-
-    /**
-     * Sets the sigma value for the kernel.
-     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma^2).
-     * @param value Sigma value.
-     */
-    public void setSigma(double value){
-            sigma = value;
-            gamma = 1.0 / (2.0 * sigma * sigma);
-    }
-
-    /**
-     * Gets the sigma squared value for the kernel.
-     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
-     * @return Sigma squared.
-     */
-    public double getSigmaSquared(){
-        return sigma * sigma;
-    }
-
-    /**
-     * Sets the sigma squared value for the kernel.
-     * When setting sigma, gamma gets updated accordingly (gamma = 0.5/sigma).
-     * @param value Sigma squared.
-     */
-    public void setSigmaSquared(double value){
-            sigma = Math.sqrt(value);
-            gamma = 1.0 / (2.0 * value);
-    }
-
+    
     /**
      * Gets the gamma value for the kernel.
-     * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
      * @return Gamma value.
      */
     public double getGamma(){
@@ -90,12 +35,25 @@ public class Gaussian implements IMercerKernel<double[]>{
 
     /**
      * Sets the gamma value for the kernel.
-     * When setting gamma, sigma gets updated accordingly (gamma = 0.5/sigma^2).
-     * @param value Gamma value.
+     * @param gamma Gamma value.
      */
-    public void setGamma(double value){
-            gamma = value;
-            sigma = Math.sqrt(1.0 / (gamma * 2.0));
+    public void setGamma(double gamma){
+            this.gamma = gamma / 100;
+    }
+
+    /**
+     * Constructs a new Gaussian Kernel.
+     */
+    public Gaussian(){
+        this(1);
+    }
+
+    /**
+     * Constructs a new Gaussian Kernel.
+     * @param gamma The smooth of the Gaussian Kernel.
+     */
+    public Gaussian(double gamma){
+        setGamma(gamma);
     }
 
     /**
@@ -110,8 +68,7 @@ public class Gaussian implements IMercerKernel<double[]>{
         if (x == y) return 1.0;
 
         double norm = 0.0, d;
-        for (int i = 0; i < x.length; i++)
-        {
+        for (int i = 0; i < x.length; i++){
             d = x[i] - y[i];
             norm += d * d;
         }

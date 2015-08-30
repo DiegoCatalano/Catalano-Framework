@@ -157,83 +157,61 @@ public class AdaBoost implements IClassifier {
         this.J = J;
         this.buildModel = true;
     }
-
-    @Override
-    public double[][] getInput() {
-        return input;
-    }
-
-    @Override
-    public void setInput(double[][] data) {
-        this.input = data;
-        this.buildModel = true;
-    }
-
-    @Override
-    public int[] getOutput() {
-        return output;
-    }
-
-    @Override
-    public void setOutput(int[] labels) {
-        this.output = labels;
-        this.buildModel = true;
-    }
     
-    public AdaBoost(double[][] x, int[] y){
-        this(null, x, y, 10);
+    public AdaBoost(){
+        this(10);
     }
     
     /**
-     * Constructor. Learns AdaBoost with decision stumps.
+     * Initializes a new instance of the AdaBoost class.
      *
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param T the number of trees.
      */
-    public AdaBoost(double[][] x, int[] y, int T) {
-        this(null, x, y, T);
+    public AdaBoost(int T) {
+        this(T, 2);
     }
 
     /**
-     * Constructor. Learns AdaBoost with decision trees.
+     * Initializes a new instance of the AdaBoost class.
      *
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param T the number of trees.
      * @param J the maximum number of leaf nodes in the trees.
      */
-    public AdaBoost(double[][] x, int[] y, int T, int J) {
-        this(null, x, y, T, J);
+    public AdaBoost(int T, int J) {
+        this.T = T;
+        this.J = J;
     }
     
-    public AdaBoost(DecisionVariable[] attributes, double[][] x, int[] y){
-        this(null, x, y, 10, 2);
+    /**
+     * Initializes a new instance of the AdaBoost class.
+     * 
+     * @param attributes the attribute properties.
+     */
+    public AdaBoost(DecisionVariable[] attributes){
+        this(null, 10);
     }
 
     /**
-     * Constructor. Learns AdaBoost with decision stumps.
+     * Initializes a new instance of the AdaBoost class.
      *
      * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param T the number of trees.
      */
-    public AdaBoost(DecisionVariable[] attributes, double[][] x, int[] y, int T) {
-        this(attributes, x, y, T, 2);
+    public AdaBoost(DecisionVariable[] attributes, int T) {
+        this(attributes, T, 2);
     }
     
     /**
-     * Constructor.
+     * Initializes a new instance of the AdaBoost class.
      *
      * @param attributes the attribute properties.
-     * @param x the training instances. 
-     * @param y the response variable.
      * @param T the number of trees.
      * @param J the maximum number of leaf nodes in the trees.
      */
-    public AdaBoost(DecisionVariable[] attributes, double[][] x, int[] y, int T, int J) {
-        BuildModel(attributes, x, y, T, J);
+    public AdaBoost(DecisionVariable[] attributes, int T, int J) {
+        this.attributes = attributes;
+        this.T = T;
+        this.J = J;
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int J){
@@ -241,7 +219,6 @@ public class AdaBoost implements IClassifier {
         this.output = y;
         this.T = T;
         this.J = J;
-        this.buildModel = false;
         
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
@@ -324,7 +301,6 @@ public class AdaBoost implements IClassifier {
             }
             
             if (1 - e <= guess) {
-                System.err.format("Weak classifier %d makes %.2f%% weighted error\n", t, 100*e);
                 trees = Arrays.copyOf(trees, t);
                 alpha = Arrays.copyOf(alpha, t);
                 error = Arrays.copyOf(error, t);
@@ -348,6 +324,13 @@ public class AdaBoost implements IClassifier {
                 importance[i] += imp[i];
             }
         }
+    }
+    
+    @Override
+    public void Learn(double[][] input, int[] output){
+        this.input = input;
+        this.output = output;
+        this.buildModel = true;
     }
     
     @Override
