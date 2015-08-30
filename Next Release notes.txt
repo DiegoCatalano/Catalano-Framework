@@ -67,7 +67,19 @@ Catalano Framework 1.5 road map
     - New: Serialization.
     - New: CSV Parser.
 
+* Catalano.MachineLearning.Classification
+    - New: Support Vector Machine.
+
+* Catalano.MachineLearning.Classification.DecisionTree
+    - New: Decision Tree.
+    - New: Decision Variable.
+
+* Catalano.MachineLearning.Classification.DecisionTree.Learning
+    - New: Random Forest.
+    - New: Ada Boost.
+
 * Catalano.MachineLearning
+    - New: Benchmark Classifier.
     - New: Supplied Validation.
     - New: Holdout Validation.
     - New: Codification.
@@ -76,7 +88,7 @@ Catalano Framework 1.5 road map
     - New: Normalization.
 
 * Catalano.MachineLearning.Regression
-    - New: K Nearest Neighbours (Classification and Regression).
+    - New: K Nearest Neighbours.
 
 * Catalano.Math
     - New: Distances namespace (All distances is refactored).
