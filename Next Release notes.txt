@@ -79,6 +79,7 @@ Catalano Framework 1.5 road map
     - New: Ada Boost.
 
 * Catalano.MachineLearning
+    - New: Dataset.
     - New: Benchmark Classifier.
     - New: Supplied Validation.
     - New: Holdout Validation.
