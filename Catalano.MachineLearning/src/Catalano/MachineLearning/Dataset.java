@@ -22,13 +22,16 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.Core.DoubleRange;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
+import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +44,13 @@ import java.util.logging.Logger;
  * @author Diego Catalano
  */
 public class Dataset {
+    
+    public static enum Format{
+        /**
+         * CSV structure.
+         */
+        CSV
+    };
     
     private final String name;
     private final double[][] input;
@@ -105,20 +115,20 @@ public class Dataset {
     }
     
     /**
-     * Read dataset from a CSV structure.
-     * @param filepath File path.
+     * Construct a dataset from an Input Strem Reader.
+     * @param reader Reader.
      * @param name Name of the dataset.
+     * @param format Format of file.
      * @return Dataset.
      */
-    public static Dataset FromCSV(String filepath, String name){
-        
+    public static Dataset FromReader(InputStreamReader reader, String name, Format format){
         double[][] input = null;
         int[] output = null;
         DecisionVariable[] attributes = null;
         int numClasses = 0;
         
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
+            BufferedReader br = new BufferedReader(reader);//new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
             
             String line;
             List<String> lines = new ArrayList<String>();
@@ -210,6 +220,26 @@ public class Dataset {
     }
     
     /**
+     * Read dataset from a CSV structure.
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     * @return Dataset.
+     */
+    public static Dataset FromCSV(String filepath, String name){
+        
+        try {
+            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), name, Format.CSV);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+        
+    }
+    
+    /**
      * Initializes a new instance of the Dataset class.
      * @param name Name of the dataset.
      * @param attributes Decision variables.
@@ -223,5 +253,77 @@ public class Dataset {
         this.input = input;
         this.output = output;
         this.numClasses = numClasses;
+    }
+    
+    /**
+     * Normalize all continuous data.
+     * Default: (0..1).
+     * @return Range of the normalization.
+     */
+    public DoubleRange[] Normalize(){
+        return Normalize(0,1);
+    }
+    
+    /**
+     * Normalize all continuous data.
+     * @param min Minimum.
+     * @param max Maximum.
+     * @return Range of the normalization.
+     */
+    public DoubleRange[] Normalize(double min, double max){
+        
+        int continuous = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous)
+                continuous++;
+        }
+        
+        DoubleRange[] range = new DoubleRange[continuous];
+        
+        int idx = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous){
+                double[] temp = Matrix.getColumn(input, i);
+                double _min = Catalano.Statistics.Tools.Min(temp);
+                double _max = Catalano.Statistics.Tools.Max(temp);
+                range[idx++] = new DoubleRange(_min, _max);
+                for (int j = 0; j < temp.length; j++) {
+                    input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+                }
+            }
+        }
+        
+        return range;
+    }
+    
+    /**
+     * Standartize all continuous data.
+     * x = (x - u) / s
+     * @return Range of standartization.
+     */
+    public DoubleRange[] Standartize(){
+        
+        int continuous = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous)
+                continuous++;
+        }
+        
+        DoubleRange[] range = new DoubleRange[continuous];
+        
+        int idx = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous){
+                double[] temp = Matrix.getColumn(input, i);
+                double mean = Catalano.Statistics.Tools.Mean(temp);
+                double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
+                range[idx++] = new DoubleRange(mean, std);
+                for (int j = 0; j < temp.length; j++) {
+                    input[j][i] = (input[j][i] - mean) / std;
+                }
+            }
+        }
+        
+        return range;
     }
 }
