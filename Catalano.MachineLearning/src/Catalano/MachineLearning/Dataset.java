@@ -26,16 +26,20 @@ import Catalano.Core.DoubleRange;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
+import Catalano.Statistics.DescriptiveStatistics;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +47,7 @@ import java.util.logging.Logger;
  * Dataset.
  * @author Diego Catalano
  */
-public class Dataset {
+public class Dataset implements Serializable{
     
     public static enum Format{
         /**
@@ -57,6 +61,7 @@ public class Dataset {
     private final int[] output;
     private final DecisionVariable[] attributes;
     private final int numClasses;
+    private int continuous = 0;
 
     /**
      *Get the name of the dataset.
@@ -113,6 +118,22 @@ public class Dataset {
     public int getNumberOfClasses(){
         return numClasses;
     }
+
+    /**
+     * Get the number of type continuous.
+     * @return Number of type continuous.
+     */
+    public int getNumberOfContinuous() {
+        return continuous;
+    }
+    
+    /**
+     * Get the number of type discrete.
+     * @return Number of type discrete.
+     */
+    public int getNumberOfDiscrete(){
+        return this.attributes.length - continuous;
+    }
     
     /**
      * Construct a dataset from an Input Strem Reader.
@@ -126,6 +147,7 @@ public class Dataset {
         int[] output = null;
         DecisionVariable[] attributes = null;
         int numClasses = 0;
+        int continuous = 0;
         
         try {
             BufferedReader br = new BufferedReader(reader);//new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
@@ -148,6 +170,7 @@ public class Dataset {
                     hs.add(header[i]);
                     if(Tools.isNumeric(firstInstance[i])){
                         attributes[i] = new DecisionVariable(header[i], DecisionVariable.Type.Continuous);
+                        continuous++;
                     }
                     else{
                         attributes[i] = new DecisionVariable(header[i], DecisionVariable.Type.Discrete);
@@ -216,7 +239,8 @@ public class Dataset {
             Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return new Dataset(name, attributes, input, output, numClasses);
+        
+        return new Dataset(name, attributes, input, output, numClasses, continuous);
     }
     
     /**
@@ -246,13 +270,15 @@ public class Dataset {
      * @param input Input data.
      * @param output Output data.
      * @param numClasses Number of classes.
+     * @param continuous Number of continuous type.
      */
-    public Dataset(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses){
+    public Dataset(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
         this.name = name;
         this.attributes = attributes;
         this.input = input;
         this.output = output;
         this.numClasses = numClasses;
+        this.continuous = continuous;
     }
     
     /**
@@ -325,5 +351,141 @@ public class Dataset {
         }
         
         return range;
+    }
+    
+    public DatasetStatistics[] DatasetStatistics(){
+        
+        int continuous = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous)
+                continuous++;
+        }
+        
+        DatasetStatistics[] stat = new DatasetStatistics[continuous];
+        int idx = 0;
+        for (int i = 0; i < attributes.length; i++) {
+            if(attributes[i].type == DecisionVariable.Type.Continuous){
+                
+                double[] temp = Matrix.getColumn(input, i);
+                double mean = DescriptiveStatistics.Mean(temp);
+                double median = DescriptiveStatistics.Median(temp);
+                double min = DescriptiveStatistics.Minimum(temp);
+                double max = DescriptiveStatistics.Maximum(temp);
+                double std = DescriptiveStatistics.StandartDeviation(temp, mean);
+                double kurtosis = DescriptiveStatistics.Kurtosis(temp, mean, std);
+                double skewness = DescriptiveStatistics.Skewness(temp, mean, std);
+                
+                stat[idx++] = new DatasetStatistics(attributes[i].name, mean, median, min, max, std, skewness, kurtosis);
+            }
+        }
+        return stat;
+    }
+    
+    public void WriteAsCSV(String filename){
+        WriteAsCSV(filename,-1,',', System.getProperty("line.separator"));
+    }
+    
+    public void WriteAsCSV(String filename, int decimalPlaces){
+        WriteAsCSV(filename,decimalPlaces,',', System.getProperty("line.separator"));
+    }
+    
+    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter){
+        WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"));
+    }
+    
+    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
+        try {
+            String dec = "%." + decimalPlaces + "f";
+            
+            FileWriter fw = new FileWriter(filename);
+            
+            //Header
+            for (int i = 0; i < attributes.length; i++) {
+                fw.append(attributes[i].name + delimiter);
+            }
+            fw.append("Class" + newLine);
+            
+            //Data
+            for (int i = 0; i < input.length; i++) {
+                for (int j = 0; j < input[0].length; j++) {
+                    if(decimalPlaces >= 0)
+                        fw.append(String.format(Locale.US, dec, input[i][j]) + delimiter);
+                    else
+                        fw.append(String.valueOf(input[i][j]) + delimiter);
+                }
+                fw.append(String.valueOf(output[i]) + newLine);
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void WriteAsARFF(String filename, String relationName){
+        WriteAsARFF(filename, relationName, -1);
+    }
+    
+    public void WriteAsARFF(String filename, String relationName, int decimalPlaces){
+        try {
+            String dec = "%." + decimalPlaces + "f";
+            String newLine = System.getProperty("line.separator");
+            char delimiter = ',';
+            
+            FileWriter fw = new FileWriter(filename);
+            
+            //Relation name
+            fw.append("@RELATION " + relationName);
+            fw.append(newLine + newLine);
+            
+            //Attribute information
+            for (int i = 0; i < attributes.length; i++) {
+                if(attributes[i].type == DecisionVariable.Type.Continuous){
+                    fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + " NUMERIC");
+                    fw.append(newLine);
+                }
+                else{
+                    String nominal = "{";
+                    int max = (int)Matrix.Max(Matrix.getColumn(input, i));
+                    for (int j = 0; j < max; j++) {
+                        nominal += j + ", ";
+                    }
+                    nominal += max + "}";
+                    fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + nominal);
+                    fw.append(newLine);
+                }
+            }
+            
+            //Class information
+            String nominal = "{";
+            int max = Matrix.Max(output);
+            for (int j = 0; j < max; j++) {
+                nominal += j + ", ";
+            }
+            nominal += max + "}";
+            fw.append("@ATTRIBUTE class " + nominal);
+            fw.append(newLine);
+            
+            //Data
+            fw.append(newLine);
+            fw.append("@DATA" + newLine);
+            for (int i = 0; i < input.length; i++) {
+                for (int j = 0; j < input[0].length; j++) {
+                    if(decimalPlaces >= 0)
+                        fw.append(String.format(Locale.US, dec, input[i][j]) + delimiter);
+                    else
+                        fw.append(String.valueOf(input[i][j]) + delimiter);
+                }
+                fw.append(String.valueOf(output[i]) + newLine);
+            }
+            
+            fw.flush();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
