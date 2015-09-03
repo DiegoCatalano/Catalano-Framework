@@ -53,7 +53,12 @@ public class Dataset implements Serializable{
         /**
          * CSV structure.
          */
-        CSV
+        CSV,
+        
+        /**
+         * ARFF structure.
+         */
+        ARFF
     };
     
     private final String name;
@@ -150,18 +155,17 @@ public class Dataset implements Serializable{
         int continuous = 0;
         
         try {
-            BufferedReader br = new BufferedReader(reader);//new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
+            BufferedReader br = new BufferedReader(reader);
             
             String line;
             List<String> lines = new ArrayList<String>();
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
-            
             if(lines.size() > 0) {
                 String[] header = lines.get(0).split(String.valueOf(','));
                 String[] firstInstance = lines.get(1).split(String.valueOf(','));
-                
+
                 //Build: Decision variable
                 attributes = new DecisionVariable[header.length - 1];
                 HashSet<String> hs = new HashSet<String>();
@@ -179,8 +183,8 @@ public class Dataset implements Serializable{
                 }
                 if(hs.size() != attributes.length)
                     throw new IllegalArgumentException("The column names of attributes must be unique.");
-                
-                
+
+
                 //Build: Input data
                 input = new double[lines.size() - 1][attributes.length];
                 List<HashMap<String,Integer>> lst;
@@ -196,7 +200,7 @@ public class Dataset implements Serializable{
                     }
                     indexes = new int[discretes];
                 }
-                
+
                 int idxAtt;
                 for (int i = 1; i < lines.size(); i++) {
                     idxAtt = 0;
@@ -214,7 +218,7 @@ public class Dataset implements Serializable{
                         }
                     }
                 }
-                
+
                 //Build Output data
                 output = new int[lines.size() - 1];
                 int idx = 0;
@@ -231,7 +235,6 @@ public class Dataset implements Serializable{
                         output[j-1] = map.get(s);
                     }
                 }
-                
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,6 +264,18 @@ public class Dataset implements Serializable{
         
         return null;
         
+    }
+    
+    public static Dataset FromARFF(String filepath){
+        try {
+            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), null, Format.ARFF);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
     
     /**

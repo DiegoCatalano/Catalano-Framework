@@ -100,6 +100,7 @@ public class RandomForest implements IClassifier {
     private int T;
     private int M;
     private RandomSelection rs;
+    private long seed;
     
     /**
      * Forest of decision trees.
@@ -161,6 +162,16 @@ public class RandomForest implements IClassifier {
     public int size() {
         return trees.size();
     }
+
+    /**
+     * Random seed.
+     * @return Random seed.
+     */
+    public long getSeed() {
+        if(seed == 0)
+            return Thread.currentThread().getId() * System.currentTimeMillis();
+        return seed;
+    }
     
     /**
      * Trains a regression tree.
@@ -191,22 +202,34 @@ public class RandomForest implements IClassifier {
          * The out-of-bag predictions.
          */
         int[][] prediction;
+        /**
+         * Random seed.
+         */
+        long seed;
+
+        public long getSeed() {
+            if(seed == 0)
+                return Thread.currentThread().getId() * System.currentTimeMillis();
+            return seed;
+        }
 
         /**
          * Constructor.
          */
-        TrainingTask(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[][] order, int[][] prediction) {
+        TrainingTask(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[][] order, int[][] prediction, long seed) {
             this.attributes = attributes;
             this.x = x;
             this.y = y;
             this.order = order;
             this.M = M;
             this.prediction = prediction;
+            this.seed = seed;
         }
 
+        @Override
         public DecisionTree call() {            
             int n = x.length;
-            Random random = new Random(Thread.currentThread().getId() * System.currentTimeMillis());
+            Random random = new Random(getSeed()); //Thread.currentThread().getId() * System.currentTimeMillis()
             int[] samples = new int[n]; // Training samples draw with replacement.
             for (int i = 0; i < n; i++) {
                 samples[random.nextInt(n)]++;
@@ -256,6 +279,35 @@ public class RandomForest implements IClassifier {
     }
     
     /**
+     * Initializes a new instance of the RandomForest class. 
+     * @param T the number of trees.
+     * @param randomSelection the number of random selected features.
+     */
+    public RandomForest(int T, RandomSelection randomSelection){
+        this(null, T, randomSelection);
+    }
+    
+    /**
+     * Initializes a new instance of the RandomForest class. 
+     * @param T the number of trees.
+     * @param randomSelection the number of random selected features.
+     * @param seed Random seed.
+     */
+    public RandomForest(int T, RandomSelection randomSelection, long seed){
+        this(null, T, randomSelection, seed);
+    }
+    
+    /**
+     * Initializes a new instance of the RandomForest class.
+     * @param T the number of trees.
+     * @param M the number of random selected features
+     * @param seed Random seed.
+     */
+    public RandomForest(int T, int M, long seed){
+        this(null, T, M, seed);
+    }
+    
+    /**
      * Initializes a new instance of the RandomForest class.
      * @param attributes the attribute properties.
      */
@@ -283,9 +335,21 @@ public class RandomForest implements IClassifier {
      * generally good performance, where dim is the number of variables.
      */
     public RandomForest(DecisionVariable[] attributes, int T, int M){
+        this(attributes, T, M, 0);
+    }
+    
+    /**
+     * Initializes a new instance of the RandomForest class.
+     * @param attributes the attribute properties.
+     * @param T the number of trees.
+     * @param M  the number of random selected features.
+     * @param seed Random seed.
+     */
+    public RandomForest(DecisionVariable[] attributes, int T, int M, long seed){
         this.attributes = attributes;
         this.T = T;
         this.M = M;
+        this.seed = seed;
     }
     
     /**
@@ -298,8 +362,24 @@ public class RandomForest implements IClassifier {
      * generally good performance, where dim is the number of variables.
      */
     public RandomForest(DecisionVariable[] attributes, int T, RandomSelection randomSelection){
+        this(attributes, T, randomSelection, 0);
+    }
+    
+    /**
+     * Initializes a new instance of the RandomForest class.
+     *
+     * @param attributes the attribute properties.
+     * @param T the number of trees.
+     * @param randomSelection The method for create random selected features to be used to determine
+     * the decision at a node of the tree. floor(sqrt(dim)) seems to give
+     * generally good performance, where dim is the number of variables.
+     * @param seed Random seed.
+     */
+    public RandomForest(DecisionVariable[] attributes, int T, RandomSelection randomSelection, long seed){
+        this.attributes = attributes;
         this.T = T;
         this.rs = randomSelection;
+        this.seed = seed;
     }
     
     /**
@@ -313,7 +393,7 @@ public class RandomForest implements IClassifier {
      * the decision at a node of the tree. floor(sqrt(dim)) seems to give
      * generally good performance, where dim is the number of variables.
      */
-    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M) {
+    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M, long seed) {
         
         if (attributes == null) {
             int s = x[0].length;
@@ -359,7 +439,7 @@ public class RandomForest implements IClassifier {
         int[][] order = sort(attributes, x);
         List<TrainingTask> tasks = new ArrayList<TrainingTask>();
         for (int i = 0; i < T; i++) {
-            tasks.add(new TrainingTask(attributes, x, y, M, order, prediction));
+            tasks.add(new TrainingTask(attributes, x, y, M, order, prediction, seed));
         }
         
         try {
@@ -462,7 +542,7 @@ public class RandomForest implements IClassifier {
                 this.M = (int)Tools.Log(input[0].length, 2) + 1;
         }
         
-        BuildModel(attributes, input, output, T, M);
+        BuildModel(attributes, input, output, T, M, seed);
     }
     
     @Override
@@ -477,7 +557,7 @@ public class RandomForest implements IClassifier {
         return Matrix.MaxIndex(y);
     }
     
-    public int Predict(double[] x, double[] posteriori) {
+    public int Predict(double[] feature, double[] posteriori) {
         if (posteriori.length != k) {
             throw new IllegalArgumentException(String.format("Invalid posteriori vector size: %d, expected: %d", posteriori.length, k));
         }
@@ -485,7 +565,7 @@ public class RandomForest implements IClassifier {
         int[] y = new int[k];
         
         for (DecisionTree tree : trees) {
-            y[tree.Predict(x)]++;
+            y[tree.Predict(feature)]++;
         }
         
         double n = trees.size();
