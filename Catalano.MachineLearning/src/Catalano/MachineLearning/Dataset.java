@@ -381,18 +381,40 @@ public class Dataset implements Serializable{
         return stat;
     }
     
+    /**
+     * Write the dataset as CSV file.
+     * @param filename Filename.
+     */
     public void WriteAsCSV(String filename){
         WriteAsCSV(filename,-1,',', System.getProperty("line.separator"));
     }
     
+    /**
+     * Write the dataset as CSV file.
+     * @param filename Filename.
+     * @param decimalPlaces Decimal places for continous data.
+     */
     public void WriteAsCSV(String filename, int decimalPlaces){
         WriteAsCSV(filename,decimalPlaces,',', System.getProperty("line.separator"));
     }
     
+    /**
+     * Write the dataset as CSV file.
+     * @param filename Filename.
+     * @param decimalPlaces Decimal places for continous data.
+     * @param delimiter Delimiter.
+     */
     public void WriteAsCSV(String filename, int decimalPlaces, char delimiter){
         WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"));
     }
     
+    /**
+     *  Write the dataset as CSV file.
+     * @param filename Filename.
+     * @param decimalPlaces Decimal places.
+     * @param delimiter Delimiter.
+     * @param newLine Newline char.
+     */
     public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
         try {
             String dec = "%." + decimalPlaces + "f";
@@ -408,12 +430,17 @@ public class Dataset implements Serializable{
             //Data
             for (int i = 0; i < input.length; i++) {
                 for (int j = 0; j < input[0].length; j++) {
-                    if(decimalPlaces >= 0)
-                        fw.append(String.format(Locale.US, dec, input[i][j]) + delimiter);
-                    else
+                    if(attributes[j].type == DecisionVariable.Type.Continuous){
+                        if(decimalPlaces >= 0)
+                            fw.append(String.format(Locale.US, dec, input[i][j]) + delimiter);
+                        else
+                            fw.append(String.valueOf(input[i][j]) + delimiter);
+                    }
+                    else{
                         fw.append(String.valueOf(input[i][j]) + delimiter);
+                    }
                 }
-                fw.append(String.valueOf(output[i]) + newLine);
+                fw.append("_" + String.valueOf(output[i]) + newLine);
             }
             
             fw.flush();
@@ -424,10 +451,21 @@ public class Dataset implements Serializable{
         }
     }
     
+    /**
+     * Write dataset as ARFF file.
+     * @param filename Filename.
+     * @param relationName Relation name.
+     */
     public void WriteAsARFF(String filename, String relationName){
         WriteAsARFF(filename, relationName, -1);
     }
     
+    /**
+     * Write dataset as ARFF file.
+     * @param filename Filename.
+     * @param relationName Relation name.
+     * @param decimalPlaces Decimal places.
+     */
     public void WriteAsARFF(String filename, String relationName, int decimalPlaces){
         try {
             String dec = "%." + decimalPlaces + "f";
