@@ -49,7 +49,7 @@ public class Ranker {
      * @return Rank of the attributes.
      */
     public static double[] InfoGain(DecisionVariable[] attributes, double[][] input, int[] output){
-        RandomForest rf = new RandomForest(attributes, 1, attributes.length, 1);
+        RandomForest rf = new RandomForest(attributes, 1, input[0].length, 1);
         rf.Learn(input, output);
         return rf.importance();
     }

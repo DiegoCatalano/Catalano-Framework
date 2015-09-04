@@ -36,9 +36,8 @@ import java.util.Map;
 /**
  * K Nearest Neighbour classifier.
  * @author Diego Catalano
- * @param <T> Object.
  */
-public class KNearestNeighbors<T> implements IClassifier {
+public class KNearestNeighbors implements IClassifier {
     
     private int k;
     private double[][] input;

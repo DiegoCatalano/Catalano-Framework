@@ -44,10 +44,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Dataset.
+ * Dataset for classification.
  * @author Diego Catalano
  */
-public class Dataset implements Serializable{
+public class ClassificationDataset implements Serializable{
     
     public static enum Format{
         /**
@@ -145,9 +145,9 @@ public class Dataset implements Serializable{
      * @param reader Reader.
      * @param name Name of the dataset.
      * @param format Format of file.
-     * @return Dataset.
+     * @return ClassificationDataset.
      */
-    public static Dataset FromReader(InputStreamReader reader, String name, Format format){
+    public static ClassificationDataset FromReader(InputStreamReader reader, String name, Format format){
         double[][] input = null;
         int[] output = null;
         DecisionVariable[] attributes = null;
@@ -237,42 +237,44 @@ public class Dataset implements Serializable{
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        return new Dataset(name, attributes, input, output, numClasses, continuous);
+        return new ClassificationDataset(name, attributes, input, output, numClasses, continuous);
     }
     
     /**
      * Read dataset from a CSV structure.
+     * The last column of CSV is interpreted as output.
+     * 
      * @param filepath File path.
      * @param name Name of the dataset.
-     * @return Dataset.
+     * @return ClassificationDataset.
      */
-    public static Dataset FromCSV(String filepath, String name){
+    public static ClassificationDataset FromCSV(String filepath, String name){
         
         try {
             return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), name, Format.CSV);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return null;
         
     }
     
-    public static Dataset FromARFF(String filepath){
+    public static ClassificationDataset FromARFF(String filepath){
         try {
             return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), null, Format.ARFF);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return null;
@@ -287,7 +289,7 @@ public class Dataset implements Serializable{
      * @param numClasses Number of classes.
      * @param continuous Number of continuous type.
      */
-    public Dataset(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
+    public ClassificationDataset(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
         this.name = name;
         this.attributes = attributes;
         this.input = input;
@@ -462,7 +464,7 @@ public class Dataset implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -538,7 +540,7 @@ public class Dataset implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(Dataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
