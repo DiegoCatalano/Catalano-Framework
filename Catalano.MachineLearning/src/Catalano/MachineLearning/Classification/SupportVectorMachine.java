@@ -27,7 +27,6 @@ package Catalano.MachineLearning.Classification;
 import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.Core.Structs.DoubleArrayList;
 import Catalano.Math.Matrix;
-import Catalano.Math.SparseArray;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import Catalano.Statistics.Kernels.Linear;
 import java.util.ArrayList;
@@ -87,11 +86,10 @@ import java.util.concurrent.Callable;
  * <li> Chih-Chung Chang and Chih-Jen Lin. LIBSVM: a Library for Support Vector Machines.</li>
  * </ol>
  * 
- * @param <T> the type of input object.
  * 
  * @author Haifeng Li
  */
-public class SupportVectorMachine <T> {
+public class SupportVectorMachine implements IClassifier{
     /**
      * The type of multi-class SVMs.
      */
@@ -122,7 +120,7 @@ public class SupportVectorMachine <T> {
     /**
      * The kernel function.
      */
-    private IMercerKernel<T> kernel;
+    private IMercerKernel kernel;
     /**
      * The dimensionality of instances. Useful for sparse arrays.
      */
@@ -156,7 +154,7 @@ public class SupportVectorMachine <T> {
             /**
              * Support vector.
              */
-            T x;
+            double[] x;
             /**
              * Support vector label.
              */
@@ -247,7 +245,7 @@ public class SupportVectorMachine <T> {
          * times (usually 1 or 2), the users should call {@link #finalize()}
          * to further process support vectors.
          */
-        void learn(T[] x, int[] y) {
+        void learn(double[][] x, int[] y) {
             learn(x, y, null);
         }
         
@@ -258,17 +256,10 @@ public class SupportVectorMachine <T> {
          * times (usually 1 or 2), the users should call {@link #finalize()}
          * to further process support vectors.
          */
-        void learn(T[] x, int[] y, double[] weight) {
+        void learn(double[][] x, int[] y, double[] weight) {
             if (p == 0 && kernel instanceof Linear) {
-                if (x instanceof double[][]) {
-                    double[] x0 = (double[]) x[0];
-                    p = x0.length;
-                } else if (x instanceof float[][]) {
-                    float[] x0 = (float[]) x[0];
-                    p = x0.length;
-                } else {
-                    throw new UnsupportedOperationException("Unsupported data type for linear kernel.");
-                }
+                double[] x0 = (double[]) x[0];
+                p = x0.length;
             }
 
             int c1 = 0, c2 = 0;
@@ -325,21 +316,12 @@ public class SupportVectorMachine <T> {
         /**
          * Returns the function value after training.
          */
-        double predict(T x) {
+        double predict(double[] x) {
             double f = b;
 
             if (kernel instanceof Linear && w != null) {
-                if (x instanceof double[]) {
-                    f += Matrix.InnerProduct(w, (double[]) x);
-                } else if (x instanceof SparseArray) {
-                    for (SparseArray.Entry e : (SparseArray) x) {
-                        f += w[e.i] * e.x;
-                    }
-                } else {
-                    throw new UnsupportedOperationException("Unsupported data type for linear kernel");
-                }
+                f += Matrix.InnerProduct(w, (double[]) x);
             } else {
-
                 for (SupportVector v : sv) {
                     if (v != null) {
                         f += v.alpha * kernel.Function(v.x, x);
@@ -551,14 +533,14 @@ public class SupportVectorMachine <T> {
         /**
          * Process a new sample.
          */
-        boolean process(T x, int y) {
+        boolean process(double[] x, int y) {
             return process(x, y, 1.0);
         }
         
         /**
          * Process a new sample.
          */
-        boolean process(T x, int y, double weight) {
+        boolean process(double[] x, int y, double weight) {
             if (y != +1 && y != -1) {
                 throw new IllegalArgumentException("Invalid label: " + y);
             }
@@ -698,24 +680,10 @@ public class SupportVectorMachine <T> {
                 w = new double[p];
 
                 for (SupportVector v : sv) {
-                    if (v.x instanceof double[]) {
-                        double[] x = (double[]) v.x;
+                    double[] x = (double[]) v.x;
 
-                        for (int i = 0; i < w.length; i++) {
-                            w[i] += v.alpha * x[i];
-                        }
-
-                    } else if (v.x instanceof int[]) {
-                        int[] x = (int[]) v.x;
-
-                        for (int i = 0; i < x.length; i++) {
-                            w[x[i]] += v.alpha;
-                        }
-
-                    } else if (v.x instanceof SparseArray) {
-                        for (SparseArray.Entry e : (SparseArray) v.x) {
-                            w[e.i] += v.alpha * e.x;
-                        }
+                    for (int i = 0; i < w.length; i++) {
+                        w[i] += v.alpha * x[i];
                     }
                 }
             }
@@ -760,7 +728,7 @@ public class SupportVectorMachine <T> {
      * @param kernel the kernel function.
      * @param C the soft margin penalty parameter.
      */
-    public SupportVectorMachine(IMercerKernel<T> kernel, double C) {
+    public SupportVectorMachine(IMercerKernel kernel, double C) {
         this(kernel, C, C);
     }
 
@@ -770,7 +738,7 @@ public class SupportVectorMachine <T> {
      * @param Cp the soft margin penalty parameter for positive instances.
      * @param Cn the soft margin penalty parameter for negative instances.
      */
-    public SupportVectorMachine(IMercerKernel<T> kernel, double Cp, double Cn) {
+    public SupportVectorMachine(IMercerKernel kernel, double Cp, double Cn) {
         if (Cp < 0.0) {
             throw new IllegalArgumentException("Invalid postive instance soft margin penalty: " + Cp);
         }
@@ -790,7 +758,7 @@ public class SupportVectorMachine <T> {
      * @param C the soft margin penalty parameter.
      * @param k the number of classes.
      */
-    public SupportVectorMachine(IMercerKernel<T> kernel, double C, int k, Multiclass strategy) {
+    public SupportVectorMachine(IMercerKernel kernel, double C, int k, Multiclass strategy) {
         if (C < 0.0) {
             throw new IllegalArgumentException("Invalid soft margin penalty: " + C);
         }
@@ -825,7 +793,7 @@ public class SupportVectorMachine <T> {
      * @param weight class weight. Must be positive. The soft margin penalty
      * of class i will be weight[i] * C.
      */
-    public SupportVectorMachine(IMercerKernel<T> kernel, double C, double[] weight, Multiclass strategy) {
+    public SupportVectorMachine(IMercerKernel kernel, double C, double[] weight, Multiclass strategy) {
         if (C < 0.0) {
             throw new IllegalArgumentException("Invalid soft margin penalty: " + C);
         }
@@ -873,7 +841,7 @@ public class SupportVectorMachine <T> {
         this.tol = tol;
     }
 
-    public void Learn(T x, int y) {
+    public void Learn(double[] x, int y) {
         Learn(x, y, 1.0);
     }
 
@@ -886,7 +854,7 @@ public class SupportVectorMachine <T> {
      * @param weight instance weight. Must be positive. The soft margin penalty
      * parameter for instance will be weight * C.
      */
-    public void Learn(T x, int y, double weight) {
+    public void Learn(double[] x, int y, double weight) {
         if (y < 0 || y >= k) {
             throw new IllegalArgumentException("Invalid label");
         }
@@ -936,7 +904,8 @@ public class SupportVectorMachine <T> {
      * @param x training instances.
      * @param y training labels in [0, k), where k is the number of classes.
      */
-    public void Learn(T[] x, int[] y) {
+    @Override
+    public void Learn(double[][] x, int[] y) {
         Learn(x, y, null);
     }
     
@@ -953,7 +922,7 @@ public class SupportVectorMachine <T> {
      * parameter for instance i will be weight[i] * C.
      */
     @SuppressWarnings("unchecked")
-    public void Learn(T[] x, int[] y, double[] weight) {
+    public void Learn(double[][] x, int[] y, double[] weight) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
@@ -981,7 +950,6 @@ public class SupportVectorMachine <T> {
                     yi[i] = -1;
                 }
             }
-            
             if (weight == null) {
                 svm.learn(x, yi);
             } else {
@@ -1026,7 +994,7 @@ public class SupportVectorMachine <T> {
                         }
                     }
 
-                    T[] xij = (T[]) java.lang.reflect.Array.newInstance(x.getClass().getComponentType(), n);
+                    double[][] xij = new double[n][];//(T[]) java.lang.reflect.Array.newInstance(x.getClass().getComponentType(), n);
                     int[] yij = new int[n];
                     double[] wij = weight == null ? null : new double[n];
 
@@ -1063,7 +1031,7 @@ public class SupportVectorMachine <T> {
     /**
      * Process support vectors until converge.
      */
-    public void finish() {
+    public void Finish() {
         if (k == 2) {
             svm.finish();
         } else {
@@ -1085,11 +1053,11 @@ public class SupportVectorMachine <T> {
      */
     class TrainingTask implements Callable<LASVM> {
         LASVM svm;
-        T[] x;
+        double[][] x;
         int[] y;
         double[] weight; // instance weight
 
-        TrainingTask(LASVM svm, T[] x, int[] y, double[] weight) {
+        TrainingTask(LASVM svm, double[][] x, int[] y, double[] weight) {
             this.svm = svm;
             this.x = x;
             this.y = y;
@@ -1119,10 +1087,11 @@ public class SupportVectorMachine <T> {
         }
     }
 
-    public int predict(T x) {
+    @Override
+    public int Predict(double[] feature) {
         if (k == 2) {
             // two class
-            if (svm.predict(x) > 0) {
+            if (svm.predict(feature) > 0) {
                 return 1;
             } else {
                 return 0;
@@ -1132,7 +1101,7 @@ public class SupportVectorMachine <T> {
             int label = 0;
             double maxf = Double.NEGATIVE_INFINITY;
             for (int i = 0; i < svms.size(); i++) {
-                double f = svms.get(i).predict(x);
+                double f = svms.get(i).predict(feature);
                 if (f > maxf) {
                     label = i;
                     maxf = f;
@@ -1145,7 +1114,7 @@ public class SupportVectorMachine <T> {
             int[] count = new int[k];
             for (int i = 0, m = 0; i < k; i++) {
                 for (int j = i + 1; j < k; j++, m++) {
-                    double f = svms.get(m).predict(x);
+                    double f = svms.get(m).predict(feature);
                     if (f > 0) {
                         count[i]++;
                     } else {
