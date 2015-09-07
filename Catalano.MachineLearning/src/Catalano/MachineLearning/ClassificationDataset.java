@@ -147,7 +147,7 @@ public class ClassificationDataset implements Serializable{
      * @param format Format of file.
      * @return ClassificationDataset.
      */
-    public static ClassificationDataset FromReader(InputStreamReader reader, String name, Format format){
+    public static ClassificationDataset FromReader(InputStreamReader reader, String name, Format format, int classIndex){
         double[][] input = null;
         int[] output = null;
         DecisionVariable[] attributes = null;
@@ -165,20 +165,26 @@ public class ClassificationDataset implements Serializable{
             if(lines.size() > 0) {
                 String[] header = lines.get(0).split(String.valueOf(','));
                 String[] firstInstance = lines.get(1).split(String.valueOf(','));
+                
+                if(classIndex == -1) classIndex = header.length - 1;
 
                 //Build: Decision variable
                 attributes = new DecisionVariable[header.length - 1];
                 HashSet<String> hs = new HashSet<String>();
                 int discretes = 0;
-                for (int i = 0; i < attributes.length; i++) {
-                    hs.add(header[i]);
-                    if(Tools.isNumeric(firstInstance[i])){
-                        attributes[i] = new DecisionVariable(header[i], DecisionVariable.Type.Continuous);
-                        continuous++;
-                    }
-                    else{
-                        attributes[i] = new DecisionVariable(header[i], DecisionVariable.Type.Discrete);
-                        discretes++;
+                int idx = 0;
+                for (int i = 0; i < header.length; i++) {
+                    if(i != classIndex){
+                        hs.add(header[i]);
+                        if(Tools.isNumeric(firstInstance[i])){
+                            attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Continuous);
+                            continuous++;
+                        }
+                        else{
+                            attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Discrete);
+                            discretes++;
+                        }
+                        idx++;
                     }
                 }
                 if(hs.size() != attributes.length)
@@ -205,27 +211,31 @@ public class ClassificationDataset implements Serializable{
                 for (int i = 1; i < lines.size(); i++) {
                     idxAtt = 0;
                     String[] temp = lines.get(i).split(String.valueOf(','));
-                    for (int j = 0; j < attributes.length; j++) {
-                        if(attributes[j].type == DecisionVariable.Type.Continuous){
-                            input[i-1][j] = Double.valueOf(temp[j]);
-                        }
-                        else{
-                            HashMap<String,Integer> map = lst.get(idxAtt);
-                            if(!map.containsKey(temp[j]))
-                                map.put(temp[j], indexes[idxAtt]++);
-                            idxAtt++;
-                            input[i-1][j] = map.get(temp[j]);
+                    idx = 0;
+                    for (int j = 0; j < attributes.length+1; j++) {
+                        if(j != classIndex){
+                            if(attributes[idx].type == DecisionVariable.Type.Continuous){
+                                input[i-1][idx] = Double.valueOf(temp[idx]);
+                            }
+                            else{
+                                HashMap<String,Integer> map = lst.get(idxAtt);
+                                if(!map.containsKey(temp[idx]))
+                                    map.put(temp[idx], indexes[idxAtt]++);
+                                idxAtt++;
+                                input[i-1][idx] = map.get(temp[idx]);
+                            }
+                            idx++;
                         }
                     }
                 }
 
                 //Build Output data
                 output = new int[lines.size() - 1];
-                int idx = 0;
+                idx = 0;
                 HashMap<String,Integer> map = new HashMap<String, Integer>();
                 for (int j = 1; j < lines.size(); j++) {
                     String[] temp = lines.get(j).split(String.valueOf(","));
-                    String s = temp[temp.length - 1];
+                    String s = temp[classIndex];
                     if(!map.containsKey(s)){
                         map.put(s, idx++);
                         output[j-1] = map.get(s);
@@ -252,12 +262,24 @@ public class ClassificationDataset implements Serializable{
      * 
      * @param filepath File path.
      * @param name Name of the dataset.
-     * @return ClassificationDataset.
+     * @return Classification Dataset.
      */
     public static ClassificationDataset FromCSV(String filepath, String name){
+        return FromCSV(filepath, name, -1);
+    }
+    
+    /**
+     * Read dataset from a CSV structure.
+     * 
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     * @param classIndex Index to be the output.
+     * @return Classification Dataset.
+     */
+    public static ClassificationDataset FromCSV(String filepath, String name, int classIndex){
         
         try {
-            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), name, Format.CSV);
+            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), name, Format.CSV, classIndex);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -268,17 +290,17 @@ public class ClassificationDataset implements Serializable{
         
     }
     
-    public static ClassificationDataset FromARFF(String filepath){
-        try {
-            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), null, Format.ARFF);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
-    }
+//    public static ClassificationDataset FromARFF(String filepath){
+//        try {
+//            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), null, Format.ARFF, -1);
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        return null;
+//    }
     
     /**
      * Initializes a new instance of the Dataset class.

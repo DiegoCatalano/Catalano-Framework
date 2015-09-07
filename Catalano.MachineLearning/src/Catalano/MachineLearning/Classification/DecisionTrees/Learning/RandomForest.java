@@ -100,7 +100,7 @@ public class RandomForest implements IClassifier {
     private int T;
     private int M;
     private RandomSelection rs;
-    private long seed;
+    private long seed = 1;
     
     /**
      * Forest of decision trees.
@@ -171,6 +171,14 @@ public class RandomForest implements IClassifier {
         if(seed == 0)
             return Thread.currentThread().getId() * System.currentTimeMillis();
         return seed;
+    }
+
+    /**
+     * Set Random seed.
+     * @param seed Seed.
+     */
+    public void setSeed(long seed) {
+        this.seed = seed;
     }
     
     /**
