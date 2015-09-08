@@ -27,6 +27,7 @@ package Catalano.MachineLearning.Classification;
 import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.Core.Structs.DoubleArrayList;
 import Catalano.Math.Matrix;
+import Catalano.Math.Tools;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import Catalano.Statistics.Kernels.Linear;
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ import java.util.concurrent.Callable;
  * 
  * @author Haifeng Li
  */
-public class SupportVectorMachine implements IClassifier{
+public class SupportVectorMachine {
     /**
      * The type of multi-class SVMs.
      */
@@ -258,8 +259,8 @@ public class SupportVectorMachine implements IClassifier{
          */
         void learn(double[][] x, int[] y, double[] weight) {
             if (p == 0 && kernel instanceof Linear) {
-                double[] x0 = (double[]) x[0];
-                p = x0.length;
+                    double[] x0 = (double[]) x[0];
+                    p = x0.length;
             }
 
             int c1 = 0, c2 = 0;
@@ -298,7 +299,7 @@ public class SupportVectorMachine implements IClassifier{
             }
 
             // train SVM in a stochastic order.
-            int[] index = Matrix.Indices(0, n);//Tools.Random().permutate(n);
+            int[] index = Tools.Random().permutate(n);
             for (int i = 0; i < n; i++) {
                 if (weight == null) {
                     process(x[index[i]], y[index[i]]);
@@ -322,6 +323,7 @@ public class SupportVectorMachine implements IClassifier{
             if (kernel instanceof Linear && w != null) {
                 f += Matrix.InnerProduct(w, (double[]) x);
             } else {
+
                 for (SupportVector v : sv) {
                     if (v != null) {
                         f += v.alpha * kernel.Function(v.x, x);
@@ -680,11 +682,11 @@ public class SupportVectorMachine implements IClassifier{
                 w = new double[p];
 
                 for (SupportVector v : sv) {
-                    double[] x = (double[]) v.x;
+                        double[] x = (double[]) v.x;
 
-                    for (int i = 0; i < w.length; i++) {
-                        w[i] += v.alpha * x[i];
-                    }
+                        for (int i = 0; i < w.length; i++) {
+                            w[i] += v.alpha * x[i];
+                        }
                 }
             }
         }
@@ -904,7 +906,6 @@ public class SupportVectorMachine implements IClassifier{
      * @param x training instances.
      * @param y training labels in [0, k), where k is the number of classes.
      */
-    @Override
     public void Learn(double[][] x, int[] y) {
         Learn(x, y, null);
     }
@@ -950,6 +951,7 @@ public class SupportVectorMachine implements IClassifier{
                     yi[i] = -1;
                 }
             }
+            
             if (weight == null) {
                 svm.learn(x, yi);
             } else {
@@ -994,7 +996,8 @@ public class SupportVectorMachine implements IClassifier{
                         }
                     }
 
-                    double[][] xij = new double[n][];//(T[]) java.lang.reflect.Array.newInstance(x.getClass().getComponentType(), n);
+                    //T[] xij = (T[]) java.lang.reflect.Array.newInstance(x.getClass().getComponentType(), n);
+                    double[][] xij = new double[n][];
                     int[] yij = new int[n];
                     double[] wij = weight == null ? null : new double[n];
 
@@ -1087,11 +1090,10 @@ public class SupportVectorMachine implements IClassifier{
         }
     }
 
-    @Override
-    public int Predict(double[] feature) {
+    public int Predict(double[] x) {
         if (k == 2) {
             // two class
-            if (svm.predict(feature) > 0) {
+            if (svm.predict(x) > 0) {
                 return 1;
             } else {
                 return 0;
@@ -1101,7 +1103,7 @@ public class SupportVectorMachine implements IClassifier{
             int label = 0;
             double maxf = Double.NEGATIVE_INFINITY;
             for (int i = 0; i < svms.size(); i++) {
-                double f = svms.get(i).predict(feature);
+                double f = svms.get(i).predict(x);
                 if (f > maxf) {
                     label = i;
                     maxf = f;
@@ -1114,7 +1116,7 @@ public class SupportVectorMachine implements IClassifier{
             int[] count = new int[k];
             for (int i = 0, m = 0; i < k; i++) {
                 for (int j = i + 1; j < k; j++, m++) {
-                    double f = svms.get(m).predict(feature);
+                    double f = svms.get(m).predict(x);
                     if (f > 0) {
                         count[i]++;
                     } else {

@@ -52,6 +52,14 @@ public class Cauchy implements IMercerKernel<double[]> {
     public void setSigma(double sigma) {
         this.sigma = sigma;
     }
+    
+    /**
+     * Constructs a new Cauchy Kernel.
+     * Default sigma = 1.
+     */
+    public Cauchy(){
+        this.sigma = 1;
+    }
 
     /**
      * Constructs a new Cauchy Kernel.
