@@ -77,7 +77,7 @@ public class CosineTransform {
         this.height = fastBitmap.getHeight();
         if (!isTransformed) {
             if (fastBitmap.isGrayscale()) {
-                if (Tools.IsPowerOf2(width) && Tools.IsPowerOf2(height)) {
+                if (Tools.isPowerOf2(width) && Tools.isPowerOf2(height)) {
                     data = new double[height][width];
                     for (int i = 0; i < height; i++) {
                         for (int j = 0; j < width; j++) {
