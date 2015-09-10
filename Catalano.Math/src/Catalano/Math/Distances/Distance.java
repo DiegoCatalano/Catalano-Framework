@@ -413,45 +413,40 @@ public final class Distance {
     
     /**
      * Gets the Jensen Shannon divergence.
-     * @param u U vector.
-     * @param v V vector.
+     * @param p U vector.
+     * @param q V vector.
      * @return The Jensen Shannon divergence between u and v.
      */
-    public static double JensenShannonDivergence(double[] u, double[] v) {
-        double[] m = new double[u.length];
+    public static double JensenShannonDivergence(double[] p, double[] q) {
+        double[] m = new double[p.length];
         for (int i = 0; i < m.length; i++) {
-            m[i] = (u[i] + v[i]) / 2;
+            m[i] = (p[i] + q[i]) / 2;
         }
 
-        return (KullbackLeiblerDivergence(u, m) + KullbackLeiblerDivergence(v, m)) / 2;
+        return (KullbackLeiblerDivergence(p, m) + KullbackLeiblerDivergence(q, m)) / 2;
     }
     
     /**
      * Gets the Kullback Leibler divergence.
-     * @param u U vector.
-     * @param v V vector.
+     * @param p P vector.
+     * @param q Q vector.
      * @return The Kullback Leibler divergence between u and v.
      */
-    public static double KullbackLeiblerDivergence(double[] u, double[] v) {
-        
-        if(u.length != v.length)
-            throw new IllegalArgumentException("The size of u and v must be equal.");
-        
+    public static double KullbackLeiblerDivergence(double[] p, double[] q) {
         boolean intersection = false;
-        double kl = 0.0;
+        double k = 0;
 
-        for (int i = 0; i < u.length; i++) {
-            if (u[i] != 0.0 && v[i] != 0.0) {
+        for (int i = 0; i < p.length; i++) {
+            if (p[i] != 0 && q[i] != 0) {
                 intersection = true;
-                kl += u[i] * Math.log(u[i] / v[i]);
+                k += p[i] * Math.log(p[i] / q[i]);
             }
         }
 
-        if (intersection) {
-            return kl;
-        } else {
+        if (intersection)
+            return k;
+        else
             return Double.POSITIVE_INFINITY;
-        }
     }
     
     /**

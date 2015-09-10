@@ -25,7 +25,6 @@ package Catalano.Imaging.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 import Catalano.Imaging.Tools.Curve;
-import Catalano.Math.Special;
 
 /**
  * Curve correction of RGB channels.
@@ -150,7 +149,7 @@ public class LevelsCurve implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         if(fastBitmap.isGrayscale()){
             
-            int[] g = makeLut(curveGray);
+            int[] g = curveGray.makeLut();
             
             int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             for (int i = 0; i < size; i++) {
@@ -160,9 +159,9 @@ public class LevelsCurve implements IBaseInPlace{
         }
         else if(fastBitmap.isRGB()){
             
-            int[] r = makeLut(curveRed);
-            int[] g = makeLut(curveGreen);
-            int[] b = makeLut(curveBlue);
+            int[] r = curveRed.makeLut();
+            int[] g = curveGreen.makeLut();
+            int[] b = curveBlue.makeLut();
             
             int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             for (int i = 0; i < size; i++) {
@@ -173,30 +172,5 @@ public class LevelsCurve implements IBaseInPlace{
         else{
             throw new IllegalArgumentException("Levels Curve only supports grayscale and rgb images.");
         }
-    }
-    
-    private int[] makeLut(Curve curve) {
-        int numKnots = curve.x.length;
-        float[] nx = new float[numKnots+2];
-        float[] ny = new float[numKnots+2];
-        System.arraycopy(curve.x, 0, nx, 1, numKnots);
-        System.arraycopy(curve.y, 0, ny, 1, numKnots);
-        nx[0] = nx[1];
-        ny[0] = ny[1];
-        nx[numKnots+1] = nx[numKnots];
-        ny[numKnots+1] = ny[numKnots];
-
-        int[] table = new int[256];
-        for (int i = 0; i < 1024; i++) {
-                float f = i/1024.0f;
-                int x = (int)(255 * Special.Spline( f, nx.length, nx ) + 0.5f);
-                int y = (int)(255 * Special.Spline( f, nx.length, ny ) + 0.5f);
-                x = x > 255 ? 255 : x;
-                x = x < 0 ? 0 : x;
-                y = y > 255 ? 255 : y;
-                y = y < 0 ? 0 : y;
-                table[x] = y;
-        }
-        return table;
     }
 }

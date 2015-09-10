@@ -167,4 +167,112 @@ public class Curve {
             }
         }
     }
+    
+    /**
+     * Create LUT.
+     * @return LUT.
+     */
+    public int[] makeLut() {
+        int numKnots = x.length;
+        float[] nx = new float[numKnots+2];
+        float[] ny = new float[numKnots+2];
+        System.arraycopy(x, 0, nx, 1, numKnots);
+        System.arraycopy(y, 0, ny, 1, numKnots);
+        nx[0] = nx[1];
+        ny[0] = ny[1];
+        nx[numKnots+1] = nx[numKnots];
+        ny[numKnots+1] = ny[numKnots];
+
+        int[] table = new int[256];
+        for (int i = 0; i < 1024; i++) {
+                float f = i/1024.0f;
+                int x = (int)(255 * Curve.Spline( f, nx.length, nx ) + 0.5f);
+                int y = (int)(255 * Curve.Spline( f, nx.length, ny ) + 0.5f);
+                x = x > 255 ? 255 : x;
+                x = x < 0 ? 0 : x;
+                y = y > 255 ? 255 : y;
+                y = y < 0 ? 0 : y;
+                table[x] = y;
+        }
+        return table;
+    }
+    
+    /**
+     * Compute a Catmull-Rom spline.
+     * @param x the input parameter
+     * @param numKnots the number of knots in the spline
+     * @param knots the array of knots
+     * @return the spline value
+     */
+    public static float Spline(float x, int numKnots, float[] knots) {
+        int span;
+        int numSpans = numKnots - 3;
+        float k0, k1, k2, k3;
+        float c0, c1, c2, c3;
+
+        if (numSpans < 1)
+                throw new IllegalArgumentException("Too few knots in spline");
+
+        x = x > 1 ? 1 : x;
+        x = x < 0 ? 0 : x;
+        x *= numSpans;
+        span = (int)x;
+        if (span > numKnots-4)
+                span = numKnots-4;
+        x -= span;
+
+        k0 = knots[span];
+        k1 = knots[span+1];
+        k2 = knots[span+2];
+        k3 = knots[span+3];
+
+        c3 = -0.5f*k0 + 1.5f*k1 + -1.5f*k2 + 0.5f*k3;
+        c2 = 1f*k0 + -2.5f*k1 + 2f*k2 + -0.5f*k3;
+        c1 = -0.5f*k0 + 0f*k1 + 0.5f*k2 + 0f*k3;
+        c0 = 0f*k0 + 1f*k1 + 0f*k2 + 0f*k3;
+
+        return ((c3*x + c2)*x + c1)*x + c0;
+    }
+    
+    /**
+     * Compute a Catmull-Rom spline, but with variable knot spacing.
+     * @param x the input parameter
+     * @param numKnots the number of knots in the spline
+     * @param xknots the array of knot x values
+     * @param yknots the array of knot y values
+     * @return the spline value
+     */
+    public static float Spline(float x, int numKnots, int[] xknots, int[] yknots) {
+        int span;
+        int numSpans = numKnots - 3;
+        float k0, k1, k2, k3;
+        float c0, c1, c2, c3;
+
+        if (numSpans < 1)
+                throw new IllegalArgumentException("Too few knots in spline");
+
+        for (span = 0; span < numSpans; span++)
+                if (xknots[span+1] > x)
+                        break;
+        if (span > numKnots-3)
+                span = numKnots-3;
+        float t = (float)(x-xknots[span]) / (xknots[span+1]-xknots[span]);
+        span--;
+        if (span < 0) {
+                span = 0;
+                t = 0;
+        }
+
+        k0 = yknots[span];
+        k1 = yknots[span+1];
+        k2 = yknots[span+2];
+        k3 = yknots[span+3];
+
+        c3 = -0.5f*k0 + 1.5f*k1 + -1.5f*k2 + 0.5f*k3;
+        c2 = 1f*k0 + -2.5f*k1 + 2f*k2 + -0.5f*k3;
+        c1 = -0.5f*k0 + 0f*k1 + 0.5f*k2 + 0f*k3;
+        c0 = 0f*k0 + 1f*k1 + 0f*k2 + 0f*k3;
+
+        return ((c3*t + c2)*t + c1)*t + c0;
+    }
 }
