@@ -25,35 +25,53 @@ package Catalano.MachineLearning.Classification;
 import Catalano.Statistics.Kernels.IMercerKernel;
 
 /**
- * Support Vector Machine.
+ * Multiclass Support Vector Machine.
  * @author Diego Catalano
  */
-public class SupportVectorMachine implements IClassifier{
+public class MulticlassSupportVectorMachine implements IClassifier{
     
     private IMercerKernel kernel;
     private double c;
-    private double cn;
+    private int numberOfClasses;
     
+    private SVM.Strategy strategy;
     private SVM<double[]> svm;
     
-    public SupportVectorMachine(IMercerKernel kernel, double c) {
-        this(kernel, c, c);
+    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses) {
+        this(kernel, c, numberOfClasses, SVM.Strategy.ONE_VS_ONE);
     }
     
-    public SupportVectorMachine(IMercerKernel kernel, double c, double cn) {
+    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses, SVM.Strategy strategy) {
         this.kernel = kernel;
         this.c = c;
-        this.cn = cn;
-        Initialize(kernel, c, cn);
+        this.numberOfClasses = numberOfClasses;
+        this.strategy = strategy;
+        Initialize(kernel, c, numberOfClasses, strategy);
     }
     
-    private void Initialize(IMercerKernel kernel, double c, double cn){
-        this.svm = new SVM(kernel, c, cn);
+    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight) {
+        this(kernel, c, weight, SVM.Strategy.ONE_VS_ONE);
+    }
+    
+    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight, SVM.Strategy strategy) {
+        this.kernel = kernel;
+        this.c = c;
+        this.numberOfClasses = weight.length;
+        this.strategy = strategy;
+        Initialize(kernel, c, weight, strategy);
+    }
+    
+    private void Initialize(IMercerKernel kernel, double c, int nClasses, SVM.Strategy strategy){
+        this.svm = new SVM(kernel, c, nClasses, strategy);
+    }
+    
+    private void Initialize(IMercerKernel kernel, double c, double[] weight, SVM.Strategy strategy){
+        this.svm = new SVM(kernel, c, weight, strategy);
     }
 
     @Override
     public void Learn(double[][] input, int[] output) {
-        Initialize(kernel, c, cn);
+        Initialize(kernel, c, numberOfClasses, strategy);
         svm.Learn(input, output);
     }
     
