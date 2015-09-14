@@ -34,7 +34,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,25 +46,13 @@ import java.util.logging.Logger;
  * Dataset for classification.
  * @author Diego Catalano
  */
-public class ClassificationDataset implements Serializable{
+public class DatasetClassification implements Serializable{
     
-    public static enum Format{
-        /**
-         * CSV structure.
-         */
-        CSV,
-        
-        /**
-         * ARFF structure.
-         */
-        ARFF
-    };
-    
-    private final String name;
-    private final double[][] input;
-    private final int[] output;
-    private final DecisionVariable[] attributes;
-    private final int numClasses;
+    private String name;
+    private double[][] input;
+    private int[] output;
+    private DecisionVariable[] attributes;
+    private int numClasses;
     private int continuous = 0;
 
     /**
@@ -141,13 +128,25 @@ public class ClassificationDataset implements Serializable{
     }
     
     /**
-     * Construct a dataset from an Input Strem Reader.
-     * @param reader Reader.
+     * Read dataset from a CSV structure.
+     * The last column of CSV is interpreted as output.
+     * 
+     * @param filepath File path.
      * @param name Name of the dataset.
-     * @param format Format of file.
+     * @return Classification Dataset.
+     */
+    public static DatasetClassification FromCSV(String filepath, String name){
+        return FromCSV(filepath, name, -1);
+    }
+    
+    /**
+     * Construct a dataset from an CSV file.
+     * @param filepath File.
+     * @param name Name of the dataset.
+     * @param classIndex Index of the attribute for to be setup as output.
      * @return ClassificationDataset.
      */
-    public static ClassificationDataset FromReader(InputStreamReader reader, String name, Format format, int classIndex){
+    public static DatasetClassification FromCSV(String filepath, String name, int classIndex){
         double[][] input = null;
         int[] output = null;
         DecisionVariable[] attributes = null;
@@ -155,7 +154,7 @@ public class ClassificationDataset implements Serializable{
         int continuous = 0;
         
         try {
-            BufferedReader br = new BufferedReader(reader);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
             
             String line;
             List<String> lines = new ArrayList<String>();
@@ -247,60 +246,45 @@ public class ClassificationDataset implements Serializable{
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        return new ClassificationDataset(name, attributes, input, output, numClasses, continuous);
+        return new DatasetClassification(name, attributes, input, output, numClasses, continuous);
+    }
+    
+    public DatasetClassification(String name, double[][] input, int[] output){
+        this(name, input, output, null);
     }
     
     /**
-     * Read dataset from a CSV structure.
-     * The last column of CSV is interpreted as output.
-     * 
-     * @param filepath File path.
+     * Initializes a new instance of the DatasetClassification class.
      * @param name Name of the dataset.
-     * @return Classification Dataset.
+     * @param attributes Decision variables.
+     * @param input Input data.
+     * @param output Output data.
      */
-    public static ClassificationDataset FromCSV(String filepath, String name){
-        return FromCSV(filepath, name, -1);
-    }
-    
-    /**
-     * Read dataset from a CSV structure.
-     * 
-     * @param filepath File path.
-     * @param name Name of the dataset.
-     * @param classIndex Index to be the output.
-     * @return Classification Dataset.
-     */
-    public static ClassificationDataset FromCSV(String filepath, String name, int classIndex){
-        
-        try {
-            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), name, Format.CSV, classIndex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+    public DatasetClassification(String name, double[][] input, int[] output, DecisionVariable[] attributes){
+        this.name = name;
+        this.input = input;
+        this.output = output;
+        this.numClasses = Matrix.Max(output) + 1;
+        if(attributes == null){
+            this.attributes = new DecisionVariable[numClasses - 1];
+            for (int i = 0; i < attributes.length; i++) {
+                attributes[i] = new DecisionVariable("F" + i);
+            }
         }
         
-        return null;
+        int c = 0;
+        for (int i = 0; i < attributes.length; i++)
+            if(attributes[i].type == DecisionVariable.Type.Continuous)
+                c++;
         
+        this.continuous = c;
     }
-    
-//    public static ClassificationDataset FromARFF(String filepath){
-//        try {
-//            return FromReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"), null, Format.ARFF, -1);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (UnsupportedEncodingException ex) {
-//            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        return null;
-//    }
     
     /**
      * Initializes a new instance of the Dataset class.
@@ -311,7 +295,7 @@ public class ClassificationDataset implements Serializable{
      * @param numClasses Number of classes.
      * @param continuous Number of continuous type.
      */
-    public ClassificationDataset(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
+    private DatasetClassification(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
         this.name = name;
         this.attributes = attributes;
         this.input = input;
@@ -486,26 +470,24 @@ public class ClassificationDataset implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     /**
      * Write dataset as ARFF file.
      * @param filename Filename.
-     * @param relationName Relation name.
      */
-    public void WriteAsARFF(String filename, String relationName){
-        WriteAsARFF(filename, relationName, -1);
+    public void WriteAsARFF(String filename){
+        WriteAsARFF(filename, -1);
     }
     
     /**
      * Write dataset as ARFF file.
      * @param filename Filename.
-     * @param relationName Relation name.
      * @param decimalPlaces Decimal places.
      */
-    public void WriteAsARFF(String filename, String relationName, int decimalPlaces){
+    public void WriteAsARFF(String filename, int decimalPlaces){
         try {
             String dec = "%." + decimalPlaces + "f";
             String newLine = System.getProperty("line.separator");
@@ -514,7 +496,7 @@ public class ClassificationDataset implements Serializable{
             FileWriter fw = new FileWriter(filename);
             
             //Relation name
-            fw.append("@RELATION " + relationName);
+            fw.append("@RELATION " + name);
             fw.append(newLine + newLine);
             
             //Attribute information
@@ -562,7 +544,7 @@ public class ClassificationDataset implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(ClassificationDataset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
