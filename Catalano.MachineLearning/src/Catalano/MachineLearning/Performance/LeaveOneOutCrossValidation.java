@@ -27,7 +27,7 @@ import Catalano.Math.Matrix;
 
 /**
  * Leave One Out cross validation.
- * Leave one out for validation and the rest for trainning.
+ * Leave one out for validation and the rest for train.
  * 
  * @author Diego Catalano
  */
@@ -39,10 +39,10 @@ public class LeaveOneOutCrossValidation implements IValidation{
     public LeaveOneOutCrossValidation() {}
 
     @Override
-    public double Run(IClassifier classifier, double[][] data, int[] labels) {
+    public double Run(IClassifier classifier, final double[][] data, final int[] labels) {
         int p = 0;
         for (int i = 0; i < data.length; i++) {
-            double[][] a = Matrix.RemoveRows(data, new int[] {i});
+            double[][] a = Matrix.RemoveRow(data, i);
             int[] b = Matrix.RemoveColumn(labels, i);
             classifier.Learn(a, b);
             if(classifier.Predict(data[i]) == labels[i])

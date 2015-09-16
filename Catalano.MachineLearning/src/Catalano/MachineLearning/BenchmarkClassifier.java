@@ -80,7 +80,6 @@ public class BenchmarkClassifier {
         double bestC = 0;
         for (int i = 0; i < classifiers.size(); i++) {
             IClassifier c = classifiers.get(i);
-            c.Learn(input, output);
             rank[i] = validation.Run(c, input, output);
             if(rank[i] > bestC){
                 bestC = rank[i];

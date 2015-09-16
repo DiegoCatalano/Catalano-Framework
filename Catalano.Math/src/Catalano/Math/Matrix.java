@@ -2816,6 +2816,94 @@ public final class Matrix {
     }
     
     /**
+     * Remove a specified row from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return New matrix.
+     */
+    public static double[][] RemoveRow(double[][] A, int index){
+        if(A.length - 1 <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        double[][] B = new double[A.length - 1][A[0].length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                System.arraycopy(A[i], 0, B[idx], 0, A[0].length);
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove a specified row from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return New matrix.
+     */
+    public static int[][] RemoveRow(int[][] A, int index){
+        if(A.length - 1 <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        int[][] B = new int[A.length - 1][A[0].length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                System.arraycopy(A[i], 0, B[idx], 0, A[0].length);
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove a specified row from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return New matrix.
+     */
+    public static float[][] RemoveRow(float[][] A, int index){
+        if(A.length - 1 <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        float[][] B = new float[A.length - 1][A[0].length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                System.arraycopy(A[i], 0, B[idx], 0, A[0].length);
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove a specified row from the matrix.
+     * @param A Matrix.
+     * @param index Index.
+     * @return New matrix.
+     */
+    public static <T> T[][] RemoveRow(T[][] A, int index){
+        if(A.length - 1 <= 0)
+            throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        T[][] B = (T[][])Array.newInstance(A[0][0].getClass(), new int[] {A.length - 1, A[0].length});
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                System.arraycopy(A[i], 0, B[idx], 0, A[0].length);
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
      * Remove rows from the matrix.
      * @param A Matrix.
      * @param index Indexes.
