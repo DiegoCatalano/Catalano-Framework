@@ -214,7 +214,7 @@ public class DatasetClassification implements Serializable{
                     for (int j = 0; j < attributes.length+1; j++) {
                         if(j != classIndex){
                             if(attributes[idx].type == DecisionVariable.Type.Continuous){
-                                input[i-1][idx] = Double.valueOf(temp[idx]);
+                                input[i-1][idx] = Double.valueOf(fix(temp[idx]));
                             }
                             else{
                                 HashMap<String,Integer> map = lst.get(idxAtt);
@@ -255,6 +255,27 @@ public class DatasetClassification implements Serializable{
         return new DatasetClassification(name, attributes, input, output, numClasses, continuous);
     }
     
+    /**
+     * Fix invalid chars.
+     * @param x String
+     * @return String.
+     */
+    private static String fix(String x){
+        String r = "";
+        for (int i = 0; i < x.length(); i++) {
+            char c = x.charAt(i);
+            if(Character.isDigit(c) || c == '.' || c == '-' || c == 'E')
+                r += c;
+        }
+        return r;
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
+     * @param name Name of the dataset.
+     * @param input Input data.
+     * @param output Output data.
+     */
     public DatasetClassification(String name, double[][] input, int[] output){
         this(name, input, output, null);
     }
