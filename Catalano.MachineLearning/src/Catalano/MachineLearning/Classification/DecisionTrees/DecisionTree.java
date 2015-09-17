@@ -663,7 +663,6 @@ public class DecisionTree implements IClassifier {
                     }
                 }
                 break;
-
             case ENTROPY:
                 for (int i = 0; i < count.length; i++) {
                     if (count[i] > 0) {
