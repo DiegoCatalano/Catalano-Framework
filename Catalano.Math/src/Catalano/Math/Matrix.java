@@ -2816,6 +2816,129 @@ public final class Matrix {
     }
     
     /**
+     * Remove column from the vector.
+     * @param <T> Type.
+     * @param A Vector.
+     * @param index Index.
+     * @return Vector.
+     */
+    public static <T> T[] RemoveColumn(T[] A, int index){
+        if(A.length - index <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        T[] B = (T[])Array.newInstance(A[0].getClass(), A.length - 1);
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index)
+                B[idx++] = A[i];
+            
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static double[] RemoveColumns(double[] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        double[] B = new double[A.length - index.length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.length; j++)
+                if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static int[] RemoveColumns(int[] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        int[] B = new int[A.length - index.length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.length; j++)
+                if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static float[] RemoveColumns(float[] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        float[] B = new float[A.length - index.length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.length; j++)
+                if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param <T> Type.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static <T> T[] RemoveColumns(T[] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        T[] B = (T[])Array.newInstance(A[0].getClass(), A.length - index.length);
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.length; j++)
+                if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
      * Remove a specified row from the matrix.
      * @param A Matrix.
      * @param index Index.

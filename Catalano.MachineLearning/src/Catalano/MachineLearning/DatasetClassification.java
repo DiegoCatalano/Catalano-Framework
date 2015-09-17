@@ -207,23 +207,23 @@ public class DatasetClassification implements Serializable{
                 }
 
                 int idxAtt;
-                for (int i = 1; i < lines.size(); i++) {
+                for (int i = 1; i < lines.size(); i++) { //i=1
                     idxAtt = 0;
                     String[] temp = lines.get(i).split(String.valueOf(','));
-                    idx = 0;
-                    for (int j = 0; j < attributes.length+1; j++) {
+                    //idx = 0;
+                    for (int j = 0; j < attributes.length; j++) {
                         if(j != classIndex){
-                            if(attributes[idx].type == DecisionVariable.Type.Continuous){
-                                input[i-1][idx] = Double.valueOf(fix(temp[idx]));
+                            if(attributes[j].type == DecisionVariable.Type.Continuous){
+                                input[i-1][j] = Double.valueOf(fix(temp[j]));
                             }
                             else{
                                 HashMap<String,Integer> map = lst.get(idxAtt);
-                                if(!map.containsKey(temp[idx]))
-                                    map.put(temp[idx], indexes[idxAtt]++);
+                                if(!map.containsKey(temp[j]))
+                                    map.put(temp[j], indexes[idxAtt]++);
                                 idxAtt++;
-                                input[i-1][idx] = map.get(temp[idx]);
+                                input[i-1][j] = map.get(temp[j]);
                             }
-                            idx++;
+                            //idx++;
                         }
                     }
                 }
@@ -364,6 +364,15 @@ public class DatasetClassification implements Serializable{
         }
         
         return range;
+    }
+    
+    /**
+     * Remove an attribute.
+     * @param index Index of the attribute.
+     */
+    public void RemoveAttribute(int index){
+        this.input = Matrix.RemoveColumn(input, index);
+        this.attributes = Matrix.RemoveColumn(attributes, index);
     }
     
     /**

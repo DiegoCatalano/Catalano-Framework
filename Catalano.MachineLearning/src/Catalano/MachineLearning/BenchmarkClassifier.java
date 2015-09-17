@@ -72,7 +72,7 @@ public class BenchmarkClassifier {
     public void Compute(List<IClassifier> classifiers, IValidation validation){
         
         if(classifiers.size() < 1)
-            throw new IllegalArgumentException("Need at least 2 or more classifiers.");
+            throw new IllegalArgumentException("Need at least one more classifiers.");
         
         //Initialize rank.
         rank = new double[classifiers.size()];
