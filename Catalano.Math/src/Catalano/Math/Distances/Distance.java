@@ -29,6 +29,7 @@ import Catalano.Math.Constants;
 
 /**
  * Defines a set of extension methods defining distance measures.
+ * References: http://www.ajmaa.org/RGMIA/papers/v7n4/Gsdmi_RGMIA.pdf
  * @author Diego Catalano
  */
 public final class Distance {
@@ -37,6 +38,18 @@ public final class Distance {
      * Don't let anyone initialize this class.
      */
     private Distance () {};
+    
+    public static double ArithmeticGeometricDivergence(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            double den = p[i] * q[i];
+            if(den != 0){
+                double num = p[i] + q[i];
+                r += (num / 2) * Math.log(num / (2 * Math.sqrt(den)));
+            }
+        }
+        return r;
+    }
     
     /**
      * Bhattacharyya distance between two normalized histograms.
@@ -412,6 +425,29 @@ public final class Distance {
     }
     
     /**
+     * Gets the J-Divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The J-Divergence between p and q.
+     */
+    public static double JDivergence(double[] p, double[] q){
+        boolean intersection = false;
+        double k = 0;
+
+        for (int i = 0; i < p.length; i++) {
+            if (p[i] != 0 && q[i] != 0) {
+                intersection = true;
+                k += (p[i] - q[i]) * Math.log(p[i] / q[i]);
+            }
+        }
+
+        if (intersection)
+            return k;
+        else
+            return Double.POSITIVE_INFINITY;
+    }
+    
+    /**
      * Gets the Jensen Shannon divergence.
      * @param p U vector.
      * @param q V vector.
@@ -602,5 +638,25 @@ public final class Distance {
         double dy = q.y - p.y;
         return dx*dx + dy*dy;
         
+    }
+    
+    /**
+     * Gets the Symmetric Chi-square divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Symmetric chi-square divergence between p and q.
+     */
+    public static double SymmetricChiSquareDivergence(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            double den = p[i] * q[i];
+            if(den != 0){
+                double p1 = p[i] - q[i];
+                double p2 = p[i] + q[i];
+                r += (p1 * p1 * p2) / den;
+            }
+        }
+        
+        return r;
     }
 }
