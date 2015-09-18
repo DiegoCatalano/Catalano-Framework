@@ -24,12 +24,14 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Spherical Kernel.
  * The spherical kernel comes from a statistics perspective. It is an example of an isotropic stationary kernel and is positive definite in R^3.
  * @author Diego Catalano
  */
-public class Spherical implements IMercerKernel<double[]>{
+public class Spherical implements IMercerKernel<double[]>, Serializable{
     
     private double sigma;
 

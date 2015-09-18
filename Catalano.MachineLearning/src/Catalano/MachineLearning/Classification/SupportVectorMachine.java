@@ -23,12 +23,13 @@
 package Catalano.MachineLearning.Classification;
 
 import Catalano.Statistics.Kernels.IMercerKernel;
+import java.io.Serializable;
 
 /**
  * Support Vector Machine.
  * @author Diego Catalano
  */
-public class SupportVectorMachine implements IClassifier{
+public class SupportVectorMachine implements IClassifier, Serializable {
     
     private IMercerKernel kernel;
     private double c;

@@ -29,6 +29,7 @@ import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +102,7 @@ import java.util.concurrent.Callable;
  * 
  * @author Haifeng Li
  */
-public class DecisionTree implements IClassifier {
+public class DecisionTree implements IClassifier, Serializable {
     
     private double[][] input;
     private int[] output;

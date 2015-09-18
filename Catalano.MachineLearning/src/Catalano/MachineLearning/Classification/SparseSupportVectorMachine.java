@@ -24,12 +24,13 @@ package Catalano.MachineLearning.Classification;
 
 import Catalano.Math.SparseArray;
 import Catalano.Statistics.Kernels.IMercerKernel;
+import java.io.Serializable;
 
 /**
  * Sparse Support Vector Machine.
  * @author Diego Catalano
  */
-public class SparseSupportVectorMachine {
+public class SparseSupportVectorMachine implements Serializable{
     
     private IMercerKernel kernel;
     private double c;

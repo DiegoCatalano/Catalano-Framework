@@ -24,11 +24,13 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Hyperbolic Secant Kernel.
  * @author Diego Catalano
  */
-public class Hypersecant implements IMercerKernel<double[]>{
+public class Hypersecant implements IMercerKernel<double[]>, Serializable{
     
     private double gamma;
 

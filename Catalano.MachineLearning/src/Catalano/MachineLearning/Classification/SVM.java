@@ -28,6 +28,7 @@ import Catalano.Math.SparseArray;
 import Catalano.Math.Tools;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import Catalano.Statistics.Kernels.Linear;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +90,7 @@ import java.util.concurrent.Callable;
  * 
  * @author Haifeng Li
  */
-public class SVM <T> {
+public class SVM <T> implements Serializable {
     /**
      * The type of multi-class SVMs.
      */
@@ -145,12 +146,12 @@ public class SVM <T> {
     /**
      * Online Two-class SVM.
      */
-    final class LASVM {
+    final class LASVM implements Serializable{
 
         /**
          * Support vector.
          */
-        class SupportVector {
+        class SupportVector implements Serializable{
             /**
              * Support vector.
              */

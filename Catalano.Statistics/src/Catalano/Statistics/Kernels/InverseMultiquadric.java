@@ -24,12 +24,14 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Inverse Multiquadric Kernel.
  * The inverse multiquadric kernel is only conditionally positive definite.
  * @author Diego Catalano
  */
-public class InverseMultiquadric implements IMercerKernel<double[]>{
+public class InverseMultiquadric implements IMercerKernel<double[]>, Serializable{
     
     private double constant;
 

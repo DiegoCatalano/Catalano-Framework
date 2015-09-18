@@ -24,12 +24,14 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Chi-Square Kernel.
  * The Chi-Square kernel comes from the Chi-Square distribution.
  * @author Diego Catalano
  */
-public class ChiSquare implements IMercerKernel<double[]> {
+public class ChiSquare implements IMercerKernel<double[]>, Serializable {
 
     /**
      * Constructs a new Chi-Square kernel.

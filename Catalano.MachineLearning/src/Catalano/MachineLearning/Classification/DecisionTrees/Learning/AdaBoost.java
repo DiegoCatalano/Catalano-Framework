@@ -30,6 +30,7 @@ import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -63,7 +64,7 @@ import java.util.Arrays;
  * 
  * @author Haifeng Li
  */
-public class AdaBoost implements IClassifier {
+public class AdaBoost implements IClassifier, Serializable {
     
     private DecisionVariable[] attributes;
     private double[][] input;

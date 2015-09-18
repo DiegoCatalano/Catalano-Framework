@@ -32,6 +32,7 @@ import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.Math.Matrix;
 import Catalano.Math.Random;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,7 @@ import java.util.concurrent.Callable;
  * 
  * @author Haifeng Li
  */
-public class RandomForest implements IClassifier {
+public class RandomForest implements IClassifier, Serializable {
     
     /**
      * Method for choose number of random feature.

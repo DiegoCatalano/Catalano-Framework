@@ -24,12 +24,14 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Logarithm Kernel.
  * The Log kernel seems to be particularly interesting for images, but is only conditionally positive definite.
  * @author Diego Catalano
  */
-public class Log implements IMercerKernel<double[]>{
+public class Log implements IMercerKernel<double[]>, Serializable{
     
     private double degree;
 

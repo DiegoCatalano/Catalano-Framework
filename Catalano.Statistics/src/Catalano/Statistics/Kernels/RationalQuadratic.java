@@ -6,11 +6,13 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Diego
  */
-public class RationalQuadratic implements IMercerKernel<double[]>{
+public class RationalQuadratic implements IMercerKernel<double[]>, Serializable{
     
     private double constant;
 

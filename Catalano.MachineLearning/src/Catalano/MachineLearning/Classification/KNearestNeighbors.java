@@ -27,6 +27,7 @@ import Catalano.Math.Distances.IDistance;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ import java.util.Map;
  * K Nearest Neighbour classifier.
  * @author Diego Catalano
  */
-public class KNearestNeighbors implements IClassifier {
+public class KNearestNeighbors implements IClassifier, Serializable {
     
     private int k;
     private double[][] input;

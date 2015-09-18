@@ -24,12 +24,14 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Generalized T-Student Kernel.
  * The Generalized T-Student Kernel is a Mercer Kernel and thus forms a positive semi-definite Kernel matrix (Boughorbel, 2004).
  * @author Diego Catalano
  */
-public class TStudent implements IMercerKernel<double[]>{
+public class TStudent implements IMercerKernel<double[]>, Serializable{
     
     private int degree;
 

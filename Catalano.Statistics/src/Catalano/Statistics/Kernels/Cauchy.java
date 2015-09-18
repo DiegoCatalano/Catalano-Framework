@@ -24,6 +24,8 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Cauchy Kernel.
  * 
@@ -33,7 +35,7 @@ package Catalano.Statistics.Kernels;
  * 
  * @author Diego Catalano
  */
-public class Cauchy implements IMercerKernel<double[]> {
+public class Cauchy implements IMercerKernel<double[]>, Serializable {
     
     private double sigma;
 

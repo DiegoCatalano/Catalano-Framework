@@ -24,11 +24,13 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Normalized Polynomial Kernel.
  * @author Diego Catalano
  */
-public class NormalizedPolynomial implements IMercerKernel<double[]>{
+public class NormalizedPolynomial implements IMercerKernel<double[]>, Serializable{
     
     private int degree;
     private double constant;

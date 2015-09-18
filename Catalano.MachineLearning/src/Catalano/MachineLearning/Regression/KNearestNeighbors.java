@@ -26,6 +26,7 @@ import Catalano.Math.Distances.EuclideanDistance;
 import Catalano.Math.Distances.IDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.List;
  * K Nearest Neighbour for regression.
  * @author Diego Catalano
  */
-public class KNearestNeighbors {
+public class KNearestNeighbors implements Serializable{
     
     private int k = 3;
     private double[][] input;

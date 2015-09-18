@@ -22,11 +22,13 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Pearson VII universal kernel (PUK).
  * @author Diego Catalano
  */
-public class Pearson implements IMercerKernel<double[]>{
+public class Pearson implements IMercerKernel<double[]>, Serializable{
     
     private double omega;
     private double sigma;

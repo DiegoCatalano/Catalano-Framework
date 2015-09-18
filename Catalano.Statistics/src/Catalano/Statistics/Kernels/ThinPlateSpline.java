@@ -19,13 +19,15 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Thin Plate Spline Kernel.
  * Thin plate splines (TPS) are a spline-based technique for data interpolation and smoothing.
  * 
  * @author Diego Catalano
  */
-public class ThinPlateSpline implements IMercerKernel<double[]>{
+public class ThinPlateSpline implements IMercerKernel<double[]>, Serializable{
     
     private double sigma = 1;
 

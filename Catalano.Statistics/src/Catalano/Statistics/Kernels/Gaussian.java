@@ -21,7 +21,9 @@
 
 package Catalano.Statistics.Kernels;
    
-public class Gaussian implements IMercerKernel<double[]>{
+import java.io.Serializable;
+
+public class Gaussian implements IMercerKernel<double[]>, Serializable{
     
     private double gamma;
     

@@ -24,11 +24,13 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Diego
  */
-public class Dirichlet implements IMercerKernel<double[]>{
+public class Dirichlet implements IMercerKernel<double[]>, Serializable{
     
     private int dimension;
 
