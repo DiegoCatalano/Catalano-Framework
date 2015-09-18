@@ -22,36 +22,37 @@
 
 package Catalano.MachineLearning.Classification;
 
+import Catalano.Math.SparseArray;
 import Catalano.Statistics.Kernels.IMercerKernel;
 
 /**
- * Support Vector Machine.
+ * Sparse Support Vector Machine.
  * @author Diego Catalano
  */
-public class SupportVectorMachine implements IClassifier{
+public class SparseSupportVectorMachine {
     
     private IMercerKernel kernel;
     private double c;
     private double cn;
     
-    private SVM<double[]> svm;
+    private SVM<SparseArray> svm;
     
     /**
-     * Initializes a new instance of the SupportVectorMachine class.
+     * Initializes a new instance of the SparseSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter.
      */
-    public SupportVectorMachine(IMercerKernel kernel, double c) {
+    public SparseSupportVectorMachine(IMercerKernel kernel, double c) {
         this(kernel, c, c);
     }
     
     /**
-     * Initializes a new instance of the SupportVectorMachine class.
+     * Initializes a new instance of the SparseSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter for positive instances.
      * @param cn Soft margin penalty parameter for negative instances.
      */
-    public SupportVectorMachine(IMercerKernel kernel, double c, double cn) {
+    public SparseSupportVectorMachine(IMercerKernel kernel, double c, double cn) {
         this.kernel = kernel;
         this.c = c;
         this.cn = cn;
@@ -62,8 +63,8 @@ public class SupportVectorMachine implements IClassifier{
         this.svm = new SVM(kernel, c, cn);
     }
 
-    @Override
-    public void Learn(double[][] input, int[] output) {
+    
+    public void Learn(SparseArray[] input, int[] output) {
         Initialize(kernel, c, cn);
         svm.Learn(input, output);
     }
@@ -73,12 +74,12 @@ public class SupportVectorMachine implements IClassifier{
      * @param input Feature.
      * @param output Label.
      */
-    public void Learn(double[] input, int output){
+    public void Learn(SparseArray input, int output){
         svm.Learn(input, output);
     }
 
-    @Override
-    public int Predict(double[] feature) {
+    
+    public int Predict(SparseArray feature) {
         return svm.Predict(feature);
     }
     

@@ -1,6 +1,9 @@
 Catalano Framework 1.5 road map
 -----------------------------------------
 
+* Android Compatibility
+  - Compiled against Android 2.33 (API 10). May work with newer versions.
+
 * Catalano.Core
     - Added: Argsort in the ArraysUtil.
     - Added: Serialization in DoubleRange,FloatRange and IntRange.
@@ -69,6 +72,9 @@ Catalano Framework 1.5 road map
     - New: CSV Parser.
 
 * Catalano.MachineLearning.Classification
+    - New: Sparse Multiclass Support Vector Machine.
+    - New: Multiclass Support Vector Machine.
+    - New: Sparse Support Vector Machine.
     - New: Support Vector Machine.
 
 * Catalano.MachineLearning.Classification.DecisionTree

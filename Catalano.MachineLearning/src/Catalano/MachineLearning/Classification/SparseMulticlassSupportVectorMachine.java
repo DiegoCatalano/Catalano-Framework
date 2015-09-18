@@ -22,39 +22,40 @@
 
 package Catalano.MachineLearning.Classification;
 
+import Catalano.Math.SparseArray;
 import Catalano.Statistics.Kernels.IMercerKernel;
 
 /**
- * Multiclass Support Vector Machine.
+ * Sparse Multiclass Support Vector Machine.
  * @author Diego Catalano
  */
-public class MulticlassSupportVectorMachine implements IClassifier{
+public class SparseMulticlassSupportVectorMachine {
     
     private IMercerKernel kernel;
     private double c;
     private int numberOfClasses;
     
     private SVM.Strategy strategy;
-    private SVM<double[]> svm;
+    private SVM<SparseArray> svm;
     
     /**
-     * Initializes a new instance of the MulticlassSupportVectorMachine class.
+     * Initializes a new instance of the SparseMulticlassSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter.
      * @param numberOfClasses Number of classes.
      */
-    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses) {
+    public SparseMulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses) {
         this(kernel, c, numberOfClasses, SVM.Strategy.ONE_VS_ONE);
     }
     
     /**
-     * Initializes a new instance of the MulticlassSupportVectorMachine class.
+     * Initializes a new instance of the SparseMulticlassSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter.
      * @param numberOfClasses Number of classes.
      * @param strategy Strategy.
      */
-    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses, SVM.Strategy strategy) {
+    public SparseMulticlassSupportVectorMachine(IMercerKernel kernel, double c, int numberOfClasses, SVM.Strategy strategy) {
         this.kernel = kernel;
         this.c = c;
         this.numberOfClasses = numberOfClasses;
@@ -63,23 +64,23 @@ public class MulticlassSupportVectorMachine implements IClassifier{
     }
     
     /**
-     * Initializes a new instance of the MulticlassSupportVectorMachine class.
+     * Initializes a new instance of the SparseMulticlassSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter.
      * @param weight Class weight.
      */
-    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight) {
+    public SparseMulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight) {
         this(kernel, c, weight, SVM.Strategy.ONE_VS_ONE);
     }
     
     /**
-     * Initializes a new instance of the MulticlassSupportVectorMachine class.
+     * Initializes a new instance of the SparseMulticlassSupportVectorMachine class.
      * @param kernel Mercer kernel.
      * @param c Soft margin penalty parameter.
      * @param weight Class weight.
      * @param strategy Strategy.
      */
-    public MulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight, SVM.Strategy strategy) {
+    public SparseMulticlassSupportVectorMachine(IMercerKernel kernel, double c, double[] weight, SVM.Strategy strategy) {
         this.kernel = kernel;
         this.c = c;
         this.numberOfClasses = weight.length;
@@ -95,8 +96,7 @@ public class MulticlassSupportVectorMachine implements IClassifier{
         this.svm = new SVM(kernel, c, weight, strategy);
     }
 
-    @Override
-    public void Learn(double[][] input, int[] output) {
+    public void Learn(SparseArray[] input, int[] output) {
         Initialize(kernel, c, numberOfClasses, strategy);
         svm.Learn(input, output);
     }
@@ -106,12 +106,11 @@ public class MulticlassSupportVectorMachine implements IClassifier{
      * @param input Feature.
      * @param output Label.
      */
-    public void Learn(double[] input, int output){
+    public void Learn(SparseArray input, int output){
         svm.Learn(input, output);
     }
 
-    @Override
-    public int Predict(double[] feature) {
+    public int Predict(SparseArray feature) {
         return svm.Predict(feature);
     }
     
