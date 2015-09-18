@@ -30,6 +30,7 @@ import Catalano.Math.Constants;
 /**
  * Defines a set of extension methods defining distance measures.
  * References: http://www.ajmaa.org/RGMIA/papers/v7n4/Gsdmi_RGMIA.pdf
+ * http://arabic-icr.googlecode.com/git/Papers/Comprehensive%20Survey%20on%20Distance-Similarity.pdf
  * @author Diego Catalano
  */
 public final class Distance {
@@ -448,6 +449,30 @@ public final class Distance {
     }
     
     /**
+     * Gets the Jensen difference divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Jensen difference between p and q.
+     */
+    public static double JensenDifferenceDivergence(double[] p, double[] q){
+        boolean intersection = false;
+        double k = 0;
+
+        for (int i = 0; i < p.length; i++) {
+            if (p[i] != 0 && q[i] != 0) {
+                intersection = true;
+                double pq = p[i] + q[i];
+                k += (p[i] * Math.log(p[i]) + q[i] * Math.log(q[i])) / 2 - (pq / 2) * Math.log(pq / 2);
+            }
+        }
+
+        if (intersection)
+            return k;
+        else
+            return Double.POSITIVE_INFINITY;
+    }
+    
+    /**
      * Gets the Jensen Shannon divergence.
      * @param p U vector.
      * @param q V vector.
@@ -460,6 +485,39 @@ public final class Distance {
         }
 
         return (KullbackLeiblerDivergence(p, m) + KullbackLeiblerDivergence(q, m)) / 2;
+    }
+    
+    /**
+     * Gets the K-Divergence.
+     * @param p U vector.
+     * @param q V vector.
+     * @return The K-Divergence between u and v.
+     */
+    public static double KDivergence(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            double den = p[i] + q[i];
+            if(den != 0 && p[i] != 0)
+                r += p[i] * Math.log(2 * p[i] / den);
+        }
+        
+        return r;
+    }
+    
+    /**
+     * Gets the Kumar-Johnson divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Kumar-Johnson divergence between p and q.
+     */
+    public static double KumarJohnsonDivergence(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            if(p[i] != 0 && q[i] != 0){
+                r += Math.pow(p[i]*p[i] - q[i]*q[i], 2) / (2 * Math.pow(p[i]*q[i], 1.5));
+            }
+        }
+        return r;
     }
     
     /**
@@ -659,4 +717,39 @@ public final class Distance {
         
         return r;
     }
+    
+    /**
+     * Gets the Taneja divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Taneja divergence between p and q.
+     */
+    public static double Taneja(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            if(p[i] != 0 && q[i] != 0){
+                double pq = p[i] + q[i];
+                r += (pq / 2) * Math.log(pq / (2 * Math.sqrt(p[i]*q[i])));
+            }
+        }
+        return r;
+    }
+    
+    /**
+     * Gets the Topsoe divergence.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Topsoe divergence between p and q.
+     */
+    public static double TopsoeDivergence(double[] p, double[] q){
+        double r = 0;
+        for (int i = 0; i < p.length; i++) {
+            if(p[i] != 0 && q[i] != 0){
+                double den = p[i] + q[i];
+                r += p[i] * Math.log(2*p[i]/den) + q[i] * Math.log(2*q[i]/den);
+            }
+        }
+        return r;
+    }
+    
 }

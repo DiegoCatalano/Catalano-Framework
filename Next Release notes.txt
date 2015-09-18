@@ -94,6 +94,14 @@ Catalano Framework 1.5 road map
     - New: K Nearest Neighbours.
 
 * Catalano.Math
+    - New: Topsoe Divergence in Distance.
+    - New: Taneja Divergence in Distance.
+    - New: Kumar-Johnson Divergence in Distance.
+    - New: Jensen Difference Divergence in Distance.
+    - New: Arithmetic Geometric Divergence in Distance.
+    - New: J-Divergence in Distance.
+    - New: Jensen-Shannon Divergence in Distance.
+    - New: Kullback Leibler Divergence in Distance.
     - New: Distances namespace (All distances is refactored).
     - New: Rational Number.
 
