@@ -134,18 +134,14 @@ public class NiblackThreshold implements IBaseInPlace{
             FastVariance v = new FastVariance(radius);
             v.applyInPlace(var);
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
-            
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    float P = fastBitmap.getGray(i, j);
-                    float mP = mean.getGray(i, j);
-                    float vP = var.getGray(i, j);
-                    int g = (P > (mP + k * Math.sqrt(vP) - c)) ? 255 : 0;
-                    
-                    fastBitmap.setGray(i, j, g);
-                }
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                float P = fastBitmap.getGray(i);
+                float mP = mean.getGray(i);
+                float vP = var.getGray(i);
+                int g = (P > (mP + k * Math.sqrt(vP) - c)) ? 255 : 0;
+
+                fastBitmap.setGray(i, g);
             }
             
         }

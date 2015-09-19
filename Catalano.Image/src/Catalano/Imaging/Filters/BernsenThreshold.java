@@ -114,25 +114,20 @@ public class BernsenThreshold implements IBaseInPlace{
             Minimum minimum = new Minimum(radius);
             minimum.applyInPlace(min);
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    double localContrast = max.getGray(i, j) - min.getGray(i, j);
-                    double midG = (max.getGray(i, j) + min.getGray(i, j)) / 2;
-                    
-                    int g = fastBitmap.getGray(i, j);
-                    if (localContrast < c)
-                        g = (midG >= 128) ? 255 : 0;
-                    else
-                        g = (g >= midG) ? 255 : 0;
-                    
-                    fastBitmap.setGray(i, j, g);
-                }
+            for (int i = 0; i < size; i++) {
+                double localContrast = max.getGray(i) - min.getGray(i);
+                double midG = (max.getGray(i) + min.getGray(i)) / 2;
+
+                int g = fastBitmap.getGray(i);
+                if (localContrast < c)
+                    g = (midG >= 128) ? 255 : 0;
+                else
+                    g = (g >= midG) ? 255 : 0;
+
+                fastBitmap.setGray(i, g);
             }
-            
         }
         else{
             throw new IllegalArgumentException("Bernsen Threshold only works in grayscale images.");

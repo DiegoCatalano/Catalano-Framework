@@ -18,6 +18,7 @@ Catalano Framework 1.5 road map
     - Changed: ArrayList<> to List<> in BlobDetection and ICornersDetector.
 
 * Catalano.Imaging.Filters
+    - New: Nick Threshold.
     - New: Curve Level.
     - New: Weighted Median.
     - New: Watershed.

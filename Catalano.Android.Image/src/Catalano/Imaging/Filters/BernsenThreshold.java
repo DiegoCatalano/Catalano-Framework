@@ -28,11 +28,15 @@ import Catalano.Imaging.IBaseInPlace;
 /**
  * Bernsen Threshold.
  * 
- * <para>The method uses a user-provided contrast threshold.
+ * <p>The method uses a user-provided contrast threshold.
  * If the local contrast (max-min) is above or equal to the contrast threshold, the threshold is set
  * at the local midgrey value (the mean of the minimum and maximum grey values in the local window).
  * If the local contrast is below the contrast threshold the neighbourhood is considered to consist only of one class
- * and the pixel is set to object or background depending on the value of the midgrey.</para>
+ * and the pixel is set to object or background depending on the value of the midgrey.</p>
+ * 
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
  * 
  * @author Diego Catalano
  */
@@ -110,25 +114,20 @@ public class BernsenThreshold implements IBaseInPlace{
             Minimum minimum = new Minimum(radius);
             minimum.applyInPlace(min);
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    double localContrast = max.getGray(i, j) - min.getGray(i, j);
-                    double midG = (max.getGray(i, j) + min.getGray(i, j)) / 2;
-                    
-                    int g = fastBitmap.getGray(i, j);
-                    if (localContrast < c)
-                        g = (midG >= 128) ? 255 : 0;
-                    else
-                        g = (g >= midG) ? 255 : 0;
-                    
-                    fastBitmap.setGray(i, j, g);
-                }
+            for (int i = 0; i < size; i++) {
+                double localContrast = max.getGray(i) - min.getGray(i);
+                double midG = (max.getGray(i) + min.getGray(i)) / 2;
+
+                int g = fastBitmap.getGray(i);
+                if (localContrast < c)
+                    g = (midG >= 128) ? 255 : 0;
+                else
+                    g = (g >= midG) ? 255 : 0;
+
+                fastBitmap.setGray(i, g);
             }
-            
         }
         else{
             throw new IllegalArgumentException("Bernsen Threshold only works in grayscale images.");

@@ -27,15 +27,14 @@ import Catalano.Imaging.IBaseInPlace;
 import Catalano.Math.Matrix;
 
 /**
- * Wolf Jolion Threshold.
- * References: http://liris.cnrs.fr/christian.wolf/papers/icpr2002v.pdf
+ * Nick Threshold.
+ * References: http://www.math-info.univ-paris5.fr/~vincent/articles/DRR_nick_binarization_09.pdf
  * @author Diego Catalano
  */
-public class WolfJolionThreshold implements IBaseInPlace{
+public class NickThreshold implements IBaseInPlace{
     
     private int radius = 15;
-    private double k = 0.5D;
-    private double r = 128;
+    private double k = -0.2D;
 
     /**
      * Get Radius.
@@ -70,54 +69,26 @@ public class WolfJolionThreshold implements IBaseInPlace{
     }
 
     /**
-     * Get parameter R.
-     * @return R value.
+     * Initialize a new instance of the NickThreshold class.
      */
-    public double getR() {
-        return r;
-    }
-
-    /**
-     * Set parameter R.
-     * @param r R value.
-     */
-    public void setR(double r) {
-        this.r = r;
-    }
-
-    /**
-     * Initialize a new instance of the WolfJolionThreshold class.
-     */
-    public WolfJolionThreshold() {}
+    public NickThreshold() {}
     
     /**
-     * Initialize a new instance of the WolfJolionThreshold class.
+     * Initialize a new instance of the NickThreshold class.
      * @param radius Radius.
      */
-    public WolfJolionThreshold(int radius){
+    public NickThreshold(int radius){
         this.radius = radius;
     }
 
     /**
-     * Initialize a new instance of the WolfJolionThreshold class.
-     * @param k Parameter K.
-     * @param r Parameter R.
-     */
-    public WolfJolionThreshold(double k, double r) {
-        this.k = k;
-        this.r = r;
-    }
-
-    /**
-     * Initialize a new instance of the WolfThreshold class.
+     * Initialize a new instance of the NickThreshold class.
      * @param radius Radius.
      * @param k Parameter K.
-     * @param r Parameter R.
      */
-    public WolfJolionThreshold(int radius, double k, double r) {
+    public NickThreshold(int radius, double k) {
         this.radius = radius;
         this.k = k;
-        this.r = r;
     }
 
     @Override
@@ -136,32 +107,18 @@ public class WolfJolionThreshold implements IBaseInPlace{
             v.applyInPlace(var);
             
             int size = fastBitmap.getWidth() * fastBitmap.getHeight();
-            
-            int maxV = 0;
             for (int i = 0; i < size; i++) {
-                int g = var.getGray(i);
-                if (g > maxV) maxV = g;
-            }
-            
-            int minG = 255;
-            for (int i = 0; i < size; i++) {
-                int g = fastBitmap.getGray(i);
-                if (g < minG) minG = g;
-            }
-            
-            for (int i = 0; i < size; i++) {
-                double P = fastBitmap.getGray(i);
-                double mP = mean.getGray(i);
-                double vP = var.getGray(i);
-
-                int g = (P > (mP + k * ((Math.sqrt(vP) / (double)maxV - 1.0) * (mP - (double)minG)))) ? 255 : 0;
+                float P = fastBitmap.getGray(i);
+                float mP = mean.getGray(i);
+                float vP = var.getGray(i);
+                int g = (P > (mP + k * Math.sqrt(vP + mP*mP))) ? 255 : 0;
 
                 fastBitmap.setGray(i, g);
             }
             
         }
         else{
-            throw new IllegalArgumentException("Wolf Threshold only works in grayscale images.");
+            throw new IllegalArgumentException("Nick Threshold only works in grayscale images.");
         }
     }
 }
