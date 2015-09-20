@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Correlation distance.
  * @author Diego Catalano
  */
-public class CorrelationDistance implements IDistance{
+public class CorrelationDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the CorrelationDistance class.

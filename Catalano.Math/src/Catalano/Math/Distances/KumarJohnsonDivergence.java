@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Kumar-Johnson divergence.
  * @author Diego Catalano
  */
-public class KumarJohnsonDivergence implements IDistance{
+public class KumarJohnsonDivergence implements IDivergence<double[]>{
 
     /**
      * Initialize a new instance of the KumarJohnsonDivergence class.

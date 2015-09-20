@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Jaccard distance.
  * @author Diego Catalano
  */
-public class JaccardDistance implements IDistance{
+public class JaccardDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the JaccardDistance class.

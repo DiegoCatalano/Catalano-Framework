@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class EuclideanDistance implements IDistance{
+public class EuclideanDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the EuclideanDistance class.

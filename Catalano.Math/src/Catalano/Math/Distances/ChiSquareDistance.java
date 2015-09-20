@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Chi-Square histogram distance.
  * @author Diego Catalano
  */
-public class ChiSquareDistance implements IDistance{
+public class ChiSquareDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the ChiSquareDistance class.

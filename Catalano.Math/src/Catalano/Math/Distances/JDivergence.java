@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * J-Divergence.
  * @author Diego Catalano
  */
-public class JDivergence implements IDistance{
+public class JDivergence implements IDivergence<double[]>{
 
     /**
      * Initializes a new instance of the JDivergence class.

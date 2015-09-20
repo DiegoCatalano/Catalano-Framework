@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Canberra distance.
  * @author Diego Catalano
  */
-public class CanberraDistance implements IDistance{
+public class CanberraDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the CanberraDistance class.

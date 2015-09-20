@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class ChebyshevDistance implements IDistance{
+public class ChebyshevDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the ChevyshevDistance class.

@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Topsoe divergence.
  * @author Diego Catalano
  */
-public class TopsoeDivergence implements IDistance{
+public class TopsoeDivergence implements IDivergence<double[]>{
 
     /**
      * Initializa a new instance of the TopsoeDivergence class.

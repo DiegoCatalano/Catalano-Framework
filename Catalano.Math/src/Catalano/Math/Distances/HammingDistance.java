@@ -28,24 +28,15 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class HammingDistance {
+public class HammingDistance implements IDistance<String>{
 
     /**
      * Initializes a new instance of the HammingDistance class.
      */
     public HammingDistance() {}
-    
-    /**
-     * Compute the hamming distance between two strings.
-     * @param first First string.
-     * @param second Second string.
-     * @return Hamming distance.
-     */
-    public int Compute(String first, String second){
-        int d = 0;
-        for (int i = 0; i < first.length(); i++) {
-            if(first.charAt(i) != second.charAt(i)) d++;
-        }
-        return d;
+
+    @Override
+    public double Compute(String u, String v) {
+        return Distance.Hamming(u, v);
     }
 }

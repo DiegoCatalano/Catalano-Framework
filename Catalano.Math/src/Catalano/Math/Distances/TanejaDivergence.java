@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Taneja divergence.
  * @author Diego Catalano
  */
-public class TanejaDivergence implements IDistance{
+public class TanejaDivergence implements IDivergence<double[]>{
 
     /**
      * Initialize a new instance of the TanejaDivergence class.

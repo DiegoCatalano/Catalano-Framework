@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class CosineDistance implements IDistance{
+public class CosineDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the CosineDistance class.

@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Bray-Curtis distance.
  * @author Diego Catalano
  */
-public class BrayCurtisDistance implements IDistance{
+public class BrayCurtisDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the BravCurtisDistance class.

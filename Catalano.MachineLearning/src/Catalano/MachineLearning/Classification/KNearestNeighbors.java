@@ -170,6 +170,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
         }
         
         Collections.sort(lst);
+        int min = output[lst.get(0).index];
         
         //Compute vote majority
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -192,7 +193,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
 
         }
         
-        return -1;
+        return min;
     }
     
     private class Score implements Comparable<Score> {

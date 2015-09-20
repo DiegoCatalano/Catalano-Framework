@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Kullback Leibler divergence.
  * @author Diego Catalano
  */
-public class KullbackLeiblerDivergence implements IDistance{
+public class KullbackLeiblerDivergence implements IDivergence<double[]>{
 
     /**
      * Initializes a new instance of the KullbackLeiblerDivergence class.

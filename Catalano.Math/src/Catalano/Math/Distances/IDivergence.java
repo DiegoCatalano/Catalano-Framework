@@ -23,16 +23,13 @@
 package Catalano.Math.Distances;
 
 /**
- * Common interface for distance measure.
+ * Common interface for divergence measure.
  * @author Diego Catalano
  * @param <T> Type.
  */
-public interface IDistance <T>{
-    /**
-     * Compute the distance between the vectors.
-     * @param u Vector.
-     * @param v Vector.
-     * @return Distance.
-     */
-    double Compute(T u, T v);
+public interface IDivergence <T> extends IDistance<T>{
+
+    @Override
+    public double Compute(T u, T v);
+    
 }

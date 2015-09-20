@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Jensen Shannon divergence.
  * @author Diego Catalano
  */
-public class JensenShannonDivergence implements IDistance{
+public class JensenShannonDivergence implements IDivergence<double[]>{
 
     /**
      * Initializes a new instance of the JensenShannonDivergence class.

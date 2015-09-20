@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class MinkowskiDistance implements IDistance{
+public class MinkowskiDistance implements IDistance<double[]>{
     
     private double p = 1;
 

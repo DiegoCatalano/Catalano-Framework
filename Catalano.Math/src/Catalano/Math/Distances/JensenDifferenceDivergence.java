@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Jensen difference divergence.
  * @author Diego Catalano
  */
-public class JensenDifferenceDivergence implements IDistance{
+public class JensenDifferenceDivergence implements IDivergence<double[]>{
 
     /**
      * Initialize a new instance of the JensenDifferenceDivergence class.

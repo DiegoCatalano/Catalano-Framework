@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * K-Divergence.
  * @author Diego Catalano
  */
-public class KDivergence implements IDistance{
+public class KDivergence implements IDivergence<double[]>{
 
     /**
      * Initialize a new instance of the KDivergence class.

@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * 
  * @author Diego Catalano
  */
-public class ManhattanDistance implements IDistance{
+public class ManhattanDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the ManhattanDistance class.

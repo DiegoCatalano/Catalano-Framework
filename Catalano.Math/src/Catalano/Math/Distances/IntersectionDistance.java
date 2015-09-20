@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Intersection distance.
  * @author Diego Catalano
  */
-public class IntersectionDistance implements IDistance{
+public class IntersectionDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the IntersectionDistance class.

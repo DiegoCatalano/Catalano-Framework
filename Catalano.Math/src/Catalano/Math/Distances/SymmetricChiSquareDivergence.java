@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Symmetric Chi-square divergence.
  * @author Diego Catalano
  */
-public class SymmetricChiSquareDivergence implements IDistance{
+public class SymmetricChiSquareDivergence implements IDivergence<double[]>{
 
     /**
      * Initialize a new instance of the SymmetricChiSquareDivergence class.

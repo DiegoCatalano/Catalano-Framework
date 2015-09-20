@@ -28,7 +28,7 @@ package Catalano.Math.Distances;
  * Bhattacharyya distance measures the similarity of two discrete or continuous probability distributions.
  * @author Diego Catalano
  */
-public class BhattacharyyaDistance implements IDistance{
+public class BhattacharyyaDistance implements IDistance<double[]>{
 
     /**
      * Initializes a new instance of the BhattacharyyaDistance class.
