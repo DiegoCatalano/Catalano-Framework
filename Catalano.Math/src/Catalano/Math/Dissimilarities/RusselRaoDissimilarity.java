@@ -20,24 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
-
-import Catalano.Math.Distances.IDistance;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Dice dissimilarity.
+ * Russel & Rao dissimilarity.
  * @author Diego Catalano
  */
-public class DiceDissimilarity implements IDistance<int[]>{
+public class RusselRaoDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the DiceDissimilarity class.
+     * Initializes a new instance of the RusselRaoDissimilarity class.
      */
-    public DiceDissimilarity() {}
-
+    public RusselRaoDissimilarity() {}
+    
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.Dice(u, v);
+        return Dissimilarity.RusselRao(u, v);
     }
     
 }

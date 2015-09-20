@@ -27,9 +27,14 @@ package Catalano.Math.Distances;
  * @author Diego Catalano
  * @param <T> Type.
  */
-public interface IDivergence <T> extends IDistance<T>{
+public interface IDivergence <T> {
 
-    @Override
-    public double Compute(T u, T v);
+    /**
+     * Compute the distance between the vectors.
+     * @param u Vector.
+     * @param v Vector.
+     * @return Distance.
+     */
+    double Compute(T u, T v);
     
 }

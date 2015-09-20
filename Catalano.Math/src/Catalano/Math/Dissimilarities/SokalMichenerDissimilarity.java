@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Yule dissimilarity.
+ * Sokal & Michener dissimilarity.
  * @author Diego Catalano
  */
-public class YuleDissimilarity implements IDissimilarity<int[]>{
+public class SokalMichenerDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the YuleDissimilarity class.
+     * Initializes a new instance of the SokalMichenerDissimilarity class.
      */
-    public YuleDissimilarity() {}
+    public SokalMichenerDissimilarity() {}
 
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.Yule(u, v);
+        return Dissimilarity.SokalMichener(u, v);
     }
     
 }

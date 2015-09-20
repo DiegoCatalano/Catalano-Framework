@@ -23,7 +23,7 @@
 package Catalano.MachineLearning.Regression;
 
 import Catalano.Math.Distances.EuclideanDistance;
-import Catalano.Math.Distances.IDistance;
+import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
@@ -40,27 +40,27 @@ public class KNearestNeighbors implements Serializable{
     private int k = 3;
     private double[][] input;
     private double[] output;
-    private IDistance distance;
+    private IDivergence divergence;
     private IMercerKernel kernel;
 
     public KNearestNeighbors(double[][] input, double[] output) {
         this.input = input;
         this.output = output;
-        this.distance = new EuclideanDistance();
+        this.divergence = new EuclideanDistance();
     }
     
     public KNearestNeighbors(double[][] input, double[] output, int k) {
         this.input = input;
         this.output = output;
         this.k = k;
-        this.distance = new EuclideanDistance();
+        this.divergence = new EuclideanDistance();
     }
     
-    public KNearestNeighbors(double[][] input, double[] output, int k, IDistance distance) {
+    public KNearestNeighbors(double[][] input, double[] output, int k, IDivergence divergence) {
         this.input = input;
         this.output = output;
         this.k = k;
-        this.distance = distance;
+        this.divergence = divergence;
     }
     
     public KNearestNeighbors(double[][] input, double[] output, int k, IMercerKernel kernel) {
@@ -77,7 +77,7 @@ public class KNearestNeighbors implements Serializable{
             for (int i = 0; i < input.length; i++){
                 double[] temp = input[i];
                 //temp = Matrix.RemoveColumn(temp, temp.length - 1);
-                dist[i] = distance.Compute(temp, feature);
+                dist[i] = divergence.Compute(temp, feature);
             }
         else
             for (int i = 0; i < input.length; i++){

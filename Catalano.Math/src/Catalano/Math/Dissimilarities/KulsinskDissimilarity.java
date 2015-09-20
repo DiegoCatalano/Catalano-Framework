@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Matching dissimilarity.
+ * Kulsinsk dissimilarity.
  * @author Diego Catalano
  */
-public class MatchingDissimilarity implements IDissimilarity<int[]>{
+public class KulsinskDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the MatchingDissimilarity class.
+     * Initializes a new instance of the KulsinskDissimilarity class.
      */
-    public MatchingDissimilarity() {}
+    public KulsinskDissimilarity() {}
 
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.Matching(u, v);
+        return Dissimilarity.Kulsinsk(u, v);
     }
     
 }

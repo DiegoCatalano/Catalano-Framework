@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Russel & Rao dissimilarity.
+ * Jaccard dissimilarity
  * @author Diego Catalano
  */
-public class RusselRaoDissimilarity implements IDissimilarity<int[]>{
+public class JaccardDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the RusselRaoDissimilarity class.
+     * Initializes a new instance of the JaccardDissimilarity class.
      */
-    public RusselRaoDissimilarity() {}
+    public JaccardDissimilarity() {}
     
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.RusselRao(u, v);
+        return Dissimilarity.Jaccard(u, v);
     }
     
 }

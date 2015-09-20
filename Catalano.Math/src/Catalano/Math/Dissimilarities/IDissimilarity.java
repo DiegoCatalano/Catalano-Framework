@@ -1,4 +1,4 @@
-// Catalano Statistics Library
+// Catalano Math Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -20,22 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
+
+import Catalano.Math.Distances.IDivergence;
 
 /**
- * Sokal & Sneath dissimilarity.
+ * Common interface for dissimilarities measure.
  * @author Diego Catalano
+ * @param <T> Type.
  */
-public class SokalSneathDissimilarity implements IDissimilarity<int[]>{
-
-    /**
-     * Initializes a new instance of the SokalSneathDissimilarity class.
-     */
-    public SokalSneathDissimilarity() {}
+public interface IDissimilarity <T> extends IDivergence<T>{
 
     @Override
-    public double Compute(int[] u, int[] v) {
-        return Dissimilarity.SokalSneath(u, v);
-    }
+    public double Compute(T u, T v);
     
 }

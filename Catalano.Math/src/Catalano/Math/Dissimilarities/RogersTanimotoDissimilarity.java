@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Sokal & Michener dissimilarity.
+ * Rogers & Tanimoto dissimilarity.
  * @author Diego Catalano
  */
-public class SokalMichenerDissimilarity implements IDissimilarity<int[]>{
+public class RogersTanimotoDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the SokalMichenerDissimilarity class.
+     * Initializes a new instance of the RogersTanimotoDissimilarity class.
      */
-    public SokalMichenerDissimilarity() {}
+    public RogersTanimotoDissimilarity() {}
 
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.SokalMichener(u, v);
+        return Dissimilarity.RogersTanimoto(u, v);
     }
     
 }

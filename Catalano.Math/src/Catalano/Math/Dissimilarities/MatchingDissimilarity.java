@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Statistics.Dissimilarities;
+package Catalano.Math.Dissimilarities;
 
 /**
- * Jaccard dissimilarity
+ * Matching dissimilarity.
  * @author Diego Catalano
  */
-public class JaccardDissimilarity implements IDissimilarity<int[]>{
+public class MatchingDissimilarity implements IDissimilarity<int[]>{
 
     /**
-     * Initializes a new instance of the JaccardDissimilarity class.
+     * Initializes a new instance of the MatchingDissimilarity class.
      */
-    public JaccardDissimilarity() {}
-    
+    public MatchingDissimilarity() {}
+
     @Override
     public double Compute(int[] u, int[] v) {
-        return Dissimilarity.Jaccard(u, v);
+        return Dissimilarity.Matching(u, v);
     }
     
 }

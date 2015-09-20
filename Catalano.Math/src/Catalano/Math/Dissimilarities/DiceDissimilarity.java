@@ -1,4 +1,4 @@
-// Catalano Math Library
+// Catalano Statistics Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -20,15 +20,24 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Math.Distances;
+package Catalano.Math.Dissimilarities;
+
+import Catalano.Math.Distances.IDistance;
 
 /**
- * Common interface for distance measure.
+ * Dice dissimilarity.
  * @author Diego Catalano
- * @param <T> Type.
  */
-public interface IDistance <T> extends IDivergence<T>{
+public class DiceDissimilarity implements IDistance<int[]>{
+
+    /**
+     * Initializes a new instance of the DiceDissimilarity class.
+     */
+    public DiceDissimilarity() {}
 
     @Override
-    double Compute(T u, T v);
+    public double Compute(int[] u, int[] v) {
+        return Dissimilarity.Dice(u, v);
+    }
+    
 }

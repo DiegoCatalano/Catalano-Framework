@@ -23,7 +23,7 @@
 package Catalano.MachineLearning.Classification;
 
 import Catalano.Math.Distances.EuclideanDistance;
-import Catalano.Math.Distances.IDistance;
+import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
@@ -43,7 +43,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     private int k;
     private double[][] input;
     private int[] output;
-    private IDistance distance = new EuclideanDistance();
+    private IDivergence divergence = new EuclideanDistance();
     private IMercerKernel kernel;
     private boolean useKernel = false;
 
@@ -81,19 +81,19 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     }
 
     /**
-     * Get the distance metric.
-     * @return Distance.
+     * Get the divergence function.
+     * @return Divergence.
      */
-    public IDistance getDistance() {
-        return distance;
+    public IDivergence getDistance() {
+        return divergence;
     }
 
     /**
-     * Set the distance metric.
-     * @param distance Distance.
+     * Set the divergence function.
+     * @param divergence Divergence.
      */
-    public void setDistance(IDistance distance) {
-        this.distance = distance;
+    public void setDistance(IDivergence divergence) {
+        this.divergence = divergence;
         this.useKernel = false;
     }
     
@@ -115,11 +115,11 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     /**
      * Initializes a new instance of the KNearestNeighbors class.
      * @param k Number of neighbours.
-     * @param distance Distance.
+     * @param divergence Distance.
      */
-    public KNearestNeighbors(int k, IDistance distance){
+    public KNearestNeighbors(int k, IDivergence divergence){
         this.k = k;
-        this.distance = distance;
+        this.divergence = divergence;
     }
     
     /**
@@ -156,7 +156,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
                 dist[i] = this.kernel.Function(feature, input[i]);
         }else{
             for (int i = 0; i < sizeF; i++)
-                dist[i] = this.distance.Compute(feature, input[i]);
+                dist[i] = this.divergence.Compute(feature, input[i]);
         }
         
         //If k is 1, we can retrive the object quickly.
