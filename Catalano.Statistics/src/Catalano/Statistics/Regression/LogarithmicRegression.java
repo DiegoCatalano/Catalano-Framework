@@ -31,7 +31,7 @@ import Catalano.Statistics.Tools;
  * Equation: y = a*ln(x) + b
  * @author Diego Catalano
  */
-public class LogarithmicRegression implements IRegression, ILinear{
+public class LogarithmicRegression implements ISimpleRegression, ILinear{
     
     private double[] x;
     private double[] y;

@@ -29,7 +29,7 @@ import Catalano.Statistics.*;
  * Equation: y = ax + b
  * @author Diego Catalano
  */
-public class LinearRegression implements IRegression, ILinear{
+public class LinearRegression implements ISimpleRegression, ILinear{
     
     private double[] x;
     private double[] y;

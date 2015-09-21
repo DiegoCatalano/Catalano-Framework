@@ -71,19 +71,19 @@ public class RegressionAnalysis {
      * @param y Y Data.
      * @return Best regression.
      */
-    public IRegression BestFit(double[] x, double[] y){
+    public ISimpleRegression BestFit(double[] x, double[] y){
         
         //All regressions, except polynomial
-        List<IRegression> lst = new ArrayList<IRegression>();
+        List<ISimpleRegression> lst = new ArrayList<ISimpleRegression>();
         lst.add(new LinearRegression(x, y));
         lst.add(new LogarithmicRegression(x, y));
         lst.add(new ExponentialRegression(x, y));
         lst.add(new PowerRegression(x, y));
         
-        IRegression bestRegression = null;
+        ISimpleRegression bestRegression = null;
         double bestFit = 0;
         
-        for (IRegression r : lst) {
+        for (ISimpleRegression r : lst) {
             double f = r.CoefficientOfDetermination();
             if(f == 1) return r;
             if(f > bestFit){
@@ -97,7 +97,7 @@ public class RegressionAnalysis {
         if(usePolynomial){
             
             //Compute polynomial for degree 2
-            IRegression r = new PolynomialRegression(x, y, 2);
+            ISimpleRegression r = new PolynomialRegression(x, y, 2);
             double f = r.CoefficientOfDetermination();
             if(f == 1) return r;
             if(f > bestFit){
@@ -127,11 +127,11 @@ public class RegressionAnalysis {
      * @param regressions Regressions.
      * @return Best regression.
      */
-    public IRegression BestFit(List<IRegression> regressions){
+    public ISimpleRegression BestFit(List<ISimpleRegression> regressions){
         
-        IRegression reg = null;
+        ISimpleRegression reg = null;
         double best = 0;
-        for (IRegression r : regressions) {
+        for (ISimpleRegression r : regressions) {
             double c = r.CoefficientOfDetermination();
             if(c > best){
                 best = c;

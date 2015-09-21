@@ -26,7 +26,7 @@ package Catalano.Statistics.Regression;
  * Regression function interface.
  * @author Diego Catalano
  */
-public interface IRegression {
+public interface ISimpleRegression {
     
     /**
      * Compute regression of specific value.

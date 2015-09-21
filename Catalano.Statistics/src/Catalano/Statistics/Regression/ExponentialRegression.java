@@ -31,7 +31,7 @@ import Catalano.Statistics.Tools;
  * Equation: y = b*e^a*x
  * @author Diego Catalano
  */
-public class ExponentialRegression implements IRegression, ILinear{
+public class ExponentialRegression implements ISimpleRegression, ILinear{
     
     private double[] x;
     private double[] y;

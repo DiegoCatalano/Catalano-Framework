@@ -31,7 +31,7 @@ import Catalano.Statistics.Tools;
  * Equation: y = b*x^a
  * @author Diego Catalano
  */
-public class PowerRegression implements IRegression, ILinear{
+public class PowerRegression implements ISimpleRegression, ILinear{
     
     private double[] x;
     private double[] y;

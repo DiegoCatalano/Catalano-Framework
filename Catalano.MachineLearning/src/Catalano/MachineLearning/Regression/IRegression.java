@@ -20,25 +20,25 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification;
+package Catalano.MachineLearning.Regression;
 
 /**
- * The interface describe the predict of the classifier.
+ * The interface describe the predict of the regression.
  * @author Diego Catalano
  */
-public interface IClassifier {
+public interface IRegression {
     
     /**
      * Learn.
-     * @param input Matrix of features.
-     * @param output Labels.
+     * @param input Input.
+     * @param output Output.
      */
-    public void Learn(double[][] input, int[] output);
+    public void Learn(double[][] input, double[] output);
     
     /**
      * Predict.
      * @param feature Feature.
-     * @return Label.
+     * @return Value.
      */
-    public int Predict(double[] feature);
+    public double Predict(double[] feature);
 }

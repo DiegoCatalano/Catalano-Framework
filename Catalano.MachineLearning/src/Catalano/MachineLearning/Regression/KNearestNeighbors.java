@@ -22,8 +22,8 @@
 
 package Catalano.MachineLearning.Regression;
 
-import Catalano.Math.Distances.EuclideanDistance;
 import Catalano.Math.Distances.IDivergence;
+import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
@@ -35,43 +35,36 @@ import java.util.List;
  * K Nearest Neighbour for regression.
  * @author Diego Catalano
  */
-public class KNearestNeighbors implements Serializable{
+public class KNearestNeighbors implements IRegression, Serializable{
     
     private int k = 3;
     private double[][] input;
     private double[] output;
     private IDivergence divergence;
     private IMercerKernel kernel;
-
-    public KNearestNeighbors(double[][] input, double[] output) {
-        this.input = input;
-        this.output = output;
-        this.divergence = new EuclideanDistance();
+    
+    public KNearestNeighbors(int k) {
+        this(k, new SquaredEuclideanDistance());
     }
     
-    public KNearestNeighbors(double[][] input, double[] output, int k) {
-        this.input = input;
-        this.output = output;
-        this.k = k;
-        this.divergence = new EuclideanDistance();
-    }
-    
-    public KNearestNeighbors(double[][] input, double[] output, int k, IDivergence divergence) {
-        this.input = input;
-        this.output = output;
+    public KNearestNeighbors(int k, IDivergence divergence) {
         this.k = k;
         this.divergence = divergence;
     }
     
-    public KNearestNeighbors(double[][] input, double[] output, int k, IMercerKernel kernel) {
-        this.input = input;
-        this.output = output;
+    public KNearestNeighbors(int k, IMercerKernel kernel) {
         this.k = k;
         this.kernel = kernel;
     }
+
+    @Override
+    public void Learn(double[][] input, double[] output) {
+        this.input = input;
+        this.output = output;
+    }
     
-    public double Compute(double[] feature){
-        
+    @Override
+    public double Predict(double[] feature){
         double[] dist = new double[input.length];
         if(kernel == null)
             for (int i = 0; i < input.length; i++){
@@ -96,7 +89,6 @@ public class KNearestNeighbors implements Serializable{
         Collections.sort(lst);
         
         double result = 0;
-        int lastCol = input[0].length - 1;
         for (int i = 0; i < k; i++) {
             result += output[lst.get(i).index];
         }

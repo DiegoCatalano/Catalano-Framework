@@ -29,7 +29,7 @@ import Catalano.Statistics.Correlations;
  * Polynomial Regression.
  * @author Diego Catalano
  */
-public class PolynomialRegression implements IRegression{
+public class PolynomialRegression implements ISimpleRegression{
     
     private double[] x;
     private double[] y;
