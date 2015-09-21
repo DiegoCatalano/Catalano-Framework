@@ -261,7 +261,7 @@ public class CSVParser {
                     int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
                     for (int j = startCol; j < endCol; j++) {
-                        data[idxI][idxJ] = Double.valueOf(temp[j]);
+                        data[idxI][idxJ] = Double.valueOf(fix(temp[j]));
                         idxJ++;
                     }
                     idxI++;
@@ -301,7 +301,7 @@ public class CSVParser {
                     int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
                     for (int j = startCol; j < endCol; j++) {
-                        data[idxI][idxJ] = Integer.valueOf(temp[j]);
+                        data[idxI][idxJ] = Integer.valueOf(fix(temp[j]));
                         idxJ++;
                     }
                     idxI++;
@@ -317,6 +317,21 @@ public class CSVParser {
         }
         
         return null;
+    }
+    
+    /**
+     * Fix invalid chars.
+     * @param x String
+     * @return String.
+     */
+    private static String fix(String x){
+        String r = "";
+        for (int i = 0; i < x.length(); i++) {
+            char c = x.charAt(i);
+            if(Character.isDigit(c) || c == '.' || c == '-' || c == 'E')
+                r += c;
+        }
+        return r;
     }
     
     /**

@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * K Nearest Neighbour for regression.
+ * K Nearest Neighbors for regression.
  * @author Diego Catalano
  */
 public class KNearestNeighbors implements IRegression, Serializable{
@@ -42,16 +42,37 @@ public class KNearestNeighbors implements IRegression, Serializable{
     private double[] output;
     private IDivergence divergence;
     private IMercerKernel kernel;
+
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     */
+    public KNearestNeighbors() {
+        this(3);
+    }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param k Number of neighbors.
+     */
     public KNearestNeighbors(int k) {
         this(k, new SquaredEuclideanDistance());
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param k Number of neighbors.
+     * @param divergence Divergence.
+     */
     public KNearestNeighbors(int k, IDivergence divergence) {
         this.k = k;
         this.divergence = divergence;
     }
     
+    /**
+     * Initializes a new instance of the KNearestNeighbors class.
+     * @param k Number of neighbors.
+     * @param kernel Kernel.
+     */
     public KNearestNeighbors(int k, IMercerKernel kernel) {
         this.k = k;
         this.kernel = kernel;

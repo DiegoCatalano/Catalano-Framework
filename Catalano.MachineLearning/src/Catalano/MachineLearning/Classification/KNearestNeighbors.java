@@ -106,7 +106,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbours.
+     * @param k Number of neighbors.
      */
     public KNearestNeighbors(int k){
         this(3, new SquaredEuclideanDistance());
@@ -114,7 +114,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbours.
+     * @param k Number of neighbors.
      * @param divergence Distance.
      */
     public KNearestNeighbors(int k, IDivergence divergence){
@@ -124,7 +124,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     
     /**
      * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbours.
+     * @param k Number of neighbors.
      * @param kernel Kernel.
      */
     public KNearestNeighbors(int k, IMercerKernel kernel){
