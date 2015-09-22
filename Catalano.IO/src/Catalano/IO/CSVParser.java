@@ -32,6 +32,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -446,7 +447,7 @@ public class CSVParser {
                     if(isLastCol)
                         fw.append(String.valueOf(data[i][j]));
                     else
-                        fw.append(String.valueOf(data[i][j] + delimiter));
+                        fw.append(String.valueOf(data[i][j]) + delimiter);
                 }
                 fw.append(newLine);
             }
@@ -459,13 +460,20 @@ public class CSVParser {
         }
     }
     
+    public void Write(double[][] data, String filename){
+        Write(data, filename, -1);
+    }
+    
     /**
      * Write the matrix of integer in csv file format.
      * @param data Data.
      * @param filename Filename.
      */
-    public void Write(double[][] data, String filename){
+    public void Write(double[][] data, String filename, int decimalPlaces){
         try {
+            
+            String dec = "%." + decimalPlaces + "f";
+            
             FileWriter fw = new FileWriter(filename);
             
             boolean isLastCol;
@@ -473,10 +481,18 @@ public class CSVParser {
                 isLastCol = false;
                 for (int j = 0; j < data[0].length; j++) {
                     if(j==data[0].length-1) isLastCol = true;
-                    if(isLastCol)
-                        fw.append(String.valueOf(data[i][j]));
-                    else
-                        fw.append(String.valueOf(data[i][j] + delimiter));
+                    if(decimalPlaces >= 0){
+                        if(isLastCol)
+                            fw.append(String.format(Locale.US, dec, data[i][j]));
+                        else
+                            fw.append(String.format(Locale.US, dec, data[i][j]) + delimiter);
+                    }
+                    else{
+                        if(isLastCol)
+                            fw.append(String.valueOf(data[i][j]));
+                        else
+                            fw.append(String.valueOf(data[i][j]) + delimiter);
+                    }
                 }
                 fw.append(newLine);
             }
