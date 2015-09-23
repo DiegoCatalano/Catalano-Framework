@@ -54,6 +54,7 @@ public class DatasetClassification implements Serializable{
     private DecisionVariable[] attributes;
     private int numClasses;
     private int continuous = 0;
+    private int classIndex = -1;
 
     /**
      *Get the name of the dataset.
@@ -84,6 +85,14 @@ public class DatasetClassification implements Serializable{
      * @return Decision Variables.
      */
     public DecisionVariable[] getDecisionVariables() {
+        return Matrix.RemoveColumn(attributes, classIndex);
+    }
+    
+    /**
+     * Get the decision variables including the output.
+     * @return Decision Variables.
+     */
+    public DecisionVariable[] getAllDecisionVariables(){
         return attributes;
     }
     
@@ -168,30 +177,29 @@ public class DatasetClassification implements Serializable{
                 if(classIndex == -1) classIndex = header.length - 1;
 
                 //Build: Decision variable
-                attributes = new DecisionVariable[header.length - 1];
+                attributes = new DecisionVariable[header.length];
                 HashSet<String> hs = new HashSet<String>();
                 int discretes = 0;
                 int idx = 0;
                 for (int i = 0; i < header.length; i++) {
-                    if(i != classIndex){
-                        hs.add(header[i]);
-                        if(Tools.isNumeric(firstInstance[i])){
-                            attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Continuous);
-                            continuous++;
-                        }
-                        else{
-                            attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Discrete);
-                            discretes++;
-                        }
-                        idx++;
+                    hs.add(header[i]);
+                    if(Tools.isNumeric(firstInstance[i])){
+                        attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Continuous);
+                        continuous++;
                     }
+                    else{
+                        attributes[idx] = new DecisionVariable(header[i], DecisionVariable.Type.Discrete);
+                        discretes++;
+                    }
+                    idx++;
                 }
+                
                 if(hs.size() != attributes.length)
                     throw new IllegalArgumentException("The column names of attributes must be unique.");
 
 
                 //Build: Input data
-                input = new double[lines.size() - 1][attributes.length];
+                input = new double[lines.size() - 1][attributes.length - 1];
                 List<HashMap<String,Integer>> lst;
                 int[] indexes;
                 if(discretes == 0){
@@ -210,25 +218,24 @@ public class DatasetClassification implements Serializable{
                 for (int i = 1; i < lines.size(); i++) { //i=1
                     idxAtt = 0;
                     String[] temp = lines.get(i).split(String.valueOf(','));
-                    //idx = 0;
+                    idx = 0;
                     for (int j = 0; j < attributes.length; j++) {
                         if(j != classIndex){
                             if(attributes[j].type == DecisionVariable.Type.Continuous){
-                                input[i-1][j] = Double.valueOf(fix(temp[j]));
+                                input[i-1][idx++] = Double.valueOf(fix(temp[j]));
                             }
                             else{
                                 HashMap<String,Integer> map = lst.get(idxAtt);
                                 if(!map.containsKey(temp[j]))
                                     map.put(temp[j], indexes[idxAtt]++);
                                 idxAtt++;
-                                input[i-1][j] = map.get(temp[j]);
+                                input[i-1][idx++] = map.get(temp[j]);
                             }
-                            //idx++;
                         }
                     }
                 }
 
-                //Build Output data
+                //Build Output data from the class index.
                 output = new int[lines.size() - 1];
                 idx = 0;
                 HashMap<String,Integer> map = new HashMap<String, Integer>();
@@ -252,7 +259,7 @@ public class DatasetClassification implements Serializable{
         }
         
         
-        return new DatasetClassification(name, attributes, input, output, numClasses, continuous);
+        return new DatasetClassification(name, attributes, input, output, numClasses, continuous, classIndex);
     }
     
     /**
@@ -292,8 +299,9 @@ public class DatasetClassification implements Serializable{
         this.input = input;
         this.output = output;
         this.numClasses = Matrix.Max(output) + 1;
+        this.classIndex = input[0].length;
         if(attributes == null){
-            this.attributes = new DecisionVariable[numClasses - 1];
+            attributes = new DecisionVariable[input[0].length + 1];
             for (int i = 0; i < attributes.length; i++) {
                 attributes[i] = new DecisionVariable("F" + i);
             }
@@ -304,6 +312,7 @@ public class DatasetClassification implements Serializable{
             if(attributes[i].type == DecisionVariable.Type.Continuous)
                 c++;
         
+        this.attributes = attributes;
         this.continuous = c;
     }
     
@@ -316,13 +325,14 @@ public class DatasetClassification implements Serializable{
      * @param numClasses Number of classes.
      * @param continuous Number of continuous type.
      */
-    private DatasetClassification(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous){
+    private DatasetClassification(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous, int classIndex){
         this.name = name;
         this.attributes = attributes;
         this.input = input;
         this.output = output;
         this.numClasses = numClasses;
         this.continuous = continuous;
+        this.classIndex = classIndex;
     }
     
     /**
@@ -476,9 +486,11 @@ public class DatasetClassification implements Serializable{
             
             //Header
             for (int i = 0; i < attributes.length; i++) {
-                fw.append(attributes[i].name + delimiter);
+                if(i!=classIndex)
+                    fw.append(attributes[i].name + delimiter);
             }
-            fw.append("Class" + newLine);
+            fw.append(attributes[classIndex].name);
+            fw.append(newLine);
             
             //Data
             for (int i = 0; i < input.length; i++) {
@@ -493,7 +505,7 @@ public class DatasetClassification implements Serializable{
                         fw.append(String.valueOf(input[i][j]) + delimiter);
                     }
                 }
-                fw.append("_" + String.valueOf(output[i]) + newLine);
+                fw.append(String.valueOf(output[i]) + newLine);
             }
             
             fw.flush();
@@ -531,19 +543,21 @@ public class DatasetClassification implements Serializable{
             
             //Attribute information
             for (int i = 0; i < attributes.length; i++) {
-                if(attributes[i].type == DecisionVariable.Type.Continuous){
-                    fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + " NUMERIC");
-                    fw.append(newLine);
-                }
-                else{
-                    String nominal = "{";
-                    int max = (int)Matrix.Max(Matrix.getColumn(input, i));
-                    for (int j = 0; j < max; j++) {
-                        nominal += j + ", ";
+                if(i != classIndex){
+                    if(attributes[i].type == DecisionVariable.Type.Continuous){
+                        fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + " NUMERIC");
+                        fw.append(newLine);
                     }
-                    nominal += max + "}";
-                    fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + nominal);
-                    fw.append(newLine);
+                    else{
+                        String nominal = "{";
+                        int max = (int)Matrix.Max(Matrix.getColumn(input, i));
+                        for (int j = 0; j < max; j++) {
+                            nominal += j + ", ";
+                        }
+                        nominal += max + "}";
+                        fw.append("@ATTRIBUTE " + attributes[i].name.replace(" ", "_") + nominal);
+                        fw.append(newLine);
+                    }
                 }
             }
             
@@ -554,7 +568,7 @@ public class DatasetClassification implements Serializable{
                 nominal += j + ", ";
             }
             nominal += max + "}";
-            fw.append("@ATTRIBUTE class " + nominal);
+            fw.append("@ATTRIBUTE " + attributes[attributes.length - 1].name + " " + nominal);
             fw.append(newLine);
             
             //Data
