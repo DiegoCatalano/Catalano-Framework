@@ -944,7 +944,7 @@ public class RegressionTree implements IRegression{
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
      */
-    RegressionTree(DecisionVariable[] attributes, double[][] x, double[] y, int M, int S, int[][] order, int[] samples) {
+    public RegressionTree(DecisionVariable[] attributes, double[][] x, double[] y, int M, int S, int[][] order, int[] samples) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
