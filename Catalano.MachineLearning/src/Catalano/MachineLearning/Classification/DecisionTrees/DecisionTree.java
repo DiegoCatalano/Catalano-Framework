@@ -166,7 +166,7 @@ public class DecisionTree implements IClassifier, Serializable {
     private transient int[][] order;
 
     /**
-     * Get number of leafs.
+     * Get number maximum of leafs.
      * @return Number of leafs.
      */
     public int getNumberOfLeafs() {
@@ -174,7 +174,7 @@ public class DecisionTree implements IClassifier, Serializable {
     }
 
     /**
-     * Set number of leafs.
+     * Set number maximum of leafs.
      * @param J Number of leafs.
      */
     public void setNumberOfLeafs(int J) {
@@ -835,10 +835,10 @@ public class DecisionTree implements IClassifier, Serializable {
             this.order = new int[p][];
 
             for (int j = 0; j < p; j++) {
-                    for (int i = 0; i < n; i++) {
-                        a[i] = x[i][j];
-                    }
-                    this.order[j] = ArraysUtil.Argsort(a, true);
+                for (int i = 0; i < n; i++) {
+                    a[i] = x[i][j];
+                }
+                this.order[j] = ArraysUtil.Argsort(a, true);
             }
         }
 

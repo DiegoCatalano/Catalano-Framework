@@ -45,6 +45,15 @@ public final class Tools {
     public static void SetupGenerator(int seed){
         random = new Random(seed);
     }
+    
+    /**
+     * Gets the square of the number.
+     * @param x Number.
+     * @return x*x;
+     */
+    public static double Square(double x){
+        return x*x;
+    }
 
     /**
      * Don't let anyone instantiate this class.

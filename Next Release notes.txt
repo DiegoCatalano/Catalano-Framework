@@ -98,6 +98,7 @@ Catalano Framework 1.5 road map
     - New: Normalization.
 
 * Catalano.MachineLearning.Regression
+    - New: Regression Tree.
     - New: K Nearest Neighbours.
 
 * Catalano.Math
