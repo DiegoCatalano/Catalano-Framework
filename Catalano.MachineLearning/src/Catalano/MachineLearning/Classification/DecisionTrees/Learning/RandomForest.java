@@ -27,7 +27,7 @@ package Catalano.MachineLearning.Classification.DecisionTrees.Learning;
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionTree;
-import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
+import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.Math.Matrix;
 import Catalano.Math.Random;
@@ -96,8 +96,6 @@ public class RandomForest implements IClassifier, Serializable {
     }
     
     private DecisionVariable[] attributes;
-    private double[][] input;
-    private int[] output;
     private int T;
     private int M;
     private RandomSelection rs;
@@ -541,9 +539,6 @@ public class RandomForest implements IClassifier, Serializable {
     
     @Override
     public void Learn(double[][] input, int[] output){
-        this.input = input;
-        this.output = output;
-        
         if(M == 0){
             if(rs == RandomSelection.Sqrt)
                 this.M = (int)Math.floor(Math.sqrt(input[0].length));

@@ -24,6 +24,7 @@
 
 package Catalano.MachineLearning.Classification.DecisionTrees;
 
+import Catalano.MachineLearning.DecisionVariable;
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.MachineLearning.Classification.IClassifier;
@@ -104,9 +105,6 @@ import java.util.concurrent.Callable;
  */
 public class DecisionTree implements IClassifier, Serializable {
     
-    private double[][] input;
-    private int[] output;
-    private boolean buildModel = false;
     private DecisionVariable[] attributes;
     
     /**
@@ -178,7 +176,6 @@ public class DecisionTree implements IClassifier, Serializable {
      * @param J Number of leafs.
      */
     public void setNumberOfLeafs(int J) {
-        this.buildModel = true;
         this.J = J;
     }
 
@@ -195,7 +192,6 @@ public class DecisionTree implements IClassifier, Serializable {
      * @param rule Split rule.
      */
     public void setRule(SplitRule rule) {
-        this.buildModel = true;
         this.rule = rule;
     }
     
@@ -770,8 +766,6 @@ public class DecisionTree implements IClassifier, Serializable {
      */
     public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
         this.attributes = attributes;
-        this.input = x;
-        this.output = y;
         this.J = J;
         this.samples = samples;
         this.order = order;
@@ -780,7 +774,6 @@ public class DecisionTree implements IClassifier, Serializable {
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule){
-        this.buildModel = false;
         
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
@@ -817,8 +810,6 @@ public class DecisionTree implements IClassifier, Serializable {
             }
         }
         
-        this.input = x;
-        this.output = y;
         this.attributes = attributes;
         this.J = J;
         this.rule = rule;
@@ -945,15 +936,11 @@ public class DecisionTree implements IClassifier, Serializable {
     
     @Override
     public void Learn(double[][] input, int[] output){
-        this.input = input;
-        this.output = output;
         BuildModel(attributes, input, output, J, null, null, rule);
     }
     
     @Override
     public int Predict(double[] feature) {
-        if(buildModel)
-            BuildModel(attributes, input, output, J, null, null, rule);
         return root.predict(feature);
     }
 }

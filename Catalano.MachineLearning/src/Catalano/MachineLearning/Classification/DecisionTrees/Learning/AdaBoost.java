@@ -26,7 +26,7 @@ package Catalano.MachineLearning.Classification.DecisionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionTree;
-import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
+import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
@@ -67,11 +67,8 @@ import java.util.Arrays;
 public class AdaBoost implements IClassifier, Serializable {
     
     private DecisionVariable[] attributes;
-    private double[][] input;
-    private int[] output;
     private int T;
     private int J;
-    private boolean buildModel = false;
     
     /**
      * The number of classes.
@@ -139,7 +136,6 @@ public class AdaBoost implements IClassifier, Serializable {
      */
     public void setNumberOfTrees(int T){
         this.T = T;
-        this.buildModel = true;
     }
     
     /**
@@ -156,7 +152,6 @@ public class AdaBoost implements IClassifier, Serializable {
      */
     public void setNumberOfLeafs(int J){
         this.J = J;
-        this.buildModel = true;
     }
     
     public AdaBoost(){
@@ -216,8 +211,6 @@ public class AdaBoost implements IClassifier, Serializable {
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int J){
-        this.input = x;
-        this.output = y;
         this.T = T;
         this.J = J;
         
@@ -329,16 +322,11 @@ public class AdaBoost implements IClassifier, Serializable {
     
     @Override
     public void Learn(double[][] input, int[] output){
-        this.input = input;
-        this.output = output;
-        this.buildModel = true;
+        BuildModel(attributes, input, output, T, J);
     }
     
     @Override
-    public int Predict(double[] feature) {
-        if(buildModel)
-            BuildModel(attributes, input, output, T, J);
-            
+    public int Predict(double[] feature) {   
         if (k == 2) {
             double y = 0.0;
             for (int i = 0; i < trees.length; i++) {

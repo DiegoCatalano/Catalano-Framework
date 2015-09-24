@@ -26,7 +26,7 @@ package Catalano.MachineLearning.Regression.RegressionTrees;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
-import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
+import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.DecisionTrees.Learning.RandomForest;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.Math.Tools;
@@ -84,9 +84,6 @@ import java.util.concurrent.Callable;
  */
 public class RegressionTree implements IRegression{
     
-    private double[][] input;
-    private double[] output;
-    private boolean buildModel = false;
     private int[] samples;
     private NodeOutput nodeOutput;
     
@@ -142,7 +139,6 @@ public class RegressionTree implements IRegression{
      * @param J Number of maximum leafs.
      */
     public void setNumberOfLeafs(int J) {
-        this.buildModel = true;
         this.J = J;
     }
     
@@ -437,7 +433,7 @@ public class RegressionTree implements IRegression{
             int N = x.length;
             Node split = new Node(0.0);
             if (attributes[j].type == DecisionVariable.Type.Discrete) {
-                int m = input.length;
+                int m = x.length;
                 double[] trueSum = new double[m];
                 int[] trueCount = new int[m];
 
@@ -830,7 +826,6 @@ public class RegressionTree implements IRegression{
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, double[] y, int J, int[][] order, int[] samples, NodeOutput output){
-        this.buildModel = false;
         
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
@@ -926,10 +921,7 @@ public class RegressionTree implements IRegression{
      * samples[i] should be 0 or 1 to indicate if the instance is used for training.
      */
     public RegressionTree(DecisionVariable[] attributes, double[][] x, double[] y, int J, int[][] order, int[] samples, NodeOutput output) {
-        
         this.attributes = attributes;
-        this.input = x;
-        this.output = y;
         this.J = J;
         this.order = order;
         this.samples = samples;
@@ -1078,8 +1070,6 @@ public class RegressionTree implements IRegression{
     
     @Override
     public void Learn(double[][] input, double[] output){
-        this.input = input;
-        this.output = output;
         BuildModel(attributes, input, output, J, order, samples, nodeOutput);
     }
 

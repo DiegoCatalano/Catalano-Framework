@@ -23,7 +23,6 @@
 package Catalano.MachineLearning;
 
 import Catalano.Core.DoubleRange;
-import Catalano.MachineLearning.Classification.DecisionTrees.DecisionVariable;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Statistics.DescriptiveStatistics;
