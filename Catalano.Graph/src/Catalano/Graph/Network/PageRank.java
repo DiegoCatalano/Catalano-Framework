@@ -20,9 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Math.Graph.Network;
+package Catalano.Graph.Network;
 
-import Catalano.Math.Graph.AdjacencyMatrix;
+import Catalano.Graph.AdjacencyMatrix;
 
 /**
  * PageRank algorithm.

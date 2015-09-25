@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package Catalano.Math.Graph.Network;
+package Catalano.Graph.Network;
 
-import Catalano.Math.Graph.AdjacencyMatrix;
+import Catalano.Graph.AdjacencyMatrix;
 import Catalano.Math.Matrix;
 
 /**
