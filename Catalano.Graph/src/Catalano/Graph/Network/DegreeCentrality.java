@@ -9,7 +9,7 @@ package Catalano.Graph.Network;
 import Catalano.Graph.AdjacencyMatrix;
 
 /**
- * http://strategic.mit.edu/downloads.php?page=matlab_networks
+ * 
  * @author Diego Catalano
  */
 public class DegreeCentrality {

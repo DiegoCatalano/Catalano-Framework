@@ -26,6 +26,7 @@ package Catalano.MachineLearning.Classification.DecisionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
 import Catalano.Math.Matrix;
@@ -259,6 +260,11 @@ public class GradientBoostingTree implements IClassifier, Serializable{
         this.J = J;
         this.shrinkage = shrinkage;
         this.f = f;
+    }
+
+    @Override
+    public void Learn(DatasetClassification dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
     
     @Override

@@ -28,6 +28,7 @@ import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionTree;
 import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import java.io.Serializable;
@@ -319,6 +320,11 @@ public class AdaBoost implements IClassifier, Serializable {
                 importance[i] += imp[i];
             }
         }
+    }
+
+    @Override
+    public void Learn(DatasetClassification dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
     
     @Override

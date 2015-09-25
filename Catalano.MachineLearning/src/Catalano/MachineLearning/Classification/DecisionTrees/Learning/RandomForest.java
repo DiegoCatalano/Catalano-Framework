@@ -29,6 +29,7 @@ import Catalano.Core.Concurrent.MulticoreExecutor;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionTree;
 import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
 import Catalano.Math.Random;
 import Catalano.Math.Tools;
@@ -535,6 +536,11 @@ public class RandomForest implements IClassifier, Serializable {
         }
         
         trees = model;
+    }
+
+    @Override
+    public void Learn(DatasetClassification dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
     
     @Override

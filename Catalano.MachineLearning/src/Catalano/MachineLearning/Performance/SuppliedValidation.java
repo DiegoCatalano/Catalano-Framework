@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 
 /**
  * Supplied Validation.
@@ -36,6 +37,11 @@ public class SuppliedValidation implements IValidation{
      * Initializes a new instance of the SuppliedValidation class.
      */
     public SuppliedValidation() {}
+
+    @Override
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
+    }
 
     @Override
     public double Run(IClassifier classifier, double[][] data, int[] labels) {

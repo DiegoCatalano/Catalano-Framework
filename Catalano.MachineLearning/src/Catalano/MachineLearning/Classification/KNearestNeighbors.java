@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.Math.Distances.EuclideanDistance;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
@@ -43,7 +43,7 @@ public class KNearestNeighbors implements IClassifier, Serializable {
     private int k;
     private double[][] input;
     private int[] output;
-    private IDivergence divergence = new EuclideanDistance();
+    private IDivergence divergence = new SquaredEuclideanDistance();
     private IMercerKernel kernel;
     private boolean useKernel = false;
 
@@ -131,6 +131,11 @@ public class KNearestNeighbors implements IClassifier, Serializable {
         this.k = k;
         this.kernel = kernel;
         this.useKernel = true;
+    }
+
+    @Override
+    public void Learn(DatasetClassification dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
     
     @Override

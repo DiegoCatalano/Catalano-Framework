@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.*;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +64,11 @@ public class HoldoutValidation implements IValidation{
      */
     public HoldoutValidation(float percentage){
         setTrainPercetange(percentage);
+    }
+
+    @Override
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
     }
     
     @Override

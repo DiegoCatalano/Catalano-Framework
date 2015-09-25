@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
 
 /**
@@ -37,6 +38,11 @@ public class LeaveOneOutCrossValidation implements IValidation{
      * Initializes a new instance of the LeaveOneOutCrossValidation class.
      */
     public LeaveOneOutCrossValidation() {}
+
+    @Override
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
+    }
 
     @Override
     public double Run(IClassifier classifier, final double[][] data, final int[] labels) {

@@ -22,11 +22,19 @@
 
 package Catalano.MachineLearning.Classification;
 
+import Catalano.MachineLearning.DatasetClassification;
+
 /**
  * The interface describe the predict of the classifier.
  * @author Diego Catalano
  */
 public interface IClassifier {
+    
+    /**
+     * Learn from a dataset.
+     * @param dataset Dataset.
+     */
+    public void Learn(DatasetClassification dataset);
     
     /**
      * Learn.

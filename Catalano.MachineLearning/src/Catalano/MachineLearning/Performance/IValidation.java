@@ -23,12 +23,22 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.DatasetClassification;
 
 /**
  * Interface common for classifier performance.
  * @author Diego Catalano
  */
 public interface IValidation {
+    
+    /**
+     * Compute validation.
+     * @param classifier Classifier.
+     * @param dataset Dataset.
+     * @return Correctly classified rate.
+     */
+    public double Run(IClassifier classifier, DatasetClassification dataset);
+    
     /**
      * Compute validation.
      * @param classifier Classifier.

@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
 
@@ -94,6 +95,11 @@ public class MulticlassSupportVectorMachine implements IClassifier, Serializable
     
     private void Initialize(IMercerKernel kernel, double c, double[] weight, SVM.Strategy strategy){
         this.svm = new SVM(kernel, c, weight, strategy);
+    }
+
+    @Override
+    public void Learn(DatasetClassification dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
 
     @Override
