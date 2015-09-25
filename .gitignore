@@ -10,7 +10,6 @@
 /Catalano.Statistics/dist/
 /Catalano.Image/dist/
 /Catalano.MachineLearning/build/
-/Catalano.Signal/nbproject/private/
 /Catalano.Signal/build/
 /Catalano.MachineLearning/dist/
 /Catalano.Fuzzy/build/
@@ -19,7 +18,6 @@
 /Catalano.Vision/dist/
 /Catalano.Neuro/build/
 /Catalano.Neuro/dist/
-/Catalano.IO/nbproject/private/
 /Catalano.IO/build/
 /Catalano.IO/dist/
 /Catalano.Android.Image/bin/
