@@ -755,8 +755,6 @@ public class DecisionTree implements IClassifier, Serializable {
      * 
      * Learns a classification tree for AdaBoost.
      * @param attributes the attribute properties.
-     * @param x Data for trainning.
-     * @param y Output for classification.
      * @param J the maximum number of leaf nodes in the tree.
      * @param order the index of training values in ascending order. Note
      * that only numeric attributes need be sorted.
@@ -764,17 +762,15 @@ public class DecisionTree implements IClassifier, Serializable {
      * samples[i] is the number of sampling for instance i.
      * @param rule Split rule.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule) {
+    public DecisionTree(DecisionVariable[] attributes, int J, int[] samples, int[][] order, SplitRule rule) {
         this.attributes = attributes;
         this.J = J;
         this.samples = samples;
         this.order = order;
         this.rule = rule;
-        Learn(x,y);
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int J, int[] samples, int[][] order, SplitRule rule){
-        
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }

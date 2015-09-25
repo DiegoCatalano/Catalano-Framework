@@ -31,6 +31,7 @@ import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
 import Catalano.Math.Random;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -74,7 +75,7 @@ import java.util.concurrent.Callable;
  * 
  * @author Haifeng Li
  */
-public class RandomForest implements IRegression{
+public class RandomForest implements IRegression, Serializable{
     
     private DecisionVariable[] attributes = null;
     private int T;

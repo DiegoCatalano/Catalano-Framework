@@ -29,6 +29,7 @@ import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -104,7 +105,7 @@ import java.util.Arrays;
  * 
  * @author Haifeng Li
  */
-public class GradientBoostingTree implements IRegression{
+public class GradientBoostingTree implements IRegression, Serializable{
     
     private DecisionVariable[] attributes = null;
 

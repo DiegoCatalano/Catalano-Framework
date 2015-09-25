@@ -281,7 +281,8 @@ public class AdaBoost implements IClassifier, Serializable {
                 samples[s]++;
             }
             
-            trees[t] = new DecisionTree(attributes, x, y, J, samples, order, DecisionTree.SplitRule.GINI);
+            trees[t] = new DecisionTree(attributes, J, samples, order, DecisionTree.SplitRule.GINI);
+            trees[t].Learn(x, y);
             
             for (int i = 0; i < n; i++) {
                 err[i] = trees[t].Predict(x[i]) != y[i];

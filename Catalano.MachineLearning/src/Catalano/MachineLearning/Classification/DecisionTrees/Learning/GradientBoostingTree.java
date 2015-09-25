@@ -30,6 +30,7 @@ import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -105,7 +106,7 @@ import java.util.Arrays;
  * 
  * @author Haifeng Li
  */
-public class GradientBoostingTree implements IClassifier{
+public class GradientBoostingTree implements IClassifier, Serializable{
     
     private DecisionVariable[] attributes;
     /**

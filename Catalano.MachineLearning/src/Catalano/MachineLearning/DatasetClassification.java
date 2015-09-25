@@ -353,21 +353,24 @@ public class DatasetClassification implements Serializable{
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
-            if(attributes[i].type == DecisionVariable.Type.Continuous)
-                continuous++;
+            if(i != classIndex)
+                if(attributes[i].type == DecisionVariable.Type.Continuous)
+                    continuous++;
         }
         
         DoubleRange[] range = new DoubleRange[continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length; i++) {
-            if(attributes[i].type == DecisionVariable.Type.Continuous){
-                double[] temp = Matrix.getColumn(input, i);
-                double _min = Catalano.Statistics.Tools.Min(temp);
-                double _max = Catalano.Statistics.Tools.Max(temp);
-                range[idx++] = new DoubleRange(_min, _max);
-                for (int j = 0; j < temp.length; j++) {
-                    input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+            if(i != classIndex){
+                if(attributes[i].type == DecisionVariable.Type.Continuous){
+                    double[] temp = Matrix.getColumn(input, i);
+                    double _min = Catalano.Statistics.Tools.Min(temp);
+                    double _max = Catalano.Statistics.Tools.Max(temp);
+                    range[idx++] = new DoubleRange(_min, _max);
+                    for (int j = 0; j < temp.length; j++) {
+                        input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+                    }
                 }
             }
         }
@@ -393,21 +396,24 @@ public class DatasetClassification implements Serializable{
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
-            if(attributes[i].type == DecisionVariable.Type.Continuous)
-                continuous++;
+            if(i != classIndex)
+                if(attributes[i].type == DecisionVariable.Type.Continuous)
+                    continuous++;
         }
         
         DoubleRange[] range = new DoubleRange[continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length; i++) {
-            if(attributes[i].type == DecisionVariable.Type.Continuous){
-                double[] temp = Matrix.getColumn(input, i);
-                double mean = Catalano.Statistics.Tools.Mean(temp);
-                double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
-                range[idx++] = new DoubleRange(mean, std);
-                for (int j = 0; j < temp.length; j++) {
-                    input[j][i] = (input[j][i] - mean) / std;
+            if(i != classIndex){
+                if(attributes[i].type == DecisionVariable.Type.Continuous){
+                    double[] temp = Matrix.getColumn(input, i);
+                    double mean = Catalano.Statistics.Tools.Mean(temp);
+                    double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
+                    range[idx++] = new DoubleRange(mean, std);
+                    for (int j = 0; j < temp.length; j++) {
+                        input[j][i] = (input[j][i] - mean) / std;
+                    }
                 }
             }
         }

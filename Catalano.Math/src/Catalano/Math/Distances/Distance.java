@@ -514,7 +514,7 @@ public final class Distance {
         double r = 0;
         for (int i = 0; i < p.length; i++) {
             if(p[i] != 0 && q[i] != 0){
-                r += Math.pow(p[i]*p[i] - q[i]*q[i], 2) / (2 * Math.pow(p[i]*q[i], 1.5));
+                r += Math.pow(p[i]*p[i] - q[i]*q[i], 2) / 2 * Math.pow(p[i]*q[i], 1.5);
             }
         }
         return r;
