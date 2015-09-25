@@ -85,6 +85,8 @@ public final class DescriptiveStatistics {
      * @return Median.
      */
     public static double Median(double[] values){
+        if(values.length == 1)
+            return values[0];
         Arrays.sort(values);
         return values[(values.length+1) / 2];
     }
