@@ -1,4 +1,4 @@
-// Catalano Statistics Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
 // Copyright 2015 Diego Catalano

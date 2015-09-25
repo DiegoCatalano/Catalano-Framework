@@ -74,6 +74,25 @@ public final class DescriptiveStatistics {
     }
     
     /**
+     * The Mean or average is probably the most commonly used method of describing central tendency.
+     * <br /> To compute the mean  is add up all the values and divide by the number of values.
+     * <br /><br /> Example:
+     * <code lang = "none">
+     * <br /> 1, 2, 3 ,4 ,5
+     * <br /> Mean: 3
+     * </code>
+     * @param values
+     * @return Mean.
+     */
+    public static double Mean(int[] values){
+        double mean = 0;
+        for (int i = 0; i < values.length; i++) {
+            mean += values[i];
+        }
+        return mean/(double)values.length;
+    }
+    
+    /**
      * The Median is the score found at the exact middle of the set of values.
      * <br /><br /> Example:
      * <code lang = "none">

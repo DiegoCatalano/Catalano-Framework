@@ -1,4 +1,4 @@
-// Catalano Statistics Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
 // Copyright 2015 Diego Catalano
@@ -370,7 +370,7 @@ public class GradientBoostingTree implements IRegression{
                 nodeOutput = new HuberNodeOutput(residual, response, 0.9);                
             }
             
-            trees[m] = new RegressionTree(attributes, input, response, J, order, samples, nodeOutput);
+            trees[m] = new RegressionTree(attributes, J, order, samples, nodeOutput);
             trees[m].Learn(input, response);
             
             for (int i = 0; i < n; i++) {

@@ -83,6 +83,7 @@ Catalano Framework 1.5 road map
     - New: Decision Variable.
 
 * Catalano.MachineLearning.Classification.DecisionTree.Learning
+    - New: Gradient Boosting Tree.
     - New: Random Forest.
     - New: Ada Boost.
 

@@ -1,4 +1,4 @@
-// Catalano Statistics Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
 // Copyright 2015 Diego Catalano
@@ -822,7 +822,7 @@ public class RegressionTree implements IRegression{
      * @param J the maximum number of leaf nodes in the tree.
      */
     public RegressionTree(DecisionVariable[] attributes, int J) {
-        this(attributes, null, null, J, null, null, null);
+        this(attributes, J, null, null, null);
     }
     
     private void BuildModel(DecisionVariable[] attributes, double[][] x, double[] y, int J, int[][] order, int[] samples, NodeOutput output){
@@ -920,7 +920,7 @@ public class RegressionTree implements IRegression{
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] should be 0 or 1 to indicate if the instance is used for training.
      */
-    public RegressionTree(DecisionVariable[] attributes, double[][] x, double[] y, int J, int[][] order, int[] samples, NodeOutput output) {
+    public RegressionTree(DecisionVariable[] attributes, int J, int[][] order, int[] samples, NodeOutput output) {
         this.attributes = attributes;
         this.J = J;
         this.order = order;
