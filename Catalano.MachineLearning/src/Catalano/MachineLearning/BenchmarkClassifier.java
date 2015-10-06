@@ -53,9 +53,17 @@ public class BenchmarkClassifier {
     public double[] getRank() {
         return rank;
     }
+    
+    /**
+     * Initializes a new instance of the BenchmarkClassifier class.
+     * @param dataset Dataset.
+     */
+    public BenchmarkClassifier(DatasetClassification dataset){
+        this(dataset.getInput(), dataset.getOutput());
+    }
 
     /**
-     * Initializes a new instance of the Normalization class.
+     * Initializes a new instance of the BenchmarkClassifier class.
      * @param input Data train.
      * @param output Data output.
      */
