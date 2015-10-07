@@ -141,7 +141,12 @@ public class FourierTransform {
             //Show only the real part
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    fb.setGray(i, j, (int)data[i][j].real);
+                    int real = (int)data[i][j].real;
+                    
+                    real = real > 255 ? 255 : real;
+                    real = real < 0 ? 0 : real;
+                    
+                    fb.setGray(i, j, real);
                 }
             }
             
