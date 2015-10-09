@@ -38,27 +38,23 @@ public class Invert implements IBaseInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        
+        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
         
         if (fastBitmap.isGrayscale()){
             int l;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    l = 255 - fastBitmap.getGray(x, y);
-                    fastBitmap.setGray(x, y, l);
-                }
+            for (int i = 0; i < size; i++) {
+                l = 255 - fastBitmap.getGray(i);
+                fastBitmap.setGray(i, l);
             }
         }
         else if(fastBitmap.isRGB()){
             int r,g,b;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    r = 255 - fastBitmap.getRed(x, y);
-                    g = 255 - fastBitmap.getGreen(x, y);
-                    b = 255 - fastBitmap.getBlue(x, y);
-                    fastBitmap.setRGB(x, y, r, g, b);
-                }
+            for (int i = 0; i < size; i++) {
+                r = 255 - fastBitmap.getRed(i);
+                g = 255 - fastBitmap.getGreen(i);
+                b = 255 - fastBitmap.getBlue(i);
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
     }

@@ -89,30 +89,25 @@ public class ImageNormalization implements IBaseInPlace{
         
         if (fastBitmap.isGrayscale()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
-            
             float globalMean = ImageStatistics.Mean(fastBitmap);
             float globalVariance = ImageStatistics.Variance(fastBitmap, globalMean);
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    int g = fastBitmap.getGray(i, j);
-                    float common = (float)Math.sqrt((variance * (float)Math.pow(g - globalMean, 2)) / globalVariance);
-                    int n = 0;
-                    if (g > globalMean){
-                        n = (int)(mean + common);
-                    }
-                    else{
-                        n = (int)(mean - common);
-                    }
-                    
-                    n = n > 255 ? 255 : n;
-                    n = n < 0 ? 0 : n;
-                    
-                    fastBitmap.setGray(i, j, n);
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                int g = fastBitmap.getGray(i);
+                float common = (float)Math.sqrt((variance * (float)Math.pow(g - globalMean, 2)) / globalVariance);
+                int n = 0;
+                if (g > globalMean){
+                    n = (int)(mean + common);
                 }
+                else{
+                    n = (int)(mean - common);
+                }
+
+                n = n > 255 ? 255 : n;
+                n = n < 0 ? 0 : n;
+
+                fastBitmap.setGray(i, n);
             }
         }
         else{

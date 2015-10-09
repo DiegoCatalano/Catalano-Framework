@@ -111,21 +111,21 @@ public class ColorFiltering implements IBaseInPlace{
         
         if(fastBitmap.isRGB()){
             int r,g,b;
-            int[] pixels = fastBitmap.getRGBData();
-            for (int i = 0; i < pixels.length; i++) {
-                r = pixels[i] >> 16 & 0xFF;
-                g = pixels[i] >> 8 & 0xFF;
-                b = pixels[i] & 0xFF;
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                r = fastBitmap.getRed(i);
+                g = fastBitmap.getGreen(i);
+                b = fastBitmap.getBlue(i);
 
                 if (
                         (r >= red.getMin()) && (r <= red.getMax()) && 
                         (g >= green.getMin()) && (g <= green.getMax()) && 
                         (b >= blue.getMin()) && (b <= blue.getMax())
                 ){
-                    pixels[i] = r << 16 | g << 8 | b;
+                    fastBitmap.setRGB(i, r, g, b);
                 }
                 else{
-                    pixels[i] = 0;
+                    fastBitmap.setRGB(i, 0, 0, 0);
                 }
             }
         }

@@ -80,17 +80,12 @@ public class HistogramMatching implements IBaseInPlace{
             //Compute original and reference histogram.
             int[] mh = Histogram.MatchHistograms(fGray, gray);
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    int g = fastBitmap.getGray(i, j);
-                    g = mh[g];
-                    fastBitmap.setGray(i, j, g);
-                    
-                }
+            for (int i = 0; i < size; i++) {
+                int g = fastBitmap.getGray(i);
+                g = mh[g];
+                fastBitmap.setGray(i, g);
             }
         }
         
@@ -106,23 +101,20 @@ public class HistogramMatching implements IBaseInPlace{
             int[] mhG = Histogram.MatchHistograms(fGreen, green);
             int[] mhB = Histogram.MatchHistograms(fBlue, blue);
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
+            for (int i = 0; i < size; i++) {
                     
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
+
+                r = mhR[r];
+                g = mhG[g];
+                b = mhB[b];
+
+                fastBitmap.setRGB(i, r, g, b);
                     
-                    r = mhR[r];
-                    g = mhG[g];
-                    b = mhB[b];
-                    
-                    fastBitmap.setRGB(i, j, r, g, b);
-                    
-                }
             }
         }
         else{

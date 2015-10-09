@@ -198,17 +198,14 @@ public class LevelsLinear implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
         
         if (fastBitmap.isGrayscale()) {
             
             CalculateMap( inGray, outGray, mapGray );
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    fastBitmap.setGray(x, y, mapGray[fastBitmap.getGray(x, y)]);
-                }
+            for (int i = 0; i < size; i++) {
+                fastBitmap.setGray(i, mapGray[fastBitmap.getGray(i)]);
             }
         }
         else{
@@ -217,14 +214,12 @@ public class LevelsLinear implements IBaseInPlace{
             CalculateMap( inGreen, outGreen, mapGreen );
             CalculateMap( inBlue, outBlue, mapBlue );
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    int r = mapRed[fastBitmap.getRed(x, y)];
-                    int g = mapGreen[fastBitmap.getGreen(x, y)];
-                    int b = mapBlue[fastBitmap.getBlue(x, y)];
-                    
-                    fastBitmap.setRGB(x, y, r, g, b);
-                }
+            for (int i = 0; i < size; i++) {
+                int r = mapRed[fastBitmap.getRed(i)];
+                int g = mapGreen[fastBitmap.getGreen(i)];
+                int b = mapBlue[fastBitmap.getBlue(i)];
+
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
         

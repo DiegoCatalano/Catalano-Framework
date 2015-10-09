@@ -92,12 +92,12 @@ public class HistogramShrink implements IBaseInPlace{
 
             float gray; 
             float shrink;
-            for (int x = 0; x < fastBitmap.getHeight(); x++) {
-                for (int y = 0; y < fastBitmap.getWidth(); y++) {
-                    gray = fastBitmap.getGray(x, y);
-                    shrink = (((max - min)/(grayMax - grayMin)) * (gray - grayMin)) + min;
-                    fastBitmap.setGray(x, y, (int)shrink);
-                }
+            
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                gray = fastBitmap.getGray(i);
+                shrink = (((max - min)/(grayMax - grayMin)) * (gray - grayMin)) + min;
+                fastBitmap.setGray(i, (int)shrink);
             }
         }
         else{
@@ -111,18 +111,18 @@ public class HistogramShrink implements IBaseInPlace{
 
             float r,g,b; 
             float shrinkRed,shrinkGreen,shrinkBlue;
-            for (int x = 0; x < fastBitmap.getHeight(); x++) {
-                for (int y = 0; y < fastBitmap.getWidth(); y++) {
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
-                    
-                    shrinkRed = (((max - min)/(redMax - redMin)) * (r - redMin)) + min;
-                    shrinkGreen = (((max - min)/(greenMax - greenMin)) * (g - greenMin)) + min;
-                    shrinkBlue = (((max - min)/(blueMax - blueMin)) * (b - blueMin)) + min;
-                    
-                    fastBitmap.setRGB(x, y, (int)shrinkRed, (int)shrinkGreen, (int)shrinkBlue);
-                }
+            
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                r = fastBitmap.getRed(i);
+                g = fastBitmap.getGreen(i);
+                b = fastBitmap.getBlue(i);
+
+                shrinkRed = (((max - min)/(redMax - redMin)) * (r - redMin)) + min;
+                shrinkGreen = (((max - min)/(greenMax - greenMin)) * (g - greenMin)) + min;
+                shrinkBlue = (((max - min)/(blueMax - blueMin)) * (b - blueMin)) + min;
+
+                fastBitmap.setRGB(i, (int)shrinkRed, (int)shrinkGreen, (int)shrinkBlue);
             }
         }
     }

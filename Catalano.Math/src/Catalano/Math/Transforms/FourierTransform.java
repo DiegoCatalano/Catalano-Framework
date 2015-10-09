@@ -187,12 +187,13 @@ public class FourierTransform {
     public static void FFT2(ComplexNumber[][] data, Direction direction){
         int n = data.length;
         int m = data[0].length;
-        ComplexNumber[] row = new ComplexNumber[m];//Math.max(m, n)];
+        //ComplexNumber[] row = new ComplexNumber[m];//Math.max(m, n)];
         
         for ( int i = 0; i < n; i++ ){
                 // copy row
-                for ( int j = 0; j < m; j++ )
-                        row[j] = data[i][j];
+                //for ( int j = 0; j < m; j++ )
+                        //row[j] = data[i][j];
+                ComplexNumber[] row = data[i];
                 // transform it
                 FourierTransform.FFT( row, direction );
                 // copy back

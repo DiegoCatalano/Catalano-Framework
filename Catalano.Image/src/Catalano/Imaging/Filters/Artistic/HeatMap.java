@@ -73,20 +73,15 @@ public class HeatMap implements IBaseInPlace{
         
         if (invert) new Invert().applyInPlace(fastBitmap);
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
         
         int min = ImageStatistics.Minimum(fastBitmap);
         int max = ImageStatistics.Maximum(fastBitmap);
         
         fastBitmap.toRGB();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                
-                int[] rgb = GrayscaleToHeatMap(fastBitmap.getRed(i, j), min, max);
-                fastBitmap.setRGB(i, j, rgb);
-                
-            }
+        for (int i = 0; i < size; i++) {
+            int[] rgb = GrayscaleToHeatMap(fastBitmap.getRed(i), min, max);
+            fastBitmap.setRGB(i, rgb);
         }
     }
     

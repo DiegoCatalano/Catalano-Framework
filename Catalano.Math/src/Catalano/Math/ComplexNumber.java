@@ -42,7 +42,9 @@ public class ComplexNumber {
     /**
      * Initializes a new instance of the ComplexNumber class.
      */
-    public ComplexNumber() {}
+    public ComplexNumber() {
+        this(0,0);
+    }
 
     /**
      * Initializes a new instance of the ComplexNumber class.
