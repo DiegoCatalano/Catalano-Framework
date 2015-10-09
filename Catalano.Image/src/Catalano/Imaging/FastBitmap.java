@@ -715,6 +715,19 @@ public class FastBitmap {
     
     /**
      * Return RGB color.
+     * @param offset Offset.
+     * @return RGB.
+     */
+    public int[] getRGB(int offset){
+        int[] rgb = new int[3];
+        rgb[0] = pixels[offset] >> 16 & 0xFF;
+        rgb[1] = pixels[offset] >> 8 & 0xFF;
+        rgb[2] = pixels[offset] & 0xFF;
+        return rgb;
+    }
+    
+    /**
+     * Return RGB color.
      * @param x X axis coordinate.
      * @param y Y axis coordinate.
      * @return RGB.

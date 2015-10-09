@@ -11,6 +11,7 @@ Catalano Framework 1.5 road map
 * Catalano.Image
     - New: Color.
 
+    - Added: getSize in the FastBitmap.
     - Added: Overloads in get;set Red, Green, ...
 
     - Optimized: getGray() now is using bitwise operation.
@@ -26,6 +27,7 @@ Catalano Framework 1.5 road map
 
     - Added: FourWay or EightWay in BlobDetection.
 
+    - Optimized: Gaussian Box Blur.
     - Optimized: Blob Detection.
     - Optimized: Flood Fill.
 

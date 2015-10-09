@@ -177,6 +177,14 @@ public class FastBitmap {
     public int getWidth(){
         return b.getWidth();
     }
+
+    /**
+     * Get the size of the image.
+     * @return Number of pixels.
+     */
+    public int getSize() {
+        return pixels.length;
+    }
     
     /**
      * Get the data from the bitmap.
@@ -401,6 +409,19 @@ public class FastBitmap {
                 setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
             }
         }
+    }
+    
+    /**
+     * Return RGB color.
+     * @param offset Offset.
+     * @return RGB.
+     */
+    public int[] getRGB(int offset){
+        int[] rgb = new int[3];
+        rgb[0] = pixels[offset] >> 16 & 0xFF;
+        rgb[1] = pixels[offset] >> 8 & 0xFF;
+        rgb[2] = pixels[offset] & 0xFF;
+        return rgb;
     }
     
     /**
