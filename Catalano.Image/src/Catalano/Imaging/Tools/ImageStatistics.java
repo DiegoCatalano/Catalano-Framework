@@ -97,24 +97,21 @@ public class ImageStatistics {
      * @param bins Number of bins.
      */
     public ImageStatistics(FastBitmap fastBitmap, int bins){
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
         
         pixels = 0;
         red = green = blue = gray = null;
         
+        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
         if (fastBitmap.isGrayscale()) {
             int[] g = new int[bins];
             
             int G;
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    G = fastBitmap.getGray(x, y);
-                    
-                    g[G * bins / 256]++;
-                    pixels++;
-                }
+            for (int i = 0; i < size; i++) {
+                G = fastBitmap.getGray(i);
+
+                g[G * bins / 256]++;
+                pixels++;
             }
             
             gray = new ImageHistogram(g);
@@ -127,17 +124,15 @@ public class ImageStatistics {
 
             int R,G,B;
 
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    R = fastBitmap.getRed(x, y);
-                    G = fastBitmap.getGreen(x, y);
-                    B = fastBitmap.getBlue(x, y);
+            for (int i = 0; i < size; i++) {
+                R = fastBitmap.getRed(i);
+                G = fastBitmap.getGreen(i);
+                B = fastBitmap.getBlue(i);
 
-                    r[R * bins / 256]++;
-                    g[G * bins / 256]++;
-                    b[B * bins / 256]++;
-                    pixels++;
-                }
+                r[R * bins / 256]++;
+                g[G * bins / 256]++;
+                b[B * bins / 256]++;
+                pixels++;
             }
             red = new ImageHistogram(r);
             green = new ImageHistogram(g);

@@ -40,14 +40,11 @@ public class RGChromaticity implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         if (fastBitmap.isRGB()) {
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
-            
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    double[] color = ColorConverter.RGChromaticity(fastBitmap.getRed(x, y), fastBitmap.getGreen(x, y), fastBitmap.getBlue(x, y));
-                    fastBitmap.setRGB(x, y, (int)(color[0] * 255), (int)(color[1] * 255), (int)(color[2] * 255));
-                }
+
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                double[] color = ColorConverter.RGChromaticity(fastBitmap.getRed(i), fastBitmap.getGreen(i), fastBitmap.getBlue(i));
+                fastBitmap.setRGB(i, (int)(color[0] * 255), (int)(color[1] * 255), (int)(color[2] * 255));
             }
         }
         else{

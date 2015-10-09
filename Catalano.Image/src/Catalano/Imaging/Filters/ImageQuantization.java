@@ -56,22 +56,19 @@ public class ImageQuantization implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        int reduced = 256 / (level - 1);
-        int steps = 256 / reduced;
-        
         if (fastBitmap.isGrayscale()) {
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    int gray = fastBitmap.getGray(x, y);
-                    int index = reduced;
-                    for (int z = 0; z < steps; z++) {
-                        if((gray > z * reduced) && (gray <= index)) {
-                            fastBitmap.setGray(x, y, z * reduced);
-                        }
-                        index += reduced;
+            int reduced = 256 / (level - 1);
+            int steps = 256 / reduced;
+            
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            for (int i = 0; i < size; i++) {
+                int gray = fastBitmap.getGray(i);
+                int index = reduced;
+                for (int z = 0; z < steps; z++) {
+                    if((gray > z * reduced) && (gray <= index)) {
+                        fastBitmap.setGray(i, z * reduced);
                     }
+                    index += reduced;
                 }
             }
         }

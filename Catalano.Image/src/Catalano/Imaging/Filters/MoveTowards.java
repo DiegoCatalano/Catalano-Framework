@@ -40,9 +40,7 @@ public class MoveTowards implements IBaseInPlace{
     /**
      * Initialize a new instance of the MoveTowards class.
      */
-    public MoveTowards() {
-        
-    }
+    public MoveTowards() {}
     
     /**
      * Initialize a new instance of the MoveTowards class.
