@@ -24,7 +24,7 @@ public class Sepia implements IBaseInPlace{
         int r,g,b;
         double Y,I,Q;
         
-        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         for (int i = 0; i < size; i++) {
             r = fastBitmap.getRed(i);
             g = fastBitmap.getGreen(i);

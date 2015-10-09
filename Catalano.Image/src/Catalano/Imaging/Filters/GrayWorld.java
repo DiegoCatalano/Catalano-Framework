@@ -43,7 +43,7 @@ public class GrayWorld implements IBaseInPlace{
         
         if (fastBitmap.isRGB()){
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             double Rmean = 0, Gmean = 0, Bmean = 0;
             for (int i = 0; i < size; i++) {
                 Rmean += fastBitmap.getRed(i);

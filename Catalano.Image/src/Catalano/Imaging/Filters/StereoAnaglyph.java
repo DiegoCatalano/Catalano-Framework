@@ -145,63 +145,52 @@ public class StereoAnaglyph implements IBaseInPlace{
     
     @Override
     public void applyInPlace(FastBitmap sourceImage){
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
         
+        int size = sourceImage.getSize();
         int r,g,b;
         switch(algorithm){
             case TrueAnaglyph:
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = (int)(sourceImage.getRed(x, y) * 0.299 + sourceImage.getGreen(x, y) * 0.587 + sourceImage.getBlue(x, y) * 0.114);
-                        g = 0;
-                        b = (int)(overlayImage.getRed(x, y) * 0.299 + overlayImage.getGreen(x, y) * 0.587 + overlayImage.getBlue(x, y) * 0.114);
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = (int)(sourceImage.getRed(i) * 0.299 + sourceImage.getGreen(i) * 0.587 + sourceImage.getBlue(i) * 0.114);
+                    g = 0;
+                    b = (int)(overlayImage.getRed(i) * 0.299 + overlayImage.getGreen(i) * 0.587 + overlayImage.getBlue(i) * 0.114);
+                    sourceImage.setRGB(i, r, g, b);
                 }
             break;
             
             case GrayAnaglyph:
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = (int)(sourceImage.getRed(x, y) * 0.299 + sourceImage.getGreen(x, y) * 0.587 + sourceImage.getBlue(x, y) * 0.114);
-                        g = (int)(overlayImage.getRed(x, y) * 0.299 + overlayImage.getGreen(x, y) * 0.587 + overlayImage.getBlue(x, y) * 0.114);
-                        b = g;
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = (int)(sourceImage.getRed(i) * 0.299 + sourceImage.getGreen(i) * 0.587 + sourceImage.getBlue(i) * 0.114);
+                    g = (int)(overlayImage.getRed(i) * 0.299 + overlayImage.getGreen(i) * 0.587 + overlayImage.getBlue(i) * 0.114);
+                    b = g;
+                    sourceImage.setRGB(i, r, g, b);
                 }
             break;
                 
             case ColorAnaglyph:
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        g = overlayImage.getGreen(x, y);
-                        b = overlayImage.getBlue(x, y);;
-                        sourceImage.setGreen(x, y, g);
-                        sourceImage.setBlue(x, y, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    g = overlayImage.getGreen(i);
+                    b = overlayImage.getBlue(i);
+                    sourceImage.setGreen(i, g);
+                    sourceImage.setBlue(i, b);
                 }
             break;
                 
             case HalfColorAnaglyph:
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = (int)(sourceImage.getRed(x, y) * 0.299 + sourceImage.getGreen(x, y) * 0.587 + sourceImage.getBlue(x, y) * 0.114);
-                        g = overlayImage.getGreen(x, y);
-                        b = overlayImage.getBlue(x, y);
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = (int)(sourceImage.getRed(i) * 0.299 + sourceImage.getGreen(i) * 0.587 + sourceImage.getBlue(i) * 0.114);
+                    g = overlayImage.getGreen(i);
+                    b = overlayImage.getBlue(i);
+                    sourceImage.setRGB(i, r, g, b);
                 }
             break;
                 
             case OptimizedAnaglyph:
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = (int)(sourceImage.getGreen(x, y) * 0.7 + sourceImage.getBlue(x, y) * 0.3);
-                        g = overlayImage.getGreen(x, y);
-                        b = overlayImage.getBlue(x, y);
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = (int)(sourceImage.getGreen(i) * 0.7 + sourceImage.getBlue(i) * 0.3);
+                    g = overlayImage.getGreen(i);
+                    b = overlayImage.getBlue(i);
+                    sourceImage.setRGB(i, r, g, b);
                 }
             break;
         }

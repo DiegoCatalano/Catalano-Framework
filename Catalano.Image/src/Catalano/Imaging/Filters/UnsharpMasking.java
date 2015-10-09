@@ -88,7 +88,7 @@ public class UnsharpMasking implements IBaseInPlace{
         GaussianBoxBlur gb = new GaussianBoxBlur(radius);
         gb.applyInPlace(blur);
         
-        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         if(fastBitmap.isGrayscale()){
             for (int i = 0; i < size; i++) {
                 int g = (int)((fastBitmap.getGray(i) - weight*(float)blur.getGray(i)) / (1f - weight));

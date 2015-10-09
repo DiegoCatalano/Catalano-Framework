@@ -47,6 +47,7 @@ public class FastBitmap {
     private byte[] pixelsGRAY;
     private CoordinateSystem cSystem = CoordinateSystem.Matrix;
     private int strideX, strideY;
+    private int size;
     
     /**
      * Coodinate system.
@@ -247,9 +248,11 @@ public class FastBitmap {
         this.raster = getRaster();
         if (isGrayscale()) {
             pixelsGRAY = ((DataBufferByte)raster.getDataBuffer()).getData();
+            this.size = pixelsGRAY.length;
         }
         if (isRGB() || isARGB()) {
             pixels = ((DataBufferInt)raster.getDataBuffer()).getData();
+            this.size = pixels.length;
         }
     }
     
@@ -289,6 +292,14 @@ public class FastBitmap {
      */
     public int[] getRGBData(){
         return this.pixels;
+    }
+
+    /**
+     * Get the size of the image in pixels.
+     * @return Number of pixels.
+     */
+    public int getSize() {
+        return size;
     }
     
     /**

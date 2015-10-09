@@ -134,7 +134,7 @@ public class HSLLinear implements IBaseInPlace{
                 bs = outSaturation.getMin() - ks * inSaturation.getMin();
             }
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 int r = fastBitmap.getRed(i);
                 int g = fastBitmap.getGreen(i);

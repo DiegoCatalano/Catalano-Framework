@@ -92,7 +92,7 @@ public class ImageNormalization implements IBaseInPlace{
             float globalMean = ImageStatistics.Mean(fastBitmap);
             float globalVariance = ImageStatistics.Variance(fastBitmap, globalMean);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 int g = fastBitmap.getGray(i);
                 float common = (float)Math.sqrt((variance * (float)Math.pow(g - globalMean, 2)) / globalVariance);

@@ -45,7 +45,7 @@ public class RotateChannels implements IBaseInPlace{
         if(fastBitmap.isRGB()){
             int r,g,b,z;
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 r = fastBitmap.getRed(i); //red
                 g = fastBitmap.getGreen(i); //green

@@ -37,9 +37,7 @@ public class Subtract implements IBaseInPlace{
     /**
      * Initialize a new instance of the Add class.
      */
-    public Subtract() {
-        
-    }
+    public Subtract() {}
     
     /**
      * Initialize a new instance of the Add class.
@@ -91,67 +89,56 @@ public class Subtract implements IBaseInPlace{
     
     private void ApplyInPlaceValues(FastBitmap sourceImage){
        
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
+        int size = sourceImage.getSize();
         if (sourceImage.isGrayscale()){
                 int l;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        l = sourceImage.getGray(x, y) - gray;
-                        l = l < 0 ? 0 : l;
-                        sourceImage.setGray(x, y, l);
-                    }
+                for (int i = 0; i < size; i++) {
+                    l = sourceImage.getGray(i) - gray;
+                    l = l < 0 ? 0 : l;
+                    sourceImage.setGray(i, l);
                 }
         }
         else if (sourceImage.isRGB()){
                 int r,g,b;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = sourceImage.getRed(x, y) - red;
-                        g = sourceImage.getGreen(x, y) - green;
-                        b = sourceImage.getBlue(x, y) - blue;
-                        
-                        r = r < 0 ? 0 : r;
-                        g = g < 0 ? 0 : g;
-                        b = b < 0 ? 0 : b;
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = sourceImage.getRed(i) - red;
+                    g = sourceImage.getGreen(i) - green;
+                    b = sourceImage.getBlue(i) - blue;
+
+                    r = r < 0 ? 0 : r;
+                    g = g < 0 ? 0 : g;
+                    b = b < 0 ? 0 : b;
+                    sourceImage.setRGB(i, r, g, b);
                 }
             }
     }
     
     private void ApplyInPlaceImage(FastBitmap sourceImage){
         
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        int sizeOrigin = width * height;
+        int size = sourceImage.getSize();
         int sizeDestination = overlayImage.getWidth() * overlayImage.getHeight();
         if ((sourceImage.isGrayscale()) && (overlayImage.isGrayscale())) {
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int l;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        l = sourceImage.getGray(x, y) - overlayImage.getGray(x, y);
-                        l = l < 0 ? 0 : l;
-                        sourceImage.setGray(x, y, l);
-                    }
+                for (int i = 0; i < size; i++) {
+                    l = sourceImage.getGray(i) - overlayImage.getGray(i);
+                    l = l < 0 ? 0 : l;
+                    sourceImage.setGray(i, l);
                 }
             }
         }
         else if ((sourceImage.isRGB()) && (overlayImage.isRGB())){
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int r,g,b;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = sourceImage.getRed(x, y) - overlayImage.getRed(x, y);
-                        g = sourceImage.getGreen(x, y) - overlayImage.getGreen(x, y);
-                        b = sourceImage.getBlue(x, y) - overlayImage.getBlue(x, y);
-                        
-                        r = r < 0 ? 0 : r;
-                        g = g < 0 ? 0 : g;
-                        b = b < 0 ? 0 : b;
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    r = sourceImage.getRed(i) - overlayImage.getRed(i);
+                    g = sourceImage.getGreen(i) - overlayImage.getGreen(i);
+                    b = sourceImage.getBlue(i) - overlayImage.getBlue(i);
+
+                    r = r < 0 ? 0 : r;
+                    g = g < 0 ? 0 : g;
+                    b = b < 0 ? 0 : b;
+                    sourceImage.setRGB(i, r, g, b);
                 }
             }
         }

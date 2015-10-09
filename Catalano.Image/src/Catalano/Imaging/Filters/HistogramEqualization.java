@@ -46,7 +46,7 @@ public class HistogramEqualization implements IBaseInPlace{
         ArrayList<int[]> histLUT = histogramEqualizationLUT(fastBitmap);
 
         if (fastBitmap.isGrayscale()) {
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             int gray;
             for (int i = 0; i < size; i++) {
                 //Get pixel gray
@@ -60,7 +60,7 @@ public class HistogramEqualization implements IBaseInPlace{
             }
         }
         else if (fastBitmap.isRGB()){
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             int red;
             int green;
             int blue;

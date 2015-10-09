@@ -198,7 +198,7 @@ public class LevelsLinear implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
-        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         
         if (fastBitmap.isGrayscale()) {
             

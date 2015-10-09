@@ -93,7 +93,7 @@ public class HistogramShrink implements IBaseInPlace{
             float gray; 
             float shrink;
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 gray = fastBitmap.getGray(i);
                 shrink = (((max - min)/(grayMax - grayMin)) * (gray - grayMin)) + min;
@@ -112,7 +112,7 @@ public class HistogramShrink implements IBaseInPlace{
             float r,g,b; 
             float shrinkRed,shrinkGreen,shrinkBlue;
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 r = fastBitmap.getRed(i);
                 g = fastBitmap.getGreen(i);

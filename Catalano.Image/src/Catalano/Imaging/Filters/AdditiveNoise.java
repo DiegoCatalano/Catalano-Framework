@@ -105,38 +105,28 @@ public class AdditiveNoise implements IBaseInPlace{
         
         if (fastBitmap.isGrayscale()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    int g = fastBitmap.getGray(i, j);
-                    g = Math.min(255, Math.max(0, g + generateNumber(min, max)));
-                    fastBitmap.setGray(i, j, g);
-                    
-                }
+            for (int i = 0; i < size; i++) {
+                int g = fastBitmap.getGray(i);
+                g = Math.min(255, Math.max(0, g + generateNumber(min, max)));
+                fastBitmap.setGray(i, g);
             }
             
         }
         else if (fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
-                    
-                    r = Math.min(255, Math.max(0, r + generateNumber(min, max)));
-                    g = Math.min(255, Math.max(0, g + generateNumber(min, max)));
-                    b = Math.min(255, Math.max(0, b + generateNumber(min, max)));
-                    
-                    fastBitmap.setRGB(i, j, r, g, b);
-                    
-                }
+            for (int i = 0; i < size; i++) {
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
+
+                r = Math.min(255, Math.max(0, r + generateNumber(min, max)));
+                g = Math.min(255, Math.max(0, g + generateNumber(min, max)));
+                b = Math.min(255, Math.max(0, b + generateNumber(min, max)));
+
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
         else{

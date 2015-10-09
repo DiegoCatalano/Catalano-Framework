@@ -60,7 +60,7 @@ public class IsoDataClassifier implements IBaseInPlace{
             histogram = Histogram(fastBitmap);
             histogram = IsoData(histogram, n);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             for (int i = 0; i < size; i++) {
                 fastBitmap.setGray(i, histogram[fastBitmap.getGray(i)]);
@@ -77,7 +77,7 @@ public class IsoDataClassifier implements IBaseInPlace{
      * @return Histogram.
      */
     private int[] Histogram(FastBitmap fastBitmap){
-        int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         int[] hist = new int[256];
         
         for (int i = 0; i < size; i++) {

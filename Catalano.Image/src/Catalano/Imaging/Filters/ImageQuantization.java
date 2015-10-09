@@ -60,7 +60,7 @@ public class ImageQuantization implements IBaseInPlace{
             int reduced = 256 / (level - 1);
             int steps = 256 / reduced;
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 int gray = fastBitmap.getGray(i);
                 int index = reduced;

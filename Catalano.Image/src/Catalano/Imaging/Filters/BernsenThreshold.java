@@ -114,7 +114,7 @@ public class BernsenThreshold implements IBaseInPlace{
             Minimum minimum = new Minimum(radius);
             minimum.applyInPlace(min);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             for (int i = 0; i < size; i++) {
                 double localContrast = max.getGray(i) - min.getGray(i);

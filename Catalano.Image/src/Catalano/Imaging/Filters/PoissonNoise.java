@@ -41,42 +41,36 @@ public class PoissonNoise implements IBaseInPlace{
         
         if(fastBitmap.isGrayscale()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    int g = fastBitmap.getGray(i, j);
-                    g = Poisson(g);
-                    fastBitmap.setGray(i, j, g);
-                }
+            for (int i = 0; i < size; i++) {
+                int g = fastBitmap.getGray(i);
+                g = Poisson(g);
+                fastBitmap.setGray(i, g);
             }
             
         }
         else if(fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
-                    
-                    r = Poisson(r);
-                    g = Poisson(g);
-                    b = Poisson(b);
-                    
-                    r = r > 255 ? 255 : r;
-                    g = g > 255 ? 255 : g;
-                    b = b > 255 ? 255 : b;
-                    
-                    r = r < 0 ? 0 : r;
-                    g = g < 0 ? 0 : g;
-                    b = b < 0 ? 0 : b;
-                    
-                    fastBitmap.setRGB(i, j, r, g, b);
-                }
+            for (int i = 0; i < size; i++) {
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
+
+                r = Poisson(r);
+                g = Poisson(g);
+                b = Poisson(b);
+
+                r = r > 255 ? 255 : r;
+                g = g > 255 ? 255 : g;
+                b = b > 255 ? 255 : b;
+
+                r = r < 0 ? 0 : r;
+                g = g < 0 ? 0 : g;
+                b = b < 0 ? 0 : b;
+
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
         else{

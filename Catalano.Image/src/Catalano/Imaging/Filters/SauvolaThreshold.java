@@ -134,7 +134,7 @@ public class SauvolaThreshold implements IBaseInPlace{
             FastVariance v = new FastVariance(radius);
             v.applyInPlace(var);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             for (int i = 0; i < size; i++) {
                 double P = fastBitmap.getGray(i);

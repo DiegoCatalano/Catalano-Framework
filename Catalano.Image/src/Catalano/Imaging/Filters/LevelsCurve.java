@@ -151,7 +151,7 @@ public class LevelsCurve implements IBaseInPlace{
             
             int[] g = curveGray.makeLut();
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 fastBitmap.setGray(i, g[fastBitmap.getGreen(i)]);
             }
@@ -163,7 +163,7 @@ public class LevelsCurve implements IBaseInPlace{
             int[] g = curveGreen.makeLut();
             int[] b = curveBlue.makeLut();
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
                 fastBitmap.setRGB(i, r[fastBitmap.getRed(i)], g[fastBitmap.getGreen(i)], b[fastBitmap.getBlue(i)]);
             }

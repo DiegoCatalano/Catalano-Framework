@@ -80,7 +80,7 @@ public class HistogramMatching implements IBaseInPlace{
             //Compute original and reference histogram.
             int[] mh = Histogram.MatchHistograms(fGray, gray);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             for (int i = 0; i < size; i++) {
                 int g = fastBitmap.getGray(i);
@@ -101,7 +101,7 @@ public class HistogramMatching implements IBaseInPlace{
             int[] mhG = Histogram.MatchHistograms(fGreen, green);
             int[] mhB = Histogram.MatchHistograms(fBlue, blue);
             
-            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             for (int i = 0; i < size; i++) {
                     

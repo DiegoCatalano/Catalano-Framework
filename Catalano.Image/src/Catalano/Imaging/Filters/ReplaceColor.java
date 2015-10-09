@@ -67,44 +67,38 @@ public class ReplaceColor {
      * @param blue New blue.
      */
     public void ApplyInPlace(FastBitmap fastBitmap, int red, int green, int blue){
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         
         int r,g,b;
         if (isRange == false) {
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
+            for (int i = 0; i < size; i++) {
+                r = fastBitmap.getRed(i);
+                g = fastBitmap.getGreen(i);
+                b = fastBitmap.getBlue(i);
 
-                    if ((r == oldRed) && (g == oldGreen) && (b == oldBlue)) {
-                        fastBitmap.setRed(x, y, red);
-                        fastBitmap.setGreen(x, y, green);
-                        fastBitmap.setBlue(x, y, blue);
-                    }
+                if ((r == oldRed) && (g == oldGreen) && (b == oldBlue)) {
+                    fastBitmap.setRed(i, red);
+                    fastBitmap.setGreen(i, green);
+                    fastBitmap.setBlue(i, blue);
                 }
             }
         }
         else{
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
+            for (int i = 0; i < size; i++) {
+                r = fastBitmap.getRed(i);
+                g = fastBitmap.getGreen(i);
+                b = fastBitmap.getBlue(i);
 
-                    if (
-                        (r >= oldRedRange.getMin()) && (r <= oldRedRange.getMax()) && 
-                        (g >= oldGreenRange.getMin()) && (g <= oldGreenRange.getMax()) && 
-                        (b >= oldBlueRange.getMin()) && (b <= oldBlueRange.getMax())
-                    ) {
-                        fastBitmap.setRed(x, y, red);
-                        fastBitmap.setGreen(x, y, green);
-                        fastBitmap.setBlue(x, y, blue);
-                    }
+                if (
+                    (r >= oldRedRange.getMin()) && (r <= oldRedRange.getMax()) && 
+                    (g >= oldGreenRange.getMin()) && (g <= oldGreenRange.getMax()) && 
+                    (b >= oldBlueRange.getMin()) && (b <= oldBlueRange.getMax())
+                ) {
+                    fastBitmap.setRed(i, red);
+                    fastBitmap.setGreen(i, green);
+                    fastBitmap.setBlue(i, blue);
                 }
             }
         }
     }
-    
 }

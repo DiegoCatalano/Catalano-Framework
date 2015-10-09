@@ -39,9 +39,7 @@ public class Merge implements IBaseInPlace{
     /**
      * Initialize a new instance of the Merge class.
      */
-    public Merge() {
-        
-    }
+    public Merge() {}
 
     /**
      * Initialize a new instance of the Merge class.
