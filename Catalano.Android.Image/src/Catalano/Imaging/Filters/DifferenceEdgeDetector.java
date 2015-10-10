@@ -59,33 +59,38 @@ public class DifferenceEdgeDetector implements IBaseInPlace{
         if (fastBitmap.isGrayscale()){
             
             FastBitmap copy = new FastBitmap(fastBitmap);
-            int width = copy.getWidth();
-            int height = copy.getHeight();
+            int width = copy.getWidth() - 2;
+            int height = copy.getHeight() - 2;
+            
+            int stride = fastBitmap.getWidth();
+            int offset = stride + 1;
             
             int max, diff;
-            for (int x = 1; x < height - 1; x++) {
-                for (int y = 1; y < width - 1; y++) {
+            for (int x = 0; x < height; x++) {
+                for (int y = 0; y < width; y++) {
                     
                     max = 0;
                     
-                    diff = copy.getGray(x - 1, y - 1) - copy.getGray(x + 1, y + 1);
+                    diff = copy.getGray(offset - stride - 1) - copy.getGray(offset + stride + 1);
                     if (diff < 0) diff = -diff;
                     if (diff > max) max = diff;
                     
-                    diff = copy.getGray(x - 1, y) - copy.getGray(x + 1, y);
+                    diff = copy.getGray(offset - stride) - copy.getGray(offset + stride);
                     if (diff < 0) diff = -diff;
                     if (diff > max) max = diff;
                     
-                    diff = copy.getGray(x - 1, y + 1) - copy.getGray(x + 1, y - 1);
+                    diff = copy.getGray(offset - stride + 1) - copy.getGray(offset + stride - 1);
                     if (diff < 0) diff = -diff;
                     if (diff > max) max = diff;
                     
-                    diff = copy.getGray(x, y + 1) - copy.getGray(x, y - 1);
+                    diff = copy.getGray(offset + 1) - copy.getGray(offset - 1);
                     if (diff < 0) diff = -diff;
                     if (diff > max) max = diff;
                     
-                    fastBitmap.setGray(x, y, max);
+                    fastBitmap.setGray(offset, max);
+                    offset++;
                 }
+                offset += 2;
             }
         }
         else{

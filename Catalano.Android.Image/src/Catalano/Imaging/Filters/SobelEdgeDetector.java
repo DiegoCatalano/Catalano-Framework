@@ -34,7 +34,7 @@ import Catalano.Imaging.IBaseInPlace;
  * |G| = |Gx| + |Gy] ,
  * where Gx and Gy are calculate utilizing Sobel convolution kernels.
  * Using the above kernel the approximated magnitude for pixel x is calculate using the next equation:
- * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|
+ * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|</para>
  * @author Diego Catalano
  */
 public class SobelEdgeDetector implements IBaseInPlace{
@@ -76,38 +76,42 @@ public class SobelEdgeDetector implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()){
-            int height = fastBitmap.getHeight();
-            int width = fastBitmap.getWidth();
+            int width = fastBitmap.getWidth() - 2;
+            int height = fastBitmap.getHeight() - 2;
+            int stride = fastBitmap.getWidth();
+            
+            int offset = stride + 1;
+            
             FastBitmap copy = new FastBitmap(fastBitmap);
             double g, max = 0;
-            for (int i = 1; i < height - 1; i++) {
-                for (int j = 1; j < width - 1; j++) {
-                    
-                    int p1 = copy.getGray(i - 1, j - 1);
-                    int p2 = copy.getGray(i - 1, j);
-                    int p3 = copy.getGray(i - 1, j + 1);
-                    int p4 = copy.getGray(i, j + 1);
-                    int p5 = copy.getGray(i + 1, j);
-                    int p6 = copy.getGray(i + 1, j + 1);
-                    int p7 = copy.getGray(i + 1, j - 1);
-                    int p8 = copy.getGray(i, j - 1);
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    int p1 = copy.getGray(offset - stride - 1);
+                    int p2 = copy.getGray(offset - stride);
+                    int p3 = copy.getGray(offset - stride + 1);
+                    int p4 = copy.getGray(offset + 1);
+                    int p5 = copy.getGray(offset + stride);
+                    int p6 = copy.getGray(offset + stride + 1);
+                    int p7 = copy.getGray(offset + stride - 1);
+                    int p8 = copy.getGray(offset - 1);
 
                     g = Math.min(255, Math.abs(p1 + p3 - p7 - p2 + 2 * (p2 - p5)) + Math.abs(p2 + p6 - p1 - p7 + 2 * (p4 - p8)));
                     if (g > max) max = g;
-                    fastBitmap.setGray(i, j, (int)g);
-
+                    fastBitmap.setGray(offset, (int)g);
+                    offset++;
                 }
+                offset += 2;
             }
             
+            int size = fastBitmap.getSize();
             if (scaleIntensity && max != 255){
                 double factor = 255.0 / (double) max;
                 
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++) {
-                        fastBitmap.setGray(i, j, (int)(fastBitmap.getGray(i, j) * factor));
-                    }
+                for (int i = 0; i < size; i++) {
+                    fastBitmap.setGray(i, (int)(fastBitmap.getGray(i) * factor));
                 }
             }
+            
         }
         else{
             throw new IllegalArgumentException("SobelEdgeDetector only works in grayscale images.");
