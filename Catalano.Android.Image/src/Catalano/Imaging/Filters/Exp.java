@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -81,8 +81,7 @@ public class Exp implements IBaseInPlace{
                 if (b > 255) b = 255;
                 
                 pixels[i] = 255 << 24 | (int)r << 16 | (int)g << 8 | (int)b;
-        	
-			}
+            }
         }
     }
 }

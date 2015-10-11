@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -85,31 +85,27 @@ public class Opacity implements IBaseInPlace{
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
-        
         if(fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
 
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    double r1 = fastBitmap.getRed(i, j);
-                    double g1 = fastBitmap.getGreen(i, j);
-                    double b1 = fastBitmap.getBlue(i, j);
+            for (int i = 0; i < size; i++) {
+                double r1 = fastBitmap.getRed(i);
+                double g1 = fastBitmap.getGreen(i);
+                double b1 = fastBitmap.getBlue(i);
 
-                    double r2 = overlay.getRed(i, j);
-                    double g2 = overlay.getGreen(i, j);
-                    double b2 = overlay.getBlue(i, j);
+                double r2 = overlay.getRed(i);
+                double g2 = overlay.getGreen(i);
+                double b2 = overlay.getBlue(i);
 
-                    double r = (1 - p) * r1 + p * r2;
-                    double g = (1 - p) * g1 + p * g2;
-                    double b = (1 - p) * b1 + p * b2;
+                double r = (1 - p) * r1 + p * r2;
+                double g = (1 - p) * g1 + p * g2;
+                double b = (1 - p) * b1 + p * b2;
 
-                    fastBitmap.setRGB(i, j, (int)r, (int)g, (int)b);
-                }
+                fastBitmap.setRGB(i, (int)r, (int)g, (int)b);
             }
         }
         else{
-            throw new IllegalArgumentException("Opacity only works in RGB images.");
+            throw new IllegalArgumentException("Opacity only works in RGB or ARGB images.");
         }
     }
 }

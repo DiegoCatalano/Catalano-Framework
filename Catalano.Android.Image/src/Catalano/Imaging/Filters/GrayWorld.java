@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -42,21 +42,17 @@ public class GrayWorld implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
             
+            int size = fastBitmap.getSize();
             double Rmean = 0, Gmean = 0, Bmean = 0;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    Rmean += fastBitmap.getRed(i, j);
-                    Gmean += fastBitmap.getGreen(i, j);
-                    Bmean += fastBitmap.getBlue(i, j);
-                }
+            for (int i = 0; i < size; i++) {
+                Rmean += fastBitmap.getRed(i);
+                Gmean += fastBitmap.getGreen(i);
+                Bmean += fastBitmap.getBlue(i);
             }
-            double size = width * height;
-            Rmean /= size;
-            Gmean /= size;
-            Bmean /= size;
+            Rmean /= (double)size;
+            Gmean /= (double)size;
+            Bmean /= (double)size;
             
             double mean = (Rmean + Gmean + Bmean) / 3;
             
@@ -64,18 +60,16 @@ public class GrayWorld implements IBaseInPlace{
             double kg = mean / Gmean;
             double kb = mean / Bmean;
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    double r = kr * fastBitmap.getRed(i, j);
-                    double g = kg * fastBitmap.getGreen(i, j);
-                    double b = kb * fastBitmap.getBlue(i, j);
-                    
-                    if (r > 255) r = 255;
-                    if (g > 255) g = 255;
-                    if (b > 255) b = 255;
-                    
-                    fastBitmap.setRGB(i, j, (int)r, (int)g, (int)b);
-                }
+            for (int i = 0; i < size; i++) {
+                double r = kr * fastBitmap.getRed(i);
+                double g = kg * fastBitmap.getGreen(i);
+                double b = kb * fastBitmap.getBlue(i);
+
+                if (r > 255) r = 255;
+                if (g > 255) g = 255;
+                if (b > 255) b = 255;
+
+                fastBitmap.setRGB(i, (int)r, (int)g, (int)b);
             }
         }
         else{

@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -43,20 +43,17 @@ public class RotateChannels implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap){
         
         if (fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
 
             int r,g,b,z;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    r = fastBitmap.getRed(x, y); //red
-                    g = fastBitmap.getGreen(x, y); //green
-                    b = fastBitmap.getBlue(x, y); //blue
+            for (int x = 0; x < size; x++) {
+                r = fastBitmap.getRed(x); //red
+                g = fastBitmap.getGreen(x); //green
+                b = fastBitmap.getBlue(x); //blue
 
-                    z = g; //green
+                z = g; //green
 
-                    fastBitmap.setRGB(x, y, z, b, r);
-                }
+                fastBitmap.setRGB(x, z, b, r);
             }
         }
         else{

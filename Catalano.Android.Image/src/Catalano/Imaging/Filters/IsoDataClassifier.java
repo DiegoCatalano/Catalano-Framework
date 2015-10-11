@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -60,14 +60,11 @@ public class IsoDataClassifier implements IBaseInPlace{
             histogram = Histogram(fastBitmap);
             histogram = IsoData(histogram, n);
             
-            int height = fastBitmap.getHeight();
-            int width = fastBitmap.getWidth();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    fastBitmap.setGray(i, j, histogram[fastBitmap.getGray(i, j)]);
-                }
-            }
+            for (int i = 0; i < size; i++)
+                fastBitmap.setGray(i, histogram[fastBitmap.getGray(i)]);
+            
         }
         else{
             throw new IllegalArgumentException("IsoData Classifier only works with grayscale image.");
@@ -80,14 +77,11 @@ public class IsoDataClassifier implements IBaseInPlace{
      * @return Histogram.
      */
     private int[] Histogram(FastBitmap fastBitmap){
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         int[] hist = new int[256];
         
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                hist[fastBitmap.getGray(i, j)]++;
-            }
+        for (int i = 0; i < size; i++) {
+            hist[fastBitmap.getGray(i)]++;
         }
         
         return hist;

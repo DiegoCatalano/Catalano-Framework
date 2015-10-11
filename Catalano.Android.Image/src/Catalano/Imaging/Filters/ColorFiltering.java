@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -32,13 +32,62 @@ import Catalano.Imaging.IBaseInPlace;
  * Color filtering.
  * <p> The filter filters pixels inside/outside of specified RGB color range - it keeps pixels with colors inside/outside of specified range and fills the rest with specified color</p>.
  * 
- * Supported types: RGB.
- * Coordinate System: Independent.
+ * <p><li>Supported types: RGB.
+ * <br><li>Coordinate System: Independent.
  * 
  * @author Diego Catalano
  */
 public class ColorFiltering implements IBaseInPlace{
+    
     private IntRange red, green, blue;
+
+    /**
+     * Get range from red channel.
+     * @return Red range.
+     */
+    public IntRange getRed() {
+        return red;
+    }
+
+    /**
+     * Set range of the red channel.
+     * @param red Red range.
+     */
+    public void setRed(IntRange red) {
+        this.red = red;
+    }
+
+    /**
+     * Get range from green channel.
+     * @return Green range.
+     */
+    public IntRange getGreen() {
+        return green;
+    }
+
+    /**
+     * Set range of the green channel.
+     * @param green Green range.
+     */
+    public void setGreen(IntRange green) {
+        this.green = green;
+    }
+
+    /**
+     * Get range of the blue channel.
+     * @return Blue range.
+     */
+    public IntRange getBlue() {
+        return blue;
+    }
+
+    /**
+     * Set range of the blue channel.
+     * @param blue Blue range.
+     */
+    public void setBlue(IntRange blue) {
+        this.blue = blue;
+    }
 
     /**
      * Initialize a new instance of the ColorFiltering class.
@@ -59,25 +108,29 @@ public class ColorFiltering implements IBaseInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-    	
-        int r,g,b;
         
-        int[] pixels = fastBitmap.getData();
-        for (int i = 0; i < pixels.length; i++) {
-            r = pixels[i] >> 16 & 0xFF;
-            g = pixels[i] >> 8 & 0xFF;
-            b = pixels[i] & 0xFF;
-            
-            if (
-                    (r >= red.getMin()) && (r <= red.getMax()) && 
-                    (g >= green.getMin()) && (g <= green.getMax()) && 
-                    (b >= blue.getMin()) && (b <= blue.getMax())
-            ){
-                pixels[i] = 255 << 24 | r << 16 | g << 8 | b;
+        if(fastBitmap.isRGB()){
+            int r,g,b;
+            int size = fastBitmap.getSize();
+            for (int i = 0; i < size; i++) {
+                r = fastBitmap.getRed(i);
+                g = fastBitmap.getGreen(i);
+                b = fastBitmap.getBlue(i);
+
+                if (
+                        (r >= red.getMin()) && (r <= red.getMax()) && 
+                        (g >= green.getMin()) && (g <= green.getMax()) && 
+                        (b >= blue.getMin()) && (b <= blue.getMax())
+                ){
+                    fastBitmap.setRGB(i, r, g, b);
+                }
+                else{
+                    fastBitmap.setRGB(i, 0, 0, 0);
+                }
             }
-            else{
-                pixels[i] = 0;
-            }
-		}
+        }
+        else{
+            throw new IllegalArgumentException("Color filtering only works in RGB images.");
+        }
     }
 }

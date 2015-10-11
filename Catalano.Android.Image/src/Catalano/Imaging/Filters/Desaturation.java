@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -26,6 +26,10 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Desaturation.
+ * 
+ * <p><li>Supported types: RGB.
+ * <br><li>Coordinate System: Independent.
+ * 
  * @author Diego Catalano
  */
 public class Desaturation implements IBaseInPlace{
@@ -66,25 +70,22 @@ public class Desaturation implements IBaseInPlace{
         
         if (fastBitmap.isRGB()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
+            for (int i = 0; i < size; i++) {
                     
-                    double r = fastBitmap.getRed(i, j);
-                    double g = fastBitmap.getGreen(i, j);
-                    double b = fastBitmap.getBlue(i, j);
+                double r = fastBitmap.getRed(i);
+                double g = fastBitmap.getGreen(i);
+                double b = fastBitmap.getBlue(i);
+
+                double luminance = 0.2125D * r + 0.7154 * g + 0.0721 * b;
+
+                double nr = (luminance + saturationFactor * (r - luminance));
+                double ng = (luminance + saturationFactor * (g - luminance));
+                double nb = (luminance + saturationFactor * (b - luminance));
+
+                fastBitmap.setRGB(i, (int)nr, (int)ng, (int)nb);
                     
-                    double luminance = 0.2125D * r + 0.7154 * g + 0.0721 * b;
-                    
-                    double nr = (luminance + saturationFactor * (r - luminance));
-                    double ng = (luminance + saturationFactor * (g - luminance));
-                    double nb = (luminance + saturationFactor * (b - luminance));
-                    
-                    fastBitmap.setRGB(i, j, (int)nr, (int)ng, (int)nb);
-                    
-                }
             }
         }
         else{

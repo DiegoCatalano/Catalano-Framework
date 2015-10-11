@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -194,527 +194,476 @@ public class Blend implements IBaseInPlace{
         
         if (fastBitmap.isRGB() && overlay.isRGB()){
             
-            int w = fastBitmap.getWidth();
-            int h = fastBitmap.getHeight();
+            int size = fastBitmap.getWidth() * fastBitmap.getHeight();
             
             switch(algorithm){
                 case Lighten:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            if (overlay.getRed(i, j) > fastBitmap.getRed(i, j)){
-                                fastBitmap.setRed(i, j, overlay.getRed(i, j));
-                            }
-                            if (overlay.getGreen(i, j) > fastBitmap.getGreen(i, j)){
-                                fastBitmap.setGreen(i, j, overlay.getGreen(i, j));
-                            }
-                            if (overlay.getBlue(i, j) > fastBitmap.getBlue(i, j)){
-                                fastBitmap.setBlue(i, j, overlay.getBlue(i, j));
-                            }
+                    for (int i = 0; i < size; i++) {
+                        if (overlay.getRed(i) > fastBitmap.getRed(i)){
+                            fastBitmap.setRed(i, overlay.getRed(i));
+                        }
+                        if (overlay.getGreen(i) > fastBitmap.getGreen(i)){
+                            fastBitmap.setGreen(i, overlay.getGreen(i));
+                        }
+                        if (overlay.getBlue(i) > fastBitmap.getBlue(i)){
+                            fastBitmap.setBlue(i, overlay.getBlue(i));
                         }
                     }
                 break;
                 case Darken:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            if (overlay.getRed(i, j) < fastBitmap.getRed(i, j)){
-                                fastBitmap.setRed(i, j, overlay.getRed(i, j));
-                            }
-                            if (overlay.getGreen(i, j) < fastBitmap.getGreen(i, j)){
-                                fastBitmap.setGreen(i, j, overlay.getGreen(i, j));
-                            }
-                            if (overlay.getBlue(i, j) < fastBitmap.getBlue(i, j)){
-                                fastBitmap.setBlue(i, j, overlay.getBlue(i, j));
-                            }
+                    for (int i = 0; i < size; i++) {
+                        if (overlay.getRed(i) < fastBitmap.getRed(i)){
+                            fastBitmap.setRed(i, overlay.getRed(i));
+                        }
+                        if (overlay.getGreen(i) < fastBitmap.getGreen(i)){
+                            fastBitmap.setGreen(i, overlay.getGreen(i));
+                        }
+                        if (overlay.getBlue(i) < fastBitmap.getBlue(i)){
+                            fastBitmap.setBlue(i, overlay.getBlue(i));
                         }
                     }
                 break;
                 case Multiply:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = fastBitmap.getRed(i, j) * overlay.getRed(i, j) / 255;
-                            int g = fastBitmap.getGreen(i, j) * overlay.getGreen(i, j) / 255;
-                            int b = fastBitmap.getBlue(i, j) * overlay.getBlue(i, j) / 255;
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = fastBitmap.getRed(i) * overlay.getRed(i) / 255;
+                        int g = fastBitmap.getGreen(i) * overlay.getGreen(i) / 255;
+                        int b = fastBitmap.getBlue(i) * overlay.getBlue(i) / 255;
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Average:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = fastBitmap.getRed(i, j) + overlay.getRed(i, j) / 2;
-                            int g = fastBitmap.getGreen(i, j) + overlay.getGreen(i, j) / 2;
-                            int b = fastBitmap.getBlue(i, j) + overlay.getBlue(i, j) / 2;
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = fastBitmap.getRed(i) * overlay.getRed(i) / 2;
+                        int g = fastBitmap.getGreen(i) * overlay.getGreen(i) / 2;
+                        int b = fastBitmap.getBlue(i) * overlay.getBlue(i) / 2;
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Add:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = Math.min(fastBitmap.getRed(i, j) + overlay.getRed(i, j), 255);
-                            int g = Math.min(fastBitmap.getGreen(i, j) + overlay.getGreen(i, j), 255);
-                            int b = Math.min(fastBitmap.getBlue(i, j) + overlay.getBlue(i, j), 255);
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = Math.min(fastBitmap.getRed(i) + overlay.getRed(i), 255);
+                        int g = Math.min(fastBitmap.getGreen(i) + overlay.getGreen(i), 255);
+                        int b = Math.min(fastBitmap.getBlue(i) + overlay.getBlue(i), 255);
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Subtract:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int temp = fastBitmap.getRed(i, j) + overlay.getRed(i, j);
-                            if(temp < 255){
-                                fastBitmap.setRed(i, j, 0);
-                            }
-                            else{
-                                fastBitmap.setRed(i, j, temp - 255);
-                            }
-                            
-                            temp = fastBitmap.getGreen(i, j) + overlay.getGreen(i, j);
-                            if(temp < 255){
-                                fastBitmap.setGreen(i, j, 0);
-                            }
-                            else{
-                                fastBitmap.setGreen(i, j, temp - 255);
-                            }
-                            
-                            temp = fastBitmap.getBlue(i, j) + overlay.getBlue(i, j);
-                            if(temp < 255){
-                                fastBitmap.setBlue(i, j, 0);
-                            }
-                            else{
-                                fastBitmap.setBlue(i, j, temp - 255);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        int temp = fastBitmap.getRed(i) + overlay.getRed(i);
+                        if(temp < 255){
+                            fastBitmap.setRed(i, 0);
+                        }
+                        else{
+                            fastBitmap.setRed(i, temp - 255);
+                        }
+
+                        temp = fastBitmap.getGreen(i) + overlay.getGreen(i);
+                        if(temp < 255){
+                            fastBitmap.setGreen(i, 0);
+                        }
+                        else{
+                            fastBitmap.setGreen(i, temp - 255);
+                        }
+
+                        temp = fastBitmap.getBlue(i) + overlay.getBlue(i);
+                        if(temp < 255){
+                            fastBitmap.setBlue(i, 0);
+                        }
+                        else{
+                            fastBitmap.setBlue(i, temp - 255);
                         }
                     }
                 break;
                 case Difference:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = Math.abs(fastBitmap.getRed(i, j) - overlay.getRed(i, j));
-                            int g = Math.abs(fastBitmap.getGreen(i, j) - overlay.getGreen(i, j));
-                            int b = Math.abs(fastBitmap.getBlue(i, j) - overlay.getBlue(i, j));
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = Math.abs(fastBitmap.getRed(i) - overlay.getRed(i));
+                        int g = Math.abs(fastBitmap.getGreen(i) - overlay.getGreen(i));
+                        int b = Math.abs(fastBitmap.getBlue(i) - overlay.getBlue(i));
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Negation:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = 255 - Math.abs(255 - fastBitmap.getRed(i, j) - overlay.getRed(i, j));
-                            int g = 255 - Math.abs(255 - fastBitmap.getGreen(i, j) - overlay.getGreen(i, j));
-                            int b = 255 - Math.abs(255 - fastBitmap.getBlue(i, j) - overlay.getBlue(i, j));
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = 255 - Math.abs(255 - fastBitmap.getRed(i) - overlay.getRed(i));
+                        int g = 255 - Math.abs(255 - fastBitmap.getGreen(i) - overlay.getGreen(i));
+                        int b = 255 - Math.abs(255 - fastBitmap.getBlue(i) - overlay.getBlue(i));
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Screen:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = ((255 - (((255 - fastBitmap.getRed(i, j)) * (255 - overlay.getRed(i, j))) >> 8)));
-                            int g = ((255 - (((255 - fastBitmap.getGreen(i, j)) * (255 - overlay.getGreen(i, j))) >> 8)));
-                            int b = ((255 - (((255 - fastBitmap.getBlue(i, j)) * (255 - overlay.getBlue(i, j))) >> 8)));
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = ((255 - (((255 - fastBitmap.getRed(i)) * (255 - overlay.getRed(i))) >> 8)));
+                        int g = ((255 - (((255 - fastBitmap.getGreen(i)) * (255 - overlay.getGreen(i))) >> 8)));
+                        int b = ((255 - (((255 - fastBitmap.getBlue(i)) * (255 - overlay.getBlue(i))) >> 8)));
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Exclusion:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = ((fastBitmap.getRed(i, j) + overlay.getRed(i, j) - 2 * fastBitmap.getRed(i, j) * overlay.getRed(i, j) / 255));
-                            int g = ((fastBitmap.getGreen(i, j) + overlay.getGreen(i, j) - 2 * fastBitmap.getGreen(i, j) * overlay.getGreen(i, j) / 255));
-                            int b = ((fastBitmap.getBlue(i, j) + overlay.getBlue(i, j) - 2 * fastBitmap.getBlue(i, j) * overlay.getBlue(i, j) / 255));
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = ((fastBitmap.getRed(i) + overlay.getRed(i) - 2 * fastBitmap.getRed(i) * overlay.getRed(i) / 255));
+                        int g = ((fastBitmap.getGreen(i) + overlay.getGreen(i) - 2 * fastBitmap.getGreen(i) * overlay.getGreen(i) / 255));
+                        int b = ((fastBitmap.getBlue(i) + overlay.getBlue(i) - 2 * fastBitmap.getBlue(i) * overlay.getBlue(i) / 255));
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
                 case Overlay:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            int temp;
-                            if(overlay.getRed(i, j) < 128){
-                                temp = (2 * fastBitmap.getRed(i, j) * overlay.getRed(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setRed(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - fastBitmap.getRed(i, j)) * (255 - overlay.getRed(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setRed(i, j, temp);
-                            }
-                            
-                            if(overlay.getGreen(i, j) < 128){
-                                temp = (2 * fastBitmap.getGreen(i, j) * overlay.getGreen(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setGreen(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - fastBitmap.getGreen(i, j)) * (255 - overlay.getGreen(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setGreen(i, j, temp);
-                            }
-                            
-                            if(overlay.getBlue(i, j) < 128){
-                                temp = (2 * fastBitmap.getBlue(i, j) * overlay.getBlue(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setBlue(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - fastBitmap.getBlue(i, j)) * (255 - overlay.getBlue(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setBlue(i, j, temp);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        int temp;
+                        if(overlay.getRed(i) < 128){
+                            temp = (2 * fastBitmap.getRed(i) * overlay.getRed(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setRed(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - fastBitmap.getRed(i)) * (255 - overlay.getRed(i)) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setRed(i, temp);
+                        }
+
+                        if(overlay.getGreen(i) < 128){
+                            temp = (2 * fastBitmap.getGreen(i) * overlay.getGreen(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setGreen(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - fastBitmap.getGreen(i)) * (255 - overlay.getGreen(i)) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setGreen(i, temp);
+                        }
+
+                        if(overlay.getBlue(i) < 128){
+                            temp = (2 * fastBitmap.getBlue(i) * overlay.getBlue(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setBlue(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - fastBitmap.getBlue(i)) * (255 - overlay.getBlue(i)) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setBlue(i, temp);
                         }
                     }
                 break;
                 case SoftLight:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            int temp;
-                            if(fastBitmap.getRed(i, j) < 128){
-                                temp = (2 * overlay.getRed(i, j) * fastBitmap.getRed(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setRed(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - overlay.getRed(i, j)) * (255 - fastBitmap.getRed(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                overlay.setRed(i, j, temp);
-                            }
-                            
-                            if(fastBitmap.getGreen(i, j) < 128){
-                                temp = (2 * overlay.getGreen(i, j) * fastBitmap.getGreen(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setGreen(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - overlay.getGreen(i, j)) * (255 - fastBitmap.getGreen(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setGreen(i, j, temp);
-                            }
-                            
-                            if(fastBitmap.getBlue(i, j) < 128){
-                                temp = (2 * overlay.getBlue(i, j) * fastBitmap.getBlue(i, j) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setBlue(i, j, temp);
-                            }
-                            else{
-                                temp = (255 - 2 * (255 - overlay.getBlue(i, j)) * (255 - fastBitmap.getBlue(i, j)) / 255);
-                                temp = Math.min(255, temp);
-                                fastBitmap.setBlue(i, j, temp);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        int temp;
+                        if(fastBitmap.getRed(i) < 128){
+                            temp = (2 * overlay.getRed(i) * fastBitmap.getRed(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setRed(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - overlay.getRed(i)) * (255 - fastBitmap.getRed(i)) / 255);
+                            temp = Math.min(255, temp);
+                            overlay.setRed(i, temp);
+                        }
+
+                        if(fastBitmap.getGreen(i) < 128){
+                            temp = (2 * overlay.getGreen(i) * fastBitmap.getGreen(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setGreen(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - overlay.getGreen(i)) * (255 - fastBitmap.getGreen(i)) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setGreen(i, temp);
+                        }
+
+                        if(fastBitmap.getBlue(i) < 128){
+                            temp = (2 * overlay.getBlue(i) * fastBitmap.getBlue(i) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setBlue(i, temp);
+                        }
+                        else{
+                            temp = (255 - 2 * (255 - overlay.getBlue(i)) * (255 - fastBitmap.getBlue(i)) / 255);
+                            temp = Math.min(255, temp);
+                            fastBitmap.setBlue(i, temp);
                         }
                     }
                 break;
                 case HardLight:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            float temp;
-                            if(overlay.getRed(i, j) < 128){
-                                temp = (2 * ((fastBitmap.getRed(i, j) >> 1) + 64)) * ((float)overlay.getRed(i, j) / 255);
-                                fastBitmap.setRed(i, j, (int)temp);
-                            }
-                            else{
-                                temp = (255 - (2 * (255 - ((fastBitmap.getRed(i, j) >> 1) + 64)) * (float)(255 - overlay.getRed(i, j)) / 255));
-                                fastBitmap.setRed(i, j, (int)temp);
-                            }
-                            
-                            if(overlay.getGreen(i, j) < 128){
-                                temp = (2 * ((fastBitmap.getGreen(i, j) >> 1) + 64)) * ((float)overlay.getGreen(i, j) / 255);
-                                fastBitmap.setGreen(i, j, (int)temp);
-                            }
-                            else{
-                                temp = (255 - (2 * (255 - ((fastBitmap.getGreen(i, j) >> 1) + 64)) * (float)(255 - overlay.getGreen(i, j)) / 255));
-                                fastBitmap.setGreen(i, j, (int)temp);
-                            }
-                            
-                            if(overlay.getBlue(i, j) < 128){
-                                temp = (2 * ((fastBitmap.getBlue(i, j) >> 1) + 64)) * ((float)overlay.getBlue(i, j) / 255);
-                                fastBitmap.setBlue(i, j, (int)temp);
-                            }
-                            else{
-                                temp = (255 - (2 * (255 - ((fastBitmap.getBlue(i, j) >> 1) + 64)) * (float)(255 - overlay.getBlue(i, j)) / 255));
-                                fastBitmap.setBlue(i, j, (int)temp);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        float temp;
+                        if(overlay.getRed(i) < 128){
+                            temp = (2 * ((fastBitmap.getRed(i) >> 1) + 64)) * ((float)overlay.getRed(i) / 255);
+                            fastBitmap.setRed(i, (int)temp);
+                        }
+                        else{
+                            temp = (255 - (2 * (255 - ((fastBitmap.getRed(i) >> 1) + 64)) * (float)(255 - overlay.getRed(i)) / 255));
+                            fastBitmap.setRed(i, (int)temp);
+                        }
+
+                        if(overlay.getGreen(i) < 128){
+                            temp = (2 * ((fastBitmap.getGreen(i) >> 1) + 64)) * ((float)overlay.getGreen(i) / 255);
+                            fastBitmap.setGreen(i, (int)temp);
+                        }
+                        else{
+                            temp = (255 - (2 * (255 - ((fastBitmap.getGreen(i) >> 1) + 64)) * (float)(255 - overlay.getGreen(i)) / 255));
+                            fastBitmap.setGreen(i, (int)temp);
+                        }
+
+                        if(overlay.getBlue(i) < 128){
+                            temp = (2 * ((fastBitmap.getBlue(i) >> 1) + 64)) * ((float)overlay.getBlue(i) / 255);
+                            fastBitmap.setBlue(i, (int)temp);
+                        }
+                        else{
+                            temp = (255 - (2 * (255 - ((fastBitmap.getBlue(i) >> 1) + 64)) * (float)(255 - overlay.getBlue(i)) / 255));
+                            fastBitmap.setBlue(i, (int)temp);
                         }
                     }
                 break;
                 case ColorDodge:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            if (overlay.getRed(i, j) == 255){
-                                fastBitmap.setRed(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, ((fastBitmap.getRed(i, j) << 8) / (255 - overlay.getRed(i, j))));
-                                fastBitmap.setRed(i, j, x);
-                            }
-                            
-                            if (overlay.getGreen(i, j) == 255){
-                                fastBitmap.setGreen(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, ((fastBitmap.getGreen(i, j) << 8) / (255 - overlay.getGreen(i, j))));
-                                fastBitmap.setGreen(i, j, x);
-                            }
-                            
-                            if (overlay.getBlue(i, j) == 255){
-                                fastBitmap.setBlue(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, ((fastBitmap.getBlue(i, j) << 8) / (255 - overlay.getBlue(i, j))));
-                                fastBitmap.setBlue(i, j, x);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        if (overlay.getRed(i) == 255){
+                            fastBitmap.setRed(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, ((fastBitmap.getRed(i) << 8) / (255 - overlay.getRed(i))));
+                            fastBitmap.setRed(i, x);
+                        }
+
+                        if (overlay.getGreen(i) == 255){
+                            fastBitmap.setGreen(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, ((fastBitmap.getGreen(i) << 8) / (255 - overlay.getGreen(i))));
+                            fastBitmap.setGreen(i, x);
+                        }
+
+                        if (overlay.getBlue(i) == 255){
+                            fastBitmap.setBlue(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, ((fastBitmap.getBlue(i) << 8) / (255 - overlay.getBlue(i))));
+                            fastBitmap.setBlue(i, x);
                         }
                     }
                 break;
                 case ColorBurn:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            if (overlay.getRed(i, j) == 0){
-                                fastBitmap.setRed(i, j, overlay.getRed(i, j));
-                            }
-                            else{
-                                int x = Math.max(0, (255 - ((255 - fastBitmap.getRed(i, j)) << 8) / overlay.getRed(i, j)));
-                                fastBitmap.setRed(i, j, x);
-                            }
-                            
-                            if (overlay.getGreen(i, j) == 0){
-                                fastBitmap.setGreen(i, j, overlay.getGreen(i, j));
-                            }
-                            else{
-                                int x = Math.max(0, (255 - ((255 - fastBitmap.getGreen(i, j)) << 8) / overlay.getGreen(i, j)));
-                                fastBitmap.setGreen(i, j, x);
-                            }
-                            
-                            if (overlay.getBlue(i, j) == 0){
-                                fastBitmap.setBlue(i, j, overlay.getBlue(i, j));
-                            }
-                            else{
-                                int x = Math.max(0, (255 - ((255 - fastBitmap.getBlue(i, j)) << 8) / overlay.getBlue(i, j)));
-                                fastBitmap.setBlue(i, j, x);
-                            }
+                    for (int i = 0; i < size; i++) {
+                        if (overlay.getRed(i) == 0){
+                            fastBitmap.setRed(i, overlay.getRed(i));
+                        }
+                        else{
+                            int x = Math.max(0, (255 - ((255 - fastBitmap.getRed(i)) << 8) / overlay.getRed(i)));
+                            fastBitmap.setRed(i, x);
+                        }
+
+                        if (overlay.getGreen(i) == 0){
+                            fastBitmap.setGreen(i, overlay.getGreen(i));
+                        }
+                        else{
+                            int x = Math.max(0, (255 - ((255 - fastBitmap.getGreen(i)) << 8) / overlay.getGreen(i)));
+                            fastBitmap.setGreen(i, x);
+                        }
+
+                        if (overlay.getBlue(i) == 0){
+                            fastBitmap.setBlue(i, overlay.getBlue(i));
+                        }
+                        else{
+                            int x = Math.max(0, (255 - ((255 - fastBitmap.getBlue(i)) << 8) / overlay.getBlue(i)));
+                            fastBitmap.setBlue(i, x);
                         }
                     }
                 break;
                 case LinearLight:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int temp;
-                            
-                            if (overlay.getRed(i, j) < 128){
-                                temp = fastBitmap.getRed(i, j) + (2 * overlay.getRed(i, j));
-                                if(temp < 255){
-                                    fastBitmap.setRed(i, j, 0);
-                                }
-                                else{
-                                    fastBitmap.setRed(i, j, (temp - 255));
-                                }
+                    for (int i = 0; i < size; i++) {
+                        int temp;
+
+                        if (overlay.getRed(i) < 128){
+                            temp = fastBitmap.getRed(i) + (2 * overlay.getRed(i));
+                            if(temp < 255){
+                                fastBitmap.setRed(i, 0);
                             }
                             else{
-                                int x = Math.min(fastBitmap.getRed(i, j) + (2 * (overlay.getRed(i, j) - 128)), 255);
-                                fastBitmap.setRed(i, j, x);
+                                fastBitmap.setRed(i, (temp - 255));
                             }
-                            
-                            if (overlay.getGreen(i, j) < 128){
-                                temp = fastBitmap.getGreen(i, j) + (2 * overlay.getGreen(i, j));
-                                if(temp < 255){
-                                    fastBitmap.setGreen(i, j, 0);
-                                }
-                                else{
-                                    fastBitmap.setGreen(i, j, (temp - 255));
-                                }
-                            }
-                            else{
-                                int x = Math.min(fastBitmap.getGreen(i, j) + (2 * (overlay.getGreen(i, j) - 128)), 255);
-                                fastBitmap.setGreen(i, j, x);
-                            }
-                            
-                            if (overlay.getBlue(i, j) < 128){
-                                temp = fastBitmap.getBlue(i, j) + (2 * overlay.getBlue(i, j));
-                                if(temp < 255){
-                                    fastBitmap.setBlue(i, j, 0);
-                                }
-                                else{
-                                    fastBitmap.setBlue(i, j, (temp - 255));
-                                }
+                        }
+                        else{
+                            int x = Math.min(fastBitmap.getRed(i) + (2 * (overlay.getRed(i) - 128)), 255);
+                            fastBitmap.setRed(i, x);
+                        }
+
+                        if (overlay.getGreen(i) < 128){
+                            temp = fastBitmap.getGreen(i) + (2 * overlay.getGreen(i));
+                            if(temp < 255){
+                                fastBitmap.setGreen(i, 0);
                             }
                             else{
-                                int x = Math.min(fastBitmap.getBlue(i, j) + (2 * (overlay.getBlue(i, j) - 128)), 255);
-                                fastBitmap.setBlue(i, j, x);
+                                fastBitmap.setGreen(i, (temp - 255));
                             }
+                        }
+                        else{
+                            int x = Math.min(fastBitmap.getGreen(i) + (2 * (overlay.getGreen(i) - 128)), 255);
+                            fastBitmap.setGreen(i, x);
+                        }
+
+                        if (overlay.getBlue(i) < 128){
+                            temp = fastBitmap.getBlue(i) + (2 * overlay.getBlue(i));
+                            if(temp < 255){
+                                fastBitmap.setBlue(i, 0);
+                            }
+                            else{
+                                fastBitmap.setBlue(i, (temp - 255));
+                            }
+                        }
+                        else{
+                            int x = Math.min(fastBitmap.getBlue(i) + (2 * (overlay.getBlue(i) - 128)), 255);
+                            fastBitmap.setBlue(i, x);
                         }
                     }
                 break;
                 case VividLight:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            if(overlay.getRed(i, j) < 128){
-                                //Color Burn
-                                int o = overlay.getRed(i, j) * 2;
-                                if (o == 0){
-                                    fastBitmap.setRed(i, j, o);
-                                }
-                                else{
-                                    int x = Math.max(0, (255 - ((255 - fastBitmap.getRed(i, j)) << 8) / o));
-                                    fastBitmap.setRed(i, j, x);
-                                }
+                    for (int i = 0; i < size; i++) {
+                        if(overlay.getRed(i) < 128){
+                            //Color Burn
+                            int o = overlay.getRed(i) * 2;
+                            if (o == 0){
+                                fastBitmap.setRed(i, o);
                             }
                             else{
-                                //Color Dodge
-                                int o = 2 * (overlay.getRed(i, j) - 128);
-                                if (o == 255){
-                                    fastBitmap.setRed(i, j, 255);
-                                }
-                                else{
-                                    int x = Math.min(255, ((fastBitmap.getRed(i, j) << 8) / (255 - o)));
-                                    fastBitmap.setRed(i, j, x);
-                                }
+                                int x = Math.max(0, (255 - ((255 - fastBitmap.getRed(i)) << 8) / o));
+                                fastBitmap.setRed(i, x);
                             }
-                            
-                            if(overlay.getGreen(i, j) < 128){
-                                //Color Burn
-                                int o = overlay.getGreen(i, j) * 2;
-                                if (o == 0){
-                                    fastBitmap.setGreen(i, j, o);
-                                }
-                                else{
-                                    int x = Math.max(0, (255 - ((255 - fastBitmap.getGreen(i, j)) << 8) / o));
-                                    fastBitmap.setGreen(i, j, x);
-                                }
+                        }
+                        else{
+                            //Color Dodge
+                            int o = 2 * (overlay.getRed(i) - 128);
+                            if (o == 255){
+                                fastBitmap.setRed(i, 255);
                             }
                             else{
-                                //Color Dodge
-                                int o = 2 * (overlay.getGreen(i, j) - 128);
-                                if (o == 255){
-                                    fastBitmap.setGreen(i, j, 255);
-                                }
-                                else{
-                                    int x = Math.min(255, ((fastBitmap.getGreen(i, j) << 8) / (255 - o)));
-                                    fastBitmap.setGreen(i, j, x);
-                                }
+                                int x = Math.min(255, ((fastBitmap.getRed(i) << 8) / (255 - o)));
+                                fastBitmap.setRed(i, x);
                             }
-                            
-                            if(overlay.getBlue(i, j) < 128){
-                                //Color Burn
-                                int o = overlay.getBlue(i, j) * 2;
-                                if (o == 0){
-                                    fastBitmap.setBlue(i, j, o);
-                                }
-                                else{
-                                    int x = Math.max(0, (255 - ((255 - fastBitmap.getBlue(i, j)) << 8) / o));
-                                    fastBitmap.setBlue(i, j, x);
-                                }
+                        }
+
+                        if(overlay.getGreen(i) < 128){
+                            //Color Burn
+                            int o = overlay.getGreen(i) * 2;
+                            if (o == 0){
+                                fastBitmap.setGreen(i, o);
                             }
                             else{
-                                //Color Dodge
-                                int o = 2 * (overlay.getBlue(i, j) - 128);
-                                if (o == 255){
-                                    fastBitmap.setGreen(i, j, 255);
-                                }
-                                else{
-                                    int x = Math.min(255, ((fastBitmap.getBlue(i, j) << 8) / (255 - o)));
-                                    fastBitmap.setBlue(i, j, x);
-                                }
+                                int x = Math.max(0, (255 - ((255 - fastBitmap.getGreen(i)) << 8) / o));
+                                fastBitmap.setGreen(i, x);
+                            }
+                        }
+                        else{
+                            //Color Dodge
+                            int o = 2 * (overlay.getGreen(i) - 128);
+                            if (o == 255){
+                                fastBitmap.setGreen(i, 255);
+                            }
+                            else{
+                                int x = Math.min(255, ((fastBitmap.getGreen(i) << 8) / (255 - o)));
+                                fastBitmap.setGreen(i, x);
+                            }
+                        }
+
+                        if(overlay.getBlue(i) < 128){
+                            //Color Burn
+                            int o = overlay.getBlue(i) * 2;
+                            if (o == 0){
+                                fastBitmap.setBlue(i, o);
+                            }
+                            else{
+                                int x = Math.max(0, (255 - ((255 - fastBitmap.getBlue(i)) << 8) / o));
+                                fastBitmap.setBlue(i, x);
+                            }
+                        }
+                        else{
+                            //Color Dodge
+                            int o = 2 * (overlay.getBlue(i) - 128);
+                            if (o == 255){
+                                fastBitmap.setGreen(i, 255);
+                            }
+                            else{
+                                int x = Math.min(255, ((fastBitmap.getBlue(i) << 8) / (255 - o)));
+                                fastBitmap.setBlue(i, x);
+                            }
+                        }
+                    }
+                break;
+                case PinLight:
+                    for (int i = 0; i < size; i++) {
+                        int o = overlay.getRed(i) * 2;
+                        if (overlay.getRed(i) < 128){
+                            //Darken
+                            if (o < fastBitmap.getRed(i)){
+                                fastBitmap.setRed(i, o);
+                            }
+                        }
+                        else{
+                            //Lighten
+                            if (o > fastBitmap.getRed(i)){
+                                fastBitmap.setRed(i, o);
+                            }
+                        }
+
+                        o = overlay.getGreen(i) * 2;
+                        if (overlay.getGreen(i) < 128){
+                            //Darken
+                            if (o < fastBitmap.getGreen(i)){
+                                fastBitmap.setGreen(i, o);
+                            }
+                        }
+                        else{
+                            //Lighten
+                            if (o > fastBitmap.getGreen(i)){
+                                fastBitmap.setGreen(i, o);
+                            }
+                        }
+
+                        o = overlay.getBlue(i) * 2;
+                        if (overlay.getBlue(i) < 128){
+                            //Darken
+                            if (o < fastBitmap.getBlue(i)){
+                                fastBitmap.setBlue(i, o);
+                            }
+                        }
+                        else{
+                            //Lighten
+                            if (o > fastBitmap.getBlue(i)){
+                                fastBitmap.setBlue(i, o);
                             }
                         }
                     }
                     
                 break;
-                case PinLight:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            int o = overlay.getRed(i, j) * 2;
-                            if (overlay.getRed(i, j) < 128){
-                                //Darken
-                                if (o < fastBitmap.getRed(i, j)){
-                                    fastBitmap.setRed(i, j, o);
-                                }
-                            }
-                            else{
-                                //Lighten
-                                if (o > fastBitmap.getRed(i, j)){
-                                    fastBitmap.setRed(i, j, o);
-                                }
-                            }
-                            
-                            o = overlay.getGreen(i, j) * 2;
-                            if (overlay.getGreen(i, j) < 128){
-                                //Darken
-                                if (o < fastBitmap.getGreen(i, j)){
-                                    fastBitmap.setGreen(i, j, o);
-                                }
-                            }
-                            else{
-                                //Lighten
-                                if (o > fastBitmap.getGreen(i, j)){
-                                    fastBitmap.setGreen(i, j, o);
-                                }
-                            }
-                            
-                            o = overlay.getBlue(i, j) * 2;
-                            if (overlay.getBlue(i, j) < 128){
-                                //Darken
-                                if (o < fastBitmap.getBlue(i, j)){
-                                    fastBitmap.setBlue(i, j, o);
-                                }
-                            }
-                            else{
-                                //Lighten
-                                if (o > fastBitmap.getBlue(i, j)){
-                                    fastBitmap.setBlue(i, j, o);
-                                }
-                            }
-                            
-                        }
-                    }
-                break;
                 case Reflect:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            
-                            if (overlay.getRed(i, j) == 255){
-                                fastBitmap.setRed(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, (fastBitmap.getRed(i, j) * fastBitmap.getRed(i, j) / (255 - overlay.getRed(i, j))));
-                                fastBitmap.setRed(i, j, x);
-                            }
-                            
-                            if (overlay.getGreen(i, j) == 255){
-                                fastBitmap.setGreen(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, (fastBitmap.getGreen(i, j) * fastBitmap.getGreen(i, j) / (255 - overlay.getGreen(i, j))));
-                                fastBitmap.setGreen(i, j, x);
-                            }
-                            
-                            if (overlay.getBlue(i, j) == 255){
-                                fastBitmap.setBlue(i, j, 255);
-                            }
-                            else{
-                                int x = Math.min(255, (fastBitmap.getBlue(i, j) * fastBitmap.getBlue(i, j) / (255 - overlay.getBlue(i, j))));
-                                fastBitmap.setBlue(i, j, x);
-                            }
-                            
+                    for (int i = 0; i < size; i++) {
+                        if (overlay.getRed(i) == 255){
+                            fastBitmap.setRed(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, (fastBitmap.getRed(i) * fastBitmap.getRed(i) / (255 - overlay.getRed(i))));
+                            fastBitmap.setRed(i, x);
+                        }
+
+                        if (overlay.getGreen(i) == 255){
+                            fastBitmap.setGreen(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, (fastBitmap.getGreen(i) * fastBitmap.getGreen(i) / (255 - overlay.getGreen(i))));
+                            fastBitmap.setGreen(i, x);
+                        }
+
+                        if (overlay.getBlue(i) == 255){
+                            fastBitmap.setBlue(i, 255);
+                        }
+                        else{
+                            int x = Math.min(255, (fastBitmap.getBlue(i) * fastBitmap.getBlue(i) / (255 - overlay.getBlue(i))));
+                            fastBitmap.setBlue(i, x);
                         }
                     }
                 break;
                 case Phoenix:
-                    for (int i = 0; i < h; i++) {
-                        for (int j = 0; j < w; j++) {
-                            int r = ((Math.min(fastBitmap.getRed(i, j), overlay.getRed(i, j)) - Math.max(fastBitmap.getRed(i, j), overlay.getRed(i, j)) + 255));
-                            int g = ((Math.min(fastBitmap.getGreen(i, j), overlay.getGreen(i, j)) - Math.max(fastBitmap.getGreen(i, j), overlay.getGreen(i, j)) + 255));
-                            int b = ((Math.min(fastBitmap.getBlue(i, j), overlay.getBlue(i, j)) - Math.max(fastBitmap.getBlue(i, j), overlay.getBlue(i, j)) + 255));
-                            
-                            fastBitmap.setRGB(i, j, r, g, b);
-                        }
+                    for (int i = 0; i < size; i++) {
+                        int r = ((Math.min(fastBitmap.getRed(i), overlay.getRed(i)) - Math.max(fastBitmap.getRed(i), overlay.getRed(i)) + 255));
+                        int g = ((Math.min(fastBitmap.getGreen(i), overlay.getGreen(i)) - Math.max(fastBitmap.getGreen(i), overlay.getGreen(i)) + 255));
+                        int b = ((Math.min(fastBitmap.getBlue(i), overlay.getBlue(i)) - Math.max(fastBitmap.getBlue(i), overlay.getBlue(i)) + 255));
+
+                        fastBitmap.setRGB(i, r, g, b);
                     }
                 break;
             }

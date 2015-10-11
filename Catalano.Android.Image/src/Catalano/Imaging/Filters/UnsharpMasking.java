@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -88,37 +88,32 @@ public class UnsharpMasking implements IBaseInPlace{
         GaussianBoxBlur gb = new GaussianBoxBlur(radius);
         gb.applyInPlace(blur);
         
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
+        int size = fastBitmap.getSize();
         
         if(fastBitmap.isGrayscale()){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    int g = (int)((fastBitmap.getGray(i, j) - weight*(float)blur.getGray(i, j)) / (1f - weight));
-                    g = g < 0 ? 0 : g;
-                    g = g > 255 ? 255 : g;
-                    fastBitmap.setGray(i, j, g);
-                }
+            for (int i = 0; i < size; i++) {
+                int g = (int)((fastBitmap.getGray(i) - weight*(float)blur.getGray(i)) / (1f - weight));
+                g = g < 0 ? 0 : g;
+                g = g > 255 ? 255 : g;
+                fastBitmap.setGray(i, g);
             }
             
         }
         else if (fastBitmap.isRGB()){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    int r = (int)((fastBitmap.getRed(i, j) - weight*(float)blur.getRed(i, j)) / (1f - weight));
-                    int g = (int)((fastBitmap.getGreen(i, j) - weight*(float)blur.getGreen(i, j)) / (1f - weight));
-                    int b = (int)((fastBitmap.getBlue(i, j) - weight*(float)blur.getBlue(i, j)) / (1f - weight));
-                    
-                    r = r < 0 ? 0 : r;
-                    g = g < 0 ? 0 : g;
-                    b = b < 0 ? 0 : b;
-                    
-                    r = r > 255 ? 255 : r;
-                    g = g > 255 ? 255 : g;
-                    b = b > 255 ? 255 : b;
-                    
-                    fastBitmap.setRGB(i, j, r, g, b);
-                }
+            for (int i = 0; i < size; i++) {
+                int r = (int)((fastBitmap.getRed(i) - weight*(float)blur.getRed(i)) / (1f - weight));
+                int g = (int)((fastBitmap.getGreen(i) - weight*(float)blur.getGreen(i)) / (1f - weight));
+                int b = (int)((fastBitmap.getBlue(i) - weight*(float)blur.getBlue(i)) / (1f - weight));
+
+                r = r < 0 ? 0 : r;
+                g = g < 0 ? 0 : g;
+                b = b < 0 ? 0 : b;
+
+                r = r > 255 ? 255 : r;
+                g = g > 255 ? 255 : g;
+                b = b > 255 ? 255 : b;
+
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
         else{

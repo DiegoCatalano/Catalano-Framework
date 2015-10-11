@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -65,8 +65,6 @@ public class GammaCorrection implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isRGB()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
 
             gamma=gamma<0.1?0.1:gamma;
             gamma=gamma>5.0?5.0:gamma;

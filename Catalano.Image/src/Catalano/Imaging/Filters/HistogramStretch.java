@@ -87,18 +87,18 @@ public class HistogramStretch implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
+        int size = fastBitmap.getSize();
+        
         if (fastBitmap.isGrayscale()) {
             float grayMax = getMaxGray(fastBitmap);
             float grayMin = getMinGray(fastBitmap);
 
             float gray; 
             float stretch;
-            for (int x = 0; x < fastBitmap.getHeight(); x++) {
-                for (int y = 0; y < fastBitmap.getWidth(); y++) {
-                    gray = fastBitmap.getGray(x, y);
-                    stretch = (((gray - grayMin)/(grayMax - grayMin)) * (max - min)) + min;
-                    fastBitmap.setGray(x, y, (int)stretch);
-                }
+            for (int x = 0; x < size; x++) {
+                gray = fastBitmap.getGray(x);
+                stretch = (((gray - grayMin)/(grayMax - grayMin)) * (max - min)) + min;
+                fastBitmap.setGray(x, (int)stretch);
             }
         }
         else{
@@ -107,60 +107,51 @@ public class HistogramStretch implements IBaseInPlace{
 
             float r,g,b; 
             float stretchRed,stretchGreen,stretchBlue;
-            for (int x = 0; x < fastBitmap.getHeight(); x++) {
-                for (int y = 0; y < fastBitmap.getWidth(); y++) {
-                    r = fastBitmap.getRed(x, y);
-                    g = fastBitmap.getGreen(x, y);
-                    b = fastBitmap.getBlue(x, y);
-                    
-                    stretchRed = (((r - colorMin[0])/(colorMax[0] - colorMin[0])) * (max - min)) + min;
-                    stretchGreen = (((g - colorMin[1])/(colorMax[1] - colorMin[1])) * (max - min)) + min;
-                    stretchBlue = (((b - colorMin[2])/(colorMax[2] - colorMin[2])) * (max - min)) + min;
-                    
-                    fastBitmap.setRGB(x, y, (int)stretchRed, (int)stretchGreen, (int)stretchBlue);
-                }
+            for (int x = 0; x < size; x++) {
+                r = fastBitmap.getRed(x);
+                g = fastBitmap.getGreen(x);
+                b = fastBitmap.getBlue(x);
+
+                stretchRed = (((r - colorMin[0])/(colorMax[0] - colorMin[0])) * (max - min)) + min;
+                stretchGreen = (((g - colorMin[1])/(colorMax[1] - colorMin[1])) * (max - min)) + min;
+                stretchBlue = (((b - colorMin[2])/(colorMax[2] - colorMin[2])) * (max - min)) + min;
+
+                fastBitmap.setRGB(x, (int)stretchRed, (int)stretchGreen, (int)stretchBlue);
             }
         }
     }
     
     private int getMaxGray(FastBitmap fb){
-        int width = fb.getWidth();
-        int height = fb.getHeight();
         
+        int size = fb.getSize();
         
         int max = 0;
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                if (fb.getGray(i, j) > max) max = fb.getGray(i, j);
+        for (int i = 0; i < size; i++)
+            if (fb.getGray(i) > max) max = fb.getGray(i);
         
         return max;
     }
     
     private int getMinGray(FastBitmap fb){
-        int width = fb.getWidth();
-        int height = fb.getHeight();
         
+        int size = fb.getSize();
         
         int min = 255;
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                if (fb.getGray(i, j) < min) min = fb.getGray(i, j);
+        for (int i = 0; i < size; i++)
+            if (fb.getGray(i) < min) min = fb.getGray(i);
         
         return min;
     }
     
     private float[] getMaxRGB(FastBitmap fb){
         float[] color = new float[3];
-        int width = fb.getWidth();
-        int height = fb.getHeight();
+        int size = fb.getSize();
         
         int maxR = 0, maxG = 0, maxB = 0;
-        for (int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                if (fb.getRed(i, j) > maxR) maxR = fb.getRed(i, j);
-                if (fb.getGreen(i, j) > maxG) maxG = fb.getGreen(i, j);
-                if (fb.getBlue(i, j) > maxB) maxB = fb.getBlue(i, j);
-            }
+        for (int i = 0; i < size; i++){
+            if (fb.getRed(i) > maxR) maxR = fb.getRed(i);
+            if (fb.getGreen(i) > maxG) maxG = fb.getGreen(i);
+            if (fb.getBlue(i) > maxB) maxB = fb.getBlue(i);
         }
         color[0] = (float)maxR;
         color[1] = (float)maxG;
@@ -171,16 +162,13 @@ public class HistogramStretch implements IBaseInPlace{
     
     private float[] getMinRGB(FastBitmap fb){
         float[] color = new float[3];
-        int width = fb.getWidth();
-        int height = fb.getHeight();
+        int size = fb.getSize();
         
         int minR = 255, minG = 255, minB = 255;
-        for (int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                if (fb.getRed(i, j) < minR) minR = fb.getRed(i, j);
-                if (fb.getGreen(i, j) < minG) minG = fb.getGreen(i, j);
-                if (fb.getBlue(i, j) < minB) minB = fb.getBlue(i, j);
-            }
+        for (int i = 0; i < size; i++){
+            if (fb.getRed(i) < minR) minR = fb.getRed(i);
+            if (fb.getGreen(i) < minG) minG = fb.getGreen(i);
+            if (fb.getBlue(i) < minB) minB = fb.getBlue(i);
         }
         color[0] = (float)minR;
         color[1] = (float)minG;

@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -40,14 +40,11 @@ public class RGChromaticity implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         if (fastBitmap.isRGB()) {
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    double[] color = ColorConverter.RGChromaticity(fastBitmap.getRed(x, y), fastBitmap.getGreen(x, y), fastBitmap.getBlue(x, y));
-                    fastBitmap.setRGB(x, y, (int)(color[0] * 255), (int)(color[1] * 255), (int)(color[2] * 255));
-                }
+            for (int x = 0; x < size; x++) {
+                double[] color = ColorConverter.RGChromaticity(fastBitmap.getRed(x), fastBitmap.getGreen(x), fastBitmap.getBlue(x));
+                fastBitmap.setRGB(x, (int)(color[0] * 255), (int)(color[1] * 255), (int)(color[2] * 255));
             }
         }
         else{

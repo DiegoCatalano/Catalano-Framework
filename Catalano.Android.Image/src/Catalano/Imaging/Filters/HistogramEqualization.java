@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -34,9 +34,6 @@ import java.util.ArrayList;
  */
 public class HistogramEqualization implements IBaseInPlace{
     
-    private int width;
-    private int height;
-    
     /**
      * Initialize a new instance of the HistogramEqualization class.
      */
@@ -46,45 +43,39 @@ public class HistogramEqualization implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
  
         // Get the Lookup table for histogram equalization
-        width = fastBitmap.getWidth();
-        height = fastBitmap.getHeight();
         ArrayList<int[]> histLUT = histogramEqualizationLUT(fastBitmap);
+        int size = fastBitmap.getSize();
 
         if (fastBitmap.isGrayscale()) {
             int gray;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    //Get pixel gray
-                    gray = fastBitmap.getGray(x, y);
+            for (int x = 0; x < size; x++) {
+                //Get pixel gray
+                gray = fastBitmap.getGray(x);
 
-                    //Set new pixel values using the histogram lookup table
-                    gray = histLUT.get(0)[gray];
+                //Set new pixel values using the histogram lookup table
+                gray = histLUT.get(0)[gray];
 
-                    //Write pixels into image
-                    fastBitmap.setGray(x, y, gray);
-                }
+                //Write pixels into image
+                fastBitmap.setGray(x, gray);
             }
         }
         else if (fastBitmap.isRGB()){
             int red;
             int green;
             int blue;
-            for(int x = 0; x < height; x++) {
-                for(int y = 0; y < width; y++) {
+            for(int x = 0; x < size; x++) {
+                // Get pixels by R, G, B
+                red = fastBitmap.getRed(x);
+                green = fastBitmap.getGreen(x);
+                blue = fastBitmap.getBlue(x);
 
-                    // Get pixels by R, G, B
-                    red = fastBitmap.getRed(x, y);
-                    green = fastBitmap.getGreen(x, y);
-                    blue = fastBitmap.getBlue(x, y);
+                // Set new pixel values using the histogram lookup table
+                red = histLUT.get(0)[red];
+                green = histLUT.get(1)[green];
+                blue = histLUT.get(2)[blue];
 
-                    // Set new pixel values using the histogram lookup table
-                    red = histLUT.get(0)[red];
-                    green = histLUT.get(1)[green];
-                    blue = histLUT.get(2)[blue];
-
-                    // Write pixels into image
-                    fastBitmap.setRGB(x, y, red, green, blue);
-                }
+                // Write pixels into image
+                fastBitmap.setRGB(x, red, green, blue);
             }
         }
     }
