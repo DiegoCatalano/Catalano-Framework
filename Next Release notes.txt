@@ -63,12 +63,14 @@ Catalano Framework 1.5 road map
     - Reworked: Hu moments for FastBitmap.
     - Reworked: Image moments.
 
+    - Added: Decompose() in the Kernel.
     - Added: AboZaid Normalized central moment in Image moments.
     - Added: getCentroid, getOrientation in Image moments.
     - Added: eighth moment in Hu moments.
     - Added: Universal Quality Index in Objective Fidelity.
     - Added: MAE in Objective Fidelity.
 
+    - Fixed: Sobel Horizontal SD3x3 in the Convolution Kernel.
     - Fixed: bins in ImageStatistics now is working.
 
 * Catalano.IO

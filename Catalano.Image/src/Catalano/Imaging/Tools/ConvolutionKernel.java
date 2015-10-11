@@ -92,7 +92,7 @@ public final class ConvolutionKernel{
      */
     public static int[][] SobelHorizontalSD3x3 = {
         {1, 2, 1},
-        {-2 -4, -2},
+        {-2, -4, -2},
         {1, 2, 1}};
     
     /**

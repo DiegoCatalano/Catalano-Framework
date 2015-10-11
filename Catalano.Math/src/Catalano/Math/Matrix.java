@@ -1765,6 +1765,16 @@ public final class Matrix {
     
     /**
      * Outer Product.
+     * Outer Product u x u is equivalent to a matrix multiplication uu^t.
+     * @param u Coordinate vector.
+     * @return Matrix.
+     */
+    public static double[][] OuterProduct(double[] u){
+        return OuterProduct(u,u);
+    }
+    
+    /**
+     * Outer Product.
      * Outer Product u x v is equivalent to a matrix multiplication uv^t.
      * @param u Coordinate vector.
      * @param v Coordinate vector.
@@ -1784,6 +1794,16 @@ public final class Matrix {
     
     /**
      * Outer Product.
+     * Outer Product u x u is equivalent to a matrix multiplication uu^t.
+     * @param u Coordinate vector.
+     * @return Matrix.
+     */
+    public static int[][] OuterProduct(int[] u){
+        return OuterProduct(u,u);
+    }
+    
+    /**
+     * Outer Product.
      * Outer Product u x v is equivalent to a matrix multiplication uv^t.
      * @param u Coordinate vector.
      * @param v Coordinate vector.
@@ -1799,6 +1819,16 @@ public final class Matrix {
         }
         
         return r;
+    }
+    
+    /**
+     * Outer Product.
+     * Outer Product u x u is equivalent to a matrix multiplication uu^t.
+     * @param u Coordinate vector.
+     * @return Matrix.
+     */
+    public static float[][] OuterProduct(float[] u){
+        return OuterProduct(u,u);
     }
     
     /**
