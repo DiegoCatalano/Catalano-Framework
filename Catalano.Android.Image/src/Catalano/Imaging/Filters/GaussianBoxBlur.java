@@ -57,7 +57,9 @@ public class GaussianBoxBlur implements IBaseInPlace{
     /**
      * Initialize a new instance of the GaussianBoxBlur class.
      */
-    public GaussianBoxBlur() {}
+    public GaussianBoxBlur() {
+        this(1);
+    }
     
     /**
      * Initialize a new instance of the GaussianBoxBlur class.
