@@ -81,15 +81,13 @@ public class VerticalIntensityStatistics {
      */
     private void ProcessImage(FastBitmap fastBitmap){
         
-        int width = fastBitmap.getWidth();
+        int size = fastBitmap.getSize();
         int height = fastBitmap.getHeight();
         
         if (fastBitmap.isGrayscale()) {
             int[] g = new int[height];
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    g[x] += fastBitmap.getGray(x, y); 
-                }
+            for (int x = 0; x < size; x++) {
+                g[x] += fastBitmap.getGray(x); 
             }
             gray = new Histogram(g);
         }
@@ -98,17 +96,13 @@ public class VerticalIntensityStatistics {
             int[] g = new int[height];
             int[] b = new int[height];
             for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    r[x] += fastBitmap.getRed(x, y); 
-                    g[x] += fastBitmap.getGreen(x, y); 
-                    b[x] += fastBitmap.getBlue(x, y); 
-                }
+                r[x] += fastBitmap.getRed(x); 
+                g[x] += fastBitmap.getGreen(x); 
+                b[x] += fastBitmap.getBlue(x);
             }
             red = new Histogram(r);
             green = new Histogram(g);
             blue = new Histogram(b);
         }
     }
-    
-    
 }

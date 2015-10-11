@@ -206,62 +206,57 @@ public class YCbCrFiltering implements IBaseInPlace{
         
         if (fastBitmap.isRGB()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             boolean updated;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
+            for (int i = 0; i < size; i++) {
                     
-                    updated = false;
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
-                    
-                    // convert to YCbCr
-                    float[] ycbcr = ColorConverter.RGBtoYCbCr(r, g, b, ColorConverter.YCbCrColorSpace.ITU_BT_601);
+                updated = false;
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
 
-                    // check YCbCr values
-                    if (
-                        ( ycbcr[0] >= yRange.getMin() )   && ( ycbcr[0] <= yRange.getMax() ) &&
-                        ( ycbcr[1] >= cbRange.getMin() ) && ( ycbcr[1] <= cbRange.getMax() ) &&
-                        ( ycbcr[2] >= crRange.getMin() ) && ( ycbcr[2] <= crRange.getMax() )
-                        )
+                // convert to YCbCr
+                float[] ycbcr = ColorConverter.RGBtoYCbCr(r, g, b, ColorConverter.YCbCrColorSpace.ITU_BT_601);
+
+                // check YCbCr values
+                if (
+                    ( ycbcr[0] >= yRange.getMin() )   && ( ycbcr[0] <= yRange.getMax() ) &&
+                    ( ycbcr[1] >= cbRange.getMin() ) && ( ycbcr[1] <= cbRange.getMax() ) &&
+                    ( ycbcr[2] >= crRange.getMin() ) && ( ycbcr[2] <= crRange.getMax() )
+                    )
+                {
+                    if ( !fillOutsideRange )
                     {
-                        if ( !fillOutsideRange )
-                        {
-                            if ( updateY ) ycbcr[0]   = fillY;
-                            if ( updateCb ) ycbcr[1] = fillCb;
-                            if ( updateCr ) ycbcr[2] = fillCr;
+                        if ( updateY ) ycbcr[0]   = fillY;
+                        if ( updateCb ) ycbcr[1] = fillCb;
+                        if ( updateCr ) ycbcr[2] = fillCr;
 
-                            updated = true;
-                        }
-                    }
-                    else
-                    {
-                        if ( fillOutsideRange )
-                        {
-                            if ( updateY ) ycbcr[0]   = fillY;
-                            if ( updateCb ) ycbcr[1] = fillCb;
-                            if ( updateCr ) ycbcr[2] = fillCr;
-
-                            updated = true;
-                        }
-                    }
-
-                    if ( updated )
-                    {
-                        // convert back to RGB
-                        int[] rgb = ColorConverter.YCbCrtoRGB(ycbcr[0], ycbcr[1], ycbcr[2], ColorConverter.YCbCrColorSpace.ITU_BT_601);
-                        fastBitmap.setRGB(i, j, rgb);
+                        updated = true;
                     }
                 }
+                else
+                {
+                    if ( fillOutsideRange )
+                    {
+                        if ( updateY ) ycbcr[0]   = fillY;
+                        if ( updateCb ) ycbcr[1] = fillCb;
+                        if ( updateCr ) ycbcr[2] = fillCr;
+
+                        updated = true;
+                    }
+                }
+
+                if ( updated )
+                {
+                    // convert back to RGB
+                    int[] rgb = ColorConverter.YCbCrtoRGB(ycbcr[0], ycbcr[1], ycbcr[2], ColorConverter.YCbCrColorSpace.ITU_BT_601);
+                    fastBitmap.setRGB(i, rgb);
+                }
             }
-            
         }
         else{
             throw new IllegalArgumentException("HSL Filtering only works in RGB images.");
         }
-        
     }
 }

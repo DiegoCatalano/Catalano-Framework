@@ -120,8 +120,6 @@ public class HSLLinear implements IBaseInPlace{
             
             float kl = 0, bl = 0;
             float ks = 0, bs = 0;
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
             
             // luminance line parameters
             if ( inLuminance.getMax() != inLuminance.getMin() )
@@ -136,35 +134,33 @@ public class HSLLinear implements IBaseInPlace{
                 bs = outSaturation.getMin() - ks * inSaturation.getMin();
             }
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
-                    
-                    float[] hsl = ColorConverter.RGBtoHLS(r, g, b);
-                    
-                    // do luminance correction
-                    if ( hsl[2] >= inLuminance.getMax() )
-                        hsl[2] = outLuminance.getMax();
-                    else if ( hsl[2] <= inLuminance.getMin() )
-                        hsl[2] = outLuminance.getMin();
-                    else
-                        hsl[2] = kl * hsl[2] + bl;
-                    
-                    // do saturation correct correction
-                    if ( hsl[1] >= inSaturation.getMax() )
-                        hsl[1] = outSaturation.getMax();
-                    else if ( hsl[1] <= inSaturation.getMin() )
-                        hsl[1] = outSaturation.getMin();
-                    else
-                        hsl[1] = ks * hsl[1] + bs;
-                    
-                    int[] rgb = ColorConverter.HSLtoRGB(hsl[0], hsl[1], hsl[2]);
-                    
-                    fastBitmap.setRGB(i, j, rgb[0], rgb[1], rgb[2]);
-                }
+            int size = fastBitmap.getSize();
+            for (int i = 0; i < size; i++) {
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
+
+                float[] hsl = ColorConverter.RGBtoHLS(r, g, b);
+
+                // do luminance correction
+                if ( hsl[2] >= inLuminance.getMax() )
+                    hsl[2] = outLuminance.getMax();
+                else if ( hsl[2] <= inLuminance.getMin() )
+                    hsl[2] = outLuminance.getMin();
+                else
+                    hsl[2] = kl * hsl[2] + bl;
+
+                // do saturation correct correction
+                if ( hsl[1] >= inSaturation.getMax() )
+                    hsl[1] = outSaturation.getMax();
+                else if ( hsl[1] <= inSaturation.getMin() )
+                    hsl[1] = outSaturation.getMin();
+                else
+                    hsl[1] = ks * hsl[1] + bs;
+
+                int[] rgb = ColorConverter.HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+
+                fastBitmap.setRGB(i, rgb[0], rgb[1], rgb[2]);
             }
         }
     }

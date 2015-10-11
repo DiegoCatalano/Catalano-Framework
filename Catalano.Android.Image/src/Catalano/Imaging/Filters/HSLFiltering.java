@@ -207,58 +207,53 @@ public class HSLFiltering implements IBaseInPlace{
         
         if (fastBitmap.isRGB()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             boolean updated;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    updated = false;
-                    int r = fastBitmap.getRed(i, j);
-                    int g = fastBitmap.getGreen(i, j);
-                    int b = fastBitmap.getBlue(i, j);
-                    
-                    float[] hsl = ColorConverter.RGBtoHLS(r, g, b);
-                    
-                    // check HSL values
-                    if (
-                        ( hsl[1] >= saturation.getMin() ) && ( hsl[1] <= saturation.getMax() ) &&
-                        ( hsl[2] >= luminance.getMin() ) && ( hsl[2] <= luminance.getMax() ) &&
-                        (
-                        ( ( hue.getMin() < hue.getMax() ) && ( hsl[0] >= hue.getMin() ) && ( hsl[0] <= hue.getMax() ) ) ||
-                        ( ( hue.getMin() > hue.getMax() ) && ( ( hsl[0] >= hue.getMin() ) || ( hsl[0] <= hue.getMax() ) ) )
-                        )
-                        )
-                    {
-                        if ( !fillOutsideRange )
-                        {
-                            if ( updateH ) hsl[0] = fillH;
-                            if ( updateS ) hsl[1] = fillS;
-                            if ( updateL ) hsl[2] = fillL;
+            for (int i = 0; i < size; i++) {
+                updated = false;
+                int r = fastBitmap.getRed(i);
+                int g = fastBitmap.getGreen(i);
+                int b = fastBitmap.getBlue(i);
 
-                            updated = true;
-                        }
-                    }
-                    else
-                    {
-                        if ( fillOutsideRange )
-                        {
-                            if ( updateH ) hsl[0] = fillH;
-                            if ( updateS ) hsl[1] = fillS;
-                            if ( updateL ) hsl[2] = fillL;
+                float[] hsl = ColorConverter.RGBtoHLS(r, g, b);
 
-                            updated = true;
-                        }
-                    }
-
-                    if ( updated )
+                // check HSL values
+                if (
+                    ( hsl[1] >= saturation.getMin() ) && ( hsl[1] <= saturation.getMax() ) &&
+                    ( hsl[2] >= luminance.getMin() ) && ( hsl[2] <= luminance.getMax() ) &&
+                    (
+                    ( ( hue.getMin() < hue.getMax() ) && ( hsl[0] >= hue.getMin() ) && ( hsl[0] <= hue.getMax() ) ) ||
+                    ( ( hue.getMin() > hue.getMax() ) && ( ( hsl[0] >= hue.getMin() ) || ( hsl[0] <= hue.getMax() ) ) )
+                    )
+                    )
+                {
+                    if ( !fillOutsideRange )
                     {
-                        // convert back to RGB
-                        int[] rgb = ColorConverter.HSLtoRGB(hsl[0], hsl[1], hsl[2]);
-                        fastBitmap.setRGB(i, j, rgb);
+                        if ( updateH ) hsl[0] = fillH;
+                        if ( updateS ) hsl[1] = fillS;
+                        if ( updateL ) hsl[2] = fillL;
+
+                        updated = true;
                     }
-                    
+                }
+                else
+                {
+                    if ( fillOutsideRange )
+                    {
+                        if ( updateH ) hsl[0] = fillH;
+                        if ( updateS ) hsl[1] = fillS;
+                        if ( updateL ) hsl[2] = fillL;
+
+                        updated = true;
+                    }
+                }
+
+                if ( updated )
+                {
+                    // convert back to RGB
+                    int[] rgb = ColorConverter.HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+                    fastBitmap.setRGB(i, rgb);
                 }
             }
             
@@ -266,6 +261,5 @@ public class HSLFiltering implements IBaseInPlace{
         else{
             throw new IllegalArgumentException("HSL Filtering only works in RGB images.");
         }
-        
     }
 }

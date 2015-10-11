@@ -43,41 +43,34 @@ public class WhitePatch implements IBaseInPlace{
         
         if (fastBitmap.isRGB()){
             
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
+            int size = fastBitmap.getSize();
             
             double maxR = 1, maxG = 1, maxB = 1;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    
-                    if (fastBitmap.getRed(i, j) > maxR)
-                        maxR = fastBitmap.getRed(i, j);
-                    
-                    if (fastBitmap.getGreen(i, j) > maxG)
-                        maxG = fastBitmap.getGreen(i, j);
-                    
-                    if (fastBitmap.getBlue(i, j) > maxB)
-                        maxB = fastBitmap.getBlue(i, j);
-                }
+            for (int i = 0; i < size; i++) {
+                if (fastBitmap.getRed(i) > maxR)
+                    maxR = fastBitmap.getRed(i);
+
+                if (fastBitmap.getGreen(i) > maxG)
+                    maxG = fastBitmap.getGreen(i);
+
+                if (fastBitmap.getBlue(i) > maxB)
+                    maxB = fastBitmap.getBlue(i);
             }
             
             maxR = 255D / maxR;
             maxG = 255D / maxG;
             maxB = 255D / maxB;
             
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    double r = maxR * fastBitmap.getRed(i, j);
-                    double g = maxG * fastBitmap.getGreen(i, j);
-                    double b = maxB * fastBitmap.getBlue(i, j);
-                    
-                    if (r > 255) r = 255;
-                    if (g > 255) g = 255;
-                    if (b > 255) b = 255;
-                    
-                    fastBitmap.setRGB(i, j, (int)r, (int)g, (int)b);
-                    
-                }
+            for (int i = 0; i < size; i++) {
+                double r = maxR * fastBitmap.getRed(i);
+                double g = maxG * fastBitmap.getGreen(i);
+                double b = maxB * fastBitmap.getBlue(i);
+
+                if (r > 255) r = 255;
+                if (g > 255) g = 255;
+                if (b > 255) b = 255;
+
+                fastBitmap.setRGB(i, (int)r, (int)g, (int)b);
             }
         }
         else{
