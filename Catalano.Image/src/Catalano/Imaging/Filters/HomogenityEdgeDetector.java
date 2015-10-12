@@ -46,52 +46,57 @@ public class HomogenityEdgeDetector implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()){
-            int width = fastBitmap.getWidth() - 1;
-            int height = fastBitmap.getHeight() - 1;
+            int width = fastBitmap.getWidth() - 2;
+            int height = fastBitmap.getHeight() - 2;
+            
+            int stride = fastBitmap.getWidth();
+            int offset = stride + 1;
             
             FastBitmap copy = new FastBitmap(fastBitmap);
             
             int d, max, v;
-            for (int i = 1; i < height; i++) {
-                for (int j = 1; j < width; j++) {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
                     
                     max = 0;
-                    v = copy.getGray(i, j);
+                    v = copy.getGray(offset);
                     
-                    d = v - copy.getGray(i-1, j-1);
+                    d = v - copy.getGray(offset - stride - 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i-1, j);
+                    d = v - copy.getGray(offset - stride);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i-1, j+1);
+                    d = v - copy.getGray(offset - stride + 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i, j-1);
+                    d = v - copy.getGray(offset - 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i, j+1);
+                    d = v - copy.getGray(offset + 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i+1, j-1);
+                    d = v - copy.getGray(offset + stride - 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i+1, j);
+                    d = v - copy.getGray(offset + stride);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    d = v - copy.getGray(i+1, j+1);
+                    d = v - copy.getGray(offset + stride + 1);
                     if ( d < 0 ) d = -d;
                     if ( d > max ) max = d;
                     
-                    fastBitmap.setGray(i, j, max);
+                    fastBitmap.setGray(offset, max);
+                    offset++;
                 }
+                offset += 2;
             }
         }
         else{
