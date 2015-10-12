@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -39,9 +39,7 @@ public class Merge implements IBaseInPlace{
     /**
      * Initialize a new instance of the Merge class.
      */
-    public Merge() {
-        
-    }
+    public Merge() {}
 
     /**
      * Initialize a new instance of the Merge class.
@@ -62,41 +60,35 @@ public class Merge implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap sourceImage){
         
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        int sizeOrigin = width * height;
+        int size = sourceImage.getSize();
         int sizeDestination = overlayImage.getWidth() * overlayImage.getHeight();
         if ((sourceImage.isGrayscale()) && (overlayImage.isGrayscale())) {
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int l;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        l = overlayImage.getGray(x, y);
-                        if (l > sourceImage.getGray(x, y)) {
-                            sourceImage.setGray(x, y, l);
-                        }
+                for (int i = 0; i < size; i++) {
+                    l = overlayImage.getGray(i);
+                    if (l > sourceImage.getGray(i)) {
+                        sourceImage.setGray(i, l);
                     }
                 }
             }
         }
         else if ((sourceImage.isRGB()) && (overlayImage.isRGB())){
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int r,g,b;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = overlayImage.getRed(x, y);
-                        g = overlayImage.getGreen(x, y);
-                        b = overlayImage.getBlue(x, y);
-                        
-                        if (r > sourceImage.getRed(x, y)) {
-                            sourceImage.setRed(x, y, r);
-                        }
-                        if (g > sourceImage.getGreen(x, y)) {
-                            sourceImage.setGreen(x, y, g);
-                        }
-                        if (b > sourceImage.getBlue(x, y)) {
-                            sourceImage.setBlue(x, y, b);
-                        }
+                for (int i = 0; i < size; i++) {
+                    r = overlayImage.getRed(i);
+                    g = overlayImage.getGreen(i);
+                    b = overlayImage.getBlue(i);
+
+                    if (r > sourceImage.getRed(i)) {
+                        sourceImage.setRed(i, r);
+                    }
+                    if (g > sourceImage.getGreen(i)) {
+                        sourceImage.setGreen(i, g);
+                    }
+                    if (b > sourceImage.getBlue(i)) {
+                        sourceImage.setBlue(i, b);
                     }
                 }
             }

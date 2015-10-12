@@ -40,9 +40,7 @@ public class Morph implements IBaseInPlace{
     /**
      * Initialize a new instance of the BottomHat class.
      */
-    public Morph() {
-        
-    }
+    public Morph() {}
 
     /**
      * Initialize a new instance of the BottomHat class.
@@ -81,45 +79,39 @@ public class Morph implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap sourceImage){
         
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        int sizeOrigin = width * height;
+        int size = sourceImage.getSize();
         int sizeDestination = overlayImage.getWidth() * overlayImage.getHeight();
         if ((sourceImage.isGrayscale()) && (overlayImage.isGrayscale())) {
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int lS,lO;
                 //percentage of overlay image
                 double q = 1 - sourcePercent;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        lS = sourceImage.getGray(x, y);
-                        lO = overlayImage.getGray(x, y);
-                        sourceImage.setGray(x, y, (int)( ( sourcePercent * ( lS ) ) + ( q * ( lO ) )));
-                    }
+                for (int i = 0; i < size; i++) {
+                    lS = sourceImage.getGray(i);
+                    lO = overlayImage.getGray(i);
+                    sourceImage.setGray(i, (int)( ( sourcePercent * ( lS ) ) + ( q * ( lO ) )));
                 }
             }
         }
         else if ((sourceImage.isRGB()) && (overlayImage.isRGB())){
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int rS, gS, bS,rO, gO, bO;
                 //percentage of overlay image
                 double q = 1 - sourcePercent;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        rS = sourceImage.getRed(x, y);
-                        gS = sourceImage.getGreen(x, y);
-                        bS = sourceImage.getBlue(x, y);
-                        
-                        rO = overlayImage.getRed(x, y);
-                        gO = overlayImage.getGreen(x, y);
-                        bO = overlayImage.getBlue(x, y);
-                        
-                        int r = (int)( ( sourcePercent * ( rS ) ) + ( q * ( rO )));
-                        int g = (int)( ( sourcePercent * ( gS ) ) + ( q * ( gO )));
-                        int b = (int)( ( sourcePercent * ( bS ) ) + ( q * ( bO )));
-                        
-                        sourceImage.setRGB(x, y, r, g, b);
-                    }
+                for (int i = 0; i < size; i++) {
+                    rS = sourceImage.getRed(i);
+                    gS = sourceImage.getGreen(i);
+                    bS = sourceImage.getBlue(i);
+
+                    rO = overlayImage.getRed(i);
+                    gO = overlayImage.getGreen(i);
+                    bO = overlayImage.getBlue(i);
+
+                    int r = (int)( ( sourcePercent * ( rS ) ) + ( q * ( rO )));
+                    int g = (int)( ( sourcePercent * ( gS ) ) + ( q * ( gO )));
+                    int b = (int)( ( sourcePercent * ( bS ) ) + ( q * ( bO )));
+
+                    sourceImage.setRGB(i, r, g, b);
                 }
             }
         }

@@ -1460,12 +1460,13 @@ public final class Matrix {
      */
     public static double[][] Multiply(double[][] A, double value){
         
+        double[][] result = new double[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= value;
+                result[i][j] = A[i][j] * value;
             }
         }
-        return A;
+        return result;
         
     }
     
@@ -1477,12 +1478,13 @@ public final class Matrix {
      */
     public static float[][] Multiply(float[][] A, float value){
         
+        float[][] result = new float[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= value;
+                result[i][j] = A[i][j] * value;
             }
         }
-        return A;
+        return result;
         
     }
     
@@ -1494,12 +1496,13 @@ public final class Matrix {
      */
     public static int[][] Multiply(int[][] A, int value){
         
+        int[][] result = new int[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= value;
+                result[i][j] = A[i][j] * value;
             }
         }
-        return A;
+        return result;
         
     }
     

@@ -81,64 +81,58 @@ public class MoveTowards implements IBaseInPlace{
     @Override
     public void applyInPlace(FastBitmap sourceImage){
         
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        int sizeOrigin = width * height;
+        int size = sourceImage.getSize();
         int sizeDestination = overlayImage.getWidth() * overlayImage.getHeight();
         if ((sourceImage.isGrayscale()) && (overlayImage.isGrayscale())) {
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int l,v;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        v = overlayImage.getGray(x, y) - sourceImage.getGray(x, y);
-                        l = sourceImage.getGray(x, y);
-                        if (v > 0) {
-                            l +=  stepSize < v ? stepSize : v;
-                        }
-                        else if(v < 0){
-                            v = -v;
-                            l -=  stepSize < v ? stepSize : v;
-                        }
-                        sourceImage.setGray(x, y, l);
+                for (int i = 0; i < size; i++) {
+                    v = overlayImage.getGray(i) - sourceImage.getGray(i);
+                    l = sourceImage.getGray(i);
+                    if (v > 0) {
+                        l +=  stepSize < v ? stepSize : v;
                     }
+                    else if(v < 0){
+                        v = -v;
+                        l -=  stepSize < v ? stepSize : v;
+                    }
+                    sourceImage.setGray(i, l);
                 }
             }
         }
         else if ((sourceImage.isRGB()) && (overlayImage.isRGB())){
-            if (sizeOrigin == sizeDestination) {
+            if (size == sizeDestination) {
                 int r,g,b,vR,vG,vB;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        r = overlayImage.getRed(x, y) - sourceImage.getRed(x, y);
-                        g = overlayImage.getGreen(x, y) - sourceImage.getGreen(x, y);
-                        b = overlayImage.getBlue(x, y) - sourceImage.getBlue(x, y);
-                        vR = sourceImage.getRed(x, y);
-                        vG = sourceImage.getGreen(x, y);
-                        vB = sourceImage.getBlue(x, y);
-                        
-                        if (r > 0) {
-                            vR +=  stepSize < r ? stepSize : r;
-                        }
-                        if(g > 0){
-                            vG +=  stepSize < g ? stepSize : g;
-                        }
-                        if(b > 0){
-                            vB +=  stepSize < b ? stepSize : b;
-                        }
-                        if(r < 0){
-                            r = -r;
-                            vR -=  stepSize < r ? stepSize : r;
-                        }
-                        if(g < 0){
-                            g = -g;
-                            vG -=  stepSize < g ? stepSize : g;
-                        }
-                        if(b < 0){
-                            b = -b;
-                            vB -=  stepSize < b ? stepSize : b;
-                        }
-                        sourceImage.setRGB(x, y, vR, vG, vB);
+                for (int i = 0; i < size; i++) {
+                    r = overlayImage.getRed(i) - sourceImage.getRed(i);
+                    g = overlayImage.getGreen(i) - sourceImage.getGreen(i);
+                    b = overlayImage.getBlue(i) - sourceImage.getBlue(i);
+                    vR = sourceImage.getRed(i);
+                    vG = sourceImage.getGreen(i);
+                    vB = sourceImage.getBlue(i);
+
+                    if (r > 0) {
+                        vR +=  stepSize < r ? stepSize : r;
                     }
+                    if(g > 0){
+                        vG +=  stepSize < g ? stepSize : g;
+                    }
+                    if(b > 0){
+                        vB +=  stepSize < b ? stepSize : b;
+                    }
+                    if(r < 0){
+                        r = -r;
+                        vR -=  stepSize < r ? stepSize : r;
+                    }
+                    if(g < 0){
+                        g = -g;
+                        vG -=  stepSize < g ? stepSize : g;
+                    }
+                    if(b < 0){
+                        b = -b;
+                        vB -=  stepSize < b ? stepSize : b;
+                    }
+                    sourceImage.setRGB(i, vR, vG, vB);
                 }
             }
         }
