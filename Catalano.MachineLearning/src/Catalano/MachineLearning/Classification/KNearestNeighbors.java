@@ -192,11 +192,10 @@ public class KNearestNeighbors implements IClassifier, Serializable {
             }
         }
         
-        for(Map.Entry<Integer,Integer> entry : map.entrySet()) {
+        for(Map.Entry<Integer,Integer> entry : map.entrySet())
           if(entry.getValue() == max)
               return entry.getKey();
-
-        }
+        
         
         return min;
     }

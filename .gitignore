@@ -23,3 +23,6 @@
 /Catalano.Android.Image/bin/
 /Catalano.Android.Image/gen/
 /Catalano.Android.Image/libs/
+/Catalano.Graph/build/
+/Catalano.Graph/dist/
+/Catalano.Signal/dist/

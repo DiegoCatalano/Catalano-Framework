@@ -8,6 +8,7 @@ The project is organized under the same architecture found in the afore mentione
   - Image Processing
   - IO
   - Fuzzy Logic
+  - Graph
   - Math
   - Statistics
   - Machine Learning
@@ -18,7 +19,7 @@ The project is organized under the same architecture found in the afore mentione
 Version
 ----
 
-1.4
+1.5
 
 
 License

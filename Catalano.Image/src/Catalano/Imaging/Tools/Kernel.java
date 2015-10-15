@@ -37,37 +37,30 @@ public class Kernel {
      * @return Vectors.
      */
     public static double[][] Decompose(double[][] kernel){
-        
-        double r = Matrix.Rank(kernel);
-        
-        if(r == 1){
 
-            SingularValueDecomposition svd = new SingularValueDecomposition(kernel);
-            
-            double[][] u = svd.getU();
-            double[][] v = svd.getV();
-            double s = Math.sqrt(svd.getS()[0][0]);
-            
-            double[] v1 = new double[svd.getU().length];
-            double[] v2 = new double[svd.getV().length];
-            double[][] vectors = new double[2][];
-            
-            for (int i = 0; i < v1.length; i++) {
-                v1[i] = u[i][0] * s;
-            }
-            
-            for (int i = 0; i < v2.length; i++) {
-                v2[i] = v[i][0] * s;
-            }
-            
-            vectors[0] = v1;
-            vectors[1] = v2;
+        SingularValueDecomposition svd = new SingularValueDecomposition(kernel);
 
-            return vectors;
+        double[][] u = svd.getU();
+        double[][] v = svd.getV();
+        double s = Math.sqrt(svd.getS()[0][0]);
+
+        double[] v1 = new double[svd.getU().length];
+        double[] v2 = new double[svd.getV().length];
+        double[][] vectors = new double[2][];
+
+        for (int i = 0; i < v1.length; i++) {
+            v1[i] = u[i][0] * s;
         }
-        else{
-            throw new IllegalArgumentException("The kernel is not separable.");
+
+        for (int i = 0; i < v2.length; i++) {
+            v2[i] = v[i][0] * s;
         }
+
+        vectors[0] = v1;
+        vectors[1] = v2;
+
+        return vectors;
+        
     }
     
     /**
