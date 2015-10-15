@@ -1,4 +1,9 @@
-KD-Tree - working
-Shannon Edge Detector
-Phase Congruency
-Image Pyramids (upscale)
+* I'll try to release a new version in each 3 months.
+
+Task
+Add: Crop, FastGraphic to work in both system coordinates.
+Add: Dataset Regression.
+Add: Cross Validation.
+Add: KD-Tree.
+Add: upscale() in Image Pyramids.
+Optimize: Convolution (Access pixels directly).
