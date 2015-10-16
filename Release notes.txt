@@ -2,7 +2,7 @@ Catalano Framework 1.5 road map
 -----------------------------------------
 
 * Android Compatibility
-  - Compiled against Android 2.33 (API 10). May work with newer versions.
+    - Compiled against Android 2.33 (API 10). May work with newer versions.
 
 * Catalano.Core
     - Added: Argsort in the ArraysUtil.

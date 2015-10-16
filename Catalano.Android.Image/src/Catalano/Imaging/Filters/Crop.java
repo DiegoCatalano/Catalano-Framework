@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -24,7 +24,11 @@ import Catalano.Imaging.FastBitmap;
 
 /**
  * Crop an image.
- * <br />The filter crops an image providing a new image, which contains only the specified rectangle of the original image.
+ * <p>The filter crops an image providing a new image, which contains only the specified rectangle of the original image.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class Crop {
@@ -142,28 +146,49 @@ public class Crop {
             throw new IllegalArgumentException("The size is higher than original image.");
         }
         
-        FastBitmap fb = new FastBitmap(width, height, fastBitmap.getColorSpace());
+        FastBitmap l = new FastBitmap(width, height, fastBitmap.getColorSpace());
         
         if (fastBitmap.isGrayscale()) {
-            
-            for (int r = 0; r < height; r++) {
-                for (int c = 0; c < width; c++) {
-                    fb.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
+            if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
+                    }
                 }
-            }
 
-            fastBitmap.setImage(fb);
+                fastBitmap.setImage(l);    
+            }
+            else{
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setGray(c, r, fastBitmap.getGray(r + this.y, c + this.x));
+                    }
+                }
+
+                fastBitmap.setImage(l);   
+            }
         }
         else{
-            
-            for (int r = 0; r < height; r++) {
-                for (int c = 0; c < width; c++) {
-                    fb.setRed(r, c, fastBitmap.getRed(r + this.x, c + this.y));
-                    fb.setGreen(r, c, fastBitmap.getGreen(r + this.x, c + this.y));
-                    fb.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
+            if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setRed(r, c, fastBitmap.getRed(r + this.x, c + this.y));
+                        l.setGreen(r, c, fastBitmap.getGreen(r + this.x, c + this.y));
+                        l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
+                    }
                 }
+                fastBitmap.setImage(l);
             }
-            fastBitmap.setImage(fb);
+            else{
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setRed(c, r, fastBitmap.getRed(r + this.y, c + this.x));
+                        l.setGreen(c, r, fastBitmap.getGreen(r + this.y, c + this.x));
+                        l.setBlue(c, r, fastBitmap.getBlue(r + this.y, c + this.x));
+                    }
+                }
+                fastBitmap.setImage(l);
+            }
         }
     }
 }

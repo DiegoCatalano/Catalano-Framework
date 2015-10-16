@@ -149,25 +149,46 @@ public class Crop {
         FastBitmap l = new FastBitmap(width, height, fastBitmap.getColorSpace());
         
         if (fastBitmap.isGrayscale()) {
-            
-            for (int r = 0; r < height; r++) {
-                for (int c = 0; c < width; c++) {
-                    l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
+            if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
+                    }
                 }
-            }
 
-            fastBitmap.setImage(l);    
+                fastBitmap.setImage(l);    
+            }
+            else{
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setGray(c, r, fastBitmap.getGray(r + this.y, c + this.x));
+                    }
+                }
+
+                fastBitmap.setImage(l);   
+            }
         }
         else{
-            
-            for (int r = 0; r < height; r++) {
-                for (int c = 0; c < width; c++) {
-                    l.setRed(r, c, fastBitmap.getRed(r + this.x, c + this.y));
-                    l.setGreen(r, c, fastBitmap.getGreen(r + this.x, c + this.y));
-                    l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
+            if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setRed(r, c, fastBitmap.getRed(r + this.x, c + this.y));
+                        l.setGreen(r, c, fastBitmap.getGreen(r + this.x, c + this.y));
+                        l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
+                    }
                 }
+                fastBitmap.setImage(l);
             }
-            fastBitmap.setImage(l);
+            else{
+                for (int r = 0; r < height; r++) {
+                    for (int c = 0; c < width; c++) {
+                        l.setRed(c, r, fastBitmap.getRed(r + this.y, c + this.x));
+                        l.setGreen(c, r, fastBitmap.getGreen(r + this.y, c + this.x));
+                        l.setBlue(c, r, fastBitmap.getBlue(r + this.y, c + this.x));
+                    }
+                }
+                fastBitmap.setImage(l);
+            }
         }
     }
 }

@@ -1,2 +1,5 @@
 Catalano Framework 1.6 road map
 -----------------------------------------
+
+* Catalano.Image.Filters
+    - Fixed: Crop now is working in both coordinate system.
