@@ -22,8 +22,9 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Math.Decompositions.SingularValueDecomposition;
 import Catalano.Math.Matrix;
-import Catalano.Statistics.Analysis.PrincipalComponentAnalysis;
+import Catalano.Statistics.Tools;
 
 /**
  * Principal Component Transform.
@@ -82,16 +83,38 @@ public class PrincipalComponentTransform {
             }
 
             //Run the PCA
-            PrincipalComponentAnalysis pca = new PrincipalComponentAnalysis(image);
-            pca.Compute();
-
-            double[][] vec = pca.getEigenVectors();
-            this.image = Matrix.Multiply(image, vec);
+            double[] means = getMeans(image);
+            
+            //Center the data
+            image = Center(image, means);
+            
+            //Find the eigen vectors.
+            SingularValueDecomposition svd = new SingularValueDecomposition(image, false, true);
+            image = Matrix.Multiply(image, svd.getV());
+            
         }
         else{
             throw new IllegalArgumentException("Principal Component Transform only works in RGB images.");
         }
-        
+    }
+    
+    private double[] getMeans(final double[][] matrix){
+        double[] means = new double[matrix[0].length];
+        for (int i = 0; i < matrix[0].length; i++) {
+            double[] col = Matrix.getColumn(matrix, i);
+            means[i] = Tools.Mean(col);
+        }
+        return means;
+    }
+    
+    private double[][] Center(double[][] matrix, double[] means){
+        double[][] m = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                m[i][j] = matrix[i][j] - means[j];
+            }
+        }
+        return m;
     }
     
     /**
