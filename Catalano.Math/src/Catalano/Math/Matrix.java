@@ -1506,6 +1506,18 @@ public final class Matrix {
         
     }
     
+    public static double[][] MultiplyByDiagonal(double[][] A, double[] B){
+        double[][] r = new double[A.length][B.length];
+        
+        for (int i = 0; i < r.length; i++) {
+            for (int j = 0; j < r[0].length; j++) {
+                r[i][j] = A[i][j] * B[j];
+            }
+        }
+        
+        return r;
+    }
+    
     /**
      * Multiply a Matrix with the transpose. A * A'
      * @param A Matrix.

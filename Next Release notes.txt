@@ -2,4 +2,12 @@ Catalano Framework 1.6 road map
 -----------------------------------------
 
 * Catalano.Image.Filters
+    - New: Principal Component Transform.
     - Fixed: Crop now is working in both coordinate system.
+
+* Catalano.Statistics
+    - Add: Covariance (for to create covariance matrix) in Tools.
+    - Fixed: Covariance
+
+* Catalano.Statistics.Analysis
+    - New: Principal Component Analysis

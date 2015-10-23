@@ -21,20 +21,33 @@
 
 package Catalano.Statistics;
 
+import Catalano.Math.Matrix;
+
 /**
- *
+ * Common tools used in statistics.
  * @author Diego Catalano
  */
 public class Tools {
 
     private Tools() {}
     
+    /**
+     * Coefficient of variation.
+     * @param x Vector.
+     * @return Coefficient of variation.
+     */
     public static double CoefficientOfVariation(double[] x){
         double mean = Mean(x);
         double std = Math.sqrt(Variance(x, mean));
         return std / mean;
     }
     
+    /**
+     * Covariance between vector x and y.
+     * @param x Vector.
+     * @param y Vector.
+     * @return Covariance between x and y.
+     */
     public static double Covariance(double[] x, double[] y){
         if (x.length != y.length)
             throw new IllegalArgumentException("The size of both matrix needs be equal");
@@ -47,17 +60,70 @@ public class Tools {
         meanX /= x.length;
         meanY /= y.length;
         
+        return Covariance(x,y,meanX,meanY);
+    }
+    
+    /**
+     * Covariance between vector x and y.
+     * @param x Vector.
+     * @param y Vector.
+     * @param meanX X mean.
+     * @param meanY Y mean.
+     * @return Covariance between x and y.
+     */
+    public static double Covariance(double[] x, double[] y, double meanX, double meanY){
         double result = 0;
         for (int i = 0; i < x.length; i++) {
             result += (x[i] - meanX) * (y[i] - meanY);
         }
         
-        result = (1/(double)x.length) * result;
+        return result / (double)(x.length - 1);
+    }
+    
+    /**
+     * Matrix of covariance.
+     * @param matrix Matrix.
+     * @return Matrix of covariance.
+     */
+    public static double[][] Covariance(double[][] matrix){
+        double[] means = new double[matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                means[j] += matrix[i][j];
+            }
+        }
         
-        return result;
+        for (int i = 0; i < means.length; i++) {
+            means[i] /= means.length;
+        }
+        
+        return Covariance(matrix, means);
+    }
+    
+    /**
+     * Matrix of covariance.
+     * @param matrix Matrix.
+     * @param means Means.
+     * @return Matrix of covariance.
+     */
+    public static double[][] Covariance(double[][] matrix, double[] means){
+        double[][] cov = new double[means.length][means.length];
+        
+        for (int i = 0; i < cov.length; i++) {
+            for (int j = 0; j < cov[0].length; j++) {
+                cov[i][j] = Covariance(Matrix.getColumn(matrix, i), Matrix.getColumn(matrix, j), means[i], means[j]);
+            }
+        }
+        
+        return cov;
         
     }
     
+    /**
+     * Fisher.
+     * @param n Number.
+     * @return Fisher number.
+     */
     public static double Fisher(double n){
         
         if ((n <= -1) || (n >= 1))
@@ -67,6 +133,12 @@ public class Tools {
         return 0.5 * Math.log(r);
     }
     
+    /**
+     * Inclination.
+     * @param x Vector.
+     * @param y Vector.
+     * @return Inclination between the vector x and y.
+     */
     public static double Inclination(double[] x, double[] y){
         if (x.length != y.length)
             throw new IllegalArgumentException("The size of both matrix needs be equal");
@@ -89,6 +161,11 @@ public class Tools {
         return num/den;
     }
     
+    /**
+     * Inverse fisher.
+     * @param n Number.
+     * @return Inverse fisher of the number.
+     */
     public static double InverseFisher(double n){
         if ((n <= -1) || (n >= 1))
             throw new IllegalArgumentException("Fisher works with number between -1 < x < 1");
@@ -97,6 +174,12 @@ public class Tools {
         return r;
     }
     
+    /**
+     * Interception.
+     * @param x Vector.
+     * @param y Vector.
+     * @return Interception between the vector x and y.
+     */
     public static double Interception(double[] x, double[] y){
         if (x.length != y.length)
             throw new IllegalArgumentException("The size of both matrix needs be equal");
@@ -115,6 +198,11 @@ public class Tools {
         return a;
     }
     
+    /**
+     * Maximum element.
+     * @param x Vector.
+     * @return Maximum element of the vector,
+     */
     public static double Max(double[] x){
         double m = x[0];
         for (int i = 1; i < x.length; i++)
@@ -123,6 +211,11 @@ public class Tools {
         return m;
     }
     
+    /**
+     * Mean.
+     * @param x Vector.
+     * @return Mean of the vector.
+     */
     public static double Mean(double[] x){
         double r = 0;
         for (int i = 0; i < x.length; i++) {
@@ -132,6 +225,11 @@ public class Tools {
         return r / x.length;
     }
     
+    /**
+     * Minimum element.
+     * @param x Vector.
+     * @return Minimum element of the vector.
+     */
     public static double Min(double[] x){
         double m = x[0];
         for (int i = 1; i < x.length; i++)
@@ -140,6 +238,11 @@ public class Tools {
         return m;
     }
     
+    /**
+     * Geometric mean.
+     * @param x Vector.
+     * @return Geometric mean.
+     */
     public static double GeometricMean(double[] x){
         
         double r = 1;
@@ -150,6 +253,11 @@ public class Tools {
         return Math.pow(r,(double)1/x.length);
     }
     
+    /**
+     * Harmonic mean.
+     * @param x Vector.
+     * @return Harmonic mean.
+     */
     public static double HarmonicMean(double[] x){
         
         double r = 0;
@@ -160,6 +268,12 @@ public class Tools {
         return x.length / r;
     }
     
+    /**
+     * Contra Harmonic mean.
+     * @param x Vector.
+     * @param order Order.
+     * @return Contra Harmonic mean.
+     */
     public static double ContraHarmonicMean(double[] x, int order){
         
         double r1 = 0, r2 = 0;
@@ -171,6 +285,11 @@ public class Tools {
         return r1 / r2;
     }
     
+    /**
+     * Sum.
+     * @param x Vector.
+     * @return Sum of the all elements.
+     */
     public static double Sum(double[] x){
         double sum = 0;
         for (int i = 0; i < x.length; i++) {
@@ -179,10 +298,21 @@ public class Tools {
         return sum;
     }
     
+    /**
+     * Variance
+     * @param x Vector.
+     * @return Variance of the vector.
+     */
     public static double Variance(double[] x){
         return Variance(x, Mean(x));
     }
     
+    /**
+     * Variance.
+     * @param x Vector.
+     * @param mean Mean.
+     * @return Variance of the vector.
+     */
     public static double Variance(double[] x, double mean){
         double sum = 0;
         for (int i = 0; i < x.length; i++) {
@@ -192,10 +322,21 @@ public class Tools {
         return var;
     }
     
+    /**
+     * Standart deviation.
+     * @param x Vector.
+     * @return Standart deviation of the vector.
+     */
     public static double StandartDeviation(double[] x){
         return Math.sqrt(Variance(x));
     }
     
+    /**
+     * Standart deviation.
+     * @param x Vector.
+     * @param mean Mean.
+     * @return Standart deviation of the vector.
+     */
     public static double StandartDeviation(double[] x, double mean){
         return Math.sqrt(Variance(x, mean));
     }
