@@ -3,10 +3,14 @@ Catalano Framework 1.6 road map
 
 * Catalano.Image.Filters
     - New: Principal Component Transform.
+    - Added: new method (setInRGB(), setOutRGB()) in the LevelsLinear.
     - Fixed: Crop now is working in both coordinate system.
 
+* Catalano.Image.Tools
+    - Added: new methods and ctor in the Curve.
+
 * Catalano.Statistics
-    - Add: Covariance (for to create covariance matrix) in Tools.
+    - Added: Covariance (for to create covariance matrix) in Tools.
     - Fixed: Covariance
 
 * Catalano.Statistics.Analysis

@@ -42,7 +42,7 @@ public class ExtractBlob {
      * Initialize a new instance of the ExtractBlob class.
      * @param blobs Blobs list.
      */
-    public ExtractBlob(ArrayList<Blob> blobs) {
+    public ExtractBlob(List<Blob> blobs) {
         this.blobs = blobs;
     }
     

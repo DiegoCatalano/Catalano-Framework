@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright 2015 Diego Catalano
@@ -25,13 +25,14 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Core.FloatPoint;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Curve representation.
  * @author Diego Catalano
  */
-public class Curve {
+public class Curve implements Serializable{
     
     public float[] x;
     public float[] y;
@@ -43,21 +44,47 @@ public class Curve {
     public float[] getX() {
         return x;
     }
+    
+    /**
+     * Set values of the x axis coordinates.
+     * @param x X axis coordinates.
+     */
+    public void setX(float[] x) {
+        this.x = x;
+    }
 
     /**
-     * 
-     * @return 
+     * Get value of the y axis coordinates.
+     * @return Y axis coordinates.
      */
     public float[] getY() {
         return y;
+    }
+
+    /**
+     * Set value of the y axis coordinates.
+     * @param y Y axis coordinates.
+     */
+    public void setY(float[] y) {
+        this.y = y;
+    }
+    
+    /**
+     * Set the values.
+     * @param x X axis coordinates.
+     * @param y Y axis coordinates.
+     */
+    public void setXY(float[] x, float[] y){
+        this.x = x;
+        this.y = y;
     }
     
     /**
      * Initialize a new instance of the Curve class.
      */
     public Curve() {
-        x = new float[] { 0, 1 };
-        y = new float[] { 0, 1 };
+        x = new float[0];
+        y = new float[0];
     }
     
     /**
@@ -70,7 +97,17 @@ public class Curve {
     }
     
     /**
-     * Add colection of points.
+     *  Initialize a new instance of the Curve class.
+     * @param x X points.
+     * @param y Y points.
+     */
+    public Curve(float[] x, float[] y){
+        this.x = x;
+        this.y = y;
+    }
+    
+    /**
+     * Add collection of points.
      * @param points Points.
      */
     public void addPoint(List<FloatPoint> points){
@@ -145,27 +182,7 @@ public class Curve {
      * Clear all the points.
      */
     public void clear(){
-        x = new float[] { 0, 1 };
-        y = new float[] { 0, 1 };
-    }
-
-    /**
-     * Sort points.
-     */
-    public void sortPoints() {
-        int numKnots = x.length;
-        for (int i = 1; i < numKnots-1; i++) {
-            for (int j = 1; j < i; j++) {
-                if (x[i] < x[j]) {
-                        float t = x[i];
-                        x[i] = x[j];
-                        x[j] = t;
-                        t = y[i];
-                        y[i] = y[j];
-                        y[j] = t;
-                }
-            }
-        }
+        x = y = null;
     }
     
     /**

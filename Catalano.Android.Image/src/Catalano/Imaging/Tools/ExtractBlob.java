@@ -23,7 +23,6 @@ package Catalano.Imaging.Tools;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public class ExtractBlob {
      * Initialize a new instance of the ExtractBlob class.
      * @param blobs Blobs list.
      */
-    public ExtractBlob(ArrayList<Blob> blobs) {
+    public ExtractBlob(List<Blob> blobs) {
         this.blobs = blobs;
     }
     

@@ -195,6 +195,34 @@ public class LevelsLinear implements IBaseInPlace{
         CalculateMap(inRed, outRed, mapRed);
     }
     
+    /**
+     * Set RGB input range.
+     * @param inRGB Range.
+     */
+    public void setInRGB(IntRange inRGB){
+        this.inRed = inRGB;
+        this.inGreen = inRGB;
+        this.inBlue = inRGB;
+        
+        CalculateMap(inRGB, outRed, mapRed);
+        CalculateMap(inRGB, outGreen, mapGreen);
+        CalculateMap(inRGB, outBlue, mapBlue);
+    }
+    
+    /**
+     * Set RGB output range.
+     * @param outRGB Range.
+     */
+    public void setOutRGB(IntRange outRGB){
+        this.outRed = outRGB;
+        this.outGreen = outRGB;
+        this.outBlue = outRGB;
+        
+        CalculateMap(inRed, outRGB, mapRed);
+        CalculateMap(inGreen, outRGB, mapGreen);
+        CalculateMap(inBlue, outRGB, mapBlue);
+    }
+    
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         

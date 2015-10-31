@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -30,7 +30,11 @@ import Catalano.Imaging.IBaseInPlace;
 
 /**
  * Linear correction of RGB channels.
- * <para>The filter performs linear correction of RGB channels by mapping specified channels' input ranges to output ranges.</para>
+ * <p>The filter performs linear correction of RGB channels by mapping specified channels' input ranges to output ranges.</p>
+ * 
+ * <p><li>Supported types: Grayscale, RGB.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class LevelsLinear implements IBaseInPlace{
@@ -191,6 +195,34 @@ public class LevelsLinear implements IBaseInPlace{
         CalculateMap(inRed, outRed, mapRed);
     }
     
+    /**
+     * Set RGB input range.
+     * @param inRGB Range.
+     */
+    public void setInRGB(IntRange inRGB){
+        this.inRed = inRGB;
+        this.inGreen = inRGB;
+        this.inBlue = inRGB;
+        
+        CalculateMap(inRGB, outRed, mapRed);
+        CalculateMap(inRGB, outGreen, mapGreen);
+        CalculateMap(inRGB, outBlue, mapBlue);
+    }
+    
+    /**
+     * Set RGB output range.
+     * @param outRGB Range.
+     */
+    public void setOutRGB(IntRange outRGB){
+        this.outRed = outRGB;
+        this.outGreen = outRGB;
+        this.outBlue = outRGB;
+        
+        CalculateMap(inRed, outRGB, mapRed);
+        CalculateMap(inGreen, outRGB, mapGreen);
+        CalculateMap(inBlue, outRGB, mapBlue);
+    }
+    
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         
@@ -200,8 +232,8 @@ public class LevelsLinear implements IBaseInPlace{
             
             CalculateMap( inGray, outGray, mapGray );
             
-            for (int x = 0; x < size; x++) {
-                fastBitmap.setGray(x, mapGray[fastBitmap.getGray(x)]);
+            for (int i = 0; i < size; i++) {
+                fastBitmap.setGray(i, mapGray[fastBitmap.getGray(i)]);
             }
         }
         else{
@@ -210,14 +242,15 @@ public class LevelsLinear implements IBaseInPlace{
             CalculateMap( inGreen, outGreen, mapGreen );
             CalculateMap( inBlue, outBlue, mapBlue );
             
-            for (int x = 0; x < size; x++) {
-                int r = mapRed[fastBitmap.getRed(x)];
-                int g = mapGreen[fastBitmap.getGreen(x)];
-                int b = mapBlue[fastBitmap.getBlue(x)];
+            for (int i = 0; i < size; i++) {
+                int r = mapRed[fastBitmap.getRed(i)];
+                int g = mapGreen[fastBitmap.getGreen(i)];
+                int b = mapBlue[fastBitmap.getBlue(i)];
 
-                fastBitmap.setRGB(x, r, g, b);
+                fastBitmap.setRGB(i, r, g, b);
             }
         }
+        
     }
     
     /**
