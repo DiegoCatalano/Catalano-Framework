@@ -23,7 +23,7 @@
 package Catalano.MachineLearning;
 
 import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.Performance.IValidation;
+import Catalano.MachineLearning.Classification.Performance.IValidation;
 import java.util.List;
 
 /**

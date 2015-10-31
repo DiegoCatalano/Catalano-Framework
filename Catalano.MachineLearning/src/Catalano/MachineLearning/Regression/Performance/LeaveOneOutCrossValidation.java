@@ -20,10 +20,10 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
+package Catalano.MachineLearning.Regression.Performance;
 
-import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Regression.IRegression;
+import Catalano.MachineLearning.Regression.RegressionMeasure;
 import Catalano.Math.Matrix;
 
 /**
@@ -32,29 +32,31 @@ import Catalano.Math.Matrix;
  * 
  * @author Diego Catalano
  */
-public class LeaveOneOutCrossValidation implements IValidation{
+public class LeaveOneOutCrossValidation implements IRegressionValidation{
 
     /**
      * Initializes a new instance of the LeaveOneOutCrossValidation class.
      */
     public LeaveOneOutCrossValidation() {}
-
+    
     @Override
-    public double Run(IClassifier classifier, DatasetClassification dataset) {
-        return Run(classifier, dataset.getInput(), dataset.getOutput());
-    }
-
-    @Override
-    public double Run(IClassifier classifier, final double[][] data, final int[] labels) {
-        int p = 0;
-        for (int i = 0; i < data.length; i++) {
-            double[][] a = Matrix.RemoveRow(data, i);
-            int[] b = Matrix.RemoveColumn(labels, i);
-            classifier.Learn(a, b);
-            if(classifier.Predict(data[i]) == labels[i])
-                p++;
+    public RegressionMeasure Run(IRegression regression, double[][] input, double[] output){
+        
+        double[] predicted = new double[input.length];
+        for (int i = 0; i < input.length; i++) {
+            double[][] tempInput = Matrix.RemoveRow(input, i);
+            double[] tempOutput = Matrix.RemoveColumn(output, i);
+            
+            regression.Learn(tempInput, tempOutput);
+            predicted[i] = regression.Predict(input[i]);
         }
         
-        return p / (double)data.length;
+        double mae = RegressionMeasure.MeanAbsoluteError(output, predicted);
+        double mse = RegressionMeasure.MeanSquaredError(output, predicted);
+        double rmse = RegressionMeasure.RootMeanSquaredError(output, predicted);
+        double coef = RegressionMeasure.CoefficientOfDetermination(output, predicted);
+        
+        
+        return new RegressionMeasure(mae, mse, rmse, coef);
     }
 }

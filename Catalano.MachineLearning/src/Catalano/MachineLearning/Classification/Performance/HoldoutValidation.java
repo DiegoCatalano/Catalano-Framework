@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
+package Catalano.MachineLearning.Classification.Performance;
 
 import Catalano.MachineLearning.Classification.*;
 import Catalano.MachineLearning.DatasetClassification;

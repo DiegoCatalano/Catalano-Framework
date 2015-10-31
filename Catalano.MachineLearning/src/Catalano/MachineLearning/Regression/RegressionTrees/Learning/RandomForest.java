@@ -193,6 +193,17 @@ public class RandomForest implements IRegression, Serializable{
     public RandomForest(int T){
         this(null, 100);
     }
+    
+    /**
+     * Initialize a new instance of the RandomForest class.
+     * @param T the number of trees.
+     * @param M the number of input variables to be used to determine the decision
+     * at a node of the tree. dim/3 seems to give generally good performance,
+     * where dim is the number of variables.
+     */
+    public RandomForest(int T, int M){
+        this(T,M,5);
+    }
 
     /**
      * Initialize a new instance of the RandomForest class.
@@ -224,6 +235,18 @@ public class RandomForest implements IRegression, Serializable{
      */
     public RandomForest(DecisionVariable[] attributes, int T) {
         this(attributes, T, -1, 5);
+    }
+    
+    /**
+     * Initialize a new instance of the RandomForest class.
+     * @param attributes the attribute properties.
+     * @param T Number of trees.
+     * @param M the number of input variables to be used to determine the decision
+     * at a node of the tree. dim/3 seems to give generally good performance,
+     * where dim is the number of variables.
+     */
+    public RandomForest(DecisionVariable[] attributes, int T, int M) {
+        this(attributes, T, M, 5);
     }
     
     /**

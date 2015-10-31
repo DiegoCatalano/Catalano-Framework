@@ -44,6 +44,22 @@ public class KNearestNeighbors implements IRegression, Serializable{
     private IMercerKernel kernel;
 
     /**
+     * Get number of neighbors.
+     * @return Number of neighbors.
+     */
+    public int getK() {
+        return k;
+    }
+
+    /**
+     * Set number of neighbors.
+     * @param k Number of neighbors.
+     */
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    /**
      * Initializes a new instance of the KNearestNeighbors class.
      */
     public KNearestNeighbors() {

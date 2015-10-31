@@ -20,31 +20,37 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
+package Catalano.MachineLearning.Classification.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.DatasetClassification;
 
 /**
- * Interface common for classifier performance.
+ * Supplied Validation.
+ * Run test in an user specified dataset.
+ * 
  * @author Diego Catalano
  */
-public interface IValidation {
-    
+public class SuppliedValidation implements IValidation{
+
     /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param dataset Dataset.
-     * @return Correctly classified rate.
+     * Initializes a new instance of the SuppliedValidation class.
      */
-    public double Run(IClassifier classifier, DatasetClassification dataset);
+    public SuppliedValidation() {}
+
+    @Override
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
+    }
+
+    @Override
+    public double Run(IClassifier classifier, double[][] data, int[] labels) {
+        int pos = 0;
+        for (int i = 0; i < data.length; i++) {
+            if(classifier.Predict(data[i]) == labels[i])
+                pos++;
+        }
+        return pos / (double)data.length;
+    }
     
-    /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param data Data.
-     * @param labels Labels.
-     * @return Correctly classified rate.
-     */
-    public double Run(IClassifier classifier, double[][] data, int[] labels);
 }

@@ -9,6 +9,9 @@ Catalano Framework 1.6 road map
 * Catalano.Image.Tools
     - Added: new methods and ctor in the Curve.
 
+* Catalano.MachineLearning.Regression.Performance
+    - New: Leave One Out Cross Validation.
+
 * Catalano.Statistics
     - Added: Covariance (for to create covariance matrix) in Tools.
     - Fixed: Covariance

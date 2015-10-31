@@ -64,14 +64,12 @@ public final class Correlations {
     }
     
     public static double PearsonCorrelation(double[] x, double[] y){
-        double meanX = 0, meanY = 0;
-        for (int i = 0; i < x.length; i++) {
-            meanX += x[i];
-            meanY += y[i];
-        }
-        meanX /= x.length;
-        meanY /= y.length;
-        
+        double meanX = Tools.Mean(x);
+        double meanY = Tools.Mean(y);
+        return PearsonCorrelation(x, y, meanX, meanY);
+    }
+    
+    public static double PearsonCorrelation(double[] x, double[] y, double meanX, double meanY){
         double sumNum = 0, sumDenX = 0, sumDenY = 0;
         for (int i = 0; i < x.length; i++) {
             sumNum += (x[i] - meanX) * (y[i] - meanY);
