@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Holdout Validation.
- * Split percentage for trainning and the rest for the validation.
+ * Split percentage for training and the rest for the validation.
  * @author Diego Catalano
  */
 public class HoldoutValidation implements IValidation{

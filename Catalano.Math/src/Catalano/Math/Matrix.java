@@ -715,9 +715,77 @@ public final class Matrix {
     }
     
     /**
+     * Return a vector from specified range.
+     * @param A Vector.
+     * @param startIndex Start index.
+     * @param endIndex End index.
+     * @return Vector.
+     */
+    public static double[] getColumns(double[] A, int startIndex, int endIndex){
+        
+        double[] v = new double[endIndex - startIndex + 1];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[startIndex + i];
+        }
+        return v;
+        
+    }
+    
+    /**
+     * Return a vector from specified range.
+     * @param A Vector.
+     * @param startIndex Start index.
+     * @param endIndex End index.
+     * @return Vector.
+     */
+    public static int[] getColumns(int[] A, int startIndex, int endIndex){
+        
+        int[] v = new int[endIndex - startIndex + 1];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[startIndex + i];
+        }
+        return v;
+        
+    }
+    
+    /**
+     * Return a vector from specified range.
+     * @param A Vector.
+     * @param startIndex Start index.
+     * @param endIndex End index.
+     * @return Vector.
+     */
+    public static float[] getColumns(float[] A, int startIndex, int endIndex){
+        
+        float[] v = new float[endIndex - startIndex + 1];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[startIndex + i];
+        }
+        return v;
+        
+    }
+    
+    /**
+     * Return a vector from specified range.
+     * @param A Vector.
+     * @param startIndex Start index.
+     * @param endIndex End index.
+     * @return Vector.
+     */
+    public static <T> T[] getColumns(T[] A, int startIndex, int endIndex){
+        
+        T[] v = (T[])Array.newInstance(A[0].getClass(), A.length);
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[startIndex + i];
+        }
+        return v;
+        
+    }
+    
+    /**
      * Return a matrix from specified columns.
      * @param A Matrix.
-     * @param indexess Indexes.
+     * @param indexes Indexes.
      * @return Matrix.
      */
     public static double[][] getColumns(double[][] A, int[] indexes){

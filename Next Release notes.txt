@@ -10,7 +10,9 @@ Catalano Framework 1.6 road map
     - Added: new methods and ctor in the Curve.
 
 * Catalano.MachineLearning.Regression.Performance
+    - New: Holdout Validation.
     - New: Leave One Out Cross Validation.
+    - New: Regression Measure.
 
 * Catalano.Statistics
     - Added: Covariance (for to create covariance matrix) in Tools.
