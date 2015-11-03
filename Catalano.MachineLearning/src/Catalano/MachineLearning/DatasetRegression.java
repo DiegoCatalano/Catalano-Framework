@@ -42,21 +42,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Dataset for classification.
+ * Dataset for regression.
  * @author Diego Catalano
  */
-public class DatasetClassification implements Serializable{
+public class DatasetRegression implements Serializable{
     
     private String name;
     private double[][] input;
-    private int[] output;
+    private double[] output;
     private DecisionVariable[] attributes;
-    private int numClasses;
     private int continuous = 0;
     private int classIndex = -1;
 
     /**
-     *Get the name of the dataset.
+     * Get the name of the dataset.
      * @return Name.
      */
     public String getName() {
@@ -75,7 +74,7 @@ public class DatasetClassification implements Serializable{
      * Get the output data.
      * @return Output data.
      */
-    public int[] getOutput() {
+    public double[] getOutput() {
         return output;
     }
 
@@ -110,14 +109,6 @@ public class DatasetClassification implements Serializable{
     public int getNumberOfAttributes(){
         return attributes.length + 1;
     }
-    
-    /**
-     * Get the number of classes.
-     * @return Number of classes.
-     */
-    public int getNumberOfClasses(){
-        return numClasses;
-    }
 
     /**
      * Get the number of type continuous.
@@ -143,7 +134,7 @@ public class DatasetClassification implements Serializable{
      * @param name Name of the dataset.
      * @return Classification Dataset.
      */
-    public static DatasetClassification FromCSV(String filepath, String name){
+    public static DatasetRegression FromCSV(String filepath, String name){
         return FromCSV(filepath, name, -1);
     }
     
@@ -154,11 +145,10 @@ public class DatasetClassification implements Serializable{
      * @param classIndex Index of the attribute for to be setup as output.
      * @return ClassificationDataset.
      */
-    public static DatasetClassification FromCSV(String filepath, String name, int classIndex){
+    public static DatasetRegression FromCSV(String filepath, String name, int classIndex){
         double[][] input = null;
-        int[] output = null;
+        double[] output = null;
         DecisionVariable[] attributes = null;
-        int numClasses = 0;
         int continuous = 0;
         
         try {
@@ -235,30 +225,20 @@ public class DatasetClassification implements Serializable{
                 }
 
                 //Build Output data from the class index.
-                output = new int[lines.size() - 1];
-                idx = 0;
-                HashMap<String,Integer> map = new HashMap<String, Integer>();
+                output = new double[lines.size() - 1];
                 for (int j = 1; j < lines.size(); j++) {
                     String[] temp = lines.get(j).split(String.valueOf(","));
-                    String s = temp[classIndex];
-                    if(!map.containsKey(s)){
-                        map.put(s, idx++);
-                        output[j-1] = map.get(s);
-                        numClasses++;
-                    }
-                    else{
-                        output[j-1] = map.get(s);
-                    }
+                    output[j-1] = Double.valueOf(temp[classIndex]);
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetRegression.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        return new DatasetClassification(name, attributes, input, output, numClasses, continuous, classIndex);
+        return new DatasetRegression(name, attributes, input, output, continuous, classIndex);
     }
     
     /**
@@ -282,7 +262,7 @@ public class DatasetClassification implements Serializable{
      * @param input Input data.
      * @param output Output data.
      */
-    public DatasetClassification(String name, double[][] input, int[] output){
+    public DatasetRegression(String name, double[][] input, double[] output){
         this(name, input, output, null);
     }
     
@@ -293,11 +273,10 @@ public class DatasetClassification implements Serializable{
      * @param input Input data.
      * @param output Output data.
      */
-    public DatasetClassification(String name, double[][] input, int[] output, DecisionVariable[] attributes){
+    public DatasetRegression(String name, double[][] input, double[] output, DecisionVariable[] attributes){
         this.name = name;
         this.input = input;
         this.output = output;
-        this.numClasses = Matrix.Max(output) + 1;
         this.classIndex = input[0].length;
         if(attributes == null){
             attributes = new DecisionVariable[input[0].length + 1];
@@ -324,12 +303,11 @@ public class DatasetClassification implements Serializable{
      * @param numClasses Number of classes.
      * @param continuous Number of continuous type.
      */
-    private DatasetClassification(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous, int classIndex){
+    private DatasetRegression(String name, DecisionVariable[] attributes, double[][] input, double[] output, int continuous, int classIndex){
         this.name = name;
         this.attributes = attributes;
         this.input = input;
         this.output = output;
-        this.numClasses = numClasses;
         this.continuous = continuous;
         this.classIndex = classIndex;
     }
@@ -517,7 +495,7 @@ public class DatasetClassification implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -566,14 +544,8 @@ public class DatasetClassification implements Serializable{
                 }
             }
             
-            //Class information
-            String nominal = "{";
-            int max = Matrix.Max(output);
-            for (int j = 0; j < max; j++) {
-                nominal += j + ", ";
-            }
-            nominal += max + "}";
-            fw.append("@ATTRIBUTE " + attributes[classIndex].name + " " + nominal);
+            //Output information
+            fw.append("@ATTRIBUTE " + attributes[classIndex].name.replace(" ", "_") + " NUMERIC");
             fw.append(newLine);
             
             //Data
@@ -593,7 +565,7 @@ public class DatasetClassification implements Serializable{
             fw.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatasetRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

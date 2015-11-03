@@ -9,6 +9,9 @@ Catalano Framework 1.6 road map
 * Catalano.Image.Tools
     - Added: new methods and ctor in the Curve.
 
+* Catalano.MachineLearning.
+    - New: Dataset Regression.
+
 * Catalano.MachineLearning.Regression.Performance
     - New: Holdout Validation.
     - New: Leave One Out Cross Validation.
