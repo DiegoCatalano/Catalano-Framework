@@ -28,8 +28,11 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.DistanceTransform;
+import Catalano.Imaging.Filters.Invert;
+import Catalano.Math.Distances.Distance;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -95,16 +98,37 @@ public final class ShapeDescriptors {
     }
     
     /**
+     * Euler number.
+     * Number of holes in the shape.
+     * @param fastBitmap Image to be processed.
+     * @return Euler number.
+     */
+    public static int EulerNumber(FastBitmap fastBitmap){
+        
+        Invert inv = new Invert();
+        inv.applyInPlace(fastBitmap);
+        
+        BlobDetection bd = new BlobDetection();
+        List<Blob> blobs = bd.ProcessImage(fastBitmap);
+        
+        int size = blobs.size() - 1;
+        if(size < 0) return 0;
+        
+        return size;
+        
+    }
+    
+    /**
      * Feret Diameter.
      * Feret diameter is also called the maximum diameter in image.
      * @param contour Contour of the image.
      * @return Feret diameter.
      */
-    public static double FeretDiameter(ArrayList<IntPoint> contour){
+    public static double FeretDiameter(List<IntPoint> contour){
         double maxDiameter = 0;
         for (IntPoint p : contour) {
             for (IntPoint pp : contour) {
-                double d = Catalano.Math.Distances.Distance.SquaredEuclidean(p.x, p.y, pp.x, pp.y);
+                double d = Distance.SquaredEuclidean(p.x, p.y, pp.x, pp.y);
                 if (d > maxDiameter) {
                     maxDiameter = d;
                 }
@@ -119,8 +143,8 @@ public final class ShapeDescriptors {
      * @param contour Contour of the shape.
      * @return Feret Points.
      */
-    public static ArrayList<IntPoint> FeretPoints(ArrayList<IntPoint> contour){
-        ArrayList<IntPoint> lst = new ArrayList<IntPoint>();
+    public static List<IntPoint> FeretPoints(List<IntPoint> contour){
+        List<IntPoint> lst = new ArrayList<IntPoint>();
         
         IntPoint p1 = new IntPoint();
         IntPoint p2 = new IntPoint();

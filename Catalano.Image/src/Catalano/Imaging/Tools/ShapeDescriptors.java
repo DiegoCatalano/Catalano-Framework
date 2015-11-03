@@ -28,6 +28,7 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.DistanceTransform;
+import Catalano.Imaging.Filters.Invert;
 import Catalano.Math.Distances.Distance;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
@@ -95,6 +96,27 @@ public final class ShapeDescriptors {
      */
     public double Compactness(int area, double feretDiameter){
         return AreaEquivalentDiameter(area) / feretDiameter;
+    }
+    
+    /**
+     * Euler number.
+     * Number of holes in the shape.
+     * @param fastBitmap Image to be processed.
+     * @return Euler number.
+     */
+    public static int EulerNumber(FastBitmap fastBitmap){
+        
+        Invert inv = new Invert();
+        inv.applyInPlace(fastBitmap);
+        
+        BlobDetection bd = new BlobDetection();
+        List<Blob> blobs = bd.ProcessImage(fastBitmap);
+        
+        int size = blobs.size() - 1;
+        if(size < 0) return 0;
+        
+        return size;
+        
     }
     
     /**
