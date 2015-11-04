@@ -20,8 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Regression.Performance;
+package Catalano.MachineLearning.Performance;
 
+import Catalano.MachineLearning.Classification.IClassifier;
+import Catalano.MachineLearning.Classification.Performance.IValidation;
+import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionMeasure;
 import Catalano.Math.Matrix;
@@ -32,16 +36,39 @@ import Catalano.Math.Matrix;
  * 
  * @author Diego Catalano
  */
-public class LeaveOneOutCrossValidation implements IRegressionValidation{
+public class LeaveOneOutCrossValidation implements IValidation, IRegressionValidation{
 
     /**
      * Initializes a new instance of the LeaveOneOutCrossValidation class.
      */
     public LeaveOneOutCrossValidation() {}
-    
+
     @Override
-    public RegressionMeasure Run(IRegression regression, double[][] input, double[] output){
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
+    }
+
+    @Override
+    public double Run(IClassifier classifier, final double[][] data, final int[] labels) {
+        int p = 0;
+        for (int i = 0; i < data.length; i++) {
+            double[][] a = Matrix.RemoveRow(data, i);
+            int[] b = Matrix.RemoveColumn(labels, i);
+            classifier.Learn(a, b);
+            if(classifier.Predict(data[i]) == labels[i])
+                p++;
+        }
         
+        return p / (double)data.length;
+    }
+
+    @Override
+    public RegressionMeasure Run(IRegression regression, DatasetRegression dataset) {
+        return Run(regression, dataset.getInput(), dataset.getOutput());
+    }
+
+    @Override
+    public RegressionMeasure Run(IRegression regression, double[][] input, double[] output) {
         double[] predicted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
             double[][] tempInput = Matrix.RemoveRow(input, i);

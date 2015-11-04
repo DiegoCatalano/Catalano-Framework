@@ -20,21 +20,27 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Regression.Performance;
+package Catalano.MachineLearning.Performance;
 
+import Catalano.MachineLearning.Classification.*;
+import Catalano.MachineLearning.Classification.Performance.IValidation;
+import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionMeasure;
 import Catalano.Math.Matrix;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Holdout Validation.
  * Split percentage for training and the rest for the validation.
  * @author Diego Catalano
  */
-public class HoldoutValidation implements IRegressionValidation{
+public class HoldoutValidation implements IValidation, IRegressionValidation{
     
-    private float p;
-    
+    private float p = .66f;
+
     /**
      * Get Train percentage.
      * @return Train percentage.
@@ -65,8 +71,75 @@ public class HoldoutValidation implements IRegressionValidation{
     }
 
     @Override
-    public RegressionMeasure Run(IRegression regression, double[][] input, double[] output) {
+    public double Run(IClassifier classifier, DatasetClassification dataset) {
+        return Run(classifier, dataset.getInput(), dataset.getOutput());
+    }
+    
+    @Override
+    public double Run(IClassifier classifier, double[][] data, int[] labels){
         
+        //Count labels and amount.
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < labels.length; i++) {
+            if(!map.containsKey(labels[i])){
+                map.put(labels[i], 1);
+            }
+            else{
+                int t = map.get(labels[i]) + 1;
+                map.put(labels[i], t);
+            }
+        }
+        
+        //Define size of training
+        int[] sizeClass = new int[map.size()];
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            sizeClass[entry.getKey()] = (int)(entry.getValue() * p);
+        }
+        
+        //Get the index of training and validation features
+        int size = 0;
+        for (int i = 0; i < sizeClass.length; i++) {
+            size += sizeClass[i];
+        }
+        
+        int[] indexTraining = new int[size];
+        int[] indexValidation = new int[data.length - size];
+        
+        int idxT = 0;
+        int idxV = 0;
+        for (int i = 0; i < data.length; i++) {
+            if(sizeClass[labels[i]] > 0){
+                indexTraining[idxT++] = i;
+                sizeClass[labels[i]]--;
+            }
+            else{
+                indexValidation[idxV++] = i;
+            }
+        }
+        
+        //Build data training
+        double[][] train = Matrix.getRows(data, indexTraining);
+        int[] labelsTrain = Matrix.getRows(labels, indexTraining);
+        
+        //Set the model in the classifier
+        classifier.Learn(train, labelsTrain);
+        
+        int pos = 0;
+        for (int i = 0; i < indexValidation.length; i++) {
+            int v = classifier.Predict(data[indexValidation[i]]);
+            if(v == labels[indexValidation[i]]) pos++;
+        }
+        
+        return pos / (double)indexValidation.length;
+    }
+
+    @Override
+    public RegressionMeasure Run(IRegression regression, DatasetRegression dataset) {
+        return Run(regression, dataset.getInput(), dataset.getOutput());
+    }
+
+    @Override
+    public RegressionMeasure Run(IRegression regression, double[][] input, double[] output) {
         int size = (int)(input.length * p);
         
         //Train data
@@ -91,7 +164,5 @@ public class HoldoutValidation implements IRegressionValidation{
         double coef = RegressionMeasure.CoefficientOfDetermination(actual, predicted);
         
         return new RegressionMeasure(mae, mse, rmse, coef);
-        
     }
-    
 }

@@ -20,8 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Regression.Performance;
+package Catalano.MachineLearning.Performance;
 
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionMeasure;
 
@@ -32,11 +33,19 @@ import Catalano.MachineLearning.Regression.RegressionMeasure;
 public interface IRegressionValidation {
     
     /**
-     * Create the predicted values.
+     * Run the validation.
      * @param regression Regression.
      * @param input Input.
      * @param output Output.
-     * @return Predicted values.
+     * @return Regression measure.
      */
     RegressionMeasure Run(IRegression regression, double[][] input, double[] output);
+    
+    /**
+     * Run the validation.
+     * @param regression Regression.
+     * @param dataset Dataset.
+     * @return Regression measure.
+     */
+    RegressionMeasure Run(IRegression regression, DatasetRegression dataset);
 }
