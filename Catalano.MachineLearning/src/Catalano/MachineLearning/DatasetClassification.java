@@ -278,6 +278,40 @@ public class DatasetClassification implements Serializable{
     
     /**
      * Initializes a new instance of the DatasetClassification class.
+     * @param filepath File path.
+     */
+    public DatasetClassification(String filepath){
+        this(filepath, "Unknow");
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     */
+    public DatasetClassification(String filepath, String name){
+        this(filepath, name, -1);
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     * @param classIndex Class index.
+     */
+    public DatasetClassification(String filepath, String name, int classIndex){
+        DatasetClassification dataset = FromCSV(filepath, name, classIndex);
+        
+        this.name = dataset.getName();
+        this.attributes = dataset.getAllDecisionVariables();
+        this.continuous = dataset.getNumberOfContinuous();
+        this.input = dataset.getInput();
+        this.output = dataset.getOutput();
+        this.numClasses = dataset.getNumberOfClasses();
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
      * @param name Name of the dataset.
      * @param input Input data.
      * @param output Output data.

@@ -12,6 +12,7 @@ Catalano Framework 1.6 road map
 
 * Catalano.MachineLearning.
     - New: Dataset Regression.
+    - Added: new ctor in Dataset Classification.
 
 * Catalano.MachineLearning.Performance
     - New: Holdout Validation (Regression support).
