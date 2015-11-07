@@ -14,6 +14,9 @@ Catalano Framework 1.6 road map
     - New: Dataset Regression.
     - Added: new ctor in Dataset Classification.
 
+* Catalano.MachineLearning.FeatureSelection.
+    - New: Principal Components Feature Selection.
+
 * Catalano.MachineLearning.Performance
     - New: Holdout Validation (Regression support).
     - New: Leave One Out Cross Validation (Regression support).

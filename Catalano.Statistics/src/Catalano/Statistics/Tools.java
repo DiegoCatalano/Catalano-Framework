@@ -43,6 +43,28 @@ public class Tools {
     }
     
     /**
+     * Create a pearson correlation matrix.
+     * @param data Data.
+     * @return Correlation matrix.
+     */
+    public static double[][] Correlation(double[][] data){
+        double[][] co = new double[data[0].length][data[0].length];
+        for (int i = 0; i < co.length; i++) {
+            for (int j = 0; j < co[0].length; j++) {
+                if(i == j){
+                    co[i][j] = 1;
+                }
+                else{
+                    double[] colX = Matrix.getColumn(data, i);
+                    double[] colY = Matrix.getColumn(data, j);
+                    co[i][j] = Correlations.PearsonCorrelation(colX, colY);
+                }
+            }
+        }
+        return co;
+    }
+    
+    /**
      * Covariance between vector x and y.
      * @param x Vector.
      * @param y Vector.
