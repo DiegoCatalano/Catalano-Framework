@@ -31,6 +31,7 @@ public class RandomForestFeatureSelection implements ISupervisionedFeatureSelect
     public void Compute(double[][] input, int[] labels) {
         RandomForest rf = new RandomForest();
         rf.Learn(input,labels);
+        
         this.rank = rf.importance();
         this.features = ArraysUtil.Argsort(rank, false);
     }

@@ -1,8 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Machine Learning Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2015
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
 package Catalano.MachineLearning.FeatureSelection;
 
 import Catalano.MachineLearning.Normalization;
@@ -11,7 +28,7 @@ import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 
 /**
- *
+ * Principal components Feature Selection.
  * @author Diego Catalano
  */
 public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatureSelection{
@@ -19,6 +36,22 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
     private double p;
     private double[] rank;
     private int[] features;
+
+    /**
+     * Get the percentage.
+     * @return Percentage.
+     */
+    public double getPercentage() {
+        return p;
+    }
+
+    /**
+     * Set the percentage.
+     * @param p Percentage.
+     */
+    public void setPercentage(double p) {
+        this.p = Math.max(0, Math.min(p, 1));
+    }
 
     @Override
     public double[] getRank() {
@@ -30,12 +63,19 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
         return features;
     }
 
+    /**
+     * Initializes a new instance of the PrincipalComponentFeatureSelection class.
+     */
     public PrincipalComponentFeatureSelection() {
         this.p = 0.95;
     }
 
+    /**
+     * Initializes a new instance of the PrincipalComponentFeatureSelection class.
+     * @param percentage Percentange
+     */
     public PrincipalComponentFeatureSelection(double percentage) {
-        this.p = percentage;
+        setPercentage(percentage);
     }
     
     @Override
