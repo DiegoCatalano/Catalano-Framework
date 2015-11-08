@@ -24,7 +24,7 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
     public double[] getRank() {
         return rank;
     }
-
+    
     @Override
     public int[] getFeatureIndex() {
         return features;
@@ -37,7 +37,7 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
     public PrincipalComponentFeatureSelection(double percentage) {
         this.p = percentage;
     }
-
+    
     @Override
     public void Compute(double[][] input) {
         
@@ -48,7 +48,7 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
         //Creta a correlation matrix.
         double[][] mat = Catalano.Statistics.Tools.Correlation(data);
         
-        //Calculate eigen values.
+        //Calculate eigen values (rank).
         EigenvalueDecomposition evd = new EigenvalueDecomposition(mat);
         double[] eigen = evd.getRealEigenvalues();
         

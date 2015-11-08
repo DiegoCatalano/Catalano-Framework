@@ -15,6 +15,7 @@ Catalano Framework 1.6 road map
     - Added: new ctor in Dataset Classification.
 
 * Catalano.MachineLearning.FeatureSelection.
+    - New: Random Forest Feature Selection.
     - New: Principal Components Feature Selection.
 
 * Catalano.MachineLearning.Performance

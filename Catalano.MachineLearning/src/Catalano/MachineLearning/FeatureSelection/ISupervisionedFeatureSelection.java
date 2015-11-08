@@ -9,8 +9,8 @@ package Catalano.MachineLearning.FeatureSelection;
  *
  * @author Diego Catalano
  */
-public interface IUnsupervisionedFeatureSelection {
-    public void Compute(double[][] input);
+public interface ISupervisionedFeatureSelection {
+    public void Compute(double[][] input, int[] labels);
     public int[] getFeatureIndex();
     public double[] getRank();
 }
