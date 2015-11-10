@@ -898,7 +898,7 @@ public class DecisionTree implements IClassifier, Serializable {
      * @param samples the sample set of instances for stochastic learning.
      * samples[i] is the number of sampling for instance i.
      */
-    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order) {
+    public DecisionTree(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[] samples, int[][] order, SplitRule rule) {
         if (x.length != y.length) {
             throw new IllegalArgumentException(String.format("The sizes of X and Y don't match: %d != %d", x.length, y.length));
         }
@@ -924,11 +924,12 @@ public class DecisionTree implements IClassifier, Serializable {
                 attributes[i] = new DecisionVariable("F" + i);
             }
         }
-                
+        
         this.attributes = attributes;
         this.J = Integer.MAX_VALUE;
         this.M = M;
         this.order = order;
+        this.rule = rule;
         importance = new double[attributes.length];
 
         int n = y.length;

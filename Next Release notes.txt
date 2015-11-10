@@ -14,6 +14,12 @@ Catalano Framework 1.6 road map
     - New: Dataset Regression.
     - Added: new ctor in Dataset Classification.
 
+* Catalano.MachineLearning.Classification.DecisionTrees
+    - Added: Classification error in the Decision tree.
+
+* Catalano.MachineLearning.Classification.DecisionTrees.Learning
+    - Added: Split rule support in the Random Forest.
+
 * Catalano.MachineLearning.FeatureSelection.
     - New: Random Forest Feature Selection.
     - New: Principal Components Feature Selection.
