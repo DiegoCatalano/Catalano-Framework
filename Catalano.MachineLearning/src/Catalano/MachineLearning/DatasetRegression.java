@@ -372,7 +372,7 @@ public class DatasetRegression implements Serializable{
         DoubleRange[] range = new DoubleRange[continuous];
         
         int idx = 0;
-        for (int i = 0; i < attributes.length; i++) {
+        for (int i = 0; i < attributes.length - 1; i++) {
             if(i != classIndex){
                 if(attributes[i].type == DecisionVariable.Type.Continuous){
                     double[] temp = Matrix.getColumn(input, i);
@@ -415,7 +415,7 @@ public class DatasetRegression implements Serializable{
         DoubleRange[] range = new DoubleRange[continuous];
         
         int idx = 0;
-        for (int i = 0; i < attributes.length; i++) {
+        for (int i = 0; i < attributes.length - 1; i++) {
             if(i != classIndex){
                 if(attributes[i].type == DecisionVariable.Type.Continuous){
                     double[] temp = Matrix.getColumn(input, i);

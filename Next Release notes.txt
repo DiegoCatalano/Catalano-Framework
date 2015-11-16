@@ -14,6 +14,11 @@ Catalano Framework 1.6 road map
     - New: Dataset Regression.
     - Added: new ctor in Dataset Classification.
 
+    - Fixed: Normalization and Standartize in the DatasetClassification.
+
+* Catalano.MachineLearning.Classification
+    - New: Minimum Mean Distance.
+
 * Catalano.MachineLearning.Classification.DecisionTrees
     - Added: Classification error in the Decision tree.
 
