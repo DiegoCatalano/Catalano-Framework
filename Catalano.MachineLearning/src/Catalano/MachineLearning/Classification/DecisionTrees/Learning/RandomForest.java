@@ -339,6 +339,15 @@ public class RandomForest implements IClassifier, Serializable {
      * Initializes a new instance of the RandomForest class. 
      * @param T the number of trees.
      * @param randomSelection the number of random selected features.
+     */
+    public RandomForest(int T, RandomSelection randomSelection, SplitRule rule, long seed){
+        this(null, T, randomSelection, rule, seed);
+    }
+    
+    /**
+     * Initializes a new instance of the RandomForest class. 
+     * @param T the number of trees.
+     * @param randomSelection the number of random selected features.
      * @param seed Random seed.
      */
     public RandomForest(int T, RandomSelection randomSelection, long seed){
