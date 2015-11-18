@@ -37,6 +37,7 @@ package Catalano.Core;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 /**
  * Array Utilities.
@@ -121,6 +122,51 @@ public class ArraysUtil {
             b[i] = array[i].intValue();
         }
         return b;
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     */
+    private static void Shuffle(double[] array){
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--)
+        {
+            int index = random.nextInt(i + 1);
+            double temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     */
+    private static void Shuffle(int[] array){
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--)
+        {
+            int index = random.nextInt(i + 1);
+            int temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     */
+    private static void Shuffle(float[] array){
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--)
+        {
+            int index = random.nextInt(i + 1);
+            float temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
     }
     
     /**
