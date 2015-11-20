@@ -1,6 +1,9 @@
 Catalano Framework 1.6 road map
 -----------------------------------------
 
+* Catalano.Core
+     - Added: Shuffle in the ArraysUtil.
+
 * Catalano.Image.Filters
     - New: Principal Component Transform.
     - Added: new method (setInRGB(), setOutRGB()) in the LevelsLinear.
@@ -26,6 +29,7 @@ Catalano Framework 1.6 road map
     - Added: Split rule support in the Random Forest.
 
 * Catalano.MachineLearning.FeatureSelection.
+    - New: Mean Variance Feature Selection.
     - New: Random Forest Feature Selection.
     - New: Principal Components Feature Selection.
 
