@@ -25,11 +25,13 @@
 
 package Catalano.MachineLearning;
 
+import java.io.Serializable;
+
 /**
  * Decision attribute.
  * @author Diego Catalano
  */
-public class DecisionVariable {
+public class DecisionVariable implements Serializable{
     
     /**
      * Attribute category.

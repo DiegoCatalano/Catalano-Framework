@@ -224,7 +224,7 @@ public class DecisionTree implements IClassifier, Serializable {
     /**
      * Classification tree node.
      */
-    class Node {
+    class Node implements Serializable{
 
         /**
          * Predicted class label for this node.
