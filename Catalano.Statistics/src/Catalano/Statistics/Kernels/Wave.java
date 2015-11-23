@@ -6,13 +6,11 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Diego
  */
-public class Wave implements IMercerKernel<double[]>, Serializable{
+public class Wave implements IMercerKernel<double[]>{
     
     private double sigma;
 

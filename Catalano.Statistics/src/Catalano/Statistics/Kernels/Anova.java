@@ -24,15 +24,13 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * ANOVA (ANalysis Of VAriance) Kernel.
  * <para>The ANOVA kernel is a graph kernel, which can be
  * computed using dynamic programming tables.</para>
  * @author Diego Catalano
  */
-public class Anova implements IMercerKernel<double[]>, Serializable{
+public class Anova implements IMercerKernel<double[]>{
     
     private int n;  // input vector length
     private int p; // length of subsequence

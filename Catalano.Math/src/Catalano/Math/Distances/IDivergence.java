@@ -22,12 +22,14 @@
 
 package Catalano.Math.Distances;
 
+import java.io.Serializable;
+
 /**
  * Common interface for divergence measure.
  * @author Diego Catalano
  * @param <T> Type.
  */
-public interface IDivergence <T> {
+public interface IDivergence <T> extends Serializable{
 
     /**
      * Compute the distance between the vectors.

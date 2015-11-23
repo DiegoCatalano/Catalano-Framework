@@ -24,13 +24,11 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Squared Sinc Kernel.
  * @author Diego Catalano
  */
-public class SquaredSinc implements IMercerKernel<double[]>, Serializable{
+public class SquaredSinc implements IMercerKernel<double[]>{
     
     private double gamma;
 

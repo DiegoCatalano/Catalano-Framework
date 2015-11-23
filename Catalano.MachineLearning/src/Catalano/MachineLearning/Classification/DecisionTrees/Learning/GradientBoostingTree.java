@@ -484,7 +484,7 @@ public class GradientBoostingTree implements IClassifier, Serializable{
     /**
      * Class to calculate node output for multi-class logistic regression.
      */
-    class LKNodeOutput implements RegressionTree.NodeOutput {
+    class LKNodeOutput implements RegressionTree.NodeOutput, Serializable {
 
         /**
          * Responses to fit.

@@ -24,15 +24,13 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Multiquadric Kernel.
  * The multiquadric kernel is only conditionally positive-definite.
  * 
  * @author Diego Catalano
  */
-public class Multiquadric implements IMercerKernel<double[]>, Serializable{
+public class Multiquadric implements IMercerKernel<double[]>{
     
     private double constant;
 

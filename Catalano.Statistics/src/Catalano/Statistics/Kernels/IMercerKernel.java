@@ -21,13 +21,15 @@
 
 package Catalano.Statistics.Kernels;
 
+import java.io.Serializable;
+
 /**
  * Kernel function interface.
  * <para> In Machine Learning and statistics, a Kernel is a function that returns
  * the value of the dot product between the images of the two arguments.</para>
  * @author Diego Catalano
  */
-public interface IMercerKernel<T> {
+public interface IMercerKernel<T> extends Serializable {
     
     /**
      * The kernel function.

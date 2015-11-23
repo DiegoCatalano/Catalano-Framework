@@ -6,13 +6,11 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Diego
  */
-public class Tensor implements IMercerKernel<double[]>, Serializable{
+public class Tensor implements IMercerKernel<double[]>{
     
     private IMercerKernel<double[]>[] kernels;
 

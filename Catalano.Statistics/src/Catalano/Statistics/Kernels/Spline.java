@@ -24,14 +24,12 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Spline Kernel.
  * The Spline kernel is given as a piece-wise cubic polynomial, as derived in the works by Gunn (1998).
  * @author Diego Catalano
  */
-public class Spline implements IMercerKernel<double[]>, Serializable{
+public class Spline implements IMercerKernel<double[]>{
 
     /**
      * Constructs a new Spline kernel.

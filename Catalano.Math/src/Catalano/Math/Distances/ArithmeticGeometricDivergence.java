@@ -26,7 +26,7 @@ package Catalano.Math.Distances;
  * Arithmetic Geometric divergence.
  * @author Diego Catalano
  */
-public class ArithmeticGeometricDivergence implements IDivergence<double[]>{
+public class ArithmeticGeometricDivergence implements IDivergence<double[]> {
 
     /**
      * Initialize a new instance of the ArithmeticGeometricDivergence class.

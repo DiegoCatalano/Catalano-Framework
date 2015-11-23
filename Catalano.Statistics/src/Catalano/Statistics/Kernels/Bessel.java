@@ -24,14 +24,12 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Bessel Kernel.
  * The Bessel kernel is well known in the theory of function spaces of fractional smoothness.
  * @author Diego Catalano
  */
-public class Bessel implements IMercerKernel<double[]>, Serializable{
+public class Bessel implements IMercerKernel<double[]>{
     
     private int order;
     private double sigma;

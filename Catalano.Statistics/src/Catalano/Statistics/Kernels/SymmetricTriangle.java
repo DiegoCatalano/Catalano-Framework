@@ -24,13 +24,11 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Symmetric Triangle Kernel.
  * @author Diego Catalano
  */
-public class SymmetricTriangle implements IMercerKernel<double[]>, Serializable{
+public class SymmetricTriangle implements IMercerKernel<double[]>{
     
     private double gamma;
 

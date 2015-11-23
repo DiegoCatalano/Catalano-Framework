@@ -20,10 +20,8 @@
 //
 
 package Catalano.Statistics.Kernels;
-	
-import java.io.Serializable;
 
-public class Linear implements IMercerKernel<double[]>, Serializable{
+public class Linear implements IMercerKernel<double[]>{
     
     private double constant;
 

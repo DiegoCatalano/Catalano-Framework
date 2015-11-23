@@ -24,8 +24,6 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Circular Kernel.
  * 
@@ -34,7 +32,7 @@ import java.io.Serializable;
  * 
  * @author Diego Catalano
  */
-public class Circular implements IMercerKernel<double[]>, Serializable {
+public class Circular implements IMercerKernel<double[]> {
     
     private final double c2dPI = 2.0 / Math.PI;
     private double sigma;

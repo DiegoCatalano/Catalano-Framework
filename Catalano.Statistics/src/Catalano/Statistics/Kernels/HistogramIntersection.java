@@ -24,8 +24,6 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Generalized Histogram Intersection Kernel.
  * 
@@ -35,7 +33,7 @@ import java.io.Serializable;
  * 
  * @author Diego Catalano
  */
-public class HistogramIntersection implements IMercerKernel<double[]>, Serializable{
+public class HistogramIntersection implements IMercerKernel<double[]>{
     
     private double alpha = 1;
     private double beta = 1;

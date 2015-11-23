@@ -22,13 +22,11 @@
 
 package Catalano.Statistics.Kernels;
 
-import java.io.Serializable;
-
 /**
  * Hellinger kernel is an euclidean norm of linear kernel.
  * @author Diego Catalano
  */
-public class Hellinger implements IMercerKernel<double[]>, Serializable{
+public class Hellinger implements IMercerKernel<double[]>{
 
     /**
      * Constructs a new Hellinger Kernel.

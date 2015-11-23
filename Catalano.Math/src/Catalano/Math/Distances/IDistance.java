@@ -22,12 +22,14 @@
 
 package Catalano.Math.Distances;
 
+import java.io.Serializable;
+
 /**
  * Common interface for distance measure.
  * @author Diego Catalano
  * @param <T> Type.
  */
-public interface IDistance <T> extends IDivergence<T>{
+public interface IDistance <T> extends IDivergence<T>, Serializable {
 
     @Override
     double Compute(T u, T v);

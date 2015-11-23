@@ -25,7 +25,6 @@
 package Catalano.Statistics.Kernels;
 
 import Catalano.Math.Special;
-import java.io.Serializable;
 
 /**
  * B-Spline Kernel.
@@ -33,7 +32,7 @@ import java.io.Serializable;
  * also a member of the Radial Basis Functions family of kernels.</para>
  * @author Diego Catalano
  */
-public class BSpline implements IMercerKernel<double[]>, Serializable{
+public class BSpline implements IMercerKernel<double[]>{
     
     private int order;
 
