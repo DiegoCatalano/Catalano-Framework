@@ -54,9 +54,10 @@ public class DatasetClassification implements Serializable{
     private int numClasses;
     private int continuous = 0;
     private int classIndex = -1;
+    private boolean ignoreAttributeInfo = false;
 
     /**
-     *Get the name of the dataset.
+     * Get the name of the dataset.
      * @return Name.
      */
     public String getName() {
@@ -144,7 +145,20 @@ public class DatasetClassification implements Serializable{
      * @return Classification Dataset.
      */
     public static DatasetClassification FromCSV(String filepath, String name){
-        return FromCSV(filepath, name, -1);
+        return FromCSV(filepath, name,false);
+    }
+    
+    /**
+     * Read dataset from a CSV structure.
+     * The last column of CSV is interpreted as output.
+     * 
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     * @param ignoreAttributeInfo Ignore attribute information.
+     * @return Classification dataset.
+     */
+    public static DatasetClassification FromCSV(String filepath, String name, boolean ignoreAttributeInfo){
+        return FromCSV(filepath, name, ignoreAttributeInfo, -1);
     }
     
     /**
@@ -152,14 +166,16 @@ public class DatasetClassification implements Serializable{
      * @param filepath File.
      * @param name Name of the dataset.
      * @param classIndex Index of the attribute for to be setup as output.
-     * @return ClassificationDataset.
+     * @param ignoreAttributeInfo Ignore attribute information.
+     * @return Classification Dataset.
      */
-    public static DatasetClassification FromCSV(String filepath, String name, int classIndex){
+    public static DatasetClassification FromCSV(String filepath, String name, boolean ignoreAttributeInfo, int classIndex){
         double[][] input = null;
         int[] output = null;
         DecisionVariable[] attributes = null;
         int numClasses = 0;
         int continuous = 0;
+        int start;
         
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
@@ -170,8 +186,24 @@ public class DatasetClassification implements Serializable{
                 lines.add(line);
             }
             if(lines.size() > 0) {
-                String[] header = lines.get(0).split(String.valueOf(','));
-                String[] firstInstance = lines.get(1).split(String.valueOf(','));
+                String[] header = null;
+                String[] firstInstance= null;
+                if(ignoreAttributeInfo){
+                    firstInstance = lines.get(0).split(String.valueOf(','));
+                    header = new String[firstInstance.length];
+                    for (int i = 0; i < header.length - 1; i++) {
+                        header[i] = "F" + i;
+                    }
+                    header[header.length - 1] = "Class";
+                    start = 0;
+                }
+                else{
+                    header = lines.get(0).split(String.valueOf(','));
+                    firstInstance = lines.get(1).split(String.valueOf(','));
+                    start = 1;
+                }
+                //String[] header = lines.get(0).split(String.valueOf(','));
+                //String[] firstInstance = lines.get(1).split(String.valueOf(','));
                 
                 if(classIndex == -1) classIndex = header.length - 1;
 
@@ -198,7 +230,7 @@ public class DatasetClassification implements Serializable{
 
 
                 //Build: Input data
-                input = new double[lines.size() - 1][attributes.length - 1];
+                input = new double[lines.size() - start][attributes.length - 1];
                 List<HashMap<String,Integer>> lst;
                 int[] indexes;
                 if(discretes == 0){
@@ -214,28 +246,28 @@ public class DatasetClassification implements Serializable{
                 }
 
                 int idxAtt;
-                for (int i = 1; i < lines.size(); i++) { //i=1
+                for (int i = start; i < lines.size(); i++) { //i=1
                     idxAtt = 0;
                     String[] temp = lines.get(i).split(String.valueOf(','));
                     idx = 0;
                     for (int j = 0; j < attributes.length; j++) {
                         if(j != classIndex){
                             if(attributes[j].type == DecisionVariable.Type.Continuous){
-                                input[i-1][idx++] = Double.valueOf(fix(temp[j]));
+                                input[i-start][idx++] = Double.valueOf(fix(temp[j]));
                             }
                             else{
                                 HashMap<String,Integer> map = lst.get(idxAtt);
                                 if(!map.containsKey(temp[j]))
                                     map.put(temp[j], indexes[idxAtt]++);
                                 idxAtt++;
-                                input[i-1][idx++] = map.get(temp[j]);
+                                input[i-start][idx++] = map.get(temp[j]);
                             }
                         }
                     }
                 }
 
                 //Build Output data from the class index.
-                output = new int[lines.size() - 1];
+                output = new int[lines.size() - start];
                 idx = 0;
                 HashMap<String,Integer> map = new HashMap<String, Integer>();
                 for (int j = 1; j < lines.size(); j++) {
@@ -281,7 +313,7 @@ public class DatasetClassification implements Serializable{
      * @param filepath File path.
      */
     public DatasetClassification(String filepath){
-        this(filepath, "Unknow");
+        this(filepath, "Unknown");
     }
     
     /**
@@ -290,7 +322,17 @@ public class DatasetClassification implements Serializable{
      * @param name Name of the dataset.
      */
     public DatasetClassification(String filepath, String name){
-        this(filepath, name, -1);
+        this(filepath, name, false);
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
+     * @param filepath File path.
+     * @param name Name of the dataset.
+     * @param ignoreAttributeInfo Ignore first line (Attribute information).
+     */
+    public DatasetClassification(String filepath, String name, boolean ignoreAttributeInfo){
+        this(filepath, name, ignoreAttributeInfo, -1);
     }
     
     /**
@@ -298,9 +340,10 @@ public class DatasetClassification implements Serializable{
      * @param filepath File path.
      * @param name Name of the dataset.
      * @param classIndex Class index.
+     * @param ignoreAttributeInfo Ignore first line (Attribute information).
      */
-    public DatasetClassification(String filepath, String name, int classIndex){
-        DatasetClassification dataset = FromCSV(filepath, name, classIndex);
+    public DatasetClassification(String filepath, String name, boolean ignoreAttributeInfo, int classIndex){
+        DatasetClassification dataset = FromCSV(filepath, name, ignoreAttributeInfo, classIndex);
         
         this.name = dataset.getName();
         this.attributes = dataset.getAllDecisionVariables();
@@ -308,6 +351,7 @@ public class DatasetClassification implements Serializable{
         this.input = dataset.getInput();
         this.output = dataset.getOutput();
         this.numClasses = dataset.getNumberOfClasses();
+        this.ignoreAttributeInfo = ignoreAttributeInfo;
     }
     
     /**
