@@ -16,6 +16,7 @@ Catalano Framework 1.6 road map
 * Catalano.MachineLearning.
     - New: Dataset Regression.
     - Added: new ctor in Dataset Classification.
+    - Added: ignore attribute info in the dataset classification.
 
     - Fixed: Normalization and Standartize in the DatasetClassification.
 

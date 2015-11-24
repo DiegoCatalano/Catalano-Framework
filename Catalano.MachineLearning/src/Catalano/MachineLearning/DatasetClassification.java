@@ -54,7 +54,6 @@ public class DatasetClassification implements Serializable{
     private int numClasses;
     private int continuous = 0;
     private int classIndex = -1;
-    private boolean ignoreAttributeInfo = false;
 
     /**
      * Get the name of the dataset.
@@ -187,7 +186,7 @@ public class DatasetClassification implements Serializable{
             }
             if(lines.size() > 0) {
                 String[] header = null;
-                String[] firstInstance= null;
+                String[] firstInstance = null;
                 if(ignoreAttributeInfo){
                     firstInstance = lines.get(0).split(String.valueOf(','));
                     header = new String[firstInstance.length];
@@ -202,8 +201,6 @@ public class DatasetClassification implements Serializable{
                     firstInstance = lines.get(1).split(String.valueOf(','));
                     start = 1;
                 }
-                //String[] header = lines.get(0).split(String.valueOf(','));
-                //String[] firstInstance = lines.get(1).split(String.valueOf(','));
                 
                 if(classIndex == -1) classIndex = header.length - 1;
 
@@ -351,7 +348,6 @@ public class DatasetClassification implements Serializable{
         this.input = dataset.getInput();
         this.output = dataset.getOutput();
         this.numClasses = dataset.getNumberOfClasses();
-        this.ignoreAttributeInfo = ignoreAttributeInfo;
     }
     
     /**
