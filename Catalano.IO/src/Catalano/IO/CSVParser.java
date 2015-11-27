@@ -262,12 +262,13 @@ public class CSVParser {
                     int idxJ = 0;
                     temp = lines.get(i).split(String.valueOf(delimiter));
                     for (int j = startCol; j < endCol; j++) {
-                        data[idxI][idxJ] = Double.valueOf(fix(temp[j]));
+                        String t = fix(temp[j]);
+                        data[idxI][idxJ] = t.equals("") ? Double.NaN : Double.valueOf(t);
                         idxJ++;
                     }
                     idxI++;
                 }
-
+                
                 return data;
             }
             

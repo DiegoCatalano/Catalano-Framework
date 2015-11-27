@@ -4,6 +4,8 @@ Task						Status
 Add: Crop to work in both system coordinates.		Ready
 Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
+New: Convolutional Neural Network
+New: Hidden Markov Models
 New: MeanVarianceFeatureSelection			Ready
 New: MinimumMeanDistance				Ready
 New: Naive Bayes.

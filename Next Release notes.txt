@@ -13,8 +13,12 @@ Catalano Framework 1.6 road map
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.
 
+* Catalano.IO
+    - Fixed: NaN values in the method ReadAsDouble().
+
 * Catalano.MachineLearning.
     - New: Dataset Regression.
+    - Added: normalize and standartize feature.
     - Added: new ctor in Dataset Classification.
     - Added: ignore attribute info in the dataset classification.
 

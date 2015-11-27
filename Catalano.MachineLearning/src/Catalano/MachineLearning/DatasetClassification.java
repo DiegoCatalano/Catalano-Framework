@@ -453,6 +453,42 @@ public class DatasetClassification implements Serializable{
     }
     
     /**
+     * Normalize the feature.
+     * @param range Range of min and max for each continuous attribute.
+     * @param feature Feature to be normalized.
+     * @return Normalized feature.
+     */
+    public double[] NormalizeFeature(DoubleRange[] range, double[] feature){
+        return NormalizeFeature(range, 0, 1, feature);
+    }
+    
+    /**
+     * Normalize the feature.
+     * @param range Range of min and max for each continuous attribute.
+     * @param min Minimum value of the scale.
+     * @param max Maximum value of the scale.
+     * @param feature Feature to be normalized.
+     * @return Normalized feature.
+     */
+    public double[] NormalizeFeature(DoubleRange[] range, double min, double max, double[] feature){
+        
+        double[] values = new double[feature.length];
+        for (int i = 0; i < attributes.length - 1; i++)
+            if(attributes[i].type == DecisionVariable.Type.Continuous){
+                double t = Tools.Scale(range[i], new DoubleRange(min, max), feature[i]);
+                t = t < 0 ? 0 : t;
+                t = t > 1 ? 1 : t;
+                values[i] = t;
+            }
+            else{
+                values[i] = feature[i];
+            }
+        
+        return values;
+        
+    }
+    
+    /**
      * Remove an attribute.
      * @param index Index of the attribute.
      */
@@ -493,6 +529,25 @@ public class DatasetClassification implements Serializable{
         }
         
         return range;
+    }
+    
+    /**
+     * Standartize the feature.
+     * @param range Pair value, mean and standartization value.
+     * @param feature Feature.
+     * @return Standartized feature.
+     */
+    public double[] StandartizeFeature(DoubleRange[] range, double[] feature){
+        
+        double[] values = new double[feature.length];
+        for (int i = 0; i < attributes.length - 1; i++)
+            if(attributes[i].type == DecisionVariable.Type.Continuous)
+                values[i] = (feature[i] - range[i].getMin()) / range[i].getMax();
+            else
+                values[i] = feature[i];
+        
+        return values;
+        
     }
     
     public DatasetStatistics[] DatasetStatistics(){
