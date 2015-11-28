@@ -22,6 +22,9 @@ Catalano Framework 1.6 road map
     - Added: new ctor in Dataset Classification.
     - Added: ignore attribute info in the dataset classification.
 
+    - Reworked: Standartization class.
+    - Reworked: Normalization class.
+
     - Fixed: Normalization and Standartize in the DatasetClassification.
 
 * Catalano.MachineLearning.Classification

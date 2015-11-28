@@ -38,7 +38,7 @@ public class Standartization {
     
     private double mean;
     private double std;
-    private List<DoubleRange> range;
+    private double[][] range;
     
     boolean find;
 
@@ -62,7 +62,7 @@ public class Standartization {
      * Get range normalization.
      * @return Range normalization.
      */
-    public List<DoubleRange> getRangeNormalization() {
+    public double[][] getRangeNormalization() {
         return range;
     }
 
@@ -70,7 +70,7 @@ public class Standartization {
      * Set range normalization.
      * @param range Range normalization.
      */
-    public void setRangeNormalization(List<DoubleRange> range) {
+    public void setRangeNormalization(double[][] range) {
         this.range = range;
     }
 
@@ -87,33 +87,64 @@ public class Standartization {
         this.find = false;
     }
     
+    public double[][] Standartize(double[][] data){
+        return Standartize(null, data);
+    }
+    
     /**
      * Normalize matrix.
+     * @param attributes Attributes.
      * @param data Matrix.
      * @return Normalized matrix.
      */
-    public double[][] Normalize(double[][] data){
+    public double[][] Standartize(DecisionVariable[] attributes, double[][] data){
         
-        range = new ArrayList<DoubleRange>();
+        int continuous = 0;
+        if(attributes == null){
+            attributes = new DecisionVariable[data[0].length + 1];
+            for (int i = 0; i < attributes.length - 1; i++) {
+                attributes[i] = new DecisionVariable("F" + i, DecisionVariable.Type.Continuous);
+            }
+            attributes[attributes.length - 1] = new DecisionVariable("Class", DecisionVariable.Type.Discrete);
+            continuous += data[0].length;
+        }
+        else{
+            for (int i = 0; i < attributes.length; i++) {
+                if(attributes[i].type == DecisionVariable.Type.Continuous)
+                    continuous++;
+            }
+        }
+        
+        range = new double[2][continuous];
         double[][] matrix = new double[data.length][data[0].length];
         
         if(find == true){
             for (int i = 0; i < data[0].length; i++) {
-                double[] temp = Matrix.getColumn(data, i);
-                double _mean = Catalano.Statistics.Tools.Mean(temp);
-                double _std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
-                if(range != null) range.add(new DoubleRange(_mean,_std));
-                for (int j = 0; j < temp.length; j++) {
-                    matrix[j][i] = (data[j][i] - _mean) / _std;
+                int idx = 0;
+                if(attributes[i].type == DecisionVariable.Type.Continuous){
+                    double[] temp = Matrix.getColumn(data, i);
+                    double _mean = Catalano.Statistics.Tools.Mean(temp);
+                    double _std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
+                    range[0][idx] = _mean;
+                    range[1][idx] = _std;
+                    idx++;
+                    for (int j = 0; j < temp.length; j++) {
+                        matrix[j][i] = (data[j][i] - _mean) / _std;
+                    }
                 }
             }
         }
         else{
             for (int i = 0; i < data[0].length; i++) {
-                double[] temp = Matrix.getColumn(data, i);
-                if(range != null) range.add(new DoubleRange(mean,std));
-                for (int j = 0; j < temp.length; j++) {
-                    matrix[j][i] = (data[j][i] - mean) / std;
+                int idx = 0;
+                if(attributes[i].type == DecisionVariable.Type.Continuous){
+                    double[] temp = Matrix.getColumn(data, i);
+                    range[0][idx] = mean;
+                    range[1][idx] = std;
+                    idx++;
+                    for (int j = 0; j < temp.length; j++) {
+                        matrix[j][i] = (data[j][i] - mean) / std;
+                    }
                 }
             }
         }
@@ -123,36 +154,32 @@ public class Standartization {
     
     /**
      * Apply range normalization in the specified feature.
+     * @param coefficients Standartization coefficients.
      * @param feature Feature.
      * @return Normalized feature.
      */
-    public double[] ApplyRangeNormalization(double[] feature){
-        
-        if(range == null)
-            throw new IllegalArgumentException("The matrix must be standartized.");
-        
-        double[] norm = new double[feature.length];
-        for (int i = 0; i < norm.length; i++)
-            norm[i] = (feature[i] - range.get(i).getMin()) / range.get(i).getMax();
-        
-        
-        return norm;
+    public double[] StandartizeFeature(double[][] coefficients, double[] feature){
+        return StandartizeFeature(null, coefficients, feature);
     }
     
-    /**
-     * Apply range normalization in the given instances.
-     * @param matrix Matrix.
-     * @return Normalized instances.
-     */
-    public double[][] ApplyRangeNormalization(double[][] matrix){
+    public double[] StandartizeFeature(DecisionVariable[] attributes, double[][] coefficients, double[] feature){
         
-        if(range == null)
-            throw new IllegalArgumentException("The matrix must be stardartized.");
+        if(attributes == null){
+            attributes = new DecisionVariable[feature.length];
+            for (int i = 0; i < attributes.length; i++) {
+                attributes[i] = new DecisionVariable("F" + i, DecisionVariable.Type.Continuous);
+            }
+        }
         
-        for (int i = 0; i < matrix.length; i++)
-            for (int j = 0; j < matrix[0].length; j++)
-                matrix[i][j] =  (matrix[i][j] - range.get(j).getMin()) / range.get(j).getMax();
+        double[] norm = new double[feature.length];
+        for (int i = 0; i < norm.length; i++){
+            int idx = 0;
+            if(attributes[i].type == DecisionVariable.Type.Continuous){
+                norm[i] = (feature[i] - coefficients[0][idx]) / coefficients[1][idx];
+                idx++;
+            }
+        }
         
-        return matrix;
+        return norm;
     }
 }

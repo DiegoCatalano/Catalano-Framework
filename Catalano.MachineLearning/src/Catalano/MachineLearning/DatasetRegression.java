@@ -388,7 +388,7 @@ public class DatasetRegression implements Serializable{
      * Default: (0..1).
      * @return Range of the normalization.
      */
-    public DoubleRange[] Normalize(){
+    public double[][] Normalize(){
         return Normalize(0,1);
     }
     
@@ -398,7 +398,7 @@ public class DatasetRegression implements Serializable{
      * @param max Maximum.
      * @return Range of the normalization.
      */
-    public DoubleRange[] Normalize(double min, double max){
+    public double[][] Normalize(double min, double max){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -407,7 +407,7 @@ public class DatasetRegression implements Serializable{
                     continuous++;
         }
         
-        DoubleRange[] range = new DoubleRange[continuous];
+        double[][] range = new double[2][continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length - 1; i++) {
@@ -416,7 +416,9 @@ public class DatasetRegression implements Serializable{
                     double[] temp = Matrix.getColumn(input, i);
                     double _min = Catalano.Statistics.Tools.Min(temp);
                     double _max = Catalano.Statistics.Tools.Max(temp);
-                    range[idx++] = new DoubleRange(_min, _max);
+                    range[0][idx] = _min;
+                    range[1][idx] = _max;
+                    idx++;
                     for (int j = 0; j < temp.length; j++) {
                         input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
                     }
@@ -441,7 +443,7 @@ public class DatasetRegression implements Serializable{
      * x = (x - u) / s
      * @return Range of standartization.
      */
-    public DoubleRange[] Standartize(){
+    public double[][] Standartize(){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -450,7 +452,7 @@ public class DatasetRegression implements Serializable{
                     continuous++;
         }
         
-        DoubleRange[] range = new DoubleRange[continuous];
+        double[][] range = new double[2][continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length - 1; i++) {
@@ -459,7 +461,9 @@ public class DatasetRegression implements Serializable{
                     double[] temp = Matrix.getColumn(input, i);
                     double mean = Catalano.Statistics.Tools.Mean(temp);
                     double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
-                    range[idx++] = new DoubleRange(mean, std);
+                    range[0][idx] = mean;
+                    range[1][idx] = std;
+                    idx++;
                     for (int j = 0; j < temp.length; j++) {
                         input[j][i] = (input[j][i] - mean) / std;
                     }

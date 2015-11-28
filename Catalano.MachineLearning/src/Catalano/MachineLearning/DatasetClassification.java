@@ -22,7 +22,6 @@
 
 package Catalano.MachineLearning;
 
-import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Statistics.DescriptiveStatistics;
@@ -411,9 +410,9 @@ public class DatasetClassification implements Serializable{
     /**
      * Normalize all continuous data.
      * Default: (0..1).
-     * @return Range of the normalization.
+     * @return Coefficient of the normalization.
      */
-    public DoubleRange[] Normalize(){
+    public double[][] Normalize(){
         return Normalize(0,1);
     }
     
@@ -423,7 +422,7 @@ public class DatasetClassification implements Serializable{
      * @param max Maximum.
      * @return Range of the normalization.
      */
-    public DoubleRange[] Normalize(double min, double max){
+    public double[][] Normalize(double min, double max){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -432,7 +431,7 @@ public class DatasetClassification implements Serializable{
                     continuous++;
         }
         
-        DoubleRange[] range = new DoubleRange[continuous];
+        double[][] range = new double[2][continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length - 1; i++) {
@@ -441,7 +440,9 @@ public class DatasetClassification implements Serializable{
                     double[] temp = Matrix.getColumn(input, i);
                     double _min = Catalano.Statistics.Tools.Min(temp);
                     double _max = Catalano.Statistics.Tools.Max(temp);
-                    range[idx++] = new DoubleRange(_min, _max);
+                    range[0][idx] = _min;
+                    range[1][idx] = _max;
+                    idx++;
                     for (int j = 0; j < temp.length; j++) {
                         input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
                     }
@@ -450,42 +451,6 @@ public class DatasetClassification implements Serializable{
         }
         
         return range;
-    }
-    
-    /**
-     * Normalize the feature.
-     * @param range Range of min and max for each continuous attribute.
-     * @param feature Feature to be normalized.
-     * @return Normalized feature.
-     */
-    public double[] NormalizeFeature(DoubleRange[] range, double[] feature){
-        return NormalizeFeature(range, 0, 1, feature);
-    }
-    
-    /**
-     * Normalize the feature.
-     * @param range Range of min and max for each continuous attribute.
-     * @param min Minimum value of the scale.
-     * @param max Maximum value of the scale.
-     * @param feature Feature to be normalized.
-     * @return Normalized feature.
-     */
-    public double[] NormalizeFeature(DoubleRange[] range, double min, double max, double[] feature){
-        
-        double[] values = new double[feature.length];
-        for (int i = 0; i < attributes.length - 1; i++)
-            if(attributes[i].type == DecisionVariable.Type.Continuous){
-                double t = Tools.Scale(range[i], new DoubleRange(min, max), feature[i]);
-                t = t < 0 ? 0 : t;
-                t = t > 1 ? 1 : t;
-                values[i] = t;
-            }
-            else{
-                values[i] = feature[i];
-            }
-        
-        return values;
-        
     }
     
     /**
@@ -500,9 +465,9 @@ public class DatasetClassification implements Serializable{
     /**
      * Standartize all continuous data.
      * x = (x - u) / s
-     * @return Range of standartization.
+     * @return Coefficients of the standartization.
      */
-    public DoubleRange[] Standartize(){
+    public double[][] Standartize(){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -511,7 +476,7 @@ public class DatasetClassification implements Serializable{
                     continuous++;
         }
         
-        DoubleRange[] range = new DoubleRange[continuous];
+        double[][] range = new double[2][continuous];
         
         int idx = 0;
         for (int i = 0; i < attributes.length - 1; i++) {
@@ -520,7 +485,9 @@ public class DatasetClassification implements Serializable{
                     double[] temp = Matrix.getColumn(input, i);
                     double mean = Catalano.Statistics.Tools.Mean(temp);
                     double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
-                    range[idx++] = new DoubleRange(mean, std);
+                    range[0][idx] = mean;
+                    range[1][idx] = std;
+                    idx++;
                     for (int j = 0; j < temp.length; j++) {
                         input[j][i] = (input[j][i] - mean) / std;
                     }
@@ -529,25 +496,6 @@ public class DatasetClassification implements Serializable{
         }
         
         return range;
-    }
-    
-    /**
-     * Standartize the feature.
-     * @param range Pair value, mean and standartization value.
-     * @param feature Feature.
-     * @return Standartized feature.
-     */
-    public double[] StandartizeFeature(DoubleRange[] range, double[] feature){
-        
-        double[] values = new double[feature.length];
-        for (int i = 0; i < attributes.length - 1; i++)
-            if(attributes[i].type == DecisionVariable.Type.Continuous)
-                values[i] = (feature[i] - range[i].getMin()) / range[i].getMax();
-            else
-                values[i] = feature[i];
-        
-        return values;
-        
     }
     
     public DatasetStatistics[] DatasetStatistics(){
