@@ -46,6 +46,10 @@ Catalano Framework 1.6 road map
     - New: Leave One Out Cross Validation (Regression support).
     - New: Regression Measure.
 
+* Catalano.Math
+    - Fixed: MultiplyByTranspose in the Matrix.
+    - Fixed: Multiply in the Matrix.
+
 * Catalano.Statistics
     - Added: Covariance (for to create covariance matrix) in Tools.
     - Fixed: Covariance

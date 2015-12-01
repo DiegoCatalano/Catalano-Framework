@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Regression;
 
 import Catalano.Statistics.Correlations;
+import Catalano.Statistics.Tools;
 
 /**
  * Regression Measure.
@@ -61,6 +62,17 @@ public class RegressionMeasure {
         sum /= actual.length;
         
         return sum;
+    }
+    
+    public static double NormalizedMeanSquareError(double[] actual, double[] predicted){
+        double m = Tools.Mean(actual)*Tools.Mean(predicted);
+        
+        double sum = 0;
+        for (int i = 0; i < actual.length; i++) {
+            sum += Math.pow(actual[i] - predicted[i], 2) / m;
+        }
+        
+        return sum / (double)actual.length;
     }
     
     public static double RootMeanSquaredError(double[] actual, double[] predicted){
@@ -117,6 +129,7 @@ public class RegressionMeasure {
      * Initializes a new instance of the RegressionMeasure class.
      * @param mae
      * @param mse
+     * @param rmse
      * @param r2 
      */
     public RegressionMeasure(double mae, double mse, double rmse, double r2){

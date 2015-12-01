@@ -1423,7 +1423,10 @@ public final class Matrix {
      */
     public static double[][] Multiply(double[][] A, double[][] B){
         
-        double[][] result = new double[A.length][A[0].length];
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
+        
+        double[][] result = new double[A.length][B[0].length];
         
         int n = A[0].length;
         int m = A.length;
@@ -1458,31 +1461,34 @@ public final class Matrix {
      */
     public static int[][] Multiply(int[][] A, int[][] B){
         
-        int[][] C = new int[A.length][B[0].length];
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
         
-        if (A[0].length == B.length) {
-            for (int i = 0; i < A.length; i++) {
-                int Aik = A[i][0];
-                for (int j = 0; j < A[0].length; j++)
-                    C[i][j] = Aik * B[0][j];
-                for (int k = 1; k < B.length; k++) {
-                    Aik = A[i][k];
-                    for (int j = 0; j < B[0].length; j++) {
-                        C[i][j] += Aik * B[k][j];
-                    }
-                }
+        int[][] result = new int[A.length][B[0].length];
+        
+        int n = A[0].length;
+        int m = A.length;
+        int p = B[0].length;
+
+        int[] Bcolj = new int[n];
+        for (int j = 0; j < p; j++)
+        {
+            for (int k = 0; k < n; k++)
+                Bcolj[k] = B[k][j];
+
+            for (int i = 0; i < m; i++)
+            {
+                int[] Arowi = A[i];
+
+                int s = 0;
+                for (int k = 0; k < n; k++)
+                    s += Arowi[k] * Bcolj[k];
+
+                result[i][j] = s;
             }
-            return C;
-            
         }
-        else{
-            try {
-                throw new IllegalArgumentException("Illegal size of matrix");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return C;
+
+        return result;
     }
     
     /**
@@ -1493,31 +1499,34 @@ public final class Matrix {
      */
     public static float[][] Multiply(float[][] A, float[][] B){
         
-        float[][] C = new float[A.length][B[0].length];
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
         
-        if (A[0].length == B.length) {
-            for (int i = 0; i < A.length; i++) {
-                float Aik = A[i][0];
-                for (int j = 0; j < A[0].length; j++)
-                    C[i][j] = Aik * B[0][j];
-                for (int k = 1; k < B.length; k++) {
-                    Aik = A[i][k];
-                    for (int j = 0; j < B[0].length; j++) {
-                        C[i][j] += Aik * B[k][j];
-                    }
-                }
+        float[][] result = new float[A.length][B[0].length];
+        
+        int n = A[0].length;
+        int m = A.length;
+        int p = B[0].length;
+
+        float[] Bcolj = new float[n];
+        for (int j = 0; j < p; j++)
+        {
+            for (int k = 0; k < n; k++)
+                Bcolj[k] = B[k][j];
+
+            for (int i = 0; i < m; i++)
+            {
+                float[] Arowi = A[i];
+
+                float s = 0;
+                for (int k = 0; k < n; k++)
+                    s += Arowi[k] * Bcolj[k];
+
+                result[i][j] = s;
             }
-            return C;
-            
         }
-        else{
-            try {
-                throw new IllegalArgumentException("Illegal size of matrix");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return C;
+
+        return result;
     }
     
     /**
@@ -1651,10 +1660,10 @@ public final class Matrix {
      */
     public static double[] MultiplyByTranspose(double[][] A, double[] B){
         
-        if(A.length != B.length)
-            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("The columns of the matrix A must be the same of the vector B");
         
-        double[] result = new double[B.length];
+        double[] result = new double[A.length];
         for (int i = 0; i < A.length; i++) {
             double r = 0;
             for (int j = 0; j < A[0].length; j++) {
@@ -1673,10 +1682,10 @@ public final class Matrix {
      */
     public static int[] MultiplyByTranspose(int[][] A, int[] B){
         
-        if(A.length != B.length)
-            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("The columns of the matrix A must be the same of the vector B");
         
-        int[] result = new int[B.length];
+        int[] result = new int[A.length];
         for (int i = 0; i < A.length; i++) {
             int r = 0;
             for (int j = 0; j < A[0].length; j++) {
@@ -1695,10 +1704,10 @@ public final class Matrix {
      */
     public static float[] MultiplyByTranspose(float[][] A, float[] B){
         
-        if(A.length != B.length)
-            throw new IllegalArgumentException("The rows of the matrix A must be the same of the vector B");
+        if(A[0].length != B.length)
+            throw new IllegalArgumentException("The columns of the matrix A must be the same of the vector B");
         
-        float[] result = new float[B.length];
+        float[] result = new float[A.length];
         for (int i = 0; i < A.length; i++) {
             float r = 0;
             for (int j = 0; j < A[0].length; j++) {
