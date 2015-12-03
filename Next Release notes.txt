@@ -5,6 +5,7 @@ Catalano Framework 1.6 road map
      - Added: Shuffle in the ArraysUtil.
 
 * Catalano.Image.Filters
+    - New: Hue Modifier.
     - New: Principal Component Transform.
     - Added: new method (setInRGB(), setOutRGB()) in the LevelsLinear.
     - Fixed: Crop now is working in both coordinate system.
