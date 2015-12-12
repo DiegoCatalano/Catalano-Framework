@@ -227,7 +227,7 @@ public final class Matrix {
     }
     
     /**
-     * Inner product (dot or scalar) between two vectors.
+     * Inner product (dot or scalar) between two vectors A'*B.
      * @param A Vector A.
      * @param B Vector B.
      * @return Dot product between A and B.

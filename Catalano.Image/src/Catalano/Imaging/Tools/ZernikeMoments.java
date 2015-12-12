@@ -65,7 +65,7 @@ public final class ZernikeMoments {
         int m = Math.abs(m_in);
 
         if ((n - m) % 2 != 0){
-            throw new IllegalArgumentException("RadialPolynomial: n-|m| is odd");
+            return 0;
         }
 
         double res = 0;

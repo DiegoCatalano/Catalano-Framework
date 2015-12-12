@@ -47,9 +47,17 @@ public class IntegralImage {
      * @param fastBitmap An image to be processed.
      */
     public IntegralImage(FastBitmap fastBitmap) {
+        this(fastBitmap, 1);
+    }
+    
+    /**
+     * Initializes a new instance of the IntegralImage class.
+     * @param fastBitmap An image to be processed.
+     */
+    public IntegralImage(FastBitmap fastBitmap, int power) {
         this.width = fastBitmap.getWidth();
         this.height = fastBitmap.getHeight();
-        Process(fastBitmap);
+        Process(fastBitmap, power);
     }
     
     /**
@@ -128,7 +136,7 @@ public class IntegralImage {
      * Process image.
      * @param fastBitmap Image to be processed.
      */
-    private void Process(FastBitmap fastBitmap){
+    private void Process(FastBitmap fastBitmap, int power){
         if (!fastBitmap.isGrayscale()) {
             try {
                 throw new Exception("IntegralImage works only with Grayscale images");
@@ -142,7 +150,8 @@ public class IntegralImage {
         for (int x = 1; x < height + 1; x++) {
             int rowSum = 0;
             for (int y = 1; y < width + 1; y++) {
-                rowSum += fastBitmap.getGray(x - 1, y - 1);
+                int v = (int)Math.pow(fastBitmap.getGray(x - 1, y - 1), power);
+                rowSum += v;
                 integralImage[x][y] = rowSum + integralImage[x - 1][y];
             }
         }

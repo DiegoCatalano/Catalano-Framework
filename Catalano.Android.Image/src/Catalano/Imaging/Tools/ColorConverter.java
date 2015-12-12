@@ -667,8 +667,8 @@ public class ColorConverter {
         float g = green / 255f;
         float b = blue / 255f;
         
-        float max = Math.max(r,Math.max(r,b));
-        float min = Math.min(r,Math.min(r,b));
+        float max = Math.max(r,Math.max(g,b));
+        float min = Math.min(r,Math.min(g,b));
         float delta = max - min;
         
         //HSK

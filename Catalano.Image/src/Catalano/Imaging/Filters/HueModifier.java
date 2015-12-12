@@ -71,6 +71,15 @@ public class HueModifier implements IBaseInPlace{
                 float[] color = ColorConverter.RGBtoHLS(r, g, b);
                 int[] newColor = ColorConverter.HSLtoRGB(degree,color[1],color[2]);
                 
+                newColor[0] = newColor[0] > 255 ? 255 : newColor[0];
+                newColor[0] = newColor[0] < 0 ? 0 : newColor[0];
+                
+                newColor[1] = newColor[1] > 255 ? 255 : newColor[1];
+                newColor[1] = newColor[1] < 0 ? 0 : newColor[1];
+                
+                newColor[2] = newColor[2] > 255 ? 255 : newColor[2];
+                newColor[2] = newColor[2] < 0 ? 0 : newColor[2];
+                
                 fastBitmap.setRGB(i, newColor);
             }
         }

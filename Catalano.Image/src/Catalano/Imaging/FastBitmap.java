@@ -1222,6 +1222,21 @@ public class FastBitmap {
     }
     
     /**
+     * Clamp values.
+     * @param value Value.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return Clamped values.
+     */
+    public int clampValues(int value, int min, int max){
+        if(value < min)
+            return min;
+        else if(value > max)
+            return max;
+        return value;
+    }
+    
+    /**
      * Save FastBitmap as Bitmap.
      * @param pathname Path name.
      */

@@ -92,9 +92,7 @@ public class UnsharpMasking implements IBaseInPlace{
         if(fastBitmap.isGrayscale()){
             for (int i = 0; i < size; i++) {
                 int g = (int)((fastBitmap.getGray(i) - weight*(float)blur.getGray(i)) / (1f - weight));
-                g = g < 0 ? 0 : g;
-                g = g > 255 ? 255 : g;
-                fastBitmap.setGray(i, g);
+                fastBitmap.setGray(i, fastBitmap.clampValues(g, 0, 255));
             }
             
         }
@@ -104,13 +102,9 @@ public class UnsharpMasking implements IBaseInPlace{
                 int g = (int)((fastBitmap.getGreen(i) - weight*(float)blur.getGreen(i)) / (1f - weight));
                 int b = (int)((fastBitmap.getBlue(i) - weight*(float)blur.getBlue(i)) / (1f - weight));
 
-                r = r < 0 ? 0 : r;
-                g = g < 0 ? 0 : g;
-                b = b < 0 ? 0 : b;
-
-                r = r > 255 ? 255 : r;
-                g = g > 255 ? 255 : g;
-                b = b > 255 ? 255 : b;
+                r = fastBitmap.clampValues(r, 0, 255);
+                g = fastBitmap.clampValues(g, 0, 255);
+                b = fastBitmap.clampValues(b, 0, 255);
 
                 fastBitmap.setRGB(i, r, g, b);
             }

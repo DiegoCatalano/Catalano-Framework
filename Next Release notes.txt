@@ -4,15 +4,23 @@ Catalano Framework 1.6 road map
 * Catalano.Core
      - Added: Shuffle in the ArraysUtil.
 
+* Catalano.Image
+    - Added: clampValues in the FastBitmap class.
+
 * Catalano.Image.Filters
     - New: Hue Modifier.
     - New: Principal Component Transform.
     - Added: new method (setInRGB(), setOutRGB()) in the LevelsLinear.
     - Fixed: Crop now is working in both coordinate system.
 
+* Catalano.Image.Filters.Integral
+    - New: Integral Mean.
+    - New: Integral Variance.
+
 * Catalano.Image.Tools
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.
+    - Fixed: RGBtoHSL in ColorConverter.
 
 * Catalano.IO
     - Fixed: NaN values in the method ReadAsDouble().

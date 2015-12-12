@@ -764,8 +764,8 @@ public class ColorConverter {
         float g = green / 255f;
         float b = blue / 255f;
         
-        float max = Math.max(r,Math.max(r,b));
-        float min = Math.min(r,Math.min(r,b));
+        float max = Math.max(r,Math.max(g,b));
+        float min = Math.min(r,Math.min(g,b));
         float delta = max - min;
         
         //HSK
@@ -781,22 +781,22 @@ public class ColorConverter {
         else
         {
             // get saturation value
-            s = ( l <= 0.5 ) ? ( delta / ( max + min ) ) : ( delta / ( 2 - max - min ) );
+            s = ( l <= 0.5 ) ? ( delta / ( max + min ) ) : ( delta / ( 2f - max - min ) );
 
             // get hue value
             float hue;
 
             if ( r == max )
             {
-                hue = ( ( g - b ) / 6 ) / delta;
+                hue = ( ( g - b ) / 6f ) / delta;
             }
             else if ( g == max )
             {
-                hue = ( 1.0f / 3 ) + ( ( b - r ) / 6 ) / delta; 
+                hue = ( 1.0f / 3f ) + ( ( b - r ) / 6f ) / delta; 
             }
             else
             {
-                hue = ( 2.0f / 3 ) + ( ( r - g ) / 6 ) / delta;
+                hue = ( 2.0f / 3f ) + ( ( r - g ) / 6f ) / delta;
             }
 
             // correct hue if needed
@@ -805,7 +805,7 @@ public class ColorConverter {
             if ( hue > 1 )
                 hue -= 1;
 
-            h = (int) ( hue * 360 );
+            h = (int) ( hue * 360f );
         }
         
         hsl[0] = h;

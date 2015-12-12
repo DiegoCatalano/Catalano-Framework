@@ -159,8 +159,12 @@ public class HSLLinear implements IBaseInPlace{
                     hsl[1] = ks * hsl[1] + bs;
 
                 int[] rgb = ColorConverter.HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+                
+                rgb[0] = fastBitmap.clampValues(rgb[0], 0, 255);
+                rgb[1] = fastBitmap.clampValues(rgb[1], 0, 255);
+                rgb[2] = fastBitmap.clampValues(rgb[2], 0, 255);
 
-                fastBitmap.setRGB(i, rgb[0], rgb[1], rgb[2]);
+                fastBitmap.setRGB(i, rgb);
             }
         }
     }

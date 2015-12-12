@@ -23,6 +23,8 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.Integral.IntegralMean;
+import Catalano.Imaging.Filters.Integral.IntegralVariance;
 import Catalano.Imaging.IBaseInPlace;
 import Catalano.Math.Matrix;
 
@@ -127,12 +129,11 @@ public class SauvolaThreshold implements IBaseInPlace{
             FastBitmap mean = new FastBitmap(fastBitmap);
             FastBitmap var = new FastBitmap(fastBitmap);
             
-            double[] kernel = Matrix.CreateMatrix1D(radius*2+1, 1D);
-            SeparableConvolution sc = new SeparableConvolution(kernel, kernel, true);
-            sc.applyInPlace(mean);
+            IntegralMean im = new IntegralMean(radius);
+            im.applyInPlace(mean);
             
-            FastVariance v = new FastVariance(radius);
-            v.applyInPlace(var);
+            IntegralVariance iv = new IntegralVariance(radius);
+            iv.applyInPlace(var);
             
             int size = fastBitmap.getSize();
             

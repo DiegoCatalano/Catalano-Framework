@@ -772,6 +772,21 @@ public class FastBitmap {
     public void setBlue(IntPoint point, int value){
     	setBlue(point.x, point.y, value);
     }
+    
+    /**
+     * Clamp values.
+     * @param value Value.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return Clamped values.
+     */
+    public int clampValues(int value, int min, int max){
+        if(value < min)
+            return min;
+        else if(value > max)
+            return max;
+        return value;
+    }
 
     /**
      * Set image to FastBitmap.
