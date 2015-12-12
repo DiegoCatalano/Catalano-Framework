@@ -41,7 +41,6 @@ public class IntegralImage {
     
     private int width;
     private int height;
-    private int power;
 
     /**
      * Initializes a new instance of the IntegralImage class.
@@ -54,6 +53,7 @@ public class IntegralImage {
     /**
      * Initializes a new instance of the IntegralImage class.
      * @param fastBitmap An image to be processed.
+     * @param power Power of the number.
      */
     public IntegralImage(FastBitmap fastBitmap, int power) {
         this.width = fastBitmap.getWidth();
@@ -112,6 +112,16 @@ public class IntegralImage {
      * @return Returns integral image.
      */
     public static IntegralImage FromFastBitmap(FastBitmap fastBitmap){
+        return FromFastBitmap(fastBitmap, 1);
+    }
+    
+    /**
+     * Construct integral image from source grayscale image.
+     * @param fastBitmap Image to be processed.
+     * @param power Power of the number.
+     * @return Returns integral image.
+     */
+    public static IntegralImage FromFastBitmap(FastBitmap fastBitmap, int power){
         // get source image size
         int width  = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
@@ -125,7 +135,7 @@ public class IntegralImage {
             int rowSum = 0;
             
             for (int j = 1; j <= width; j++) {
-                rowSum += fastBitmap.getGray(i - 1, j - 1);
+                rowSum += Math.pow(fastBitmap.getGray(i - 1, j - 1), power);
                 integralImage[i][j] = rowSum + integralImage[i - 1][j];
             }
         }
@@ -151,8 +161,7 @@ public class IntegralImage {
         for (int x = 1; x < height + 1; x++) {
             int rowSum = 0;
             for (int y = 1; y < width + 1; y++) {
-                int v = (int)Math.pow(fastBitmap.getGray(x - 1, y - 1), power);
-                rowSum += v;
+                rowSum += Math.pow(fastBitmap.getGray(x - 1, y - 1), power);
                 integralImage[x][y] = rowSum + integralImage[x - 1][y];
             }
         }
