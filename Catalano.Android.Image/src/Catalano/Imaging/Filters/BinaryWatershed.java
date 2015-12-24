@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -29,17 +29,17 @@ import Catalano.Imaging.Tools.ImageStatistics;
 import java.util.Arrays;
 
 /**
- * Watershed.
+ * Binary Watershed.
  * 
- * Watershed lines (e.g. the continental divide) mark the boundaries of catchment regions in a topographical map.
- * The height of a point on this map can have a direct correlation to its pixel intensity. WIth this analogy, the morphological
- * operations of closing (or opening) can be understood as smoothing the ridges (or filling in the valleys).
- * Develops a new algorithm for obtaining the watershed lines in a graph, and then uses this in developing a new segmentation approach
- * based on the depth of immersion.
+ * Binary Watershed lines (e.g. the continental divide) mark the boundaries of catchment regions in a topographical map.
+ The height of a point on this map can have a direct correlation to its pixel intensity. WIth this analogy, the morphological
+ operations of closing (or opening) can be understood as smoothing the ridges (or filling in the valleys).
+ Develops a new algorithm for obtaining the watershed lines in a graph, and then uses this in developing a new segmentation approach
+ based on the depth of immersion.
  * 
  * @author Diego Catalano
  */
-public class Watershed implements IBaseInPlace{
+public class BinaryWatershed implements IBaseInPlace{
     
     private final int[] DIR_X_OFFSET = new int[] {  0,  1,  1,  1,  0, -1, -1, -1 };
     private final int[] DIR_Y_OFFSET = new int[] { -1, -1,  0,  1,  1,  1,  0, -1 };
@@ -53,33 +53,33 @@ public class Watershed implements IBaseInPlace{
     private float tolerance = 0.5f;
 
     /**
-     * Initializes a new instance of the Watershed class.
+     * Initializes a new instance of the BinaryWatershed class.
      */
-    public Watershed() {}
+    public BinaryWatershed() {}
     
     /**
-     * Initializes a new instance of the Watershed class.
+     * Initializes a new instance of the BinaryWatershed class.
      * @param tolerance Tolerance.
      */
-    public Watershed(float tolerance){
+    public BinaryWatershed(float tolerance){
         this.tolerance = tolerance;
     }
     
     /**
-     * Initializes a new instance of the Watershed class.
+     * Initializes a new instance of the BinaryWatershed class.
      * @param tolerance Tolerance.
      * @param distance Distance.
      */
-    public Watershed(float tolerance, DistanceTransform.Distance distance){
+    public BinaryWatershed(float tolerance, DistanceTransform.Distance distance){
         this.tolerance = tolerance;
         this.distance = distance;
     }
     
     /**
-     * Initializes a new instance of the Watershed class.
+     * Initializes a new instance of the BinaryWatershed class.
      * @param distance Distance.
      */
-    public Watershed(DistanceTransform.Distance distance){
+    public BinaryWatershed(DistanceTransform.Distance distance){
         this.distance = distance;
     }
 
@@ -149,7 +149,7 @@ public class Watershed implements IBaseInPlace{
     private long[] getSortedMaxPoints(float[][] distance, float[] distance1D, FastBitmap back, float globalMin, float globalMax, double threshold){
         
         //Create the back image
-        byte[] types = back.getGrayData();
+        int[] types = back.getData();
         
         int nMax = 0;
         for (int y = 0; y < distance.length; y++) {
@@ -202,7 +202,7 @@ public class Watershed implements IBaseInPlace{
    private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, float tolerance, float maxSortingError) {
         int width = back.getWidth();
         int height = back.getHeight();
-        byte[] types =  (byte[])back.getGrayData();
+        int[] types =  back.getData();
         int nMax = maxPoints.length;
         int [] pList = new int[width*height];       //here we enter points starting from a maximum
       
@@ -311,7 +311,7 @@ public class Watershed implements IBaseInPlace{
         
         int width = distance[0].length;
         int height = distance.length;
-        byte[] types = back.getGrayData();
+        int[] types = back.getData();
         threshold = 0.5;
         double minValue = 1;
         
@@ -323,7 +323,7 @@ public class Watershed implements IBaseInPlace{
         
         FastBitmap outIp = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         //convert possibly calibrated image to byte without damaging threshold (setMinAndMax would kill threshold)
-        byte[] pixels = outIp.getGrayData();
+        int[] pixels = outIp.getData();
         long v;
         for (int y=0, i=0; y<height; y++) {
             for (int x=0; x<width; x++, i++) {
@@ -347,8 +347,8 @@ public class Watershed implements IBaseInPlace{
     private void cleanupMaxima(FastBitmap outIp, FastBitmap typeP, long[] maxPoints) {
         int width = outIp.getWidth();
         int height = outIp.getHeight();
-        byte[] pixels = outIp.getGrayData();
-        byte[] types = typeP.getGrayData();
+        int[] pixels = outIp.getData();
+        int[] types = typeP.getData();
         int nMax = maxPoints.length;
         int[] pList = new int[width*height];
         for (int iMax = nMax-1; iMax>=0; iMax--) {
@@ -405,7 +405,7 @@ public class Watershed implements IBaseInPlace{
     private boolean watershedSegment(FastBitmap ip) {
         int width = ip.getWidth();
         int height = ip.getHeight();
-        byte[] pixels = ip.getGrayData();
+        int[] pixels = ip.getData();
         // Create an array with the coordinates of all points between value 1 and 254
         // This method, suggested by Stein Roervik (stein_at_kjemi-dot-unit-dot-no),
         // greatly speeds up the watershed segmentation routine.
@@ -501,7 +501,7 @@ public class Watershed implements IBaseInPlace{
         int height = ip.getHeight();
         int xmax = width - 1;
         int ymax = height - 1;
-        byte[] pixels = ip.getGrayData();
+        int[] pixels = ip.getData();
         
         int nChanged = 0;
         int nUnchanged = 0;
@@ -623,7 +623,7 @@ public class Watershed implements IBaseInPlace{
     }
     
     private static void watershedPostProcess(FastBitmap ip) {
-        byte[] pixels = ip.getGrayData();
+        int[] pixels = ip.getData();
         int size = ip.getWidth()*ip.getHeight();
         for (int i=0; i<size; i++) {
            if ((pixels[i]&255)<255)

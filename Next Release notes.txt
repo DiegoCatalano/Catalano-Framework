@@ -8,10 +8,16 @@ Catalano Framework 1.6 road map
     - Added: clampValues in the FastBitmap class.
 
 * Catalano.Image.Filters
+    - New: Shrink.
     - New: Hue Modifier.
     - New: Principal Component Transform.
+
     - Added: new method (setInRGB(), setOutRGB()) in the LevelsLinear.
+
+    - Renamed: Watershed to BinaryWatershed.
+
     - Fixed: Crop now is working in both coordinate system.
+
 
 * Catalano.Image.Filters.Integral
     - New: Integral Mean.
