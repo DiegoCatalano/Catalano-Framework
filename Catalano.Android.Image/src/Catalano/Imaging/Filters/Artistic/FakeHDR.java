@@ -135,13 +135,9 @@ public class FakeHDR implements IBaseInPlace{
         blend.setOverlay(layerA);
         blend.applyInPlace(layerB);
         
-        layerA.recycle();
-        
         Opacity o = new Opacity(layerB);
         o.setPercentage(p);
         o.applyInPlace(fastBitmap);
-        
-        layerB.recycle();
         
     }
 }

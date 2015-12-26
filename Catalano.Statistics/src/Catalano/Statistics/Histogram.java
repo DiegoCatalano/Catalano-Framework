@@ -75,7 +75,7 @@ public class Histogram {
         P[0] = (double) c / n;
         for (int i = 1; i < length; i++) {
             c += values[i];
-            P[i] = (double) c / n;
+            P[i] = (double) c / (double)n;
         }
         
         return P;

@@ -1,8 +1,11 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
+//
+// Copyright © Wayne Rasband, 2010
+// wsr at nih.gov
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -23,7 +26,6 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
-import Catalano.Statistics.DescriptiveStatistics;
 
 /**
  * Kuwahara filter is able to apply smoothing on the image while preserving the edges.
@@ -52,295 +54,170 @@ public class Kuwahara implements IBaseInPlace{
         
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
+        int size2 = (windowSize+1)/2;
+        int offset = (windowSize-1)/2;
         
         FastBitmap copy = new FastBitmap(fastBitmap);
         
         if (fastBitmap.isRGB()) {
-            int steps = calcSteps(windowSize);
-            float meanR = 0; float varianceR = Float.MAX_VALUE;
-            float meanG = 0; float varianceG = Float.MAX_VALUE;
-            float meanB = 0; float varianceB = Float.MAX_VALUE;
+            int width2 = width+offset;
+            int height2 = height+offset;
+            float[][][] mean = new float[width2][height2][3];
+            float[][][] variance = new float[width2][height2][3];
+            double sumR, sum2R;
+            double sumG, sum2G;
+            double sumB, sum2B;
+            int n, r,g,b, xbase, ybase;
+            for (int y1=0-offset; y1<0+height; y1++) {
+                for (int x1=0-offset; x1<0+width; x1++) {
+                    sumR=sumG=sumB=0;
+                    sum2R=sum2G=sum2B=0;
+                    n=0;
+                    for (int x2=x1; x2<x1+size2; x2++) {
+                        for (int y2=y1; y2<y1+size2; y2++) {
+                            if(x2 > 0 && x2 < width && y2 > 0 && y2 < height){
+                                r = copy.getRed(y2, x2);
+                                g = copy.getGreen(y2, x2);
+                                b = copy.getBlue(y2, x2);
+                                
+                                sumR += r;
+                                sum2R += r*r;
+                                
+                                sumG += g;
+                                sum2G += g*g;
+                                
+                                sumB += b;
+                                sum2B += b*b;
+                                
+                                n++;
+                            }
+                            else{
+                                n++;
+                            }
+                        }
+                    }
+                    mean[x1+offset][y1+offset][0] = (float)(sumR/n);
+                    mean[x1+offset][y1+offset][1] = (float)(sumG/n);
+                    mean[x1+offset][y1+offset][2] = (float)(sumB/n);
+                    
+                    variance[x1+offset][y1+offset][0] = (float)(sum2R-sumR*sumR/n);
+                    variance[x1+offset][y1+offset][1] = (float)(sum2G-sumG*sumG/n);
+                    variance[x1+offset][y1+offset][2] = (float)(sum2B-sumB*sumB/n);
+                }
+            }
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            int xbase2=0, ybase2=0;
+            float var, min;
+            for (int y1=0; y1<0+height; y1++) {
+                for (int x1=0; x1<0+width; x1++) {
                     
-                    int index = 0;
-                    int steps2 = steps * steps;
-                    float tMeanR = 0; float tVarianceR = Float.MAX_VALUE;
-                    float tMeanG = 0; float tVarianceG = Float.MAX_VALUE;
-                    float tMeanB = 0; float tVarianceB = Float.MAX_VALUE;
-                    float[] valuesR = new float[steps2];
-                    float[] valuesG = new float[steps2];
-                    float[] valuesB = new float[steps2];
+                    //Red channel
+                    min = Float.MAX_VALUE;
+                    xbase = x1; ybase=y1;
+                    var = variance[xbase][ybase][0];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1+offset;
+                    var = variance[xbase][ybase][0];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    ybase = y1+offset;
+                    var = variance[xbase][ybase][0];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1; 
+                    var = variance[xbase][ybase][0];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
                     
-                    // 1: Region
-                    for (int i = x - steps; i < x; i++) {
-                        for (int j = y - steps; j < y; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                valuesR[index] = (float)copy.getRed(i, j);
-                                valuesG[index] = (float)copy.getGreen(i, j);
-                                valuesB[index] = (float)copy.getBlue(i, j);
-                            }
-                            else{
-                                valuesR[index] = valuesG[index] = valuesB[index] = 0;
-                            }
-                            
-                            index++;
-                            
-                        }
-                    }
+                    r = (int)(mean[xbase2][ybase2][0]+0.5);
                     
-                    meanR = DescriptiveStatistics.Mean(valuesR);
-                    meanG = DescriptiveStatistics.Mean(valuesG);
-                    meanB = DescriptiveStatistics.Mean(valuesB);
+                    //Green channel
+                    min = Float.MAX_VALUE;
+                    xbase = x1; ybase=y1;
+                    var = variance[xbase][ybase][1];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1+offset;
+                    var = variance[xbase][ybase][1];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    ybase = y1+offset;
+                    var = variance[xbase][ybase][1];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1; 
+                    var = variance[xbase][ybase][1];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
                     
-                    varianceR = DescriptiveStatistics.Variance(valuesR, meanR);
-                    varianceG = DescriptiveStatistics.Variance(valuesG, meanG);
-                    varianceB = DescriptiveStatistics.Variance(valuesB, meanB);
-                    index = 0;
+                    g = (int)(mean[xbase2][ybase2][1]+0.5);
                     
-                    // 2: Region
-                    for (int i = x; i < x + steps; i++) {
-                        for (int j = y + 1; j <= y + steps; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                valuesR[index] = (float)copy.getRed(i, j);
-                                valuesG[index] = (float)copy.getGreen(i, j);
-                                valuesB[index] = (float)copy.getBlue(i, j);
-                            }
-                            else{
-                                valuesR[index] = valuesG[index] = valuesB[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
+                    //Blue channel
+                    min = Float.MAX_VALUE;
+                    xbase = x1; ybase=y1;
+                    var = variance[xbase][ybase][2];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1+offset;
+                    var = variance[xbase][ybase][2];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    ybase = y1+offset;
+                    var = variance[xbase][ybase][2];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1; 
+                    var = variance[xbase][ybase][2];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
                     
-                    tMeanR = DescriptiveStatistics.Mean(valuesR);
-                    tMeanG = DescriptiveStatistics.Mean(valuesG);
-                    tMeanB = DescriptiveStatistics.Mean(valuesB);
-                    
-                    tVarianceR = DescriptiveStatistics.Variance(valuesR, tMeanR);
-                    tVarianceG = DescriptiveStatistics.Variance(valuesG, tMeanG);
-                    tVarianceB = DescriptiveStatistics.Variance(valuesB, tMeanB);
-                    
-                    if (tVarianceR < varianceR) {
-                        varianceR = tVarianceR;
-                        meanR = tMeanR;
-                    }
-                    if (tVarianceG < varianceG) {
-                        varianceG = tVarianceG;
-                        meanG = tMeanG;
-                    }
-                    if (tVarianceB < varianceB) {
-                        varianceB = tVarianceB;
-                        meanB = tMeanB;
-                    }
-                    
-                    
-                    index = 0;
-                    
-                    // 3: Region
-                    for (int i = x + 1; i <= x + steps; i++) {
-                        for (int j = y + 1; j <= y + steps; j++) {
-                            
-                            //System.err.println("i: " + i + " j: " + j);
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                valuesR[index] = (float)copy.getRed(i, j);
-                                valuesG[index] = (float)copy.getGreen(i, j);
-                                valuesB[index] = (float)copy.getBlue(i, j);
-                            }
-                            else{
-                                valuesR[index] = valuesG[index] = valuesB[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
-                    
-                    tMeanR = DescriptiveStatistics.Mean(valuesR);
-                    tMeanG = DescriptiveStatistics.Mean(valuesG);
-                    tMeanB = DescriptiveStatistics.Mean(valuesB);
-                    
-                    tVarianceR = DescriptiveStatistics.Variance(valuesR, tMeanR);
-                    tVarianceG = DescriptiveStatistics.Variance(valuesG, tMeanG);
-                    tVarianceB = DescriptiveStatistics.Variance(valuesB, tMeanB);
-                    
-                    if (tVarianceR < varianceR) {
-                        varianceR = tVarianceR;
-                        meanR = tMeanR;
-                    }
-                    if (tVarianceG < varianceG) {
-                        varianceG = tVarianceG;
-                        meanG = tMeanG;
-                    }
-                    if (tVarianceB < varianceB) {
-                        varianceB = tVarianceB;
-                        meanB = tMeanB;
-                    }
-                    
-                    index = 0;
-                    
-                    // 4: Region
-                    for (int i = x + 1; i <= x + steps; i++) {
-                        for (int j = y - steps; j < y; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                valuesR[index] = (float)copy.getRed(i, j);
-                                valuesG[index] = (float)copy.getGreen(i, j);
-                                valuesB[index] = (float)copy.getBlue(i, j);
-                            }
-                            else{
-                                valuesR[index] = valuesG[index] = valuesB[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
-                    
-                    tMeanR = DescriptiveStatistics.Mean(valuesR);
-                    tMeanG = DescriptiveStatistics.Mean(valuesG);
-                    tMeanB = DescriptiveStatistics.Mean(valuesB);
-                    
-                    tVarianceR = DescriptiveStatistics.Variance(valuesR, tMeanR);
-                    tVarianceG = DescriptiveStatistics.Variance(valuesG, tMeanG);
-                    tVarianceB = DescriptiveStatistics.Variance(valuesB, tMeanB);
-                    
-                    if (tVarianceR < varianceR) {
-                        varianceR = tVarianceR;
-                        meanR = tMeanR;
-                    }
-                    if (tVarianceG < varianceG) {
-                        varianceG = tVarianceG;
-                        meanG = tMeanG;
-                    }
-                    if (tVarianceB < varianceB) {
-                        varianceB = tVarianceB;
-                        meanB = tMeanB;
-                    }
-                    
-                    fastBitmap.setRGB(x, y, (int)meanR, (int)meanG, (int)meanB);
-                    
+                    b = (int)(mean[xbase2][ybase2][2]+0.5);
+
+                    fastBitmap.setRGB(y1, x1, r, g, b);
                 }
             }
         }
-        else{
-            int steps = calcSteps(windowSize);
-            float mean = 0; float variance = Float.MAX_VALUE;
+        else if(fastBitmap.isGrayscale()){
+            int width2 = width+offset;
+            int height2 = height+offset;
+            float[][] mean = new float[width2][height2];
+            float[][] variance = new float[width2][height2];
+            double sum, sum2;
+            int n, v=0, xbase, ybase;
+            for (int y1=0-offset; y1<0+height; y1++) {
+                for (int x1=0-offset; x1<0+width; x1++) {
+                    sum=0; sum2=0; n=0;
+                    for (int x2=x1; x2<x1+size2; x2++) {
+                        for (int y2=y1; y2<y1+size2; y2++) {
+                            if(x2 > 0 && x2 < width && y2 > 0 && y2 < height){
+                                v = copy.getGray(y2, x2);
+                                sum += v;
+                                sum2 += v*v;
+                                n++;
+                            }
+                            else{
+                                v = 0;
+                                sum += v;
+                                sum2 += v*v;
+                                n++;
+                            }
+                        }
+                    }
+                    mean[x1+offset][y1+offset] = (float)(sum/n);
+                    variance[x1+offset][y1+offset] = (float)(sum2-sum*sum/n);
+                }
+            }
             
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    
-                    int index = 0;
-                    float tMean = 0; float tVariance = Float.MAX_VALUE;
-                    float[] values = new float[steps * steps];
-                    
-                    // 1: Region
-                    for (int i = x - steps; i < x; i++) {
-                        for (int j = y - steps; j < y; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                values[index] = (float)copy.getGray(i, j);
-                            }
-                            else{
-                                values[index] = 0;
-                            }
-                            
-                            index++;
-                            
-                        }
-                    }
-                    
-                    mean = DescriptiveStatistics.Mean(values);
-                    variance = DescriptiveStatistics.Variance(values, mean);
-                    index = 0;
-                    
-                    // 2: Region
-                    for (int i = x; i < x + steps; i++) {
-                        for (int j = y + 1; j <= y + steps; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                values[index] = (float)copy.getGray(i, j);
-                            }
-                            else{
-                                values[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
-                    
-                    tMean = DescriptiveStatistics.Mean(values);
-                    tVariance = DescriptiveStatistics.Variance(values, tMean);
-                    
-                    if (tVariance < variance) {
-                        variance = tVariance;
-                        mean = tMean;
-                    }
-                    
-                    
-                    index = 0;
-                    
-                    // 3: Region
-                    for (int i = x + 1; i <= x + steps; i++) {
-                        for (int j = y + 1; j <= y + steps; j++) {
-                            
-                            //System.err.println("i: " + i + " j: " + j);
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                values[index] = (float)copy.getGray(i, j);
-                            }
-                            else{
-                                values[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
-                    
-                    tMean = DescriptiveStatistics.Mean(values);
-                    tVariance = DescriptiveStatistics.Variance(values, tMean);
-                    
-                    if (tVariance < variance) {
-                        variance = tVariance;
-                        mean = tMean;
-                    }
-                    
-                    index = 0;
-                    
-                    // 4: Region
-                    for (int i = x + 1; i <= x + steps; i++) {
-                        for (int j = y - steps; j < y; j++) {
-                            
-                            if ((i >= 0) && (i < height) && (j >=0) && (j < width)) {
-                                values[index] = (float)copy.getGray(i, j);
-                            }
-                            else{
-                                values[index] = 0;
-                            }
-                            
-                            index++;
-                        }
-                    }
-                    
-                    tMean = DescriptiveStatistics.Mean(values);
-                    tVariance = DescriptiveStatistics.Variance(values, tMean);
-                    
-                    if (tVariance < variance) {
-                        variance = tVariance;
-                        mean = tMean;
-                    }
-                    
-                    fastBitmap.setGray(x, y, (int)mean);
-                    
+            int xbase2=0, ybase2=0;
+            float var, min;
+            for (int y1=0; y1<0+height; y1++) {
+                for (int x1=0; x1<0+width; x1++) {
+                    min = Float.MAX_VALUE;
+                    xbase = x1; ybase=y1;
+                    var = variance[xbase][ybase];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1+offset;
+                    var = variance[xbase][ybase];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    ybase = y1+offset;
+                    var = variance[xbase][ybase];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+                    xbase = x1; 
+                    var = variance[xbase][ybase];
+                    if (var<min) {min= var; xbase2=xbase; ybase2=ybase;}
+
+                    fastBitmap.setGray(y1, x1, (int)(mean[xbase2][ybase2]+0.5));
                 }
             }
         }
-    }
-    
-    private int calcSteps(int windowSize){
-        return (windowSize + 1) / 2 - 1;
     }
 }
