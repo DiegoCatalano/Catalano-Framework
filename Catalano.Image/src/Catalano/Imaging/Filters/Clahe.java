@@ -123,6 +123,9 @@ public class Clahe implements IBaseInPlace{
 
     /**
      * Initialize a new instance of the CLAHE class.
+     * <br><br>Block radius: 63.
+     * <br>Bins: 255.
+     * <br>Slope: 3.
      */
     public Clahe() {}
     

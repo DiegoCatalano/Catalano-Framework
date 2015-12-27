@@ -8,6 +8,7 @@ Catalano Framework 1.6 road map
     - Added: clampValues in the FastBitmap class.
 
 * Catalano.Image.Filters
+    - New: Perona-Malik Anisotropic Diffusion.
     - New: Histogram Adjust.
     - New: Shrink.
     - New: Hue Modifier.
