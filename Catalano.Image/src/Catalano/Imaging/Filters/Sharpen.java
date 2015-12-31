@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  */
 public class Sharpen implements IBaseInPlace{
     
-    private int[][] kernel = {
+    private final int[][] kernel = {
         {0, -1, 0},
         {-1, 5, -1},
         {0, -1, 0}};

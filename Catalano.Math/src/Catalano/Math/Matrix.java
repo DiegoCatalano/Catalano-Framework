@@ -1952,6 +1952,60 @@ public final class Matrix {
     }
     
     /**
+     * Is defined to be the sum of the elements on the main diagonal.
+     * @param A Matrix NxN.
+     * @return Trace(A).
+     */
+    public static double Trace(double[][] A){
+        if(isSquare(A)){
+            double sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += A[i][i];
+            }
+            return sum;
+        }
+        else{
+            throw new IllegalArgumentException("The matrix must be square.");
+        }
+    }
+    
+    /**
+     * Is defined to be the sum of the elements on the main diagonal.
+     * @param A Matrix NxN.
+     * @return Trace(A).
+     */
+    public static int Trace(int[][] A){
+        if(isSquare(A)){
+            int sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += A[i][i];
+            }
+            return sum;
+        }
+        else{
+            throw new IllegalArgumentException("The matrix must be square.");
+        }
+    }
+    
+    /**
+     * Is defined to be the sum of the elements on the main diagonal.
+     * @param A Matrix NxN.
+     * @return Trace(A).
+     */
+    public static float Trace(float[][] A){
+        if(isSquare(A)){
+            float sum = 0;
+            for (int i = 0; i < A.length; i++) {
+                sum += A[i][i];
+            }
+            return sum;
+        }
+        else{
+            throw new IllegalArgumentException("The matrix must be square.");
+        }
+    }
+    
+    /**
      * Gets the transpose of the matrix.
      * @param A Matrix.
      * @return Transposed matrix.

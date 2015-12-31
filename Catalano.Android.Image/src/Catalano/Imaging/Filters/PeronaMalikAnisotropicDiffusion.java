@@ -160,55 +160,58 @@ public class PeronaMalikAnisotropicDiffusion implements IBaseInPlace{
             double[][] diff = new double[fastBitmap.getHeight()][fastBitmap.getWidth()];
             fastBitmap.toArrayGray(diff);
             
+            int h = diff.length;
+            int w = diff[0].length;
+            
+            double[][] deltaN = new double[h][w];
+            double[][] deltaS = new double[h][w];
+            double[][] deltaE = new double[h][w];
+            double[][] deltaW = new double[h][w];
+            
             for (int i = 0; i < iterations; i++) {
-                
                 //North diff
-                double[][] deltaN = new double[diff.length][diff[0].length];
-                for (int y = 0; y < deltaN[0].length; y++) {
+                for (int y = 0; y < w; y++) {
                     deltaN[0][y] = -diff[0][y];
                 }
-                for (int x = 1; x < deltaN.length; x++) {
-                    for (int y = 0; y < deltaN[0].length; y++) {
+                for (int x = 1; x < h; x++) {
+                    for (int y = 0; y < w; y++) {
                         deltaN[x][y] = diff[x-1][y] - diff[x][y];
                     }
                 }
                 
                 //South diff
-                double[][] deltaS = new double[diff.length][diff[0].length];
-                for (int x = 0; x < deltaS.length - 1; x++) {
-                    for (int y = 0; y < deltaS[0].length; y++) {
+                for (int x = 0; x < h - 1; x++) {
+                    for (int y = 0; y < w; y++) {
                         deltaS[x][y] = diff[x+1][y] - diff[x][y];
                     }
                 }
-                for (int y = 0; y < deltaS[0].length; y++) {
-                    deltaS[deltaS.length - 1][y] = -diff[deltaS.length - 1][y];
+                for (int y = 0; y < w; y++) {
+                    deltaS[h - 1][y] = -diff[h - 1][y];
                 }
                 
                 //East diff
-                double[][] deltaE = new double[diff.length][diff[0].length];
-                for (int x = 0; x < deltaE.length; x++) {
-                    for (int y = 0; y < deltaE[0].length - 1; y++) {
+                for (int x = 0; x < h; x++) {
+                    for (int y = 0; y < w - 1; y++) {
                         deltaE[x][y] = diff[x][y+1] - diff[x][y];
                     }
                 }
-                for (int x = 0; x < deltaE.length; x++) {
-                    deltaE[x][deltaE[0].length - 1] = -diff[x][deltaE[0].length - 1];
+                for (int x = 0; x < h; x++) {
+                    deltaE[x][w - 1] = -diff[x][w - 1];
                 }
                 
                 //West diff
-                double[][] deltaW = new double[diff.length][diff[0].length];
-                for (int x = 0; x < deltaW.length; x++) {
-                    for (int y = 1; y < deltaW[0].length; y++) {
+                for (int x = 0; x < h; x++) {
+                    for (int y = 1; y < w; y++) {
                         deltaW[x][y] = diff[x][y-1] - diff[x][y];
                     }
                 }
-                for (int x = 0; x < deltaW.length; x++) {
+                for (int x = 0; x < h; x++) {
                     deltaW[x][0] = -diff[x][0];
                 }
                 
                 if(diffusion == Diffusion.HighContrastEdges){
-                    for (int x = 0; x < diff.length; x++) {
-                        for (int y = 0; y < diff[0].length; y++) {
+                    for (int x = 0; x < h; x++) {
+                        for (int y = 0; y < w; y++) {
                             double cN = Math.exp(-Math.pow(deltaN[x][y] / kappa, 2));
                             double cS = Math.exp(-Math.pow(deltaS[x][y] / kappa, 2));
                             double cE = Math.exp(-Math.pow(deltaE[x][y] / kappa, 2));
@@ -218,8 +221,8 @@ public class PeronaMalikAnisotropicDiffusion implements IBaseInPlace{
                     }
                 }
                 else{
-                    for (int x = 0; x < diff.length; x++) {
-                        for (int y = 0; y < diff[0].length; y++) {
+                    for (int x = 0; x < h; x++) {
+                        for (int y = 0; y < w; y++) {
                             double cN = 1 / (1 + Math.pow((deltaN[x][y] / kappa),2));
                             double cS = 1 / (1 + Math.pow((deltaS[x][y] / kappa),2));
                             double cE = 1 / (1 + Math.pow((deltaE[x][y] / kappa),2));
@@ -233,11 +236,14 @@ public class PeronaMalikAnisotropicDiffusion implements IBaseInPlace{
             //Just clamp the values [0..255]
             double min = Matrix.Min(diff);
             double max = Matrix.Max(diff);
-            for (int i = 0; i < diff.length; i++) {
-                for (int j = 0; j < diff[0].length; j++) {
+            for (int i = 0; i < h; i++) {
+                for (int j = 0; j < w; j++) {
                     fastBitmap.setGray(i, j, (int)Catalano.Math.Tools.Scale(min, max, 0, 255, diff[i][j]));
                 }
             }
+        }
+        else{
+            throw new IllegalArgumentException("Perona-Malik only works in grayscale images.");
         }
     }
 }

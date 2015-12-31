@@ -26,6 +26,7 @@ package Catalano.Math.Distances;
 
 import Catalano.Core.IntPoint;
 import Catalano.Math.Constants;
+import Catalano.Math.Matrix;
 
 /**
  * Defines a set of extension methods defining distance measures.
@@ -541,6 +542,107 @@ public final class Distance {
             return k;
         else
             return Double.POSITIVE_INFINITY;
+    }
+    
+    /**
+     * Gets the Mahalanobis distance.
+     * @param A Matrix A.
+     * @param B Matrix B.
+     * @return The Mahalanobis distance between A and B.
+     */
+    public static double Mahalanobis(double[][] A, double[][] B){
+        
+        if(A[0].length != B[0].length)
+            throw new IllegalArgumentException("The number of columns of both matrix must be equals.");
+        
+        double[][] subA = new double[A.length][A[0].length];
+        double[][] subB = new double[B.length][B[0].length];
+        
+        //Center data A
+        double[] meansA = new double[A[0].length];
+        for (int j = 0; j < A[0].length; j++) {
+            for (int i = 0; i < A.length; i++) {
+                meansA[j] += A[i][j];
+            }
+            meansA[j] /= (double)A.length;
+            for (int i = 0; i < A.length; i++) {
+                subA[i][j] = A[i][j] - meansA[j];
+            }
+        }
+        
+        //Center data B
+        double [] meansB = new double[B[0].length];
+        for (int j = 0; j < B[0].length; j++) {
+            for (int i = 0; i < B.length; i++) {
+                meansB[j] += B[i][j];
+            }
+            meansB[j] /= (double)B.length;
+            for (int i = 0; i < B.length; i++) {
+                subB[i][j] = B[i][j] - meansB[j];
+            }
+        }
+        
+        //Matrix of covariance
+        double[][] covA = Covariance(subA);
+        double[][] covB = Covariance(subB);
+        
+        //Pooled covariance
+        double rows = subA.length + subB.length;
+        double[][] pCov = new double[covA.length][covA[0].length];
+        for (int i = 0; i < pCov.length; i++) {
+            for (int j = 0; j < pCov[0].length; j++) {
+                pCov[i][j] = covA[i][j]*((double)subA.length/rows) + covB[i][j]*((double)subB.length/rows);
+            }
+        }
+        
+        //Inverse of pooled covariance
+        pCov = Matrix.Inverse(pCov);
+        
+        //Compute mean difference
+        double[] diff = new double[A[0].length];
+        for (int i = 0; i < diff.length; i++) {
+            diff[i] = meansA[i] - meansB[i];
+        }
+        
+        return Math.sqrt(Matrix.InnerProduct(Matrix.MultiplyByTranspose(pCov, diff),diff));
+        
+    }
+    
+    private static double Covariance(double[] x, double[] y, double meanX, double meanY){
+        double result = 0;
+        for (int i = 0; i < x.length; i++) {
+            result += (x[i] - meanX) * (y[i] - meanY);
+        }
+        
+        return result / (double)(x.length);
+    }
+    
+    private static double[][] Covariance(double[][] matrix){
+        double[] means = new double[matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                means[j] += matrix[i][j];
+            }
+        }
+        
+        for (int i = 0; i < means.length; i++) {
+            means[i] /= means.length;
+        }
+        
+        return Covariance(matrix, means);
+    }
+
+    private static double[][] Covariance(double[][] matrix, double[] means){
+        double[][] cov = new double[means.length][means.length];
+        
+        for (int i = 0; i < cov.length; i++) {
+            for (int j = 0; j < cov[0].length; j++) {
+                cov[i][j] = Covariance(Matrix.getColumn(matrix, i), Matrix.getColumn(matrix, j), means[i], means[j]);
+            }
+        }
+        
+        return cov;
+        
     }
     
     /**
