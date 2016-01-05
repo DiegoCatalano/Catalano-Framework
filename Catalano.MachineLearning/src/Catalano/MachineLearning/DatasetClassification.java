@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Statistics.DescriptiveStatistics;
@@ -460,6 +461,26 @@ public class DatasetClassification implements Serializable{
     public void RemoveAttribute(int index){
         this.input = Matrix.RemoveColumn(input, index);
         this.attributes = Matrix.RemoveColumn(attributes, index);
+    }
+    
+    /**
+     * Sort the dataset in relation of the labels.
+     */
+    public void Sort(){
+        
+        //Sort input
+        int[] idx = ArraysUtil.Argsort(output, true);
+        for (int j = 0; j < input[0].length; j++) {
+            double[] col = Matrix.getColumn(input, j);
+            for (int i = 0; i < col.length; i++)
+                input[i][j] = col[idx[i]];
+        }
+        
+        //Sort labels
+        int[] copy = (int[])output.clone();
+        for (int i = 0; i < output.length; i++)
+            output[i] = copy[idx[i]];
+        
     }
     
     /**

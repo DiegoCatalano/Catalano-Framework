@@ -2599,6 +2599,48 @@ public final class Matrix {
     }
     
     /**
+     * Check if all values are positive.
+     * @param A Matrix.
+     * @return True if all the values are positive.
+     */
+    public static boolean isNonNegative(double[][] A){
+        
+        for (int i = 0; i < A.length; i++)
+            for (int j = 0; j < A[0].length; j++)
+                if(A[i][j] < 0) return false;
+        
+        return true;
+    }
+    
+    /**
+     * Check if all values are positive.
+     * @param A Matrix.
+     * @return True if all the values are positive.
+     */
+    public static boolean isNonNegative(int[][] A){
+        
+        for (int i = 0; i < A.length; i++)
+            for (int j = 0; j < A[0].length; j++)
+                if(A[i][j] < 0) return false;
+        
+        return true;
+    }
+    
+    /**
+     * Check if all values are positive.
+     * @param A Matrix.
+     * @return True if all the values are positive.
+     */
+    public static boolean isNonNegative(float[][] A){
+        
+        for (int i = 0; i < A.length; i++)
+            for (int j = 0; j < A[0].length; j++)
+                if(A[i][j] < 0) return false;
+        
+        return true;
+    }
+    
+    /**
      * Check if the matrix is square.
      * @param A Matrix.
      * @return Returns true if the matrix is square, otherwise returns false.
