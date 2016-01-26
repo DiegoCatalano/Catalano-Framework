@@ -120,9 +120,9 @@ public class BinaryDilatation implements IBaseInPlace{
             for (int y = 0; y < width; y++) {
                 l = copy.getGray(x, y);
                 if (l == 255) {
-                    for (int i = 0; i < kernel[0].length; i++) {
+                    for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i-lines);
-                        for (int j = 0; j < kernel.length; j++) {
+                        for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j-lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
                                 if (kernel[i][j] == 1) {

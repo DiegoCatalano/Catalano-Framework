@@ -359,7 +359,7 @@ public class CSVParser {
         List<T> lst = new ArrayList<T>(data.length);
        
         try{
-            for (int i = 0; i < data.length - startRow - 1; i++) {
+            for (int i = 0; i < data.length - startRow; i++) {
                 Constructor c = cls.getConstructor(paramTypes);
                 Object[] obj = new Object[paramTypes.length];
                 for (int j = 0; j < paramTypes.length; j++) {
