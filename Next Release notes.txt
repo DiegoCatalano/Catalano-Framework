@@ -8,6 +8,7 @@ Catalano Framework 1.6 road map
     - Added: clampValues in the FastBitmap class.
 
 * Catalano.Image.Filters
+    - New: Ensemble Threshold.
     - New: Perona-Malik Anisotropic Diffusion.
     - New: Histogram Adjust.
     - New: Shrink.
@@ -53,6 +54,9 @@ Catalano Framework 1.6 road map
 
 * Catalano.MachineLearning.Classification.DecisionTrees.Learning
     - Added: Split rule support in the Random Forest.
+
+* Catalano.MachineLearning.Clustering
+    - New: KMeans.
 
 * Catalano.MachineLearning.FeatureSelection.
     - New: Mean Variance Feature Selection.

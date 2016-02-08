@@ -25,6 +25,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IBaseInPlace;
 
 /**
+ * Threshold.
  * The filter does image binarization using specified threshold value. All pixels with intensities equal or higher than threshold value are converted to white pixels. All other pixels with intensities below threshold value are converted to black pixels.
  * 
  * Supported types: Grayscale.
