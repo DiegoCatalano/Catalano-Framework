@@ -78,7 +78,15 @@ public class Random {
      * @return a uniform random real in the range [lo, hi)
      */
     public double nextDouble(double lo, double hi) {
-        return (lo + (hi - lo) * nextDouble());
+            if(lo < 0){
+                if(nextInt(2) == 0)
+                    return -nextDouble(0,-lo);
+                else
+                    return nextDouble(0,hi);
+            }
+            else{
+                return (lo + (hi - lo) * nextDouble());
+            }
     }
 
     /**
