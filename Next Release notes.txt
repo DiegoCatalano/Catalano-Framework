@@ -8,6 +8,8 @@ Catalano Framework 1.6 road map
     - Added: clampValues in the FastBitmap class.
 
 * Catalano.Image.Filters
+    - New: Tsai Threshold.
+    - New: Random Convolution.
     - New: Ensemble Threshold.
     - New: Perona-Malik Anisotropic Diffusion.
     - New: Histogram Adjust.
@@ -72,6 +74,7 @@ Catalano Framework 1.6 road map
     - Added: Mahalanobis in Distance.
     - Added: Trace in Matrix.
 
+    - Fixed: nextDouble in the Random supports negative limits.
     - Fixed: MultiplyByTranspose in the Matrix.
     - Fixed: Multiply in the Matrix.
 
