@@ -26,7 +26,6 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Integral.IntegralMean;
 import Catalano.Imaging.Filters.Integral.IntegralVariance;
 import Catalano.Imaging.IBaseInPlace;
-import Catalano.Math.Matrix;
 
 /**
  * Sauvola Threshold.

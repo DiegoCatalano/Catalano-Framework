@@ -85,3 +85,6 @@ Catalano Framework 1.6 road map
 
 * Catalano.Statistics.Analysis
     - New: Principal Component Analysis
+
+* Catalano.Video
+    - New: Project
