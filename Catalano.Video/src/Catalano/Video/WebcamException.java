@@ -56,7 +56,7 @@ import java.io.IOException;
  * Signals an exception occurred during video capture from a hardware
  * device.
  */
-public class VideoInputException extends IOException {
+public class WebcamException extends IOException {
 
     /**
      * Constructs an {@code VideoInputException} with the specified detail message.
@@ -65,7 +65,7 @@ public class VideoInputException extends IOException {
      *        The detail message (which is saved for later retrieval
      *        by the {@link #getMessage()} method)
      */
-    public VideoInputException(String message) {
+    public WebcamException(String message) {
     	super(message);
     }
 }

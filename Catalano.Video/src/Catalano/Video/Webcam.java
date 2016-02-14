@@ -54,7 +54,7 @@ import java.util.List;
 
 import org.bridj.Pointer;
 
-public class VideoInput {
+public class Webcam {
 
 	public final static int DEFAULT_REQUESTED_FPS = 25;
 
@@ -63,17 +63,17 @@ public class VideoInput {
 	private int height;
 	private int fps;
 
-	public VideoInput(int width, int height) throws VideoInputException {
+	public Webcam(int width, int height) throws WebcamException {
 		this(width, height, DEFAULT_REQUESTED_FPS);
 	}
 
-	public VideoInput(int width, int height, int fps) throws VideoInputException {
+	public Webcam(int width, int height, int fps) throws WebcamException {
 		this.init(width, height, fps, null);
 	}
 
-	public VideoInput(int width, int height, int fps, String deviceName) throws VideoInputException {
+	public Webcam(int width, int height, int fps, String deviceName) throws WebcamException {
 		Device defaultDevice = null;
-		List<Device> devices = VideoInput.getVideoDevices();
+		List<Device> devices = Webcam.getVideoDevices();
 		for (Device d : devices) {
 			if (d.getIdentifierStr().contains(deviceName)) {
 				defaultDevice = d;
@@ -92,8 +92,8 @@ public class VideoInput {
 		this.init(width, height, fps, defaultDevice);
 	}
 
-	public VideoInput(int width, int height, int fps, int deviceNumber) throws VideoInputException {
-		List<Device> devices = VideoInput.getVideoDevices();
+	public Webcam(int width, int height, int fps, int deviceNumber) throws WebcamException {
+		List<Device> devices = Webcam.getVideoDevices();
 
 		Device defaultDevice = null;
 		if (deviceNumber >= 0 && deviceNumber < devices.size()) {
@@ -111,11 +111,11 @@ public class VideoInput {
 		this.init(width, height, fps, defaultDevice);
 	}
 
-	public VideoInput(int width, int height, int fps, Device device) throws VideoInputException {
+	public Webcam(int width, int height, int fps, Device device) throws WebcamException {
 		this.init(width, height, fps, device);
 	}
 
-	private void init(int width, int height, int fps, Device defaultDevice) throws VideoInputException {
+	private void init(int width, int height, int fps, Device defaultDevice) throws WebcamException {
 		this.width = width;
 		this.height = height;
 		this.fps = fps;
@@ -124,12 +124,12 @@ public class VideoInput {
 
 		if (defaultDevice == null) {
 			if (!startSession(this.width, this.height, this.fps)) {
-				throw new VideoInputException("No video input device found!");
+				throw new WebcamException("No video input device found!");
 			}
 		}
 		else {
 			if (!startSession(this.width, this.height, this.fps, defaultDevice)) {
-				throw new VideoInputException(
+				throw new WebcamException(
 						"An error occured opening the capture device");
 			}
 		}
@@ -178,7 +178,7 @@ public class VideoInput {
 	
 	/**
 	 * Stop the video capture system. Once stopped, it can only be started again
-	 * by constructing a new instance of VideoInput.
+ by constructing a new instance of Webcam.
 	 */
 	public synchronized void stopSession() {
 		grabber.stopSession();

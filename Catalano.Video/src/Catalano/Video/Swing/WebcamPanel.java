@@ -68,18 +68,18 @@ import javax.swing.SwingUtilities;
  *
  * @author Diego
  */
-public class VideoPanel extends JPanel{
+public class WebcamPanel extends JPanel{
     
     private int width;
     private int height;
     private int fps;
     
-    private VideoInput videoInput;
+    private Webcam videoInput;
     private BufferedImage displayImage;
     private double videoFps;
     private final static long ONE_SECOND_IN_NANOS = 1000000000L;
 
-    public VideoPanel(int width, int height, int fps) {
+    public WebcamPanel(int width, int height, int fps) {
         this.width = width;
         this.height = height;
         this.fps = fps;
@@ -131,7 +131,7 @@ public class VideoPanel extends JPanel{
 	
 	private void retrieveAndDisplay(int width, int height, int fps) {
             try {
-                videoInput = new VideoInput(width, height);
+                videoInput = new Webcam(width, height);
                 final long interval = ONE_SECOND_IN_NANOS / fps;
                 long lastReportTime = -1;
                 long imgCnt = 0;
@@ -173,7 +173,7 @@ public class VideoPanel extends JPanel{
                     }
                 }
             }
-            catch (VideoInputException e1) {
+            catch (WebcamException e1) {
                     e1.printStackTrace();
             }
 	}
