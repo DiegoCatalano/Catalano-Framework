@@ -1,6 +1,5 @@
-// Catalano Statistics Library
+// Catalano Machine Learning Library
 // The Catalano Framework
-//
 //
 // Copyright 2015 Haifeng Li
 // haifeng.hli at gmail.com
@@ -19,6 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 package Catalano.MachineLearning.Classification;
 
 import Catalano.Core.Concurrent.MulticoreExecutor;

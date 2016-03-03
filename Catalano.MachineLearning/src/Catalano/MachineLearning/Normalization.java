@@ -144,7 +144,7 @@ public class Normalization {
                 double _min = Catalano.Statistics.Tools.Min(temp);
                 double _max = Catalano.Statistics.Tools.Max(temp);
                 range[0][idx] = _min;
-                range[i][idx] = _max;
+                range[1][idx] = _max;
                 idx++;
                 for (int j = 0; j < temp.length; j++) {
                     matrix[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
