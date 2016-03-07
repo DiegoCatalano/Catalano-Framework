@@ -60,14 +60,14 @@ public class LocalBinaryPattern {
             for (int y = 1; y < width; y++) {
                 gray = fastBitmap.getGray(x, y);
                 sum = 0;
-                if (gray < fastBitmap.getGray(x - 1, y - 1))    sum += 128;
+                if (gray < fastBitmap.getGray(x - 1, y - 1))    sum += 32;
                 if (gray < fastBitmap.getGray(x - 1, y))        sum += 64;
-                if (gray < fastBitmap.getGray(x - 1, y + 1))    sum += 32;
-                if (gray < fastBitmap.getGray(x, y + 1))        sum += 16;
-                if (gray < fastBitmap.getGray(x + 1, y + 1))    sum += 8;
-                if (gray < fastBitmap.getGray(x + 1, y))        sum += 4;
-                if (gray < fastBitmap.getGray(x + 1, y - 1))    sum += 2;
-                if (gray < fastBitmap.getGray(x, y - 1))        sum += 1;
+                if (gray < fastBitmap.getGray(x - 1, y + 1))    sum += 128;
+                if (gray < fastBitmap.getGray(x, y + 1))        sum += 1;
+                if (gray < fastBitmap.getGray(x + 1, y + 1))    sum += 2;
+                if (gray < fastBitmap.getGray(x + 1, y))        sum += 8;
+                if (gray < fastBitmap.getGray(x + 1, y - 1))    sum += 8;
+                if (gray < fastBitmap.getGray(x, y - 1))        sum += 16;
                 g[sum]++;
             }
         }
