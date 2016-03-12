@@ -29,6 +29,12 @@ Catalano Framework 1.6 road map
     - New: Integral Mean.
     - New: Integral Variance.
 
+* Catalano.Image.Texture.BinaryPattern
+    - New: Gradient Local Binary Pattern.
+    - New: Median Binary Pattern.
+    - New: Improved Local Binary Pattern.
+    - New: IBinaryPattern.
+
 * Catalano.Image.Tools
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.

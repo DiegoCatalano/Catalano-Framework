@@ -1,4 +1,4 @@
-// Catalano Imaging Library
+// Catalano Android Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -19,8 +19,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Imaging.Tools;
+package Catalano.Imaging.Texture.BinaryPattern;
 
+import Catalano.Imaging.Tools.*;
 import Catalano.Imaging.FastBitmap;
 import java.util.Arrays;
 
@@ -31,18 +32,14 @@ import java.util.Arrays;
  * 
  * @author Diego Catalano
  */
-public class MedianBinaryPattern {
+public class MedianBinaryPattern implements IBinaryPattern{
 
     /**
      * Initialize a new instance of the MedianBinaryPattern class.
      */
     public MedianBinaryPattern() {}
     
-    /**
-     * Process image.
-     * @param fastBitmap Image to be processed.
-     * @return MBP Histogram.
-     */
+    @Override
     public ImageHistogram ProcessImage(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale()) {
             try {

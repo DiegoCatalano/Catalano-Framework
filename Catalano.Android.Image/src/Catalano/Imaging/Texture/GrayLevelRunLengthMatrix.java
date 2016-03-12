@@ -21,9 +21,8 @@
 
 package Catalano.Imaging.Texture;
 
-
+import Catalano.Imaging.Tools.*;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Tools.ImageStatistics;
 
 /**
  * Gray Level Run Length Matrix (GLRLM).

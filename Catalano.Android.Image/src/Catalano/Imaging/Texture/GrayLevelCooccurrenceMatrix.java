@@ -21,6 +21,7 @@
 
 package Catalano.Imaging.Texture;
 
+import Catalano.Imaging.Tools.*;
 import Catalano.Imaging.FastBitmap;
 
 /**
