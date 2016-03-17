@@ -30,6 +30,7 @@ Catalano Framework 1.6 road map
     - New: Integral Variance.
 
 * Catalano.Image.Texture.BinaryPattern
+    - New: Center Symmetric Local Binary Pattern.
     - New: Gradient Local Binary Pattern.
     - New: Median Binary Pattern.
     - New: Improved Local Binary Pattern.

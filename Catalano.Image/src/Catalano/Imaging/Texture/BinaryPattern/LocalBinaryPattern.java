@@ -39,13 +39,8 @@ public class LocalBinaryPattern implements IBinaryPattern{
     
     @Override
     public ImageHistogram ProcessImage(FastBitmap fastBitmap){
-        if (!fastBitmap.isGrayscale()) {
-            try {
-                throw new Exception("LBP works only with grayscale images.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("LBP works only with grayscale images.");
         
         int width = fastBitmap.getWidth() - 1;
         int height = fastBitmap.getHeight() - 1;
