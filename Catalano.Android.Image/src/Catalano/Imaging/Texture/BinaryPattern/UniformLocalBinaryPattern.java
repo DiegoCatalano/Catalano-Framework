@@ -111,7 +111,7 @@ public class UniformLocalBinaryPattern implements IBinaryPattern{
         h[58] = nonU;
         
         if(!nonUniform){
-            Matrix.RemoveColumn(h, 58);
+            h = Matrix.RemoveColumn(h, 58);
         }
         
         return new ImageHistogram(h);
