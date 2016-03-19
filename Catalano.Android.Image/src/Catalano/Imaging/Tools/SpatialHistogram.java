@@ -67,9 +67,9 @@ public class SpatialHistogram {
         
         ImageHistogram[] hist = new ImageHistogram[wBlock * hBlock];
         int idx = 0;
-        for (int i = 0; i < height - hDiv; i+=hDiv) {
-            for (int j = 0; j < width - wDiv; j+=wDiv) {
-                FastBitmap copy = getSubimage(fastBitmap, i, j, wDiv, hDiv);
+        for (int i = 0; i < hBlock; i++) {
+            for (int j = 0; j < wBlock; j++) {
+                FastBitmap copy = getSubimage(fastBitmap, i*hDiv, j*wDiv, wDiv, hDiv);
                 hist[idx++] = pattern.ProcessImage(copy);
             }
         }
