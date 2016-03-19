@@ -2,6 +2,8 @@ Catalano Framework 1.6 road map
 -----------------------------------------
 
 * Catalano.Core
+     - New: Concatenate in the ArraysUtil.
+
      - Added: Shuffle in the ArraysUtil.
 
 * Catalano.Image
@@ -38,9 +40,12 @@ Catalano Framework 1.6 road map
     - New: IBinaryPattern.
 
 * Catalano.Image.Tools
+    - New: Spatial Pyramid Histogram.
     - New: Spatial Histogram.
+
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.
+
     - Fixed: RGBtoHSL in ColorConverter.
 
 * Catalano.IO

@@ -37,6 +37,7 @@ package Catalano.Core;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -108,6 +109,144 @@ public class ArraysUtil {
             }
         });
         return asArray(indexes);
+    }
+    
+    /**
+     * Concatenate the arrays.
+     * @param array First array.
+     * @param array2 Second array.
+     * @return Concatenate between first and second array.
+     */
+    public static int[] Concatenate(int[] array, int[] array2){
+        int[] all = new int[array.length + array2.length];
+        int idx = 0;
+        
+        //First array
+        for (int i = 0; i < array.length; i++)
+            all[idx++] = array[i];
+        
+        //Second array
+        for (int i = 0; i < array2.length; i++)
+            all[idx++] = array2[i];
+        
+        return all;
+    }
+    
+    /**
+     * Concatenate the arrays.
+     * @param array First array.
+     * @param array2 Second array.
+     * @return Concatenate between first and second array.
+     */
+    public static double[] Concatenate(double[] array, double[] array2){
+        double[] all = new double[array.length + array2.length];
+        int idx = 0;
+        
+        //First array
+        for (int i = 0; i < array.length; i++)
+            all[idx++] = array[i];
+        
+        //Second array
+        for (int i = 0; i < array2.length; i++)
+            all[idx++] = array2[i];
+        
+        return all;
+    }
+    
+    /**
+     * Concatenate the arrays.
+     * @param array First array.
+     * @param array2 Second array.
+     * @return Concatenate between first and second array.
+     */
+    public static float[] Concatenate(float[] array, float[] array2){
+        float[] all = new float[array.length + array2.length];
+        int idx = 0;
+        
+        //First array
+        for (int i = 0; i < array.length; i++)
+            all[idx++] = array[i];
+        
+        //Second array
+        for (int i = 0; i < array2.length; i++)
+            all[idx++] = array2[i];
+        
+        return all;
+    }
+    
+    /**
+     * Concatenate all the arrays in the list into a vector.
+     * @param arrays List of arrays.
+     * @return Vector.
+     */
+    public static int[] ConcatenateInt(List<int[]> arrays){
+        
+        int size = 0;
+        for (int i = 0; i < arrays.size(); i++) {
+            size += arrays.get(i).length;
+        }
+        
+        int[] all = new int[size];
+        int idx = 0;
+        
+        for (int i = 0; i < arrays.size(); i++) {
+            int[] v = arrays.get(i);
+            for (int j = 0; j < v.length; j++) {
+                all[idx++] = v[i];
+            }
+        }
+        
+        return all;
+    }
+    
+    /**
+     * Concatenate all the arrays in the list into a vector.
+     * @param arrays List of arrays.
+     * @return Vector.
+     */
+    public static double[] ConcatenateDouble(List<double[]> arrays){
+        
+        int size = 0;
+        for (int i = 0; i < arrays.size(); i++) {
+            size += arrays.get(i).length;
+        }
+        
+        double[] all = new double[size];
+        int idx = 0;
+        
+        for (int i = 0; i < arrays.size(); i++) {
+            double[] v = arrays.get(i);
+            for (int j = 0; j < v.length; j++) {
+                all[idx++] = v[i];
+            }
+        }
+        
+        return all;
+    }
+    
+    /**
+     * Concatenate all the arrays in the list into a vector.
+     * @param arrays List of arrays.
+     * @return Vector.
+     */
+    public static float[] ConcatenateFloat(List<float[]> arrays){
+        
+        int size = 0;
+        for (int i = 0; i < arrays.size(); i++) {
+            size += arrays.get(i).length;
+        }
+        
+        float[] all = new float[size];
+        int idx = 0;
+        
+        for (int i = 0; i < arrays.size(); i++) {
+            float[] v = arrays.get(i);
+            for (int j = 0; j < v.length; j++) {
+                all[idx++] = v[i];
+            }
+        }
+        
+        return all;
     }
     
     /**
