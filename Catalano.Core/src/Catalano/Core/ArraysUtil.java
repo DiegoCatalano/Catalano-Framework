@@ -112,7 +112,7 @@ public class ArraysUtil {
     }
     
     /**
-     * Concatenate the arrays.
+     * Concatenate the array.
      * @param array First array.
      * @param array2 Second array.
      * @return Concatenate between first and second array.
