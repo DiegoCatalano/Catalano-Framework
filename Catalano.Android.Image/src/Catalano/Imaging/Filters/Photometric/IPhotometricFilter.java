@@ -11,6 +11,6 @@ import Catalano.Imaging.FastBitmap;
  *
  * @author Diego Catalano
  */
-public interface IPhotometric {
+public interface IPhotometricFilter {
     public void applyInPlace(FastBitmap fastBitmap);
 }

@@ -54,7 +54,7 @@ import Catalano.Math.Matrix;
  * Gradient faces normalization.
  * @author Diego Catalano
  */
-public class GradientFaces implements IPhotometric{
+public class GradientFaces implements IPhotometricFilter{
     
     private double sigma;
     private double[][] gx;
@@ -153,7 +153,8 @@ public class GradientFaces implements IPhotometric{
         int Xline,Yline;
         int lines = (gx.length - 1)/2;
         double grayX, grayY;
-        double min = Double.MAX_VALUE, max = -Double.MAX_VALUE;
+        double min = Double.MAX_VALUE;
+        double max = -Double.MAX_VALUE;
         
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {

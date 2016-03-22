@@ -1109,7 +1109,7 @@ public final class Matrix {
     public static double[][] Subtract(double[][] A, double[][] B){
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= B[i][j];
+                A[i][j] -= B[i][j];
             }
         }
         return A;
@@ -1124,7 +1124,7 @@ public final class Matrix {
     public static int[][] Subtract(int[][] A, int[][] B){
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= B[i][j];
+                A[i][j] -= B[i][j];
             }
         }
         return A;
@@ -1139,7 +1139,7 @@ public final class Matrix {
     public static float[][] Subtract(float[][] A, float[][] B){
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] *= B[i][j];
+                A[i][j] -= B[i][j];
             }
         }
         return A;
