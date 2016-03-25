@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Difference filter - get the difference between overlay and source images.
  * <br /> The difference filter takes two images (source and overlay images) of the same size and pixel format and produces an image, where each pixel equals to absolute difference between corresponding pixels from provided images.
  * @author Diego Catalano
  */
-public class Difference implements IBaseInPlace{
+public class Difference implements IApplyInPlace{
     
     private FastBitmap overlayImage;
 

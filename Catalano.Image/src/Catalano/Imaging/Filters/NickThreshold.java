@@ -25,7 +25,7 @@ package Catalano.Imaging.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Integral.IntegralMean;
 import Catalano.Imaging.Filters.Integral.IntegralVariance;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
@@ -33,7 +33,7 @@ import Catalano.Math.Matrix;
  * References: http://www.math-info.univ-paris5.fr/~vincent/articles/DRR_nick_binarization_09.pdf
  * @author Diego Catalano
  */
-public class NickThreshold implements IBaseInPlace{
+public class NickThreshold implements IApplyInPlace{
     
     private int radius = 15;
     private double k = -0.2D;

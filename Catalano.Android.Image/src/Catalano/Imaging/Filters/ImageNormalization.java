@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 
 /**
@@ -32,7 +32,7 @@ import Catalano.Imaging.Tools.ImageStatistics;
  * References: http://www.ccis2k.org/iajit/PDF/vol.4,no.4/12-Qader.pdf
  * @author Diego Catalano
  */
-public class ImageNormalization implements IBaseInPlace{
+public class ImageNormalization implements IApplyInPlace{
     
     private float mean = 160;
     private float variance = 150;

@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Horizontal run length smoothing algorithm.
@@ -40,7 +40,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class HorizontalRunLengthSmoothing implements IBaseInPlace{
+public class HorizontalRunLengthSmoothing implements IApplyInPlace{
     
     private int maxGapSize = 10;
     private boolean processGapsWithImageBorders = false;

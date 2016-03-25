@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * The filter does image binarization using specified threshold value. All pixels with intensities equal or higher than threshold value are converted to white pixels. All other pixels with intensities below threshold value are converted to black pixels.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Threshold implements IBaseInPlace{
+public class Threshold implements IApplyInPlace{
 
     private int value = 128;
     private boolean invert = false;

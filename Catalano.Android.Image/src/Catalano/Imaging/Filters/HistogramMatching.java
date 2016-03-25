@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Statistics.Histogram;
 
@@ -39,7 +39,7 @@ import Catalano.Statistics.Histogram;
  * 
  * @author Diego Catalano
  */
-public class HistogramMatching implements IBaseInPlace{
+public class HistogramMatching implements IApplyInPlace{
     
     private int[] gray;
     private int[] red;

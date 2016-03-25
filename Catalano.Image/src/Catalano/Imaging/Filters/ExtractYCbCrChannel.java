@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -33,7 +33,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * <br />The filter extracts specified YCbCr channel of color image and returns it in the form of grayscale image.
  * @author Diego Catalano
  */
-public class ExtractYCbCrChannel implements IBaseInPlace{
+public class ExtractYCbCrChannel implements IApplyInPlace{
     /**
      * Enumeration of components for extraction of channels.
      */

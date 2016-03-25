@@ -26,7 +26,7 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Sobel Edge Detector.
@@ -38,7 +38,7 @@ import Catalano.Imaging.IBaseInPlace;
  * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|
  * @author Diego Catalano
  */
-public class SobelEdgeDetector implements IBaseInPlace{
+public class SobelEdgeDetector implements IApplyInPlace{
     
     private FastBitmap copy;
     private int max = 0;

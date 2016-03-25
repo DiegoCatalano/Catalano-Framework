@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Merge filter - get MAX of pixels in two images.
  * <br /> The merge filter takes two images (source and overlay images) of the same size and pixel format and produces an image, where each pixel equals to the maximum value of corresponding pixels from provided images.
  * @author Diego Catalano
  */
-public class Merge implements IBaseInPlace{
+public class Merge implements IApplyInPlace{
     
     private FastBitmap overlayImage;
 

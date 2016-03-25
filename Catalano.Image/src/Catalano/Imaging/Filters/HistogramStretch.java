@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Stretch histogram across the entire gray level range, which has the effect of increasing the contrast of a low contrast image.
@@ -31,7 +31,7 @@ import Catalano.Imaging.IBaseInPlace;
  * @see Computer Imaging - Scott E. Umbaugh - Chapter 8 - p. 353
  * @author Diego Catalano
  */
-public class HistogramStretch implements IBaseInPlace{
+public class HistogramStretch implements IApplyInPlace{
     private int max, min;
 
     /**

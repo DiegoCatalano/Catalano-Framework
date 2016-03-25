@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Blend Filter.
@@ -30,7 +30,7 @@ import Catalano.Imaging.IBaseInPlace;
  * Reference: http://en.wikipedia.org/wiki/Blend_modes
  * @author Diego Catalano
  */
-public class Blend implements IBaseInPlace{
+public class Blend implements IApplyInPlace{
     
     /**
      * Blend algorithm.

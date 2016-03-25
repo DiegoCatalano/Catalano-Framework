@@ -24,7 +24,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * <br /> The filter does histogram equalization increasing local contrast in images. The effect of histogram equalization can be better seen on images, where pixel values have close contrast values. Through this adjustment, pixels intensities can be better distributed on the histogram. This allows for areas of lower local contrast to gain a higher contrast without affecting the global contrast.
  * @author Diego Catalano
  */
-public class HistogramEqualization implements IBaseInPlace{
+public class HistogramEqualization implements IApplyInPlace{
     
     /**
      * Initialize a new instance of the HistogramEqualization class.

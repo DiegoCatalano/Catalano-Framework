@@ -23,13 +23,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Desaturation.
  * @author Diego Catalano
  */
-public class Desaturation implements IBaseInPlace{
+public class Desaturation implements IApplyInPlace{
     
     private double saturationFactor = 0.2D;
 

@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Contrast Limited Adaptive Histogram Equalization.
@@ -40,7 +40,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Clahe implements IBaseInPlace{
+public class Clahe implements IApplyInPlace{
     
     private int blockRadius = 63;
     private int bins = 255;

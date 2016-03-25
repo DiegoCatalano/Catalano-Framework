@@ -23,13 +23,13 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Blur filter.
  * @author Diego Catalano
  */
-public class Blur implements IBaseInPlace{
+public class Blur implements IApplyInPlace{
     
     //Blur Kernel
     int[][] kernel = {

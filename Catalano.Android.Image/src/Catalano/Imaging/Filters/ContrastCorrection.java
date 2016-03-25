@@ -26,13 +26,13 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Contrast adjusting in RGB color space.
  * @author Diego Catalano
  */
-public class ContrastCorrection implements IBaseInPlace{
+public class ContrastCorrection implements IApplyInPlace{
     
     private LevelsLinear baseFilter = new LevelsLinear();
     private int factor = 10;

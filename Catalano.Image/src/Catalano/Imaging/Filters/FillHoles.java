@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Fill holes in objects in binary image.
  * @author Diego Catalano
  */
-public class FillHoles implements IBaseInPlace{
+public class FillHoles implements IApplyInPlace{
     private int minArea = 0; private int maxArea = 0;
 
     /**

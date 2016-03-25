@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Sobel edge detector.
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * |G| = |P1 + 2P2 + P3 - P7 - 2P6 - P5| + |P3 + 2P4 + P5 - P1 - 2P8 - P7|</para>
  * @author Diego Catalano
  */
-public class SobelEdgeDetector implements IBaseInPlace{
+public class SobelEdgeDetector implements IApplyInPlace{
     
     private boolean scaleIntensity = true;
 

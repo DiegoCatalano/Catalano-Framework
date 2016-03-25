@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 
 /**
  * Tsai Threshold.
  * @author Diego Catalano
  */
-public class TsaiThreshold implements IBaseInPlace{
+public class TsaiThreshold implements IApplyInPlace{
     
     private boolean invert;
 

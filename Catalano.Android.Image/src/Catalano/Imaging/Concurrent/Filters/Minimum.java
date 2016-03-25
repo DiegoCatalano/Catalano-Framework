@@ -24,14 +24,14 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Minimum filter.
  * <br /> Minimum filter - set minimum pixel values using radius.
  * @author Diego Catalano
  */
-public class Minimum implements IBaseInPlace{
+public class Minimum implements IApplyInPlace{
     
     private int radius = 1;
     private FastBitmap copy;

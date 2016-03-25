@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * The filter performs gamma correction of specified image in RGB color space.
  * @author Diego Catalano
  */
-public class GammaCorrection implements IBaseInPlace{
+public class GammaCorrection implements IApplyInPlace{
     
     private double gamma;
 
@@ -46,7 +46,7 @@ public class GammaCorrection implements IBaseInPlace{
     }
 
     /**
-     * Gamma value: [0.1, 5.0].
+     * Gamma value.
      * @return Gamma.
      */
     public double getGamma() {
@@ -54,7 +54,7 @@ public class GammaCorrection implements IBaseInPlace{
     }
 
     /**
-     * Gamma value: [0.1, 5.0].
+     * Gamma value.
      * @param gamma Gamma.
      */
     public void setGamma(double gamma) {
@@ -65,33 +65,29 @@ public class GammaCorrection implements IBaseInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isRGB()){
-
-            gamma=gamma<0.1?0.1:gamma;
-            gamma=gamma>5.0?5.0:gamma;
-
-            double gamma_new = 1 / gamma;
-            int[] gamma_LUT = gamma_LUT(gamma_new);
+            
+            int[] gamma_LUT = gamma_LUT(gamma);
 
             int r, g, b;
-            int[] pixels = fastBitmap.getRGBData();
-            for(int i = 0; i < pixels.length; i++) {
+            int size = fastBitmap.getSize();
+            for(int i = 0; i < size; i++) {
 
-                // Get pixels by R, G, B
-                r = pixels[i] >> 16 & 0xFF;
-                g = pixels[i] >> 8 & 0xFF;
-                b = pixels[i] & 0xFF;
+                r = gamma_LUT[fastBitmap.getRed(i)];
+                g = gamma_LUT[fastBitmap.getGreen(i)];
+                b = gamma_LUT[fastBitmap.getBlue(i)];
 
-                r = gamma_LUT[r];
-                g = gamma_LUT[g];
-                b = gamma_LUT[b];
-
-                // Write pixels into image
-                pixels[i] = r << 16 | g << 8 | b;
+                fastBitmap.setRGB(i, r,g,b);
             }
             
         }
-        else{
-            throw new IllegalArgumentException("Gamma correction only works with RGB images.");
+        else if(fastBitmap.isGrayscale()){
+            
+            int[] gamma_LUT = gamma_LUT(gamma);
+            
+            int size = fastBitmap.getSize();
+            for (int i = 0; i < size; i++) {
+                fastBitmap.setGray(i, gamma_LUT[fastBitmap.getGray(i)]);
+            }
         }
 }
  

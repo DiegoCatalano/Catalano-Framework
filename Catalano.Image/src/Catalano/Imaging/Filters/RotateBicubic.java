@@ -26,7 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.Interpolation;
 
 /**
@@ -39,7 +39,7 @@ import Catalano.Imaging.Tools.Interpolation;
  * 
  * @author Diego Catalano
  */
-public class RotateBicubic implements IBaseInPlace {
+public class RotateBicubic implements IApplyInPlace {
     
     private double angle;
     private boolean keepSize;

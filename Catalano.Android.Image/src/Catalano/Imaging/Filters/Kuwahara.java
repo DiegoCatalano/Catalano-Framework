@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Kuwahara filter is able to apply smoothing on the image while preserving the edges.
  * @author Diego Catalano
  */
-public class Kuwahara implements IBaseInPlace{
+public class Kuwahara implements IApplyInPlace{
     
     private int windowSize = 5;
 

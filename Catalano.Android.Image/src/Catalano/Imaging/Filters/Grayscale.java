@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Base class for image grayscaling.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Grayscale implements IBaseInPlace{
+public class Grayscale implements IApplyInPlace{
     
     double redCoefficient = 0.2125, greenCoefficient = 0.7154, blueCoefficient = 0.0721;
     

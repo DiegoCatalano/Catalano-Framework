@@ -24,14 +24,14 @@ package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Invert;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 
 /**
  * Heat Map.
  * @author Diego Catalano
  */
-public class HeatMap implements IBaseInPlace{
+public class HeatMap implements IApplyInPlace{
     
     private boolean invert = false;
 

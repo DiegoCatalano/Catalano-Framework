@@ -24,13 +24,13 @@ package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.GaussianNoise;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Film Grain filter.
  * @author Diego Catalano
  */
-public class FilmGrain implements IBaseInPlace{
+public class FilmGrain implements IApplyInPlace{
     
     private int grain = 127;
     private double stdDev = 8;

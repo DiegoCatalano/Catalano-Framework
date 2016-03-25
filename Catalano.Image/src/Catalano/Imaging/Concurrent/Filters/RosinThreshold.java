@@ -23,7 +23,7 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageHistogram;
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Math.Distances.Distance;
@@ -44,7 +44,7 @@ import Catalano.Math.Matrix;
  * 
  * @author Diego Catalano
  */
-public class RosinThreshold implements IBaseInPlace{
+public class RosinThreshold implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the RosinThreshold class.

@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Opacity filter.
  * @author Diego Catalano
  */
-public class Opacity implements IBaseInPlace{
+public class Opacity implements IApplyInPlace{
     
     private FastBitmap overlay;
     private double p = 0.65D;

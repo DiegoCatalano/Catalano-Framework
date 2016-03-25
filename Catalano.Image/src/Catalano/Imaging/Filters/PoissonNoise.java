@@ -26,13 +26,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Poisson Noise.
  * @author Diego Catalano
  */
-public class PoissonNoise implements IBaseInPlace{
+public class PoissonNoise implements IApplyInPlace{
 
     public PoissonNoise() {}
 

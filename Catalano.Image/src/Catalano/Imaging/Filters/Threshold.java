@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Threshold.
@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Threshold implements IBaseInPlace{
+public class Threshold implements IApplyInPlace{
 
     private int value = 128;
     private boolean invert = false;

@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Multiply filter - multiply pixel values of one or two images.
  * @author Diego Catalano
  */
-public class Multiply implements IBaseInPlace{
+public class Multiply implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private double red = 0,green = 0,blue = 0, gray = 0;

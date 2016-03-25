@@ -24,13 +24,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Variance Filter.
  * @author Diego Catalano
  */
-public class Variance implements IBaseInPlace{
+public class Variance implements IApplyInPlace{
     
     private int radius = 2;
     private FastBitmap copy;

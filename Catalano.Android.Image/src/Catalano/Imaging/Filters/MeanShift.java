@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Mean Shift filter.
@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  * <br /> It uses a circular flat kernel and the color distance is calculated in the YIQ-color space.
  * @author Diego Catalano
  */
-public class MeanShift implements IBaseInPlace{
+public class MeanShift implements IApplyInPlace{
     
     private int radius;
     private float colorDistance;

@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Nand filter - Performs logical operator "nand" between two images.
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Nand implements IBaseInPlace{
+public class Nand implements IApplyInPlace{
     FastBitmap overlayImage;
 
     public Nand() {

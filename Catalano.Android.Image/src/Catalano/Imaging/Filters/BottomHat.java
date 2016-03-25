@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Bottom-hat operator from Mathematical Morphology. 
@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  * <br /> Applied to binary image, the filter allows to get all object parts, which were added by closing filter, but were not removed after that due to formed connections/fillings.
  * @author Diego Catalano
  */
-public class BottomHat implements IBaseInPlace{
+public class BottomHat implements IApplyInPlace{
     private int[][] kernel;
     private int radius;
     

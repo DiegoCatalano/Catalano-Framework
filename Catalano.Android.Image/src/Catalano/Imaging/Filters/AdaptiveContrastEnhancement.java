@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Adaptive Contrast Enhancement is modification of the gray level values based on some criterion that adjusts its parameters as local image characteristics change.
  * @author Diego Catalano
  */
-public class AdaptiveContrastEnhancement implements IBaseInPlace {
+public class AdaptiveContrastEnhancement implements IApplyInPlace {
     
     int windowSize;
     double k1, k2, maxGain, minGain;

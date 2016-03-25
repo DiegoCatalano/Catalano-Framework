@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Difference edge detector.
@@ -50,7 +50,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class DifferenceEdgeDetector implements IBaseInPlace{
+public class DifferenceEdgeDetector implements IApplyInPlace{
 
     /**
      * Initializes a new instance of the DifferenceEdgeDetector class.

@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.Blob;
 import Catalano.Imaging.Tools.BlobDetection;
 import Catalano.Math.Geometry.PointsCloud;
@@ -34,7 +34,7 @@ import java.util.List;
  * Extract Biggest Blob from an image.
  * @author Diego Catalano
  */
-public class ExtractBiggestBlob implements IBaseInPlace{
+public class ExtractBiggestBlob implements IApplyInPlace{
     
     private boolean keepOriginalImage = true;
 

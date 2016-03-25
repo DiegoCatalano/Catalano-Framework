@@ -26,7 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Resize image using bilinear interpolation algorithm.
@@ -36,7 +36,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class ResizeBilinear implements IBaseInPlace{
+public class ResizeBilinear implements IApplyInPlace{
     
     private int newWidth;
     private int newHeight;

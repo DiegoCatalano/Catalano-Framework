@@ -23,14 +23,14 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Approximation;
 
 /**
  * Exp filter.
  * @author Diego
  */
-public class Exp implements IBaseInPlace{
+public class Exp implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the Exp class.

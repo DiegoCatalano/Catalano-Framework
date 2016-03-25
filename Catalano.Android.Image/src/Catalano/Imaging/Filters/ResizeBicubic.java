@@ -26,7 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.Interpolation;
 
 /**
@@ -39,7 +39,7 @@ import Catalano.Imaging.Tools.Interpolation;
  * 
  * @author Diego Catalano
  */
-public class ResizeBicubic implements IBaseInPlace{
+public class ResizeBicubic implements IApplyInPlace{
     
     private int newWidth;
     private int newHeight;

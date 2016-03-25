@@ -25,13 +25,13 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Threshold using Simple Image Statistics (SIS).
  * @author Diego Catalano
  */
-public class SISThreshold implements IBaseInPlace{
+public class SISThreshold implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the SISThreshold class.

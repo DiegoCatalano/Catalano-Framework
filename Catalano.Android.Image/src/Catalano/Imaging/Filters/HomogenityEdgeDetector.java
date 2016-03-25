@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Homogenity edge detector.
@@ -35,7 +35,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class HomogenityEdgeDetector implements IBaseInPlace{
+public class HomogenityEdgeDetector implements IApplyInPlace{
 
     /**
      * Initializes a new instance of the HomogenityEdgeDetector class.

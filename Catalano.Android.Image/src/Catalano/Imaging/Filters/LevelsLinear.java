@@ -26,7 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Linear correction of RGB channels.
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class LevelsLinear implements IBaseInPlace{
+public class LevelsLinear implements IApplyInPlace{
     
     private IntRange inRed = new IntRange(0, 255);
     private IntRange inGreen = new IntRange(0, 255);

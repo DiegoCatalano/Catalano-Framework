@@ -22,7 +22,7 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,16 +42,16 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class FiltersSequence implements IBaseInPlace{
+public class FiltersSequence implements IApplyInPlace{
     
-    private List<IBaseInPlace> lst = new ArrayList<IBaseInPlace>();
+    private List<IApplyInPlace> lst = new ArrayList<IApplyInPlace>();
 
     /**
      * Initialize a new instance of the FiltersSequence class.
      */
     public FiltersSequence() {}
     
-    public FiltersSequence(List<IBaseInPlace> sequence){
+    public FiltersSequence(List<IApplyInPlace> sequence){
         this.lst = sequence;
     }
     
@@ -59,7 +59,7 @@ public class FiltersSequence implements IBaseInPlace{
      * Add filter to be processed.
      * @param filter Filter.
      */
-    public void add(IBaseInPlace filter){
+    public void add(IApplyInPlace filter){
         this.lst.add(filter);
     }
     
@@ -72,7 +72,7 @@ public class FiltersSequence implements IBaseInPlace{
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
-        for (IBaseInPlace f : lst) {
+        for (IApplyInPlace f : lst) {
             f.applyInPlace(fastBitmap);
         }
     }

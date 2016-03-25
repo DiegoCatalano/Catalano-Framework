@@ -26,13 +26,13 @@ import Catalano.Imaging.Filters.GammaCorrection;
 import Catalano.Imaging.Filters.GaussianBlur;
 import Catalano.Imaging.Filters.Invert;
 import Catalano.Imaging.Filters.SaturationCorrection;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Pencil Sketch.
  * @author Diego Catalano
  */
-public class PencilSketch implements IBaseInPlace{
+public class PencilSketch implements IApplyInPlace{
     
     private int saturationCorrection = - 70;
     private double sigma = 1.4;

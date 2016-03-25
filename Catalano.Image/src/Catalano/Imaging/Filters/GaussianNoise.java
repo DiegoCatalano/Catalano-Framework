@@ -23,14 +23,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Random;
 
 /**
  * Gaussian Noise.
  * @author Diego Catalano
  */
-public class GaussianNoise implements IBaseInPlace{
+public class GaussianNoise implements IApplyInPlace{
     
     private double stdDev = 10;
 

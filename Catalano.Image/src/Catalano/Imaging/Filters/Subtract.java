@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Subtract filter - subtract pixel values of one or two images.
  * @author Diego Catalano
  */
-public class Subtract implements IBaseInPlace{
+public class Subtract implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private int red = 0, green = 0, blue = 0, gray = 0;

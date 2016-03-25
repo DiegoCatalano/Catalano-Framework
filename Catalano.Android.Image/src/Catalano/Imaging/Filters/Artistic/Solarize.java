@@ -23,13 +23,13 @@ package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Invert;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Solarize filter.
  * @author Diego Catalano
  */
-public class Solarize implements IBaseInPlace{
+public class Solarize implements IApplyInPlace{
     
     private double p;
     

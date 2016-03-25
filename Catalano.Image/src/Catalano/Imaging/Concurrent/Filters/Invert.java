@@ -23,13 +23,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Invert image.
  * @author Diego Catalano
  */
-public class Invert implements IBaseInPlace{
+public class Invert implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the Invert class.

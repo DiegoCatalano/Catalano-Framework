@@ -23,13 +23,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Mean Filter.
  * @author Diego Catalano
  */
-public class Mean implements IBaseInPlace{
+public class Mean implements IApplyInPlace{
     
     private int radius = 1;
     private FastBitmap copy;

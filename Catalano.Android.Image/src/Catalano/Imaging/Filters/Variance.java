@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Variance filter.
  * @author Diego Catalano
  */
-public class Variance implements IBaseInPlace{
+public class Variance implements IApplyInPlace{
     
     private int radius = 2;
 

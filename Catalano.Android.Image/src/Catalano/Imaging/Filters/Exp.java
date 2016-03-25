@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Approximation;
 
 /**
@@ -33,7 +33,7 @@ import Catalano.Math.Approximation;
  * 
  * @author Diego Catalano
  */
-public class Exp implements IBaseInPlace{
+public class Exp implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the Exp class.

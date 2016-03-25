@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Gradient Map.
@@ -31,7 +31,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class GradientMap implements IBaseInPlace{
+public class GradientMap implements IApplyInPlace{
     
     private FastBitmap gradient;
     private int[][] lut;

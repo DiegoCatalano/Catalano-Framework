@@ -24,7 +24,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Median Cut.
@@ -34,7 +34,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class MedianCut implements IBaseInPlace{
+public class MedianCut implements IApplyInPlace{
     
     private static final int HSIZE = 32768;		// size of image histogram
     private int[] hist;					// RGB histogram and reverse color lookup table

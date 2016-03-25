@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Remove artifacts caused by uneven lightning.
@@ -35,7 +35,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class ArtifactsRemoval implements IBaseInPlace{
+public class ArtifactsRemoval implements IApplyInPlace{
     
     private int windowSize = 15;
 

@@ -25,14 +25,14 @@ package Catalano.Imaging.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Integral.IntegralMean;
 import Catalano.Imaging.Filters.Integral.IntegralVariance;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
  * Niblack Threshold.
  * @author Diego Catalano
  */
-public class NiblackThreshold implements IBaseInPlace{
+public class NiblackThreshold implements IApplyInPlace{
     
     private int radius = 15;
     private double k = 0.2D;

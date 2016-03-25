@@ -26,7 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Color filtering.
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class ColorFiltering implements IBaseInPlace{
+public class ColorFiltering implements IApplyInPlace{
     
     private IntRange red, green, blue;
 

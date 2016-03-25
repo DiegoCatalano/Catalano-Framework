@@ -23,14 +23,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Roberts Cross Edge Detector.
  * References: http://en.wikipedia.org/wiki/Roberts_cross
  * @author Diego Catalano
  */
-public class RobertsCrossEdgeDetector implements IBaseInPlace{
+public class RobertsCrossEdgeDetector implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the RobertsCrossEdgeDetector class.

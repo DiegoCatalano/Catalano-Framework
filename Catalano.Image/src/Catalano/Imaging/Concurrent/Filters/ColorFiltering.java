@@ -24,13 +24,13 @@ package Catalano.Imaging.Concurrent.Filters;
 import Catalano.Core.IntRange;
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Invert image.
  * @author Diego Catalano
  */
-public class ColorFiltering implements IBaseInPlace{
+public class ColorFiltering implements IApplyInPlace{
     
     private IntRange red, green, blue;
 

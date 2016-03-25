@@ -22,14 +22,14 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.ArrayList;
 
 /**
  * Extract Boundary using approach with morphology operators.
  * @author Diego Catalano
  */
-public class ExtractBoundary implements IBaseInPlace{
+public class ExtractBoundary implements IApplyInPlace{
     
     /**
      * Morphology operators.

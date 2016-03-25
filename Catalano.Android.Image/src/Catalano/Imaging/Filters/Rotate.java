@@ -23,13 +23,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Rotate image.
  * @author Diego Catalano
  */
-public class Rotate implements IBaseInPlace{
+public class Rotate implements IApplyInPlace{
     
     public static enum Algorithm{BILINEAR,BICUBIC,NEAREST_NEIGHBOR};
     private double angle;

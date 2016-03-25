@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Morph filter.
  * <br /> The filter combines two images by taking specified percent of pixels' intensities from source image and the rest from overlay image. For example, if the source percent value is set to 0.8, then each pixel of the result image equals to <b>0.8 * source + 0.2 * overlay</b>, where <b>source</b> and <b>overlay</b> are corresponding pixels' values in source and overlay images.
  * @author Diego Catalano
  */
-public class Morph implements IBaseInPlace{
+public class Morph implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private double sourcePercent = 0.50;

@@ -22,7 +22,7 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageHistogram;
 import Catalano.Imaging.Tools.ImageStatistics;
 
@@ -34,7 +34,7 @@ import Catalano.Imaging.Tools.ImageStatistics;
  * @see MaximumEntropyThreshold
  * @author Diego Catalano
  */
-public class OtsuThreshold implements IBaseInPlace{
+public class OtsuThreshold implements IApplyInPlace{
 
     /**
      * Initializes a new instance of the OtsuThreshold class.

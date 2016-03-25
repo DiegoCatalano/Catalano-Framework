@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Arrays;
 
 /**
@@ -36,7 +36,7 @@ import java.util.Arrays;
  * 
  * @author Diego Catalano
  */
-public class AlphaTrimmedMean implements IBaseInPlace{
+public class AlphaTrimmedMean implements IApplyInPlace{
     
     private int radius = 1;
     private int t = 1;

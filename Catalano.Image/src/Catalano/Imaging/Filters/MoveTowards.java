@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Move towards filter.
  * <br /> The result of this filter is an image, which is based on source image, but updated in the way to decrease diffirence with overlay image - source image is moved towards overlay image. The update equation is defined in the next way: <b>res = src + Min( Abs( ovr - src ), step ) * Sign( ovr - src )</b>.
  * @author Diego Catalano
  */
-public class MoveTowards implements IBaseInPlace{
+public class MoveTowards implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private int stepSize = 1;

@@ -26,7 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.FloatRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Saturation adjusting in HSL color space.
@@ -36,7 +36,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class SaturationCorrection implements IBaseInPlace{
+public class SaturationCorrection implements IApplyInPlace{
     
     private HSLLinear baseFilter = new HSLLinear( );
     private float adjustValue;	// [-1, 1]

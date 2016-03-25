@@ -24,13 +24,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Niblack Threshold.
  * @author Diego Catalano
  */
-public class NiblackThreshold implements IBaseInPlace{
+public class NiblackThreshold implements IApplyInPlace{
     
     private Mean.Arithmetic arithmetic = Mean.Arithmetic.Mean;
     private int radius = 15;

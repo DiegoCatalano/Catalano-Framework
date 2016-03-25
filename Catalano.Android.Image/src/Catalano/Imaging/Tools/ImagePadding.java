@@ -22,14 +22,14 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Image padding.
  * Fill the image with zero. Zero padding technique.
  * @author Diego Catalano
  */
-public class ImagePadding implements IBaseInPlace{
+public class ImagePadding implements IApplyInPlace{
     
     private int w = 1;
     private int h = 1;

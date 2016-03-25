@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Add filter - Performs logical operator "and" between two images.
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class And implements IBaseInPlace{
+public class And implements IApplyInPlace{
     FastBitmap overlayImage;
 
     /**

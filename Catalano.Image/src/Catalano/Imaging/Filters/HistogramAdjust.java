@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Statistics.Histogram;
 
@@ -31,7 +31,7 @@ import Catalano.Statistics.Histogram;
  * Histogram adjust based on CDF.
  * @author Diego Catalano
  */
-public class HistogramAdjust implements IBaseInPlace{
+public class HistogramAdjust implements IApplyInPlace{
     
     private double tolerance;
     private int min = 0;

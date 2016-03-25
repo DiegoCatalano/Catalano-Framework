@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Shrink filter.
  * @author Diego Catalano
  */
-public class Shrink implements IBaseInPlace{
+public class Shrink implements IApplyInPlace{
 
     /**
      * Initializes a new instance of the Shrink class.

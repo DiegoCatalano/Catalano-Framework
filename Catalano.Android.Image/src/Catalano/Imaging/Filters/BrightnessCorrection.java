@@ -26,13 +26,13 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Brightness adjusting in RGB color space.
  * @author Diego Catalano
  */
-public class BrightnessCorrection implements IBaseInPlace{
+public class BrightnessCorrection implements IApplyInPlace{
     
     private LevelsLinear baseFilter = new LevelsLinear( );
     private int adjustValue;

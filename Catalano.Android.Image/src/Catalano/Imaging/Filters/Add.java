@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Add filter - add pixel values of one or two images.
  * @author Diego Catalano
  */
-public class Add implements IBaseInPlace{
+public class Add implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private int red = 0,green = 0,blue = 0, gray = 0;

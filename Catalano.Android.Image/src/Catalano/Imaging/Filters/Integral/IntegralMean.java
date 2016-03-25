@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters.Integral;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.IntegralImage;
 
 /**
  * Mean filter using integral images.
  * @author Diego Catalano
  */
-public class IntegralMean implements IBaseInPlace{
+public class IntegralMean implements IApplyInPlace{
     
     private int radius;
 

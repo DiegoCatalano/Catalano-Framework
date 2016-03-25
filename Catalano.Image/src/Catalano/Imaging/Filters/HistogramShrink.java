@@ -24,14 +24,14 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.Tools.ImageStatistics;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Decrease image contrast by compressing the gray values.
  * @see Computer Imaging - Scott E. Umbaugh - Chapter 8 - p. 353
  * @author Diego Catalano
  */
-public class HistogramShrink implements IBaseInPlace{
+public class HistogramShrink implements IApplyInPlace{
     private int max = 255, min = 0;
 
     /**

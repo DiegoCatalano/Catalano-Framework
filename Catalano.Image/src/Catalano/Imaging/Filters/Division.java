@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Division filter - divide pixel values of one or two images.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Division implements IBaseInPlace{
+public class Division implements IApplyInPlace{
     
     private FastBitmap overlayImage;
     private double red = 0,green = 0,blue = 0, gray = 0;

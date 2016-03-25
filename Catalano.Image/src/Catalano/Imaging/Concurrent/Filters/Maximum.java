@@ -24,14 +24,14 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Maximum filter.
  * <br /> Maximum filter - set maximum pixel values using radius.
  * @author Diego Catalano
  */
-public class Maximum implements IBaseInPlace{
+public class Maximum implements IApplyInPlace{
     
     private int radius = 1;
     private FastBitmap copy;

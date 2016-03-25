@@ -25,14 +25,14 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Desaturation;
 import Catalano.Imaging.Filters.GaussianBoxBlur;
 import Catalano.Imaging.Filters.Invert;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Fake HDR.
  * Simulate HDR (High Dynamic Range) from single image.
  * @author Diego Catalano
  */
-public class FakeHDR implements IBaseInPlace{
+public class FakeHDR implements IApplyInPlace{
     
     private double desaturation = 0;
     private int sigma = 40;

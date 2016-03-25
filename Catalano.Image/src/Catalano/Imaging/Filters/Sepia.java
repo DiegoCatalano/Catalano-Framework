@@ -5,13 +5,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Sepia filter - old brown photo.
  * @author Diego Catalano
  */
-public class Sepia implements IBaseInPlace{
+public class Sepia implements IApplyInPlace{
     
     /**
      * Initializes a new instance of the FastBitmap.Filters.Sepia class.

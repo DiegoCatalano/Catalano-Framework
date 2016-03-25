@@ -24,7 +24,7 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Conservative Smoothing.
@@ -36,7 +36,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class ConservativeSmoothing implements IBaseInPlace{
+public class ConservativeSmoothing implements IApplyInPlace{
     
     private int radius = 1;
     private FastBitmap copy;

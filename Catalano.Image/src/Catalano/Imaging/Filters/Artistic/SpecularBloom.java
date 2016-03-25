@@ -27,13 +27,13 @@ import Catalano.Imaging.Filters.OtsuThreshold;
 import Catalano.Imaging.Filters.RosinThreshold;
 import Catalano.Imaging.Filters.SISThreshold;
 import Catalano.Imaging.Filters.Threshold;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Specular Bloom effect.
  * @author Diego Catalano
  */
-public class SpecularBloom implements IBaseInPlace{
+public class SpecularBloom implements IApplyInPlace{
     
     public static enum AdaptiveThreshold {Otsu, Rosin, Sis};
     private AdaptiveThreshold adaptive = AdaptiveThreshold.Rosin;

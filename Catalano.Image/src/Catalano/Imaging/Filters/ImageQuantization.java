@@ -21,7 +21,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Also called Gray level reduction.
@@ -29,7 +29,7 @@ import Catalano.Imaging.IBaseInPlace;
  * by mapping groups of data points to a single point.
  * @author Diego Catalano
  */
-public class ImageQuantization implements IBaseInPlace{
+public class ImageQuantization implements IApplyInPlace{
     
     private int level = 16;
 

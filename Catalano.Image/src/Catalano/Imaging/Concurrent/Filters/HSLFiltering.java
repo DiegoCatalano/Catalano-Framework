@@ -28,7 +28,7 @@ import Catalano.Core.FloatRange;
 import Catalano.Core.IntRange;
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -39,7 +39,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * 
  * @author Diego Catalano
  */
-public class HSLFiltering implements IBaseInPlace{
+public class HSLFiltering implements IApplyInPlace{
     
     private IntRange hue = new IntRange(0, 359);
     private FloatRange saturation = new FloatRange(0, 1);

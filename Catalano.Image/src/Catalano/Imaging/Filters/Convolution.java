@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Convolution filter.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Convolution implements IBaseInPlace{
+public class Convolution implements IApplyInPlace{
     
     private int width,height;
     private int[][] kernel;

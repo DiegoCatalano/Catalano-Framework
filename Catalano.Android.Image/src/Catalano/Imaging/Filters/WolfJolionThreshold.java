@@ -25,7 +25,7 @@ package Catalano.Imaging.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Integral.IntegralMean;
 import Catalano.Imaging.Filters.Integral.IntegralVariance;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
@@ -33,7 +33,7 @@ import Catalano.Math.Matrix;
  * References: http://liris.cnrs.fr/christian.wolf/papers/icpr2002v.pdf
  * @author Diego Catalano
  */
-public class WolfJolionThreshold implements IBaseInPlace{
+public class WolfJolionThreshold implements IApplyInPlace{
     
     private int radius = 15;
     private double k = 0.5D;

@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Bernsen Threshold.
@@ -40,7 +40,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class BernsenThreshold implements IBaseInPlace{
+public class BernsenThreshold implements IApplyInPlace{
     
     private int radius = 15;
     private double c = 15;

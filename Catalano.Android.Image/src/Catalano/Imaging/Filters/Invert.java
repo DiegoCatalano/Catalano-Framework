@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Invert image.
  * @author Diego Catalano
  */
-public class Invert implements IBaseInPlace{
+public class Invert implements IApplyInPlace{
     
     
     /**

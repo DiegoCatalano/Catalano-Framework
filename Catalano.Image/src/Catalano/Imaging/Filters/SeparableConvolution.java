@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Separable Convolution filter.
  * @author Diego Catalano
  */
-public class SeparableConvolution implements IBaseInPlace{
+public class SeparableConvolution implements IApplyInPlace{
     
     private int width,height;
     private double[] kernelX;

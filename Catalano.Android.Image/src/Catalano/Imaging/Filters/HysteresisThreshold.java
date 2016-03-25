@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Hysteresis Threshold.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * Low thresholded edges which are non connected to high thresholded edges are removed.</para>
  * @author Diego Catalano
  */
-public class HysteresisThreshold implements IBaseInPlace{
+public class HysteresisThreshold implements IApplyInPlace{
     
     int lowThreshold = 20;
     int highThreshold = 100;

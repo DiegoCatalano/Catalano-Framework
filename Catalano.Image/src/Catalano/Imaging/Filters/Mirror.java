@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Mirroring filter.
  * @author Diego Catalano
  */
-public class Mirror implements IBaseInPlace{
+public class Mirror implements IApplyInPlace{
     private boolean mirrorX,mirrorY;
 
     /**

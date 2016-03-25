@@ -23,13 +23,13 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Sharpen filter.
  * @author Diego Catalano
  */
-public class Sharpen implements IBaseInPlace{
+public class Sharpen implements IApplyInPlace{
         int[][] kernel = {
             {0, -1, 0},
             {-1, 5, -1},

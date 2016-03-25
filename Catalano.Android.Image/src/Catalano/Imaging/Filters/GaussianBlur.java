@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Functions.Gaussian;
 
 /**
  * Gaussian blur filter.
  * @author Diego Catalano
  */
-public class GaussianBlur implements IBaseInPlace{
+public class GaussianBlur implements IApplyInPlace{
     private double sigma = 1.4;
     private int size = 5;
 

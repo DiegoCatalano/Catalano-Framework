@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.Blob;
 import Catalano.Imaging.Tools.BlobDetection;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
  * Eliminates blobs with certain area or size.
  * @author Diego Catalano
  */
-public class BlobsFiltering implements IBaseInPlace{
+public class BlobsFiltering implements IApplyInPlace{
     
     public static enum Filter {Area, Size};
     private Filter filter = Filter.Area;

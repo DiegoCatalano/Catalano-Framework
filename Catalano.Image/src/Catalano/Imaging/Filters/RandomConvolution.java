@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Random;
 
 /**
@@ -34,7 +34,7 @@ import Catalano.Math.Random;
  * 
  * @author Diego Catalano
  */
-public class RandomConvolution implements IBaseInPlace{
+public class RandomConvolution implements IApplyInPlace{
     
     private int size;
     private DoubleRange range;

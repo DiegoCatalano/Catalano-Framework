@@ -63,7 +63,6 @@ import Catalano.Math.Matrix;
 public class DifferenceOfGaussian implements IPhotometricFilter{
     
     private double sigma1 = 1.4D, sigma2 = 1.4D;
-    private boolean normalize = true;
 
     /**
      * Initialize a new instance of the DifferenceOfGaussian class.
@@ -80,13 +79,8 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
      * @param sigma2 Second sigma value.
      */
     public DifferenceOfGaussian(double sigma1, double sigma2) {
-        this(sigma1,sigma2,true);
-    }
-    
-    public DifferenceOfGaussian(double sigma1, double sigma2, boolean normalize){
         this.sigma1 = sigma1;
         this.sigma2 = sigma2;
-        this.normalize = normalize;
     }
 
     @Override
@@ -99,6 +93,9 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         int size2 = 2 * (int)Math.ceil(3*sigma2) + 1;
         ga.setSigma(sigma2);
         double[][] g2 = ga.Kernel2D(size2);
+        
+        //Normalize the image
+        Normalize(fastBitmap);
         
         if(fastBitmap.isGrayscale()){
             double[][] im1 = operateGray(fastBitmap, g1);
@@ -121,11 +118,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
                     fastBitmap.setGray(i, j, (int)Catalano.Math.Tools.Scale(min, max, 0, 255, im1[i][j]));
                 }
             }
-            
-            if(normalize){
-                HistogramAdjust ha = new HistogramAdjust();
-                ha.applyInPlace(fastBitmap);
-            }
+                
         }
         else if(fastBitmap.isRGB()){
             double[][][] im1 = operateRGB(fastBitmap, g1);
@@ -168,11 +161,108 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
                 }
             }
             
-            if(normalize){
-                HistogramAdjust ha = new HistogramAdjust();
-                ha.applyInPlace(fastBitmap);
+            HistogramAdjust ha = new HistogramAdjust();
+            ha.applyInPlace(fastBitmap);
+
+        }
+    }
+    
+    public double[][] Process(double[][] image, boolean normalize){
+        int size1 = 2 * (int)Math.ceil(3*sigma1) + 1;
+        Gaussian ga = new Gaussian(sigma1);
+        double[][] g1 = ga.Kernel2D(size1);
+
+        int size2 = 2 * (int)Math.ceil(3*sigma2) + 1;
+        ga.setSigma(sigma2);
+        double[][] g2 = ga.Kernel2D(size2);
+        
+        Normalize(image);
+        
+        double[][] im1 = operateGray(image, g1);
+        double[][] im2 = operateGray(image, g2);
+
+        im1 = Matrix.Subtract(im1, im2);
+        
+        if(normalize){
+            Normalize(im1);
+        }
+        
+        return im1;
+    }
+    
+    private void Normalize(double[][] image){
+        //Normalization
+        double min = Double.MAX_VALUE;
+        double max = -Double.MAX_VALUE;
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[0].length; j++) {
+                min = Math.min(min, image[i][j]);
+                max = Math.max(max, image[i][j]);
             }
         }
+
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[0].length; j++) {
+                image[i][j] = Catalano.Math.Tools.Scale(min, max, 0, 255, image[i][j]);
+            }
+        }
+    }
+    
+    private void Normalize(FastBitmap fastBitmap){
+        int size = fastBitmap.getSize();
+        
+        int min = Integer.MAX_VALUE;
+        int max = -Integer.MAX_VALUE;
+        for (int i = 0; i < size; i++) {
+            min = Math.min(min, fastBitmap.getGray(i));
+            max = Math.max(max, fastBitmap.getGray(i));
+        }
+        
+        for (int i = 0; i < size; i++) {
+            fastBitmap.setGray(i, (int)Catalano.Math.Tools.Scale(min, max, 0, 255, fastBitmap.getGray(i)));
+        }
+    }
+    
+    private double[][] operateGray(double[][] image, double[][] kernel){
+        //Perform the convolution
+        int width = image[0].length;
+        int height = image.length;
+        double[][] response = new double[height][width];
+        
+        int Xline,Yline;
+        int lines = (kernel.length - 1)/2;
+        double gray;
+        
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                gray = 0;
+                for (int i = 0; i < kernel.length; i++) {
+                    Xline = x + (i-lines);
+                    for (int j = 0; j < kernel[0].length; j++) {
+                        Yline = y + (j-lines);
+                        if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
+                            gray += kernel[i][j] * image[Xline][Yline];
+                        }
+                        else {
+
+                            int r = x + i - lines;
+                            int c = y + j - lines;
+
+                            if (r < 0) r = 0;
+                            if (r >= height) r = height - 1;
+
+                            if (c < 0) c = 0;
+                            if (c >= width) c = width - 1;
+
+                            gray += kernel[i][j] * image[r][c];
+                        }
+                    }
+                }
+                response[x][y] = gray;
+            }
+        }
+        
+        return response;
     }
     
     private double[][] operateGray(FastBitmap fastBitmap, double[][] kernel){

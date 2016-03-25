@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters.Integral;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.IntegralImage;
 
 /**
  * Variance filter using integral images.
  * @author Diego Catalano
  */
-public class IntegralVariance implements IBaseInPlace{
+public class IntegralVariance implements IApplyInPlace{
     
     private int radius;
     

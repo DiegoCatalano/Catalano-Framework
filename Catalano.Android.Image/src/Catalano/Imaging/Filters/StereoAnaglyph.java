@@ -26,7 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Stereo anaglyph filter.
@@ -35,7 +35,7 @@ import Catalano.Imaging.IBaseInPlace;
  * cyan over the right.</para>
  * @author Diego Catalano
  */
-public class StereoAnaglyph implements IBaseInPlace{
+public class StereoAnaglyph implements IApplyInPlace{
 
     /**
      * Enumeration of algorithms for creating anaglyph images.

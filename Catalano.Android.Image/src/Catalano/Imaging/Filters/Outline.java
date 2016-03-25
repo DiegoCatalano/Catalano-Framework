@@ -23,13 +23,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Outline operation fr extracting the boundary pixels.
  * @author Diego Catalano
  */
-public class Outline implements IBaseInPlace{
+public class Outline implements IApplyInPlace{
     
     private final int[][] kernel = {
         {0, 1, 0},

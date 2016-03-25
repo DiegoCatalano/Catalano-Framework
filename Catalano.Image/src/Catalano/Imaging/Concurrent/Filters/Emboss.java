@@ -22,7 +22,7 @@
 package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Emboss filter.
@@ -30,7 +30,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Emboss implements IBaseInPlace{
+public class Emboss implements IApplyInPlace{
     
     //Blur Kernel
     int[][] kernel = {

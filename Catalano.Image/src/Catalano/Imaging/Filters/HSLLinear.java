@@ -26,7 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.FloatRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -37,7 +37,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * 
  * @author Diego Catalano
  */
-public class HSLLinear implements IBaseInPlace{
+public class HSLLinear implements IApplyInPlace{
     
     private FloatRange inLuminance   = new FloatRange( 0.0f, 1.0f );
     private FloatRange inSaturation  = new FloatRange( 0.0f, 1.0f );

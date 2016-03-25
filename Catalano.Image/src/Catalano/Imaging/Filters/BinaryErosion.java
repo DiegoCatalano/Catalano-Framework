@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Binary Erosion operator from Mathematical Morphology.
@@ -34,7 +34,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class BinaryErosion implements IBaseInPlace{
+public class BinaryErosion implements IApplyInPlace{
     private int[][] kernel;
     private int radius = 0;
 

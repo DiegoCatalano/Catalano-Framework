@@ -25,7 +25,7 @@ package Catalano.Imaging.Tools;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
@@ -34,7 +34,7 @@ import Catalano.Math.Matrix;
  * References: Loy, G. Zelinsky, A. "Fast radial symmetry for detecting points of interest". IEEE PAMI, Vol. 25, No. 8, August 2003. pp 959-973.
  * @author Diego Catalano
  */
-public class FastRadialSymmetryTransform implements IBaseInPlace{
+public class FastRadialSymmetryTransform implements IApplyInPlace{
     
     private int radius = 2;
     private float kappa = 8;

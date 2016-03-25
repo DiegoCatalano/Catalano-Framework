@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -30,7 +30,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * @see http://en.wikipedia.org/wiki/Rg_chromaticity
  * @author Diego Catalano
  */
-public class RGChromaticity implements IBaseInPlace{
+public class RGChromaticity implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the RGChromaticity class.

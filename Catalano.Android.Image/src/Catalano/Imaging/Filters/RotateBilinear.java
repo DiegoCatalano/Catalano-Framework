@@ -26,7 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Rotate image using bilinear algorithm.
@@ -38,7 +38,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class RotateBilinear implements IBaseInPlace {
+public class RotateBilinear implements IApplyInPlace {
     
     private double angle;
     private boolean keepSize;

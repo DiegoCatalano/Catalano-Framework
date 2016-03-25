@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Modified White Patch algorithm.
  * @author Diego Catalano
  */
-public class ModifiedWhitePatch implements IBaseInPlace{
+public class ModifiedWhitePatch implements IApplyInPlace{
     
     int threshold = 128;
 

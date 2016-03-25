@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters.Artistic;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
  * Oil Paiting effect.
  * @author Diego Catalano
  */
-public class OilPainting implements IBaseInPlace{
+public class OilPainting implements IApplyInPlace{
     
     private int radius = 2;
 

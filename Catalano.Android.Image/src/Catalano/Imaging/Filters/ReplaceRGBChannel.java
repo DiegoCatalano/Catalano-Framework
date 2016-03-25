@@ -5,13 +5,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  *
  * @author Diego Catalano
  */
-public class ReplaceRGBChannel implements IBaseInPlace{
+public class ReplaceRGBChannel implements IApplyInPlace{
     private FastBitmap band;
     public enum RGB{R, G, B};
     private RGB rgb;

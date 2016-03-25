@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.IntegralImage;
 
 /**
  * Adaptive thresholding using the integral image.
  * @author Diego Catalano
  */
-public class BradleyLocalThreshold implements IBaseInPlace{
+public class BradleyLocalThreshold implements IApplyInPlace{
     private int windowSize = 41;
     private float pixelBrightnessDifferenceLimit = 0.15f;
 

@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * White Patch algorithm.
  * @author Diego Catalano
  */
-public class WhitePatch implements IBaseInPlace{
+public class WhitePatch implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the WhitePatch class.

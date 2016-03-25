@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
@@ -35,7 +35,7 @@ import Catalano.Math.Matrix;
  * 
  * @author Diego Catalano
  */
-public class EnsembleThreshold implements IBaseInPlace{
+public class EnsembleThreshold implements IApplyInPlace{
     private int[] threshold;
     private boolean invert;
 

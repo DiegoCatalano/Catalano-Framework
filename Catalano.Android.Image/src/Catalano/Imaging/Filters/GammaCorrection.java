@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * The filter performs gamma correction of specified image in RGB color space.
  * @author Diego Catalano
  */
-public class GammaCorrection implements IBaseInPlace{
+public class GammaCorrection implements IApplyInPlace{
     
     private double gamma;
 

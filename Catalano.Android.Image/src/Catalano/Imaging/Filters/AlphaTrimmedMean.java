@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Arrays;
 
 /**
@@ -31,7 +31,7 @@ import java.util.Arrays;
  * The alpha trimmed mean filter is normally used to reduce noise in an image, somewhat like the mean and median filter. However, it often does a better job than the mean filter of preserving useful detail in the image.
  * @author Diego Catalano
  */
-public class AlphaTrimmedMean implements IBaseInPlace{
+public class AlphaTrimmedMean implements IApplyInPlace{
     
     private int radius = 1;
     private int t = 1;

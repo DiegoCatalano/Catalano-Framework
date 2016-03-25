@@ -5,8 +5,11 @@ Add: Crop to work in both system coordinates.		Ready
 Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
 New: Self Quocient Image
-New: Tan Triggs Normalization
-New: Differences Of Gaussian				Working
+New: Retina Model Normalization
+New: Weberfaces					Working
+New: Weber Binary Pattern				Ready
+New: Tan Triggs Normalization				Ready
+New: Differences Of Gaussian				Ready
 New: Spatial Pyramid Histogram			Ready
 New: Spatial Histogram				Ready
 New: Uniform Local Binary Pattern			Ready

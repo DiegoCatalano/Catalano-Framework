@@ -28,7 +28,7 @@ import Catalano.Core.FloatRange;
 import Catalano.Core.IntRange;
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -39,7 +39,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * 
  * @author Diego Catalano
  */
-public class YCbCrFiltering implements IBaseInPlace{
+public class YCbCrFiltering implements IApplyInPlace{
     
     private FloatRange yRange = new FloatRange(0, 1);
     private FloatRange cbRange = new FloatRange(-0.5f, 0.5f);

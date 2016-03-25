@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ColorConverter;
 
 /**
@@ -30,7 +30,7 @@ import Catalano.Imaging.Tools.ColorConverter;
  * Only modifies the hue in the image from HLS color space.
  * @author Diego Catalano
  */
-public class HueModifier implements IBaseInPlace{
+public class HueModifier implements IApplyInPlace{
     
     private float degree;
 

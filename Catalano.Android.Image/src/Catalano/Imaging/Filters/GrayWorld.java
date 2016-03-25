@@ -25,13 +25,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Gray World algorithm.
  * @author Diego Catalano
  */
-public class GrayWorld implements IBaseInPlace{
+public class GrayWorld implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the GrayWorld class.

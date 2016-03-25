@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.ComplexNumber;
 
 /**
@@ -32,7 +32,7 @@ import Catalano.Math.ComplexNumber;
  * Image -> A natural log transform (base e) -> Fourier Transform -> Frequency filter -> Inverse Fourier Transform -> Inverse log function (the exponencial).
  * @author Diego Catalano
  */
-public class HomomorphicFilter implements IBaseInPlace{
+public class HomomorphicFilter implements IApplyInPlace{
     
     private IntRange range;
 

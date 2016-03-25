@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Arrays;
 
 /**
@@ -33,7 +33,7 @@ import java.util.Arrays;
  * The median filter is normally used to reduce noise in an image, somewhat like the mean filter. However, it often does a better job than the mean filter of preserving useful detail in the image.
  * @author Diego Catalano
  */
-public class Median implements IBaseInPlace{
+public class Median implements IApplyInPlace{
     
     private int radius = 1;
 

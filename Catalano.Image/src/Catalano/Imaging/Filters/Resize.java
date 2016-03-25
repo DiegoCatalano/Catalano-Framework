@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Resize image using interpolation algorithms.
  * @author Diego Catalano
  */
-public class Resize implements IBaseInPlace{
+public class Resize implements IApplyInPlace{
     
     
     /**

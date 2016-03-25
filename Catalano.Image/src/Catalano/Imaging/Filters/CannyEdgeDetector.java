@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Canny edge detector.
@@ -44,7 +44,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class CannyEdgeDetector implements IBaseInPlace{
+public class CannyEdgeDetector implements IApplyInPlace{
     
     private double sigma = 1.4D;
     private int size = 1;

@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Difference filter - get the difference between overlay and source images.
@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Difference implements IBaseInPlace{
+public class Difference implements IApplyInPlace{
     
     private FastBitmap overlayImage;
 

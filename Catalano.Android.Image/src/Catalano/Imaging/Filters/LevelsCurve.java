@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.Curve;
 
 /**
@@ -32,7 +32,7 @@ import Catalano.Imaging.Tools.Curve;
  * 
  * @author Diego Catalano
  */
-public class LevelsCurve implements IBaseInPlace{
+public class LevelsCurve implements IApplyInPlace{
     
     private Curve curveRed;
     private Curve curveGreen;

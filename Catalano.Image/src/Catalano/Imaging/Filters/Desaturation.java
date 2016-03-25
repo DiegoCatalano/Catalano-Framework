@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Desaturation.
@@ -32,7 +32,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class Desaturation implements IBaseInPlace{
+public class Desaturation implements IApplyInPlace{
     
     private double saturationFactor = 0.2D;
 

@@ -25,14 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Rotate RGB channels.
  * <br /> The filter rotates RGB channels: red channel is replaced with green, green channel is replaced with blue, blue channel is replaced with red.
  * @author Diego Catalano
  */
-public class RotateChannels implements IBaseInPlace{
+public class RotateChannels implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the RotateChannels class.

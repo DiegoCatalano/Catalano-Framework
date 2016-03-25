@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Bottom-hat operator from Mathematical Morphology. 
@@ -37,7 +37,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class BottomHat implements IBaseInPlace{
+public class BottomHat implements IApplyInPlace{
     private int[][] kernel;
     private int radius;
     

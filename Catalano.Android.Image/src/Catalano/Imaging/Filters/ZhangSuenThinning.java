@@ -24,13 +24,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Zhang-Suen Thinning.
  * @author Diego Catalano
  */
-public class ZhangSuenThinning implements IBaseInPlace{
+public class ZhangSuenThinning implements IApplyInPlace{
     
 	private int[] table  =
 		 {0,0,0,0,0,0,1,3,0,0,3,1,1,0,1,3,0,0,0,0,0,0,0,0,0,0,2,0,3,0,3,3,

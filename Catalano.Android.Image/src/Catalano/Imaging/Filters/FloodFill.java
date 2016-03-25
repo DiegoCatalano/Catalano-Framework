@@ -24,7 +24,7 @@ package Catalano.Imaging.Filters;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.Color;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.LinkedList;
 
 /**
@@ -32,7 +32,7 @@ import java.util.LinkedList;
  * The purpose of Flood Fill is to color an entire area of connected pixels with the same color.
  * @author Diego Catalano
  */
-public class FloodFill implements IBaseInPlace{
+public class FloodFill implements IApplyInPlace{
     
     /**
      * Specifies different floodfill algorithm.

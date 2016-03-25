@@ -22,13 +22,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * High Boost Filter.
  * @author Diego Catalano
  */
-public class HighBoost implements IBaseInPlace{
+public class HighBoost implements IApplyInPlace{
     private int[][] kernel = {
         {-1, -1, -1},
         {-1, 8, -1},

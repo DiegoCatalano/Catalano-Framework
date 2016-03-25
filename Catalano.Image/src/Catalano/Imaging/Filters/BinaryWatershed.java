@@ -24,7 +24,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
 import java.util.Arrays;
 
@@ -39,7 +39,7 @@ import java.util.Arrays;
  * 
  * @author Diego Catalano
  */
-public class BinaryWatershed implements IBaseInPlace{
+public class BinaryWatershed implements IApplyInPlace{
     
     private final int[] DIR_X_OFFSET = new int[] {  0,  1,  1,  1,  0, -1, -1, -1 };
     private final int[] DIR_Y_OFFSET = new int[] { -1, -1,  0,  1,  1,  1,  0, -1 };

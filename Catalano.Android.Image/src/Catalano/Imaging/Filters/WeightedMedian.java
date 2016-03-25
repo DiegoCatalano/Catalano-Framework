@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Arrays;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Arrays;
  * 
  * @author Diego Catalano
  */
-public class WeightedMedian implements IBaseInPlace{
+public class WeightedMedian implements IApplyInPlace{
     
     private int[][] weight = new int[][] {
         {1,2,1},

@@ -26,14 +26,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * IsoData Classifier.
  * Calculates a classification based on the histogram of the image by generalizing the IsoData algorithm to more than two classes.
  * @author Diego Catalano
  */
-public class IsoDataClassifier implements IBaseInPlace{
+public class IsoDataClassifier implements IApplyInPlace{
     
     int n;
     int[] histogram;

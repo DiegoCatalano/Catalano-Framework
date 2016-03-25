@@ -23,7 +23,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.Filters.*;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.CompassConvolutionKernel;
 
 /**
@@ -38,7 +38,7 @@ import Catalano.Imaging.Tools.CompassConvolutionKernel;
  * 
  * @author Diego Catalano
  */
-public class ScharrCompassEdgeDetector implements IBaseInPlace{
+public class ScharrCompassEdgeDetector implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the ScharrCompassEdgeDetector class.

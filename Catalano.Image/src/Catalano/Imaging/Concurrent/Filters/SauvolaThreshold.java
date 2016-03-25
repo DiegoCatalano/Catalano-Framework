@@ -24,13 +24,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Sauvola Threshold.
  * @author Diego Catalano
  */
-public class SauvolaThreshold implements IBaseInPlace{
+public class SauvolaThreshold implements IApplyInPlace{
     
     private Mean.Arithmetic arithmetic = Mean.Arithmetic.Mean;
     private int radius = 15;

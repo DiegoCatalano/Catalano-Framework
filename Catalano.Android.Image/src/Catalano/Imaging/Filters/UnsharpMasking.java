@@ -23,13 +23,13 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Unsharp Filter.
  * @author Diego Catalano
  */
-public class UnsharpMasking implements IBaseInPlace{
+public class UnsharpMasking implements IApplyInPlace{
     
     private int radius = 1;
     private float weight = 0.6f;

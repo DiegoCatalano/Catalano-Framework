@@ -26,7 +26,7 @@ package Catalano.Imaging.Filters;
 
 import Catalano.Core.IntRange;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Additive noise filter.
@@ -39,7 +39,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class AdditiveNoise implements IBaseInPlace{
+public class AdditiveNoise implements IApplyInPlace{
     
     private int min = -10;
     private int max = 10;

@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Functions.Gabor;
 import Catalano.Math.Functions.Gabor.Config;
 
@@ -40,7 +40,7 @@ import Catalano.Math.Functions.Gabor.Config;
  * @see http://en.wikipedia.org/wiki/Gabor_filter
  * @author Diego Catalano
  */
-public class GaborFilter implements IBaseInPlace{
+public class GaborFilter implements IApplyInPlace{
     
     // Size of kernel
     private int size = 3;

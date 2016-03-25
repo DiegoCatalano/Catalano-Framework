@@ -23,14 +23,14 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Threshold.
  * The filter does image binarization using specified threshold value. All pixels with intensities equal or higher than threshold value are converted to white pixels. All other pixels with intensities below threshold value are converted to black pixels.
  * @author Diego Catalano
  */
-public class Threshold implements IBaseInPlace{
+public class Threshold implements IApplyInPlace{
     
     private int threshold = 128;
 

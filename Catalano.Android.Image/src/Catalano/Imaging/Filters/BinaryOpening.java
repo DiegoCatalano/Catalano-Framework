@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Binary Opening operator from Mathematical Morphology.
  * <br /> Applied to binary image, the filter may be used for removing small object keeping big objects unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big objects, which were not removed by erosion.
  * @author Diego Catalano
  */
-public class BinaryOpening implements IBaseInPlace{
+public class BinaryOpening implements IApplyInPlace{
     private int[][] kernel;
     private int radius = 0;
 

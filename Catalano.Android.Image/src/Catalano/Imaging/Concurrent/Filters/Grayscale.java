@@ -23,13 +23,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Base class for image grayscaling.
  * @author Diego Catalano
  */
-public class Grayscale implements IBaseInPlace {
+public class Grayscale implements IApplyInPlace {
     
     private double redCoefficient = 0.2125;
     private double greenCoefficient = 0.7154;

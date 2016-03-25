@@ -25,7 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Random;
 
 /**
@@ -33,7 +33,7 @@ import java.util.Random;
  * <br /> The filter adds random salt and pepper noise - sets maximum or minimum values to randomly selected pixels.
  * @author Diego Catalano
  */
-public class SaltAndPepperNoise implements IBaseInPlace{
+public class SaltAndPepperNoise implements IApplyInPlace{
     private int noiseAmount = 10;
     private Random random = new Random();
 

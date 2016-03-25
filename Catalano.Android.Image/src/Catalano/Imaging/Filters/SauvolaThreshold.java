@@ -25,14 +25,14 @@ package Catalano.Imaging.Filters;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Integral.IntegralMean;
 import Catalano.Imaging.Filters.Integral.IntegralVariance;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Math.Matrix;
 
 /**
  * Sauvola Threshold.
  * @author Diego Catalano
  */
-public class SauvolaThreshold implements IBaseInPlace{
+public class SauvolaThreshold implements IApplyInPlace{
     
     private int radius = 15;
     private double k = 0.5D;

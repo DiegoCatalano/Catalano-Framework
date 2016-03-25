@@ -23,13 +23,13 @@ package Catalano.Imaging.Concurrent.Filters;
 
 import Catalano.Imaging.Concurrent.Share;
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Log filter.
  * @author Diego Catalano
  */
-public class Log implements IBaseInPlace{
+public class Log implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the Log class.

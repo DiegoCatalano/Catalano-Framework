@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.CompassConvolutionKernel;
 
 /**
@@ -37,7 +37,7 @@ import Catalano.Imaging.Tools.CompassConvolutionKernel;
  * 
  * @author Diego Catalano
  */
-public class IsotropicCompassEdgeDetector implements IBaseInPlace{
+public class IsotropicCompassEdgeDetector implements IApplyInPlace{
 
     /**
      * Initialize a new instance of the IsotropicCompassEdgeDetector class.

@@ -22,7 +22,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Binary Dilatation operator from Mathematical Morphology.
@@ -33,7 +33,7 @@ import Catalano.Imaging.IBaseInPlace;
  * 
  * @author Diego Catalano
  */
-public class BinaryDilatation implements IBaseInPlace{
+public class BinaryDilatation implements IApplyInPlace{
     private int[][] kernel;
     private int radius = 0;
 

@@ -22,14 +22,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * MidPoint filter.
  * Set (maximum - minimum) / 2
  * @author Diego Catalano
  */
-public class MidPoint implements IBaseInPlace{
+public class MidPoint implements IApplyInPlace{
     
     private int radius = 1;
 

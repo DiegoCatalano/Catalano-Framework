@@ -26,14 +26,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Gaussian Box Blur.
  * Reference: http://blog.ivank.net/fastest-gaussian-blur.html
  * @author Diego Catalano
  */
-public class GaussianBoxBlur implements IBaseInPlace{
+public class GaussianBoxBlur implements IApplyInPlace{
     
     private double std;
     private int r;

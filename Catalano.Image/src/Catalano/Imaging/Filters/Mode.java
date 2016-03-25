@@ -23,7 +23,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.IBaseInPlace;
+import Catalano.Imaging.IApplyInPlace;
 import java.util.Arrays;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Arrays;
  * As such we are forced to estimate the mode: the truncated median filter, as introduced by Davies (1988), aims to achieve this.
  * @author Diego Catalano
  */
-public class Mode implements IBaseInPlace{
+public class Mode implements IApplyInPlace{
     
     private int radius = 1;
 
