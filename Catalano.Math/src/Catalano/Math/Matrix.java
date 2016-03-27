@@ -2313,6 +2313,51 @@ public final class Matrix {
         return index;
     }
     
+    /**
+     * Get the mean of the all elements in the matrix.
+     * @param matrix Matrix.
+     * @return Mean.
+     */
+    public static double Mean(double[][] matrix){
+        double mean = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                mean += matrix[i][j];
+            }
+        }
+        return mean /= (double)(matrix.length * matrix[0].length);
+    }
+    
+    /**
+     * Get the mean of the all elements in the matrix.
+     * @param matrix Matrix.
+     * @return Mean.
+     */
+    public static double Mean(int[][] matrix){
+        double mean = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                mean += matrix[i][j];
+            }
+        }
+        return mean /= (double)(matrix.length * matrix[0].length);
+    }
+    
+    /**
+     * Get the mean of the all elements in the matrix.
+     * @param matrix Matrix.
+     * @return Mean.
+     */
+    public static float Mean(float[][] matrix){
+        float mean = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                mean += matrix[i][j];
+            }
+        }
+        return mean /= (float)(matrix.length * matrix[0].length);
+    }
+    
     public static int[][] MemberwiseClone(int[][] data){
         int[][] clone = new int[data.length][];
         for (int i = 0; i < data.length; i++)
@@ -2454,6 +2499,57 @@ public final class Matrix {
             }
         }
         return index;
+    }
+    
+    /**
+     * Get the minimum and the maximum of the matrix.
+     * @param matrix Matrix.
+     * @return Min and maximum in the matrix.
+     */
+    public static double[] MinMax(double[][] matrix){
+        double min = Double.MAX_VALUE;
+        double max = -Double.MAX_VALUE;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                min = Math.min(min, matrix[i][j]);
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return new double[] {min, max};
+    }
+    
+    /**
+     * Get the minimum and the maximum of the matrix.
+     * @param matrix Matrix.
+     * @return Min and maximum in the matrix.
+     */
+    public static int[] MinMax(int[][] matrix){
+        int min = Integer.MAX_VALUE;
+        int max = -Integer.MAX_VALUE;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                min = Math.min(min, matrix[i][j]);
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return new int[] {min, max};
+    }
+    
+    /**
+     * Get the minimum and the maximum of the matrix.
+     * @param matrix Matrix.
+     * @return Min and maximum in the matrix.
+     */
+    public static float[] MinMax(float[][] matrix){
+        float min = Float.MAX_VALUE;
+        float max = -Float.MAX_VALUE;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                min = Math.min(min, matrix[i][j]);
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        return new float[] {min, max};
     }
     
     /**

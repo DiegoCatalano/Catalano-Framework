@@ -84,7 +84,7 @@ public class Gaussian {
      * @return Function's value at point (x,y).
      */
     public double Function2D( double x, double y ){
-        return Math.exp( ( x * x + y * y ) / ( -2 * sqrSigma ) ) / ( 2 * Math.PI * sqrSigma );
+        return Math.exp(-(x*x + y*y) / (2 * sqrSigma));
     }
     
     /**
@@ -126,20 +126,27 @@ public class Gaussian {
                 e.printStackTrace();
             }
         }
+        
         int r = size / 2;
-        // kernel
         double[][] kernel = new double[size][size];
 
         // compute kernel
+        double sum = 0;
         for ( int y = -r, i = 0; i < size; y++, i++ )
         {
             for ( int x = -r, j = 0; j < size; x++, j++ )
             {
-                kernel[i][j] = Function2D( x, y );
+                kernel[i][j] = Function2D(x, y);
+                sum += kernel[i][j];
+            }
+        }
+        
+        for (int i = 0; i < kernel.length; i++) {
+            for (int j = 0; j < kernel[0].length; j++) {
+                kernel[i][j] /= sum;
             }
         }
 
         return kernel;
     }
-    
 }

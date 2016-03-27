@@ -203,7 +203,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
 
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[0].length; j++) {
-                image[i][j] = Catalano.Math.Tools.Scale(min, max, 0, 255, image[i][j]);
+                image[i][j] = (int)(Catalano.Math.Tools.Scale(min, max, 0, 255, image[i][j]));
             }
         }
     }
@@ -223,7 +223,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         }
     }
     
-    private double[][] operateGray(double[][] image, double[][] kernel){
+    public static double[][] operateGray(double[][] image, double[][] kernel){
         //Perform the convolution
         int width = image[0].length;
         int height = image.length;

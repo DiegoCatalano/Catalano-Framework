@@ -255,7 +255,7 @@ public class ArraysUtil {
      * @param array Array.
      * @return Integer array.
      */
-    private static <T extends Number> int[] asArray(final T... array) {
+    public static <T extends Number> int[] asArray(final T... array) {
         int[] b = new int[array.length];
         for (int i = 0; i < b.length; i++) {
             b[i] = array[i].intValue();
@@ -267,7 +267,7 @@ public class ArraysUtil {
      * Shuffle an array.
      * @param array Array.
      */
-    private static void Shuffle(double[] array){
+    public static void Shuffle(double[] array){
         Random random = new Random();
         for (int i = array.length - 1; i > 0; i--)
         {
@@ -282,7 +282,7 @@ public class ArraysUtil {
      * Shuffle an array.
      * @param array Array.
      */
-    private static void Shuffle(int[] array){
+    public static void Shuffle(int[] array){
         Random random = new Random();
         for (int i = array.length - 1; i > 0; i--)
         {
@@ -297,7 +297,7 @@ public class ArraysUtil {
      * Shuffle an array.
      * @param array Array.
      */
-    private static void Shuffle(float[] array){
+    public static void Shuffle(float[] array){
         Random random = new Random();
         for (int i = array.length - 1; i > 0; i--)
         {

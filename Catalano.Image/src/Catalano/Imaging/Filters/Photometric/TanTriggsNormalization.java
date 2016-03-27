@@ -47,68 +47,54 @@
 
 package Catalano.Imaging.Filters.Photometric;
 
+import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.GammaCorrection;
+import Catalano.Math.Matrix;
+
 /**
  *
  * @author Diego
  */
-public class RobustPostprocessor {
+public class TanTriggsNormalization implements IPhotometricFilter{
     
-    private double alfa;
-    private double tao;
+    private double gamma;
 
-    public RobustPostprocessor() {
-        this(0.1,10);
+    public TanTriggsNormalization() {
+        this(0.2);
     }
 
-    public RobustPostprocessor(double alfa, double tao) {
-        this.alfa = alfa;
-        this.tao = tao;
+    public TanTriggsNormalization(double gamma) {
+        this.gamma = gamma;
     }
-    
-    public double[][] Apply(double[][] image){
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
         
-        //First stage normalization
-        double mean = 0;
+        if(!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("Tan Triggs only works in grayscale images.");
+        
+        //Gamma correction
+        GammaCorrection gc = new GammaCorrection(gamma);
+        gc.applyInPlace(fastBitmap);
+        
+        //Transform the image into matrix
+        double[][] image = new double[fastBitmap.getHeight()][fastBitmap.getWidth()];
+        fastBitmap.toArrayGray(image);
+        
+        //Dog
+        DifferenceOfGaussian dog = new DifferenceOfGaussian(0.5, 2);
+        image = dog.Process(image, false);
+        
+        //Robust post-processor
+        RobustPostprocessor rp = new RobustPostprocessor();
+        image = rp.Apply(image);
+        
+        //Normalize the image
+        double[] coef = Matrix.MinMax(image);
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[0].length; j++) {
-                mean += Math.pow(Math.abs(image[i][j]), alfa);
+                fastBitmap.setGray(i, j, (int)Catalano.Math.Tools.Scale(coef[0], coef[1], 0, 255, image[i][j]));
             }
         }
-        
-        mean /= (double)(image.length * image[0].length);
-        mean = Math.pow(mean, 1.0 / alfa);
-        
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                image[i][j] /= mean;
-            }
-        }
-        
-        //Second stage normalization
-        mean = 0;
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                mean += Math.pow(Math.min(Math.abs(image[i][j]), tao), alfa);
-            }
-        }
-        
-        mean /= (double)(image.length * image[0].length);
-        mean = Math.pow(mean, 1.0 / alfa);
-        
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                image[i][j] /= mean;
-            }
-        }
-        
-        //Nonlinear mapping
-        double[][] result = new double[image.length][image[0].length];
-        for (int i = 0; i < result.length; i++) {
-            for (int j = 0; j < result[0].length; j++) {
-                result[i][j] = tao * Math.tanh(image[i][j] / tao);
-            }
-        }
-        
-        return result;
     }
 }

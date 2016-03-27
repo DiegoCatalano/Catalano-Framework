@@ -32,7 +32,9 @@ Catalano Framework 1.6 road map
     - New: Integral Variance.
 
 * Catalano.Image.Filters.Photometric
+    - New: Retina Model.
     - New: TanTriggs Normalization.
+    - New: Robust PostProcessor.
     - New: Gradient Faces.
 
     - Reworked: Difference Of Gaussian.
