@@ -137,7 +137,7 @@ public class IsotropicCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
         
@@ -245,7 +245,7 @@ public class IsotropicCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
     }

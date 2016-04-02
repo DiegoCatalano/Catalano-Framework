@@ -234,7 +234,7 @@ public class FastRadialSymmetryTransform implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(symmetryMap);
+            fastBitmap.matrixToImage(symmetryMap);
             
         }
         else{

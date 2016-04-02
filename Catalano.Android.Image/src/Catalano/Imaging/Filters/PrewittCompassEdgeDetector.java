@@ -153,7 +153,7 @@ public class PrewittCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
         if (fastBitmap.isRGB()){
@@ -273,7 +273,7 @@ public class PrewittCompassEdgeDetector implements IApplyInPlace{
                     image[i][j][2] = Math.max(image[i][j][2], copy.getBlue(i, j));
                 }
             }
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
         }
     }
 }

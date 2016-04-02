@@ -49,6 +49,7 @@ package Catalano.Imaging.Filters.Photometric;
 
 import Catalano.Imaging.Filters.*;
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Tools.ImageUtils;
 import Catalano.Math.Functions.Gaussian;
 import Catalano.Math.Matrix;
 
@@ -62,10 +63,47 @@ import Catalano.Math.Matrix;
  */
 public class DifferenceOfGaussian implements IPhotometricFilter{
     
-    private double sigma1 = 1.4D, sigma2 = 1.4D;
+    private double sigma1;
+    private double sigma2;
+
+    /**
+     * Get sigma 1.
+     * @return Sigma value.
+     */
+    public double getSigma1() {
+        return sigma1;
+    }
+
+    /**
+     * Set sigma 1.
+     * @param sigma1 Sigma value.
+     */
+    public void setSigma1(double sigma1) {
+        this.sigma1 = sigma1;
+    }
+
+    /**
+     * Get sigma 2.
+     * @return Sigma value.
+     */
+    public double getSigma2() {
+        return sigma2;
+    }
+
+    /**
+     * Set sigma 2.
+     * @param sigma2 Sigma value.
+     */
+    public void setSigma2(double sigma2) {
+        this.sigma2 = sigma2;
+    }
 
     /**
      * Initialize a new instance of the DifferenceOfGaussian class.
+     * <br> 
+     * <br> Default:
+     * <br> Sigma 1: 1
+     * <br> Sigma 2: 2
      */
     public DifferenceOfGaussian() {
         this(1,2);
@@ -176,7 +214,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         ga.setSigma(sigma2);
         double[][] g2 = ga.Kernel2D(size2);
         
-        Normalize(image);
+        ImageUtils.Normalize(image);
         
         double[][] im1 = operateGray(image, g1);
         double[][] im2 = operateGray(image, g2);
@@ -184,28 +222,10 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         im1 = Matrix.Subtract(im1, im2);
         
         if(normalize){
-            Normalize(im1);
+            ImageUtils.Normalize(im1);
         }
         
         return im1;
-    }
-    
-    private void Normalize(double[][] image){
-        //Normalization
-        double min = Double.MAX_VALUE;
-        double max = -Double.MAX_VALUE;
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                min = Math.min(min, image[i][j]);
-                max = Math.max(max, image[i][j]);
-            }
-        }
-
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                image[i][j] = (int)(Catalano.Math.Tools.Scale(min, max, 0, 255, image[i][j]));
-            }
-        }
     }
     
     private void Normalize(FastBitmap fastBitmap){

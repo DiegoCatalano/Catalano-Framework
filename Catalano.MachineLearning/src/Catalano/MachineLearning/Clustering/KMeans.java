@@ -102,6 +102,14 @@ public class KMeans extends PartitionClustering<double[]> implements ICentroidCl
         return centroids;
     }
 
+    public int getClusters() {
+        return k;
+    }
+
+    public void setCluster(int k) {
+        this.k = k;
+    }
+
     /**
      * Initializes a new instance of the KMeans class.
      */

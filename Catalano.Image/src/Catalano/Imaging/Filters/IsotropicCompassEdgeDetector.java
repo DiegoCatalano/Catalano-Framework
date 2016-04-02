@@ -21,7 +21,6 @@
 
 package Catalano.Imaging.Filters;
 
-import Catalano.Imaging.Filters.*;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.CompassConvolutionKernel;
@@ -138,7 +137,7 @@ public class IsotropicCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
         
@@ -246,7 +245,7 @@ public class IsotropicCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
     }

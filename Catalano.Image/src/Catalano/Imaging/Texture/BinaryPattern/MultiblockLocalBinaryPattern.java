@@ -75,14 +75,14 @@ public class MultiblockLocalBinaryPattern implements IBinaryPattern{
                 
                 int sum = 0;
                 //Compute the LBP
-                if (mask[4] < mask[0])    sum += 128;
-                if (mask[4] < mask[1])    sum += 64;
-                if (mask[4] < mask[2])    sum += 32;
-                if (mask[4] < mask[5])    sum += 16;
-                if (mask[4] < mask[8])    sum += 8;
-                if (mask[4] < mask[7])    sum += 4;
-                if (mask[4] < mask[6])    sum += 2;
-                if (mask[4] < mask[3])    sum += 1;
+                if (mask[0] - mask[4] >= 0)    sum += 128;
+                if (mask[1] - mask[4] >= 0)    sum += 64;
+                if (mask[2] - mask[4] >= 0)    sum += 32;
+                if (mask[5] - mask[4] >= 0)    sum += 16;
+                if (mask[8] - mask[4] >= 0)    sum += 8;
+                if (mask[7] - mask[4] >= 0)    sum += 4;
+                if (mask[6] - mask[4] >= 0)    sum += 2;
+                if (mask[3] - mask[4] >= 0)    sum += 1;
                 hist[sum]++;
             }
         }

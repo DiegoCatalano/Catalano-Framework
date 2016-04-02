@@ -47,6 +47,13 @@ public class CenterSymmetricLocalBinaryPattern implements IBinaryPattern{
     public void setThreshold(int threshold) {
         this.threshold = threshold;
     }
+
+    /**
+     * Initializes a new instance of the CenterSymmetricLocalBinaryPattern class.
+     */
+    public CenterSymmetricLocalBinaryPattern() {
+        this(0);
+    }
     
     /**
      * Initializes a new instance of the CenterSymmetricLocalBinaryPattern class.
@@ -71,10 +78,10 @@ public class CenterSymmetricLocalBinaryPattern implements IBinaryPattern{
             for (int y = 1; y < width; y++) {
                 sum = 0;
                 threshold = fastBitmap.getGray(x, y);
-                if (threshold < Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x + 1, y + 1)))    sum += 8;
-                if (threshold < Math.abs(fastBitmap.getGray(x - 1, y) - fastBitmap.getGray(x + 1, y)))            sum += 4;
-                if (threshold < Math.abs(fastBitmap.getGray(x - 1, y + 1) - fastBitmap.getGray(x + 1, y - 1)))    sum += 2;
-                if (threshold < Math.abs(fastBitmap.getGray(x, y + 1) - fastBitmap.getGray(x, y - 1)))            sum += 1;
+                if (Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x + 1, y + 1)) - threshold >= 0)    sum += 8;
+                if (Math.abs(fastBitmap.getGray(x - 1, y) - fastBitmap.getGray(x + 1, y)) - threshold >= 0)            sum += 4;
+                if (Math.abs(fastBitmap.getGray(x - 1, y + 1) - fastBitmap.getGray(x + 1, y - 1)) - threshold >= 0)    sum += 2;
+                if (Math.abs(fastBitmap.getGray(x, y + 1) - fastBitmap.getGray(x, y - 1)) - threshold >= 0)            sum += 1;
                 g[sum]++;
             }
         }

@@ -48,12 +48,13 @@
 package Catalano.Imaging.Filters.Photometric;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Tools.ImageUtils;
 import Catalano.Math.Functions.Gaussian;
 import Catalano.Math.Matrix;
 
 /**
- *
- * @author Diego
+ * Retina modeling normalization.
+ * @author Diego Catalano
  */
 public class RetinaModel implements IPhotometricFilter{
     
@@ -63,10 +64,107 @@ public class RetinaModel implements IPhotometricFilter{
     private double dogSigma2;
     private double threshold;
 
+    /**
+     * Get Sigma 1.
+     * @return Sigma value.
+     */
+    public double getSigma1() {
+        return sigma1;
+    }
+
+    /**
+     * Set Sigma 1.
+     * @param sigma1 Sigma value.
+     */
+    public void setSigma1(double sigma1) {
+        this.sigma1 = sigma1;
+    }
+
+    /**
+     * Get Sigma 2.
+     * @return Sigma value.
+     */
+    public double getSigma2() {
+        return sigma2;
+    }
+
+    /**
+     * Set Sigma 2.
+     * @param sigma1 Sigma value.
+     */
+    public void setSigma2(double sigma2) {
+        this.sigma2 = sigma2;
+    }
+
+    /**
+     * Get DoG sigma 1.
+     * @return DoG sigma 1.
+     */
+    public double getDogSigma1() {
+        return dogSigma1;
+    }
+
+    /**
+     * Set DoG sigma 1.
+     * @param dogSigma1 DoG sigma 1.
+     */
+    public void setDogSigma1(double dogSigma1) {
+        this.dogSigma1 = dogSigma1;
+    }
+
+   /**
+     * Get DoG sigma 2.
+     * @return DoG sigma 2.
+     */
+    public double getDogSigma2() {
+        return dogSigma2;
+    }
+
+    /**
+     * Set DoG sigma 2.
+     * @param dogSigma1 DoG sigma 2.
+     */
+    public void setDogSigma2(double dogSigma2) {
+        this.dogSigma2 = dogSigma2;
+    }
+
+    /**
+     * Get threshold.
+     * @return Threshold value.
+     */
+    public double getThreshold() {
+        return threshold;
+    }
+
+    /**
+     * Set threshold value.
+     * @param threshold Threshold value.
+     */
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
+    }
+
+    /**
+     * Initialize a new instance of the RetinaModel class.
+     * Default:
+     * Sigma1 = 1
+     * Sigma2 = 3
+     * DoG Sigma1 = 0.5
+     * DoG Sigma2 = 4
+     * Threshold = 5
+     */
     public RetinaModel() {
         this(1,3,0.5,4,5);
     }
 
+    /**
+     * Initialize a new instance of the RetinaModel class.
+     * @param sigma1 Sigma 1.
+     * @param sigma2 Sigma 2.
+     * @param dogSigma1 DoG Sigma 1.
+     * @param dogSigma2 DoG Sigma 2.
+     * @param threshold Threshold.
+     */
     public RetinaModel(double sigma1, double sigma2, double dogSigma1, double dogSigma2, double threshold) {
         this.sigma1 = sigma1;
         this.sigma2 = sigma2;
@@ -81,11 +179,10 @@ public class RetinaModel implements IPhotometricFilter{
             throw new IllegalArgumentException("Retina modeling only works in grayscale images.");
         
         //Transform the image in the matrix
-        double[][] image = new double[fastBitmap.getHeight()][fastBitmap.getWidth()];
-        fastBitmap.toArrayGray(image);
+        double[][] image = fastBitmap.toMatrixGrayAsDouble();
         
         //Normalize the image
-        Normalize(image);
+        ImageUtils.Normalize(image);
         
         //Create kernels
         int size1 = 2 * (int)Math.ceil(3*sigma1) + 1;
@@ -98,7 +195,7 @@ public class RetinaModel implements IPhotometricFilter{
         
         //First non-linearity
         double[][] f = NonLinearity(image, g1);
-        Normalize(f);
+        ImageUtils.Normalize(f);
         
         //Second non-linearity
         f = NonLinearity(f, g2);
@@ -169,23 +266,6 @@ public class RetinaModel implements IPhotometricFilter{
         
     }
     
-    private void Normalize(double[][] image){
-        double min = Double.MAX_VALUE;
-        double max = -Double.MAX_VALUE;
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                min = Math.min(min, image[i][j]);
-                max = Math.max(max, image[i][j]);
-            }
-        }
-
-        for (int i = 0; i < image.length; i++) {
-            for (int j = 0; j < image[0].length; j++) {
-                image[i][j] = (int)(Catalano.Math.Tools.Scale(min, max, 0, 255, image[i][j]));
-            }
-        }
-    }
-    
     private double[][] Convolution(double[][] image, double[][] kernel){
         int width = image[0].length;
         int height = image.length;
@@ -223,8 +303,6 @@ public class RetinaModel implements IPhotometricFilter{
                 response[x][y] = gray;
             }
         }
-        
         return response;
     }
-    
 }

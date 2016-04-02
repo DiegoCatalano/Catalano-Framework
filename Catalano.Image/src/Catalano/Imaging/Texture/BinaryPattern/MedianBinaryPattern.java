@@ -41,13 +41,8 @@ public class MedianBinaryPattern implements IBinaryPattern{
     
     @Override
     public ImageHistogram ProcessImage(FastBitmap fastBitmap){
-        if (!fastBitmap.isGrayscale()) {
-            try {
-                throw new Exception("MBP works only with grayscale images.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("MBP only works in grayscale images.");
         
         int width = fastBitmap.getWidth() - 1;
         int height = fastBitmap.getHeight() - 1;
@@ -72,17 +67,17 @@ public class MedianBinaryPattern implements IBinaryPattern{
                 median = values[4];
                 
                 sum = 0;
-                if (median < fastBitmap.getGray(x - 1, y - 1))    sum += 128;
-                if (median < fastBitmap.getGray(x - 1, y))        sum += 64;
-                if (median < fastBitmap.getGray(x - 1, y + 1))    sum += 32;
-                if (median < fastBitmap.getGray(x, y + 1))        sum += 16;
-                if (median < fastBitmap.getGray(x + 1, y + 1))    sum += 8;
-                if (median < fastBitmap.getGray(x + 1, y))        sum += 4;
-                if (median < fastBitmap.getGray(x + 1, y - 1))    sum += 2;
-                if (median < fastBitmap.getGray(x, y - 1))        sum += 1;
+                if (fastBitmap.getGray(x - 1, y - 1) - median >= 0)    sum += 128;
+                if (fastBitmap.getGray(x - 1, y) - median >= 0)        sum += 64;
+                if (fastBitmap.getGray(x - 1, y + 1) - median >= 0)    sum += 32;
+                if (fastBitmap.getGray(x, y + 1) - median >= 0)        sum += 16;
+                if (fastBitmap.getGray(x + 1, y + 1) - median >= 0)    sum += 8;
+                if (fastBitmap.getGray(x + 1, y) - median >= 0)        sum += 4;
+                if (fastBitmap.getGray(x + 1, y - 1) - median >= 0)    sum += 2;
+                if (fastBitmap.getGray(x, y - 1) - median >= 0)        sum += 1;
                 
                 //2^9
-                if(median < fastBitmap.getGray(x, y))             sum += 256;
+                if(fastBitmap.getGray(x, y) - median >= 0)             sum += 256;
                 
                 //all zeros and all ones are the same
                 if(sum == 511) sum = 0;

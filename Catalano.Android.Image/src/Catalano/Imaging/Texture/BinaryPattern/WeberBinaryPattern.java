@@ -94,5 +94,4 @@ public class WeberBinaryPattern implements IBinaryPattern{
         }
         return new ImageHistogram(g);
     }
-    
 }

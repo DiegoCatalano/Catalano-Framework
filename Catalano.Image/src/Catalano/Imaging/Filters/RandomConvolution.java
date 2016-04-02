@@ -109,12 +109,10 @@ public class RandomConvolution implements IApplyInPlace{
         this.size = size;
         this.range = range;
         this.replicate = replicate;
+        Generate();
     }
     
-    @Override
-    public void applyInPlace(FastBitmap fastBitmap){
-        double div;
-        
+    public void Generate(){
         Random rand = new Random(System.currentTimeMillis());
         
         //Generate kernel if needed
@@ -126,6 +124,10 @@ public class RandomConvolution implements IApplyInPlace{
                 }
             }
         }
+    }
+    
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap){
         
         int height = fastBitmap.getHeight();
         int width = fastBitmap.getWidth();
@@ -139,14 +141,12 @@ public class RandomConvolution implements IApplyInPlace{
             for (int x = 0; x < height; x++) {
                 for (int y = 0; y < width; y++) {
                     gray = 0;
-                    div = 0;
                     for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i-lines);
                         for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j-lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
                                 gray += kernel[i][j] * (double)copy.getGray(Xline, Yline);
-                                div += kernel[i][j];
                             }
                             else if (replicate){
                                 
@@ -160,13 +160,8 @@ public class RandomConvolution implements IApplyInPlace{
                                 if (c >= width) c = width - 1;
                                 
                                 gray += kernel[i][j] * (double)copy.getGray(r, c);
-                                div += kernel[i][j];
                             }
                         }
-                    }
-                    
-                    if (div != 0) {
-                        gray /= div;
                     }
                     
                     gray = gray > 255 ? 255 : gray;
@@ -180,7 +175,7 @@ public class RandomConvolution implements IApplyInPlace{
             double r,g,b;
             for (int x = 0; x < height; x++) {
                 for (int y = 0; y < width; y++) {
-                    r = g = b = div = 0;
+                    r = g = b = 0;
                     for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i-lines);
                         for (int j = 0; j < kernel[0].length; j++) {
@@ -189,7 +184,6 @@ public class RandomConvolution implements IApplyInPlace{
                                 r += kernel[i][j] * (double)copy.getRed(Xline, Yline);
                                 g += kernel[i][j] * (double)copy.getGreen(Xline, Yline);
                                 b += kernel[i][j] * (double)copy.getBlue(Xline, Yline);
-                                div += kernel[i][j];
                             }
                             else if (replicate){
                                 
@@ -205,15 +199,8 @@ public class RandomConvolution implements IApplyInPlace{
                                 r += kernel[i][j] * (double)copy.getRed(rr, cc);
                                 g += kernel[i][j] * (double)copy.getGreen(rr, cc);
                                 b += kernel[i][j] * (double)copy.getBlue(rr, cc);
-                                div += kernel[i][j];
                             }
                         }
-                    }
-                    
-                    if (div != 0) {
-                        r /= div;
-                        g /= div;
-                        b /= div;
                     }
                     
                     r = r > 255 ? 255 : r;

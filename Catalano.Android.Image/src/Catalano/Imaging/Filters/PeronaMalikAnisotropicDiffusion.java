@@ -157,8 +157,7 @@ public class PeronaMalikAnisotropicDiffusion implements IApplyInPlace{
         
         if(fastBitmap.isGrayscale()){
             
-            double[][] diff = new double[fastBitmap.getHeight()][fastBitmap.getWidth()];
-            fastBitmap.toArrayGray(diff);
+            double[][] diff = fastBitmap.toMatrixGrayAsDouble();
             
             int h = diff.length;
             int w = diff[0].length;

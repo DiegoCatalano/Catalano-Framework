@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -21,6 +21,7 @@
 
 package Catalano.Imaging.Texture.BinaryPattern;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Imaging.Tools.*;
 import Catalano.Imaging.FastBitmap;
 
@@ -32,7 +33,7 @@ import Catalano.Imaging.FastBitmap;
  * 
  * @author Diego Catalano
  */
-public class LocalTernaryPattern {
+public class LocalTernaryPattern implements IBinaryPattern{
     
     private int threshold = 5;
     private ImageHistogram upperHistogram;
@@ -87,7 +88,8 @@ public class LocalTernaryPattern {
      * Process the image.
      * @param fastBitmap Image to be processed.
      */
-    public void ProcessImage(FastBitmap fastBitmap){
+    @Override
+    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
         if(!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("Local Ternary Pattern only works in grayscale images.");
         
@@ -134,6 +136,11 @@ public class LocalTernaryPattern {
         
         this.upperHistogram = new ImageHistogram(upper);
         this.lowerHistogram = new ImageHistogram(lower);
+        
+        //Concatenate the histograms.
+        int[] all = ArraysUtil.Concatenate(upper, lower);
+        
+        return new ImageHistogram(all);
         
     }
     

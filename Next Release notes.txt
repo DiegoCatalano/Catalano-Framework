@@ -9,6 +9,11 @@ Catalano Framework 1.6 road map
 * Catalano.Image
     - Added: clampValues in the FastBitmap class.
 
+    - Reworked: toArrayGray and other related methods.
+
+    - Renamed: toArrayGray to toMatrixGrayAs<?>.
+    - Renamed: arrayToImage to matrixToImage in FastBitmap.
+
 * Catalano.Image.Filters
     - New: Tsai Threshold.
     - New: Random Convolution.
@@ -23,6 +28,7 @@ Catalano Framework 1.6 road map
 
     - Renamed: Watershed to BinaryWatershed.
 
+    - Fixed: Separable Convolution.
     - Fixed: Kuwahara.
     - Fixed: Crop now is working in both coordinate system.
 
@@ -32,6 +38,8 @@ Catalano Framework 1.6 road map
     - New: Integral Variance.
 
 * Catalano.Image.Filters.Photometric
+    - New: Multi Scale Retinex.
+    - New: Single Scale Retinex.
     - New: Retina Model.
     - New: TanTriggs Normalization.
     - New: Robust PostProcessor.
@@ -40,6 +48,8 @@ Catalano Framework 1.6 road map
     - Reworked: Difference Of Gaussian.
 
 * Catalano.Image.Texture.BinaryPattern
+    - New: Local Gradient Coding HD.
+    - New: Local Gradient Coding.
     - New: Weber Binary Pattern.
     - New: Uniform Local Binary Pattern.
     - New: Center Symmetric Local Binary Pattern.
@@ -49,12 +59,14 @@ Catalano Framework 1.6 road map
     - New: IBinaryPattern.
 
 * Catalano.Image.Tools
+    - New: Image Utils.
     - New: Spatial Pyramid Histogram.
     - New: Spatial Histogram.
 
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.
 
+    - Fixed: Kernel.Decompose.
     - Fixed: RGBtoHSL in ColorConverter.
 
 * Catalano.IO

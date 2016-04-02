@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -40,13 +40,8 @@ public class ImprovedLocalBinaryPattern implements IBinaryPattern{
     
     @Override
     public ImageHistogram ProcessImage(FastBitmap fastBitmap){
-        if (!fastBitmap.isGrayscale()) {
-            try {
-                throw new Exception("ILBP works only with grayscale images.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if (!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("ILBP works only with grayscale images.");
         
         int width = fastBitmap.getWidth() - 1;
         int height = fastBitmap.getHeight() - 1;
@@ -69,17 +64,17 @@ public class ImprovedLocalBinaryPattern implements IBinaryPattern{
                 mean /= 9;
                 
                 sum = 0;
-                if (mean < fastBitmap.getGray(x - 1, y - 1))    sum += 128;
-                if (mean < fastBitmap.getGray(x - 1, y))        sum += 64;
-                if (mean < fastBitmap.getGray(x - 1, y + 1))    sum += 32;
-                if (mean < fastBitmap.getGray(x, y + 1))        sum += 16;
-                if (mean < fastBitmap.getGray(x + 1, y + 1))    sum += 8;
-                if (mean < fastBitmap.getGray(x + 1, y))        sum += 4;
-                if (mean < fastBitmap.getGray(x + 1, y - 1))    sum += 2;
-                if (mean < fastBitmap.getGray(x, y - 1))        sum += 1;
+                if (fastBitmap.getGray(x - 1, y - 1) - mean >= 0)    sum += 128;
+                if (fastBitmap.getGray(x - 1, y) - mean >= 0)        sum += 64;
+                if (fastBitmap.getGray(x - 1, y + 1) - mean >= 0)    sum += 32;
+                if (fastBitmap.getGray(x, y + 1) - mean >= 0)        sum += 16;
+                if (fastBitmap.getGray(x + 1, y + 1) - mean >= 0)    sum += 8;
+                if (fastBitmap.getGray(x + 1, y) - mean >= 0)        sum += 4;
+                if (fastBitmap.getGray(x + 1, y - 1) - mean >= 0)    sum += 2;
+                if (fastBitmap.getGray(x, y - 1) - mean >= 0)        sum += 1;
                 
                 //2^9
-                if(mean < fastBitmap.getGray(x, y))             sum += 256;
+                if(fastBitmap.getGray(x, y) - mean >= 0)             sum += 256;
                 
                 //all zeros and all ones are the same
                 if(sum == 511) sum = 0;

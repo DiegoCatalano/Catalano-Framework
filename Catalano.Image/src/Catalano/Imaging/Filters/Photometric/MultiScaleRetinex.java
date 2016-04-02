@@ -48,74 +48,84 @@
 package Catalano.Imaging.Filters.Photometric;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Filters.GammaCorrection;
 import Catalano.Imaging.Tools.ImageUtils;
 import Catalano.Math.Matrix;
 
 /**
- * TanTriggs Normalization.
+ * Multi scale retinex.
  * @author Diego Catalano
  */
-public class TanTriggsNormalization implements IPhotometricFilter{
+public class MultiScaleRetinex implements IPhotometricFilter{
     
-    private double gamma;
+    private int[] scales;
 
     /**
-     * Get gamma value.
-     * @return Gamma value.
+     * Get scales.
+     * @return scales.
      */
-    public double getGamma() {
-        return gamma;
+    public int[] getScales() {
+        return scales;
     }
 
     /**
-     * Set gamma value.
-     * @param gamma Gamma value.
+     * Set scales.
+     * @param scales scales.
      */
-    public void setGamma(double gamma) {
-        this.gamma = gamma;
+    public void setScales(int[] scales) {
+        this.scales = scales;
     }
 
     /**
-     * Initialize a new instance of the TanTriggsNormalization class.
+     * Initializes a new instance of the MultiScaleRetinex class.
      * <br>
      * <br> Default:
-     * <br> Gamma = 0.2
+     * <br> Scales = 7, 15, 21
      */
-    public TanTriggsNormalization() {
-        this(0.2);
+    public MultiScaleRetinex() {
+        this(new int[] {7,15,21});
     }
 
     /**
-     *Initialize a new instance of the TanTriggsNormalization class.
-     * @param gamma Gamma value.
+     * Initializes a new instance of the MultiScaleRetinex class.
+     * @param scales Scales.
      */
-    public TanTriggsNormalization(double gamma) {
-        this.gamma = gamma;
+    public MultiScaleRetinex(int[] scales) {
+        this.scales = scales;
     }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
-        if(!fastBitmap.isGrayscale())
-            throw new IllegalArgumentException("Tan Triggs only works in grayscale images.");
-        
-        //Gamma correction
-        GammaCorrection gc = new GammaCorrection(gamma);
-        gc.applyInPlace(fastBitmap);
-        
-        //Transform the image into matrix
+        //Convert to matrix
         double[][] image = fastBitmap.toMatrixGrayAsDouble();
         
-        //Dog
-        DifferenceOfGaussian dog = new DifferenceOfGaussian(0.5, 2);
-        image = dog.Process(image, false);
+        //Process the filter
+        double[][] r = Process(image,true);
         
-        //Robust post-processor
-        RobustPostprocessor rp = new RobustPostprocessor();
-        image = rp.Apply(image);
+        //Convert to the image.
+        fastBitmap.matrixToImage(r);
         
-        //Normalize the image
-        ImageUtils.Normalize(image);
+    }
+    
+    /**
+     * Process the image.
+     * @param image Image to be processed.
+     * @param normalize Normalize the image [0..255].
+     * @return Response of the filter.
+     */
+    public double[][] Process(double[][] image, boolean normalize){
+        
+        SingleScaleRetinex ssr =  new SingleScaleRetinex(scales[0]);
+        double[][] r = ssr.Process(image, normalize);
+        
+        for (int i = 1; i < scales.length; i++) {
+            ssr.setScale(scales[i]);
+            Matrix.Add(r, ssr.Process(image, normalize));
+        }
+        
+        if(normalize)
+            ImageUtils.Normalize(r);
+        
+        return r;
     }
 }

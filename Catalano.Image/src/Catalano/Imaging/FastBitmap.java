@@ -207,7 +207,7 @@ public class FastBitmap {
         bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_BYTE_GRAY);
         this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
-        arrayToImage(image);
+        matrixToImage(image);
     }
     
     /**
@@ -222,7 +222,7 @@ public class FastBitmap {
         }
         this.setCoordinateSystem(CoordinateSystem.Matrix);
         refresh();
-        arrayToImage(image);
+        matrixToImage(image);
     }
     
     /**
@@ -417,115 +417,137 @@ public class FastBitmap {
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image Array.
+     * Convert the image to matrix of integer representation.
+     * @return Matrix of the image.
      */
-    public void toArrayGray(int[][] image){
-        
+    public int[][] toMatrixGrayAsInt(){
         int height = getHeight();
         int width = getWidth();
         
+        int[][] image = new int[height][width];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j] = getGray(i, j);
+                image[i][j] = getGray(idx++);
             }
         }
+        
+        return image;
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image Image.
+     * Convert the image to matrix of double representation.
+     * @return Matrix of the image.
      */
-    public void toArrayGray(float[][] image){
-        
+    public double[][] toMatrixGrayAsDouble(){
         int height = getHeight();
         int width = getWidth();
         
+        double[][] image = new double[height][width];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j] = (float)getGray(i, j);
+                image[i][j] = getGray(idx++);
             }
         }
+        
+        return image;
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image 
+     * Convert the image to matrix of float representation.
+     * @return Matrix of the image.
      */
-    public void toArrayGray(double[][] image){
-        
+    public float[][] toMatrixGrayAsFloat(){
         int height = getHeight();
         int width = getWidth();
         
+        float[][] image = new float[height][width];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j] = (double)getGray(i, j);
+                image[i][j] = getGray(idx++);
             }
         }
+        
+        return image;
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image Array.
+     * Convert the image to matrix of integer representation.
+     * @return Matrix of the image.
      */
-    public void toArrayRGB(int[][][] image){
-        
+    public int[][][] toMatrixRGBAsInt(){
         int height = getHeight();
         int width = getWidth();
         
+        int[][][] image = new int[height][width][3];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j][0] = getRed(i, j);
-                image[i][j][1] = getGreen(i, j);
-                image[i][j][2] = getBlue(i, j);
+                image[i][j][0] = getRed(idx);
+                image[i][j][1] = getGreen(idx);
+                image[i][j][2] = getBlue(idx);
+                idx++;
             }
         }
+        
+        return image;
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image Array.
+     * Convert the image to matrix of integer representation.
+     * @return Matrix of the image.
      */
-    public void toArrayRGB(float[][][] image){
-        
+    public double[][][] toMatrixRGBAsDouble(){
         int height = getHeight();
         int width = getWidth();
         
+        double[][][] image = new double[height][width][3];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j][0] = getRed(i, j);
-                image[i][j][1] = getGreen(i, j);
-                image[i][j][2] = getBlue(i, j);
+                image[i][j][0] = getRed(idx);
+                image[i][j][1] = getGreen(idx);
+                image[i][j][2] = getBlue(idx);
+                idx++;
             }
         }
+        
+        return image;
     }
     
     /**
-     * Convert FastBitmap to Array.
-     * @param image Array.
+     * Convert the image to matrix of integer representation.
+     * @return Matrix of the image.
      */
-    public void toArrayRGB(double[][][] image){
-        
+    public float[][][] toMatrixRGBAsFloat(){
         int height = getHeight();
         int width = getWidth();
         
+        float[][][] image = new float[height][width][3];
+        int idx = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                image[i][j][0] = getRed(i, j);
-                image[i][j][1] = getGreen(i, j);
-                image[i][j][2] = getBlue(i, j);
+                image[i][j][0] = getRed(idx);
+                image[i][j][1] = getGreen(idx);
+                image[i][j][2] = getBlue(idx);
+                idx++;
             }
         }
+        
+        return image;
     }
     
     /**
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(int image[][]){
+    public void matrixToImage(int image[][]){
+        int idx = 0;
         for (int x = 0; x < image.length; x++) {
             for (int y = 0; y < image[0].length; y++) {
-                setGray(x, y, image[x][y]);
+                setGray(idx++, image[x][y]);
             }
         }
     }
@@ -534,10 +556,11 @@ public class FastBitmap {
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(float image[][]){
+    public void matrixToImage(float image[][]){
+        int idx = 0;
         for (int x = 0; x < image.length; x++) {
             for (int y = 0; y < image[0].length; y++) {
-                setGray(x, y, (int)image[x][y]);
+                setGray(idx++, (int)image[x][y]);
             }
         }
     }
@@ -546,10 +569,11 @@ public class FastBitmap {
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(double image[][]){
+    public void matrixToImage(double image[][]){
+        int idx = 0;
         for (int x = 0; x < image.length; x++) {
             for (int y = 0; y < image[0].length; y++) {
-                setGray(x, y, (int)image[x][y]);
+                setGray(idx++, (int)image[x][y]);
             }
         }
     }
@@ -558,17 +582,18 @@ public class FastBitmap {
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(int image[][][]){
+    public void matrixToImage(int image[][][]){
+        int idx = 0;
         if (image[0][0].length == 3)
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setRGB(x, y, image[x][y][0], image[x][y][1], image[x][y][2]);
+                    setRGB(idx++, image[x][y][0], image[x][y][1], image[x][y][2]);
                 }
             }
         else{
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setARGB(x, y, image[x][y][0], image[x][y][1], image[x][y][2], image[x][y][3]);
+                    setARGB(idx++, image[x][y][0], image[x][y][1], image[x][y][2], image[x][y][3]);
                 }
             }
         }
@@ -578,17 +603,18 @@ public class FastBitmap {
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(float image[][][]){
+    public void matrixToImage(float image[][][]){
+        int idx = 0;
         if (image[0][0].length == 3)
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+                    setRGB(idx++, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
                 }
             }
         else{
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setARGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
+                    setARGB(idx++, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
                 }
             }
         }
@@ -598,17 +624,18 @@ public class FastBitmap {
      * Convert Array to FastBitmap.
      * @param image Array.
      */
-    public void arrayToImage(double image[][][]){
+    public void matrixToImage(double image[][][]){
+        int idx = 0;
         if (image[0][0].length == 3)
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setRGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
+                    setRGB(idx++, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2]);
                 }
             }
         else{
             for (int x = 0; x < image.length; x++) {
                 for (int y = 0; y < image[0].length; y++) {
-                    setARGB(x, y, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
+                    setARGB(idx++, (int)image[x][y][0], (int)image[x][y][1], (int)image[x][y][2], (int)image[x][y][3]);
                 }
             }
         }

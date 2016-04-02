@@ -33,18 +33,7 @@ public class SeparableConvolution implements IApplyInPlace{
     private int width,height;
     private double[] kernelX;
     private double[] kernelY;
-    private double division;
-    private boolean useDiv = false;
     private boolean replicate = false;
-
-    /**
-     * Sets division.
-     * @param division Division.
-     */
-    public void setDivision(double division) {
-        this.division = division;
-        useDiv = true;
-    }
 
     /**
      * Verify if needs replicate pixels when is out of border.
@@ -98,10 +87,6 @@ public class SeparableConvolution implements IApplyInPlace{
         int Xline,Yline;
         int lines = (kernelX.length - 1) / 2;
         
-        if(replicate && !useDiv)
-            setDivision(SumKernel(kernelX, kernelY));
-        
-        int div = 0;
         if (fastBitmap.isGrayscale()) {
             double[][] copy = new double[height][width];
             double gray;
@@ -109,14 +94,13 @@ public class SeparableConvolution implements IApplyInPlace{
             //Horizontal orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    gray = div = 0;
+                    gray = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Yline = j - lines + k;
                         if ((Yline >=0) && (Yline < width)) {
-                            gray += kernelX[kernelX.length - k - 1] * fastBitmap.getGray(i, Yline);
-                            div += kernelX[kernelX.length -k - 1];
+                            gray += kernelX[k] * fastBitmap.getGray(i, Yline);
                         }
-                         else if (replicate){
+                        else if (replicate){
                              
                             int c = j + k - lines;
 
@@ -127,10 +111,7 @@ public class SeparableConvolution implements IApplyInPlace{
                          }
                     }
                     
-                    if(replicate)
-                        copy[i][j] = gray;
-                    else
-                        copy[i][j] = gray / div;
+                    copy[i][j] = gray;
                     
                 }
             }
@@ -138,12 +119,11 @@ public class SeparableConvolution implements IApplyInPlace{
             //Vertical orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    gray = div = 0;
+                    gray = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Xline = i - lines + k;
                         if ((Xline >=0) && (Xline < height)) {
                             gray += kernelY[k] * copy[Xline][j];
-                            div += kernelY[k];
                         }
                          else if (replicate){
                              
@@ -154,15 +134,6 @@ public class SeparableConvolution implements IApplyInPlace{
                              
                             gray += kernelY[k] * copy[r][j];
                          }
-                    }
-                    
-                    if (div != 0) {
-                        if (useDiv) {
-                            gray /= division;
-                        }
-                        else{
-                            gray /= div;
-                        }
                     }
                     
                     gray = gray < 0 ? 0 : gray;
@@ -180,16 +151,15 @@ public class SeparableConvolution implements IApplyInPlace{
             //Horizontal orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    r = g = b = div = 0;
+                    r = g = b = 0;
                     for (int k = 0; k < kernelX.length; k++) {
                         Yline = j - lines + k;
                         if ((Yline >=0) && (Yline < width)) {
-                            r += kernelX[kernelX.length - k - 1] * fastBitmap.getRed(i, Yline);
-                            g += kernelX[kernelX.length - k - 1] * fastBitmap.getGreen(i, Yline);
-                            b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, Yline);
-                            div += kernelX[kernelX.length - k - 1];
+                            r += kernelX[k] * fastBitmap.getRed(i, Yline);
+                            g += kernelX[k] * fastBitmap.getGreen(i, Yline);
+                            b += kernelX[k] * fastBitmap.getBlue(i, Yline);
                         }
-                         else if (replicate){
+                        else if (replicate){
                              
                             int c = j + k - lines;
 
@@ -199,34 +169,24 @@ public class SeparableConvolution implements IApplyInPlace{
                             r += kernelX[kernelX.length - k - 1] * fastBitmap.getRed(i, c);
                             g += kernelX[kernelX.length - k - 1] * fastBitmap.getGreen(i, c);
                             b += kernelX[kernelX.length - k - 1] * fastBitmap.getBlue(i, c);
-                         }
+                        }
                     }
-                    
-                    if(replicate){
-                        copy[i][j][0] = r;
-                        copy[i][j][1] = g;
-                        copy[i][j][2] = b;
-                    }
-                    else{
-                        copy[i][j][0] = r / div;
-                        copy[i][j][1] = g / div;
-                        copy[i][j][2] = b / div;
-                    }
-                    
+                    copy[i][j][0] = r;
+                    copy[i][j][1] = g;
+                    copy[i][j][2] = b;
                 }
             }
             
             //Vertical orientation
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    r = g = b = div = 0;
+                    r = g = b = 0;
                     for (int k = 0; k < kernelY.length; k++) {
                         Xline = i - lines + k;
                         if ((Xline >=0) && (Xline < height)) {
                             r += kernelY[k] * copy[Xline][j][0];
                             g += kernelY[k] * copy[Xline][j][1];
                             b += kernelY[k] * copy[Xline][j][2];
-                            div += kernelY[k];
                         }
                          else if (replicate){
                              
@@ -239,19 +199,6 @@ public class SeparableConvolution implements IApplyInPlace{
                             g += kernelY[k] * copy[rr][j][1];
                             b += kernelY[k] * copy[rr][j][2];
                          }
-                    }
-                    
-                    if (div != 0) {
-                        if (useDiv) {
-                            r /= division;
-                            g /= division;
-                            b /= division;
-                        }
-                        else{
-                            r /= div;
-                            g /= div;
-                            b /= div;
-                        }
                     }
                     
                     r = r < 0 ? 0 : r;

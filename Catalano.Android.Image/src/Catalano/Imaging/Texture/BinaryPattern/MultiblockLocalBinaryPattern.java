@@ -1,24 +1,8 @@
-// Catalano Android Imaging Library
-// The Catalano Framework
-//
-// Copyright © Diego Catalano, 2015
-// diego.catalano at live.com
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Catalano.Imaging.Texture.BinaryPattern;
 
 import Catalano.Imaging.FastBitmap;
@@ -91,14 +75,14 @@ public class MultiblockLocalBinaryPattern implements IBinaryPattern{
                 
                 int sum = 0;
                 //Compute the LBP
-                if (mask[4] < mask[0])    sum += 128;
-                if (mask[4] < mask[1])    sum += 64;
-                if (mask[4] < mask[2])    sum += 32;
-                if (mask[4] < mask[5])    sum += 16;
-                if (mask[4] < mask[8])    sum += 8;
-                if (mask[4] < mask[7])    sum += 4;
-                if (mask[4] < mask[6])    sum += 2;
-                if (mask[4] < mask[3])    sum += 1;
+                if (mask[0] - mask[4] >= 0)    sum += 128;
+                if (mask[1] - mask[4] >= 0)    sum += 64;
+                if (mask[2] - mask[4] >= 0)    sum += 32;
+                if (mask[5] - mask[4] >= 0)    sum += 16;
+                if (mask[8] - mask[4] >= 0)    sum += 8;
+                if (mask[7] - mask[4] >= 0)    sum += 4;
+                if (mask[6] - mask[4] >= 0)    sum += 2;
+                if (mask[3] - mask[4] >= 0)    sum += 1;
                 hist[sum]++;
             }
         }

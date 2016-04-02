@@ -21,7 +21,6 @@
 
 package Catalano.Imaging.Filters;
 
-import Catalano.Imaging.Filters.*;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.CompassConvolutionKernel;
@@ -154,7 +153,7 @@ public class ScharrCompassEdgeDetector implements IApplyInPlace{
                 }
             }
             
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
             
         }
         if (fastBitmap.isRGB()){
@@ -274,7 +273,7 @@ public class ScharrCompassEdgeDetector implements IApplyInPlace{
                     image[i][j][2] = Math.max(image[i][j][2], copy.getBlue(i, j));
                 }
             }
-            fastBitmap.arrayToImage(image);
+            fastBitmap.matrixToImage(image);
         }
     }
 }

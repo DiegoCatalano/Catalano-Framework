@@ -23,6 +23,7 @@ package Catalano.MachineLearning.Clustering;
 
 import Catalano.Math.Distances.Distance;
 import Catalano.Math.Distances.IDivergence;
+import Catalano.Math.Random;
 import Catalano.Math.Tools;
 import java.util.Arrays;
 
@@ -153,6 +154,7 @@ public abstract class PartitionClustering <T> {
         int n = data.length;
         int[] y = new int[n];
         //Random r = new Random(0);
+        //double[] centroid = data[r.nextInt(n)];
         double[] centroid = data[Tools.Random().nextInt(n)];
 
         double[] d = new double[n];
@@ -264,6 +266,7 @@ public abstract class PartitionClustering <T> {
         int n = data.length;
         int k = medoids.length;
         //Random r = new Random(0);
+        //T medoid = data[r.nextInt(n)];
         T medoid = data[Tools.Random().nextInt(n)];
         medoids[0] = medoid;
 

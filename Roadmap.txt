@@ -7,6 +7,8 @@ Add: FastGraphic to work in both system coordinates.
 New: Self Quocient Image
 New: Retina Model Normalization
 New: Weberfaces					Working
+New: Multi Scale Retinex				Ready
+New: Single Scale Retinex				Ready
 New: Retina Model					Ready
 New: Weber Binary Pattern				Ready
 New: Tan Triggs Normalization				Ready

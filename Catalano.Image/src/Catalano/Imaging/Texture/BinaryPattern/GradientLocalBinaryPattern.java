@@ -54,18 +54,18 @@ public class GradientLocalBinaryPattern implements IBinaryPattern{
         int grad;
         for (int x = 1; x < height; x++) {
             for (int y = 1; y < width; y++) {
-                
+                int cp = fastBitmap.getGray(x, y);
                 grad = (int)(0.5 * (Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x, y)) + Math.abs(fastBitmap.getGray(x + 1, y) - fastBitmap.getGray(x - 1, y))));
                 
                 sum = 0;
-                if (grad < Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x, y)))    sum += 128;
-                if (grad < Math.abs(fastBitmap.getGray(x - 1, y) - fastBitmap.getGray(x, y)))        sum += 64;
-                if (grad < Math.abs(fastBitmap.getGray(x - 1, y + 1) - fastBitmap.getGray(x, y)))    sum += 32;
-                if (grad < Math.abs(fastBitmap.getGray(x, y + 1) - fastBitmap.getGray(x, y)))        sum += 16;
-                if (grad < Math.abs(fastBitmap.getGray(x + 1, y + 1) - fastBitmap.getGray(x, y)))    sum += 8;
-                if (grad < Math.abs(fastBitmap.getGray(x + 1, y) - fastBitmap.getGray(x, y)))        sum += 4;
-                if (grad < Math.abs(fastBitmap.getGray(x + 1, y - 1) - fastBitmap.getGray(x, y)))    sum += 2;
-                if (grad < Math.abs(fastBitmap.getGray(x, y - 1) - fastBitmap.getGray(x, y)))        sum += 1;
+                if (grad - Math.abs(fastBitmap.getGray(x - 1, y - 1) - cp) >= 0)    sum += 128;
+                if (grad - Math.abs(fastBitmap.getGray(x - 1, y) - cp) >= 0)        sum += 64;
+                if (grad - Math.abs(fastBitmap.getGray(x - 1, y + 1) - cp) >= 0)    sum += 32;
+                if (grad - Math.abs(fastBitmap.getGray(x, y + 1) - cp) >= 0)        sum += 16;
+                if (grad - Math.abs(fastBitmap.getGray(x + 1, y + 1) - cp) >= 0)    sum += 8;
+                if (grad - Math.abs(fastBitmap.getGray(x + 1, y) - cp) >= 0)        sum += 4;
+                if (grad - Math.abs(fastBitmap.getGray(x + 1, y - 1) - cp) >= 0)    sum += 2;
+                if (grad - Math.abs(fastBitmap.getGray(x, y - 1) - cp) >= 0)        sum += 1;
                 g[sum]++;
             }
         }
