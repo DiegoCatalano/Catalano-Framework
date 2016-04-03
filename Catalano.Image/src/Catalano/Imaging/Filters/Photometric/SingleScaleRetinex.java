@@ -134,7 +134,8 @@ public class SingleScaleRetinex implements IPhotometricFilter{
         //Decompose the kernel for to use separable convolution
         double[][] vec = Kernel.Decompose(g);
         
-        double[][] r = conv(image,vec[0],vec[0]);
+        //Perform the convolution
+        double[][] r = ImageUtils.Convolution(image, vec[0], vec[1]);
         for (int i = 0; i < r.length; i++) {
             for (int j = 0; j < r[0].length; j++) {
                 r[i][j] = Math.ceil(r[i][j]);
@@ -153,73 +154,5 @@ public class SingleScaleRetinex implements IPhotometricFilter{
         
         return r;
         
-    }
-    
-    private double[][] conv(double[][] image, double[] kernelX, double[] kernelY){
-        
-            int width = image[0].length;
-            int height = image.length;
-            boolean replicate = true;
-            int Xline,Yline;
-            int lines = (kernelX.length - 1) / 2;
-            double[][] f = new double[height][width];
-            
-            double[][] copy = new double[height][width];
-            for (int i = 0; i < copy.length; i++) {
-                for (int j = 0; j < copy[0].length; j++) {
-                    copy[i][j] = image[i][j];
-                }
-            }
-            double gray;
-            
-            //Horizontal orientation
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    gray = 0;
-                    for (int k = 0; k < kernelX.length; k++) {
-                        Yline = j - lines + k;
-                        if ((Yline >=0) && (Yline < width)) {
-                            gray += kernelX[kernelX.length - k - 1] * image[i][Yline];
-                        }
-                         else if (replicate){
-                             
-                            int c = j + k - lines;
-
-                            if (c < 0) c = 0;
-                            if (c >= width) c = width - 1;
-                             
-                            gray += kernelX[kernelX.length - k - 1] * image[i][c];
-                         }
-                    }
-                    
-                    copy[i][j] = gray;
-                    
-                }
-            }
-            
-            //Vertical orientation
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    gray = 0;
-                    for (int k = 0; k < kernelY.length; k++) {
-                        Xline = i - lines + k;
-                        if ((Xline >=0) && (Xline < height)) {
-                            gray += kernelY[k] * copy[Xline][j];
-                        }
-                         else if (replicate){
-                             
-                            int r = i + k - lines;
-
-                            if (r < 0) r = 0;
-                            if (r >= height) r = height - 1;
-                             
-                            gray += kernelY[k] * copy[r][j];
-                         }
-                    }
-                    
-                    f[i][j] = gray;
-                }
-            }
-        return f;
     }
 }

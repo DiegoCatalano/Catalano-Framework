@@ -50,6 +50,7 @@ package Catalano.Imaging.Filters.Photometric;
 import Catalano.Imaging.Filters.*;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Tools.ImageUtils;
+import Catalano.Imaging.Tools.Kernel;
 import Catalano.Math.Functions.Gaussian;
 import Catalano.Math.Matrix;
 
@@ -65,6 +66,8 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
     
     private double sigma1;
     private double sigma2;
+    private double[][] gv1;
+    private double[][] gv2;
 
     /**
      * Get sigma 1.
@@ -80,6 +83,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
      */
     public void setSigma1(double sigma1) {
         this.sigma1 = sigma1;
+        BuildKernels();
     }
 
     /**
@@ -96,6 +100,7 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
      */
     public void setSigma2(double sigma2) {
         this.sigma2 = sigma2;
+        BuildKernels();
     }
 
     /**
@@ -119,11 +124,10 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
     public DifferenceOfGaussian(double sigma1, double sigma2) {
         this.sigma1 = sigma1;
         this.sigma2 = sigma2;
+        BuildKernels();
     }
-
-    @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
-        
+    
+    private void BuildKernels(){
         int size1 = 2 * (int)Math.ceil(3*sigma1) + 1;
         Gaussian ga = new Gaussian(sigma1);
         double[][] g1 = ga.Kernel2D(size1);
@@ -132,12 +136,21 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         ga.setSigma(sigma2);
         double[][] g2 = ga.Kernel2D(size2);
         
-        //Normalize the image
-        Normalize(fastBitmap);
+        //Decompose kernels
+        gv1 = Kernel.Decompose(g1);
+        gv2 = Kernel.Decompose(g2);
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
         
         if(fastBitmap.isGrayscale()){
-            double[][] im1 = operateGray(fastBitmap, g1);
-            double[][] im2 = operateGray(fastBitmap, g2);
+            
+            double[][] image = fastBitmap.toMatrixGrayAsDouble();
+            ImageUtils.Normalize(image);
+            
+            double[][] im1 = ImageUtils.Convolution(image, gv1[0], gv1[1], true);
+            double[][] im2 = ImageUtils.Convolution(image, gv2[0], gv2[1], true);
 
             im1 = Matrix.Subtract(im1, im2);
 
@@ -159,8 +172,11 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
                 
         }
         else if(fastBitmap.isRGB()){
-            double[][][] im1 = operateRGB(fastBitmap, g1);
-            double[][][] im2 = operateRGB(fastBitmap, g2);
+            
+            double[][][] image = fastBitmap.toMatrixRGBAsDouble();
+            
+            double[][][] im1 = ImageUtils.Convolution(image, gv1[0], gv1[1], true);
+            double[][][] im2 = ImageUtils.Convolution(image, gv2[0], gv2[1], true);
 
             //Subtract operation
             for (int i = 0; i < im1.length; i++) {
@@ -205,19 +221,20 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         }
     }
     
+    /**
+     * Process the image as matrix.
+     * @param image Image.
+     * @param normalize True if the image needs to be normalized.
+     * @return DoG of the image.
+     */
     public double[][] Process(double[][] image, boolean normalize){
-        int size1 = 2 * (int)Math.ceil(3*sigma1) + 1;
-        Gaussian ga = new Gaussian(sigma1);
-        double[][] g1 = ga.Kernel2D(size1);
-
-        int size2 = 2 * (int)Math.ceil(3*sigma2) + 1;
-        ga.setSigma(sigma2);
-        double[][] g2 = ga.Kernel2D(size2);
         
-        ImageUtils.Normalize(image);
+        double[][] copy = Matrix.Copy(image);
         
-        double[][] im1 = operateGray(image, g1);
-        double[][] im2 = operateGray(image, g2);
+        ImageUtils.Normalize(copy);
+        
+        double[][] im1 = ImageUtils.Convolution(copy, gv1[0], gv1[1]);
+        double[][] im2 = ImageUtils.Convolution(copy, gv2[0], gv2[1]);
 
         im1 = Matrix.Subtract(im1, im2);
         
@@ -226,152 +243,5 @@ public class DifferenceOfGaussian implements IPhotometricFilter{
         }
         
         return im1;
-    }
-    
-    private void Normalize(FastBitmap fastBitmap){
-        int size = fastBitmap.getSize();
-        
-        int min = Integer.MAX_VALUE;
-        int max = -Integer.MAX_VALUE;
-        for (int i = 0; i < size; i++) {
-            min = Math.min(min, fastBitmap.getGray(i));
-            max = Math.max(max, fastBitmap.getGray(i));
-        }
-        
-        for (int i = 0; i < size; i++) {
-            fastBitmap.setGray(i, (int)Catalano.Math.Tools.Scale(min, max, 0, 255, fastBitmap.getGray(i)));
-        }
-    }
-    
-    public static double[][] operateGray(double[][] image, double[][] kernel){
-        //Perform the convolution
-        int width = image[0].length;
-        int height = image.length;
-        double[][] response = new double[height][width];
-        
-        int Xline,Yline;
-        int lines = (kernel.length - 1)/2;
-        double gray;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                gray = 0;
-                for (int i = 0; i < kernel.length; i++) {
-                    Xline = x + (i-lines);
-                    for (int j = 0; j < kernel[0].length; j++) {
-                        Yline = y + (j-lines);
-                        if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                            gray += kernel[i][j] * image[Xline][Yline];
-                        }
-                        else {
-
-                            int r = x + i - lines;
-                            int c = y + j - lines;
-
-                            if (r < 0) r = 0;
-                            if (r >= height) r = height - 1;
-
-                            if (c < 0) c = 0;
-                            if (c >= width) c = width - 1;
-
-                            gray += kernel[i][j] * image[r][c];
-                        }
-                    }
-                }
-                response[x][y] = gray;
-            }
-        }
-        
-        return response;
-    }
-    
-    private double[][] operateGray(FastBitmap fastBitmap, double[][] kernel){
-        //Perform the convolution
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        double[][] response = new double[height][width];
-        
-        int Xline,Yline;
-        int lines = (kernel.length - 1)/2;
-        double gray;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                gray = 0;
-                for (int i = 0; i < kernel.length; i++) {
-                    Xline = x + (i-lines);
-                    for (int j = 0; j < kernel[0].length; j++) {
-                        Yline = y + (j-lines);
-                        if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                            gray += kernel[i][j] * fastBitmap.getGray(Xline, Yline);
-                        }
-                        else {
-
-                            int r = x + i - lines;
-                            int c = y + j - lines;
-
-                            if (r < 0) r = 0;
-                            if (r >= height) r = height - 1;
-
-                            if (c < 0) c = 0;
-                            if (c >= width) c = width - 1;
-
-                            gray += kernel[i][j] * fastBitmap.getGray(r, c);
-                        }
-                    }
-                }
-                response[x][y] = gray;
-            }
-        }
-        
-        return response;
-    }
-    
-    private double[][][] operateRGB(FastBitmap fastBitmap, double[][] kernel){
-        //Perform the convolution
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        double[][][] response = new double[height][width][3];
-        
-        int Xline,Yline;
-        int lines = (kernel.length - 1)/2;
-        double red,green,blue;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                red = green = blue = 0;
-                for (int i = 0; i < kernel.length; i++) {
-                    Xline = x + (i-lines);
-                    for (int j = 0; j < kernel[0].length; j++) {
-                        Yline = y + (j-lines);
-                        if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                            red += kernel[i][j] * fastBitmap.getRed(Xline, Yline);
-                            green += kernel[i][j] * fastBitmap.getGreen(Xline, Yline);
-                            blue += kernel[i][j] * fastBitmap.getBlue(Xline, Yline);
-                        }
-                        else {
-
-                            int r = x + i - lines;
-                            int c = y + j - lines;
-
-                            if (r < 0) r = 0;
-                            if (r >= height) r = height - 1;
-
-                            if (c < 0) c = 0;
-                            if (c >= width) c = width - 1;
-
-                            red += kernel[i][j] * fastBitmap.getRed(r, c);
-                            green += kernel[i][j] * fastBitmap.getGreen(r, c);
-                            blue += kernel[i][j] * fastBitmap.getBlue(r, c);
-                        }
-                    }
-                }
-                response[x][y][0] = red;
-                response[x][y][1] = green;
-                response[x][y][2] = blue;
-            }
-        }
-        
-        return response;
     }
 }

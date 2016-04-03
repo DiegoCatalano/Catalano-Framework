@@ -49,6 +49,7 @@ package Catalano.Imaging.Filters.Photometric;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Tools.ImageUtils;
+import Catalano.Imaging.Tools.Kernel;
 import Catalano.Math.Functions.Gaussian;
 import Catalano.Math.Matrix;
 
@@ -245,7 +246,7 @@ public class RetinaModel implements IPhotometricFilter{
         double max = Matrix.Max(image);
         
         //Convolution
-        double[][] c = Convolution(image, kernel);
+        double[][] c = ImageUtils.Convolution(image, kernel);
         
         //Sum with the mean and clap the values
         for (int i = 0; i < c.length; i++) {
@@ -264,45 +265,5 @@ public class RetinaModel implements IPhotometricFilter{
         
         return c;
         
-    }
-    
-    private double[][] Convolution(double[][] image, double[][] kernel){
-        int width = image[0].length;
-        int height = image.length;
-        double[][] response = new double[height][width];
-        
-        int Xline,Yline;
-        int lines = (kernel.length - 1)/2;
-        double gray;
-        
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                gray = 0;
-                for (int i = 0; i < kernel.length; i++) {
-                    Xline = x + (i-lines);
-                    for (int j = 0; j < kernel[0].length; j++) {
-                        Yline = y + (j-lines);
-                        if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                            gray += kernel[i][j] * image[Xline][Yline];
-                        }
-                        else {
-
-                            int r = x + i - lines;
-                            int c = y + j - lines;
-
-                            if (r < 0) r = 0;
-                            if (r >= height) r = height - 1;
-
-                            if (c < 0) c = 0;
-                            if (c >= width) c = width - 1;
-
-                            gray += kernel[i][j] * image[r][c];
-                        }
-                    }
-                }
-                response[x][y] = gray;
-            }
-        }
-        return response;
     }
 }

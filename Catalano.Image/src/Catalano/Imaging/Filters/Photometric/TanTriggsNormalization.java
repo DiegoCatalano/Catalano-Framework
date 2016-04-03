@@ -50,7 +50,6 @@ package Catalano.Imaging.Filters.Photometric;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.GammaCorrection;
 import Catalano.Imaging.Tools.ImageUtils;
-import Catalano.Math.Matrix;
 
 /**
  * TanTriggs Normalization.
@@ -113,7 +112,7 @@ public class TanTriggsNormalization implements IPhotometricFilter{
         
         //Robust post-processor
         RobustPostprocessor rp = new RobustPostprocessor();
-        image = rp.Apply(image);
+        image = rp.Process(image);
         
         //Normalize the image
         ImageUtils.Normalize(image);

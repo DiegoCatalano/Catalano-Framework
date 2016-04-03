@@ -48,24 +48,69 @@
 package Catalano.Imaging.Filters.Photometric;
 
 /**
- *
- * @author Diego
+ * Robust PostProcessing step under the Contrast Equalization.
+ * @author Diego Catalano
  */
 public class RobustPostprocessor {
     
     private double alfa;
     private double tao;
 
+    /**
+     * Get alfa value, controls the postprocessing procedure.
+     * @return Alfa value.
+     */
+    public double getAlfa() {
+        return alfa;
+    }
+
+    /**
+     * Set alfa value, controls the postprocessing procedure.
+     * @param alfa Alfa value.
+     */
+    public void setAlfa(double alfa) {
+        this.alfa = alfa;
+    }
+
+    /**
+     * Get tao value, controls the postprocessing procedure.
+     * @return Tao value,
+     */
+    public double getTao() {
+        return tao;
+    }
+
+    /**
+     * Set tao value, controls the postprocessing procedure.
+     * @param tao Tao value.
+     */
+    public void setTao(double tao) {
+        this.tao = tao;
+    }
+
+    /**
+     * Initialize a new instance of the RobustPostprocessor class.
+     */
     public RobustPostprocessor() {
         this(0.1,10);
     }
 
+    /**
+     * Initialize a new instance of the RobustPostprocessor class.
+     * @param alfa Alfa value.
+     * @param tao Tao value.
+     */
     public RobustPostprocessor(double alfa, double tao) {
         this.alfa = alfa;
         this.tao = tao;
     }
     
-    public double[][] Apply(double[][] image){
+    /**
+     * Perform the process.
+     * @param image Image.
+     * @return Robust postprocessing of the image.
+     */
+    public double[][] Process(double[][] image){
         
         //First stage normalization
         double mean = 0;
