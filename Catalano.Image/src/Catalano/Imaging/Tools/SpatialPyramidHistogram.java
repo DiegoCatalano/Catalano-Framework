@@ -21,6 +21,7 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Texture.BinaryPattern.IBinaryPattern;
 import java.util.ArrayList;
@@ -93,7 +94,6 @@ public class SpatialPyramidHistogram {
             }
         }
         
-        return all;
-        
+        return all;   
     }
 }

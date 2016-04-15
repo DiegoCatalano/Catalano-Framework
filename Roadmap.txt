@@ -4,9 +4,13 @@ Task						Status
 Add: Crop to work in both system coordinates.		Ready
 Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
-New: Self Quocient Image
-New: Retina Model Normalization
-New: Weberfaces					Working
+New: Local Phase Quantization
+New: Weberfaces
+New: Self Quocient Image				Working
+New: Retina Model Normalization			Ready
+New: Local Adaptive Ternary Pattern			Ready
+New: Local Gradient Coding HD			Ready
+New: Local Gradient Coding				Ready
 New: Multi Scale Retinex				Ready
 New: Single Scale Retinex				Ready
 New: Retina Model					Ready
@@ -25,7 +29,7 @@ New: Tsai Threshold					Ready
 New: Random Convolution				Ready
 New: EnsembleThreshold				Ready
 New: KMeans					Ready
-New: PeronaMalikAnisotropicDiffusion			Ready
+New: Perona-Malik Anisotropic Diffusion			Ready
 New: Histogram Adjust				Ready
 New: Shrink					Ready
 New: ChanVese Segmentation

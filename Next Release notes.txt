@@ -48,6 +48,7 @@ Catalano Framework 1.6 road map
     - Reworked: Difference Of Gaussian.
 
 * Catalano.Image.Texture.BinaryPattern
+    - New: Local Adaptive Ternary Pattern.
     - New: Local Gradient Coding HD.
     - New: Local Gradient Coding.
     - New: Weber Binary Pattern.

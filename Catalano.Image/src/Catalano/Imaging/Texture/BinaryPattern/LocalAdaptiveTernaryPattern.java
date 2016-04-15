@@ -81,7 +81,7 @@ public class LocalAdaptiveTernaryPattern implements IBinaryPattern{
      * Initialize a new instance of the LocalTernaryPattern class.
      * @param threshold Threshold.
      */
-    public LocalAdaptiveTernaryPattern(int constant){
+    public LocalAdaptiveTernaryPattern(double constant){
         this.constant = constant;
     }
     
