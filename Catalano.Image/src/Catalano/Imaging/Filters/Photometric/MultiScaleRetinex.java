@@ -55,7 +55,7 @@ import Catalano.Math.Matrix;
  * Multi scale retinex.
  * @author Diego Catalano
  */
-public class MultiScaleRetinex implements IPhotometricFilter{
+public class MultiscaleRetinex implements IPhotometricFilter{
     
     private int[] scales;
 
@@ -81,7 +81,7 @@ public class MultiScaleRetinex implements IPhotometricFilter{
      * <br> Default:
      * <br> Scales = 7, 15, 21
      */
-    public MultiScaleRetinex() {
+    public MultiscaleRetinex() {
         this(new int[] {7,15,21});
     }
 
@@ -89,7 +89,7 @@ public class MultiScaleRetinex implements IPhotometricFilter{
      * Initializes a new instance of the MultiScaleRetinex class.
      * @param scales Scales.
      */
-    public MultiScaleRetinex(int[] scales) {
+    public MultiscaleRetinex(int[] scales) {
         this.scales = scales;
     }
 
