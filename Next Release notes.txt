@@ -38,6 +38,7 @@ Catalano Framework 1.6 road map
     - New: Integral Variance.
 
 * Catalano.Image.Filters.Photometric
+    - New: Weber Faces.
     - New: Multi Scale Retinex.
     - New: Single Scale Retinex.
     - New: Retina Model.
@@ -107,6 +108,8 @@ Catalano Framework 1.6 road map
     - New: Regression Measure.
 
 * Catalano.Math
+    - New: Padding Matrix.
+
     - Added: Mahalanobis in Distance.
     - Added: Trace in Matrix.
 

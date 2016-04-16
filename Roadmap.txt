@@ -5,8 +5,8 @@ Add: Crop to work in both system coordinates.		Ready
 Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
 New: Local Phase Quantization
-New: Weberfaces
 New: Self Quocient Image				Working
+New: Weberfaces					Ready
 New: Retina Model Normalization			Ready
 New: Local Adaptive Ternary Pattern			Ready
 New: Local Gradient Coding HD			Ready
