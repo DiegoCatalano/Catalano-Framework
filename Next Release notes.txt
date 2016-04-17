@@ -15,6 +15,7 @@ Catalano Framework 1.6 road map
     - Renamed: arrayToImage to matrixToImage in FastBitmap.
 
 * Catalano.Image.Filters
+    - New: Grayscale To RGB.
     - New: Tsai Threshold.
     - New: Random Convolution.
     - New: Ensemble Threshold.

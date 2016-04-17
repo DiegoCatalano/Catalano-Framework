@@ -6,6 +6,7 @@ Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
 New: Local Phase Quantization
 New: Self Quocient Image				Working
+New: Grayscale To RGB				Ready
 New: Weberfaces					Ready
 New: Retina Model Normalization			Ready
 New: Local Adaptive Ternary Pattern			Ready
