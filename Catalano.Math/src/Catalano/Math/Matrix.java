@@ -638,6 +638,51 @@ public final class Matrix {
     }
     
     /**
+     * Dot product.
+     * @param A Matrix.
+     * @param B Matrix.
+     */
+    public static double[][] DotProduct(double[][] A, double[][] B){
+        double[][] result = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                result[i][j] = A[i][j] * B[i][j];
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Dot product.
+     * @param A Matrix.
+     * @param B Matrix.
+     */
+    public static int[][] DotProduct(int[][] A, int[][] B){
+        int[][] result = new int[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                result[i][j] = A[i][j] * B[i][j];
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Dot product.
+     * @param A Matrix.
+     * @param B Matrix.
+     */
+    public static float[][] DotProduct(float[][] A, float[][] B){
+        float[][] result = new float[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                result[i][j] = A[i][j] * B[i][j];
+            }
+        }
+        return result;
+    }
+    
+    /**
      * Fill a vector with specified number.
      * @param A Vector.
      * @param number Number.
@@ -3638,7 +3683,7 @@ public final class Matrix {
         double[][] X = new double[endRow - startRow + 1][endColumn - startColumn + 1];
 
         for (int i = startRow; i <= endRow; i++){
-            for (int j = startColumn; j < endColumn; j++){
+            for (int j = startColumn; j <= endColumn; j++){
 
                 X[i - startRow][j - startColumn] = data[i][j];
             }
@@ -3665,7 +3710,7 @@ public final class Matrix {
         int[][] X = new int[endRow - startRow + 1][endColumn - startColumn + 1];
 
         for (int i = startRow; i <= endRow; i++){
-            for (int j = startColumn; j < endColumn; j++){
+            for (int j = startColumn; j <= endColumn; j++){
 
                 X[i - startRow][j - startColumn] = data[i][j];
             }
@@ -3692,7 +3737,7 @@ public final class Matrix {
         float[][] X = new float[endRow - startRow + 1][endColumn - startColumn + 1];
 
         for (int i = startRow; i <= endRow; i++){
-            for (int j = startColumn; j < endColumn; j++){
+            for (int j = startColumn; j <= endColumn; j++){
 
                 X[i - startRow][j - startColumn] = data[i][j];
             }
