@@ -81,26 +81,22 @@ public class Threshold implements IApplyInPlace{
     public void applyInPlace(FastBitmap fastBitmap){
         
         if (!fastBitmap.isGrayscale())
-            throw new IllegalArgumentException("Binarization works only with Grayscale images.");
+            throw new IllegalArgumentException("Threshold works only with Grayscale images.");
         
-        byte[] pixels = fastBitmap.getGrayData();
-        for (int i = 0; i < pixels.length; i++) {
-            int l = pixels[i] < 0 ? pixels[i] + 256 : pixels[i];
-            if(invert == false){
-                if(l >= value){
-                    pixels[i] = (byte)255;
-                }
-                else{
-                    pixels[i] = 0;
-                }
+        int size = fastBitmap.getSize();
+        for (int i = 0; i < size; i++) {
+            int g = fastBitmap.getGray(i);
+            if(!invert){
+                if(g >= value)
+                    fastBitmap.setGray(i, 255);
+                else
+                    fastBitmap.setGray(i, 0);
             }
             else{
-                if(l < value){
-                    pixels[i] = 0;
-                }
-                else{
-                    pixels[i] = (byte)255;
-                }
+                if(g >= value)
+                    fastBitmap.setGray(i, 0);
+                else
+                    fastBitmap.setGray(i, 255);
             }
         }
     }
