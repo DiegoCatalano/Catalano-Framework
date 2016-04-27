@@ -5,6 +5,7 @@ Add: Crop to work in both system coordinates.		Ready
 Add: Covariance overload for to create covariance matrix	Ready
 Add: FastGraphic to work in both system coordinates.
 New: Local Phase Quantization
+New: Extreme Machine Learning			Working
 New: Self Quocient Image				Ready
 New: Grayscale To RGB				Ready
 New: Weberfaces					Ready
