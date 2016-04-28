@@ -22,6 +22,7 @@
 package Catalano.Statistics;
 
 import Catalano.Math.Matrix;
+import java.util.Arrays;
 
 /**
  * Common tools used in statistics.
@@ -258,6 +259,68 @@ public class Tools {
             if(x[i] < m) m = x[i];
         
         return m;
+    }
+    
+    /**
+     * Mode of the vector.
+     * @param values Values.
+     * @return Mode.
+     */
+    public static double Mode(double[] values){
+        Arrays.sort(values);
+        double v = values[0];
+        int index = 0, x = 0, rep = 0;
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] == v) {
+                x++;
+                if (x > rep) {
+                    rep = x;
+                    index = i;
+                }
+                v = values[i];
+                x = 0;
+            }
+            else{
+                if (x > rep) {
+                    rep = x;
+                    index = i;
+                }
+                v = values[i];
+                x = 0;
+            }
+        }
+        return values[index];
+    }
+    
+    /**
+     * Mode of the vector.
+     * @param values Values.
+     * @return Mode.
+     */
+    public static int Mode(int[] values){
+        Arrays.sort(values);
+        int v = values[0];
+        int index = 0, x = 0, rep = 0;
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] == v) {
+                x++;
+                if (x > rep) {
+                    rep = x;
+                    index = i;
+                }
+                v = values[i];
+                x = 0;
+            }
+            else{
+                if (x > rep) {
+                    rep = x;
+                    index = i;
+                }
+                v = values[i];
+                x = 0;
+            }
+        }
+        return values[index];
     }
     
     /**

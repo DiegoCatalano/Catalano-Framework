@@ -759,6 +759,30 @@ public final class Matrix {
         return v;
     }
     
+    public static double[] getColumns(double[] A, int[] indexes){
+        double[] v = new double[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    public static int[] getColumns(int[] A, int[] indexes){
+        int[] v = new int[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
+    public static float[] getColumns(float[] A, int[] indexes){
+        float[] v = new float[indexes.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
     /**
      * Return a vector from specified range.
      * @param A Vector.
