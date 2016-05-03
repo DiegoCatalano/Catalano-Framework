@@ -25,6 +25,7 @@ import Catalano.Imaging.Color;
 
 /**
  * Convert between different color spaces supported.
+ * RGB -> IHS -> RGB
  * RGB -> CMYK -> RGB
  * RGB -> YIQ -> RGB
  * RGB -> YCbCr -> RGB
@@ -54,34 +55,34 @@ public class ColorConverter {
     
     //2o Observer (CIE 1931)
     // X2, Y2, Z2
-    public static float[] CIE2_A = {109.850f, 100f, 35.585f}; //Incandescent
-    public static float[] CIE2_C = {98.074f, 100f, 118.232f};
-    public static float[] CIE2_D50 = {96.422f, 100f, 82.521f};
-    public static float[] CIE2_D55 = {95.682f, 100f, 92.149f};
-    public static float[] CIE2_D65 = {95.047f, 100f, 108.883f}; //Daylight
-    public static float[] CIE2_D75 = {94.972f, 100f, 122.638f};
-    public static float[] CIE2_F2 = {99.187f, 100f, 67.395f}; //Fluorescent
-    public static float[] CIE2_F7 = {95.044f, 100f, 108.755f};
-    public static float[] CIE2_F11 = {100.966f, 100f, 64.370f};
+    public static double[] CIE2_A = {109.850f, 100f, 35.585f}; //Incandescent
+    public static double[] CIE2_C = {98.074f, 100f, 118.232f};
+    public static double[] CIE2_D50 = {96.422f, 100f, 82.521f};
+    public static double[] CIE2_D55 = {95.682f, 100f, 92.149f};
+    public static double[] CIE2_D65 = {95.047f, 100f, 108.883f}; //Daylight
+    public static double[] CIE2_D75 = {94.972f, 100f, 122.638f};
+    public static double[] CIE2_F2 = {99.187f, 100f, 67.395f}; //Fluorescent
+    public static double[] CIE2_F7 = {95.044f, 100f, 108.755f};
+    public static double[] CIE2_F11 = {100.966f, 100f, 64.370f};
     
     //10o Observer (CIE 1964)
     // X2, Y2, Z2
-    public static float[] CIE10_A = {111.144f, 100f, 35.200f}; //Incandescent
-    public static float[] CIE10_C = {97.285f, 100f, 116.145f};
-    public static float[] CIE10_D50 = {96.720f, 100f, 81.427f};
-    public static float[] CIE10_D55 = {95.799f, 100f, 90.926f};
-    public static float[] CIE10_D65 = {94.811f, 100f, 107.304f}; //Daylight
-    public static float[] CIE10_D75 = {94.416f, 100f, 120.641f};
-    public static float[] CIE10_F2 = {103.280f, 100f, 69.026f}; //Fluorescent
-    public static float[] CIE10_F7 = {95.792f, 100f, 107.687f};
-    public static float[] CIE10_F11 = {103.866f, 100f, 65.627f};
+    public static double[] CIE10_A = {111.144f, 100f, 35.200f}; //Incandescent
+    public static double[] CIE10_C = {97.285f, 100f, 116.145f};
+    public static double[] CIE10_D50 = {96.720f, 100f, 81.427f};
+    public static double[] CIE10_D55 = {95.799f, 100f, 90.926f};
+    public static double[] CIE10_D65 = {94.811f, 100f, 107.304f}; //Daylight
+    public static double[] CIE10_D75 = {94.416f, 100f, 120.641f};
+    public static double[] CIE10_F2 = {103.280f, 100f, 69.026f}; //Fluorescent
+    public static double[] CIE10_F7 = {95.792f, 100f, 107.687f};
+    public static double[] CIE10_F11 = {103.866f, 100f, 65.627f};
     
     /**
      * RGB -> CMYK
      * @param color Color.
      * @return CMYK color space. Normalized.
      */
-    public static float[] RGBtoCMYK(Color color){
+    public static double[] RGBtoCMYK(Color color){
         return RGBtoCMYK(color.r, color.g, color.b);
     }
     
@@ -92,17 +93,17 @@ public class ColorConverter {
      * @param blue Values in the range [0..255].
      * @return CMYK color space. Normalized.
      */
-    public static float[] RGBtoCMYK(int red, int green, int blue){
-        float[] cmyk = new float[4];
+    public static double[] RGBtoCMYK(int red, int green, int blue){
+        double[] cmyk = new double[4];
         
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
-        float k = 1.0f - Math.max(r, Math.max(g, b));
-        float c = (1f-r-k) / (1f-k);
-        float m = (1f-g-k) / (1f-k);
-        float y = (1f-b-k) / (1f-k);
+        double k = 1.0f - Math.max(r, Math.max(g, b));
+        double c = (1f-r-k) / (1f-k);
+        double m = (1f-g-k) / (1f-k);
+        double y = (1f-b-k) / (1f-k);
         
         cmyk[0] = c;
         cmyk[1] = m;
@@ -120,7 +121,7 @@ public class ColorConverter {
      * @param k Black.
      * @return RGB color space.
      */
-    public static int[] CMYKtoRGB(float c, float m, float y, float k){
+    public static int[] CMYKtoRGB(double c, double m, double y, double k){
         int[] rgb = new int[3];
         
         rgb[0] = (int)(255 * (1-c) * (1-k));
@@ -131,11 +132,88 @@ public class ColorConverter {
     }
     
     /**
+     * RGB -> IHS
+     * @param color Color.
+     * @return IHS color space. Normalized.
+     */
+    public static double[] RGBtoIHS(Color color){
+        return RGBtoCMYK(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> IHS
+     * @param red Values in the range [0..255].
+     * @param green Values in the range [0..255].
+     * @param blue Values in the range [0..255].
+     * @return IHS color space. Normalized.
+     */
+    public static double[] RGBtoIHS(int red, int green, int blue){
+        
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
+        
+        double i = r+g+b;
+        
+        double h;
+        if(b == Math.min(Math.min(r, g), b)){
+            h = (g-b) / (i-3*b);
+        }
+        else if (r == Math.min(Math.min(r, g), b)){
+            h = (b-r) / (i-3*r) + 1;
+        }
+        else{
+            h = (r-g) / (i-3*g) + 2;
+        }
+        
+        double s;
+        if(h >= 0 && h <= 1){
+            s = (i-3*b) / i;
+        }
+        else if(h >= 1 && h <= 2){
+            s = (i-3*r) / i;
+        }
+        else{
+            s = (i-3*g) / i;
+        }
+        
+        return new double[] {i,h,s};
+        
+    }
+    
+    /**
+     * IHS -> RGB
+     * @param ihs IHS vector.
+     * @return RGB color space.
+     */
+    public static double[] IHStoRGB(double[] ihs){
+        
+        if(ihs[1] >= 0 && ihs[1] <= 1){
+            double r = ihs[0] * (1 + 2*ihs[2]-3*ihs[2]*ihs[1]) / 3;
+            double g = ihs[0] * (1 - ihs[2]+3*ihs[2]*ihs[1]) / 3;
+            double b = ihs[0] * (1 - ihs[2]) / 3;
+            return new double[] {r*255,g*255,b*255};
+        }
+        else if(ihs[1] >= 1 && ihs[1] <= 2){
+            double r = ihs[0] * (1 - ihs[2]) / 3;
+            double g = ihs[0] * (1 + 2*ihs[2] - 3*ihs[2]*(ihs[1] - 1)) / 3;
+            double b = ihs[0] * (1 - ihs[2] + 3*ihs[2]*(ihs[1] - 1)) / 3;
+            return new double[] {r*255,g*255,b*255};
+        }
+        else{
+            double r = ihs[0] * (1 - ihs[2] + 3*ihs[2]*(ihs[1] - 2)) / 3;
+            double g = ihs[0] * (1 - ihs[2]) / 3;
+            double b = ihs[0] * (1 + 2*ihs[2] - 3*ihs[2]*(ihs[1] - 2)) / 3;
+            return new double[] {r*255,g*255,b*255};
+        }
+    }
+    
+    /**
      * RGB -> YUV.
      * @param color Color.
      * @return YUV color space.
      */
-    public static float[] RGBtoYUV(Color color){
+    public static double[] RGBtoYUV(Color color){
         return RGBtoYUV(color.r, color.g, color.b);
     }
     
@@ -149,18 +227,18 @@ public class ColorConverter {
      * @param blue Values in the range [0..255].
      * @return YUV color space.
      */
-    public static float[] RGBtoYUV(int red, int green, int blue){
+    public static double[] RGBtoYUV(int red, int green, int blue){
         
-        float r = (float)red / 255;
-        float g = (float)green / 255;
-        float b = (float)blue / 255;
+        double r = (double)red / 255;
+        double g = (double)green / 255;
+        double b = (double)blue / 255;
         
-        float[] yuv = new float[3];
-        float y,u,v;
+        double[] yuv = new double[3];
+        double y,u,v;
         
-        y = (float)(0.299 * r + 0.587 * g + 0.114 * b);
-        u = (float)(-0.14713 * r - 0.28886 * g + 0.436 * b);
-        v = (float)(0.615 * r - 0.51499 * g - 0.10001 * b);
+        y = (double)(0.299 * r + 0.587 * g + 0.114 * b);
+        u = (double)(-0.14713 * r - 0.28886 * g + 0.436 * b);
+        v = (double)(0.615 * r - 0.51499 * g - 0.10001 * b);
         
         yuv[0] = y;
         yuv[1] = u;
@@ -176,13 +254,13 @@ public class ColorConverter {
      * @param v Chrominance. In the range [-0.5..0.5].
      * @return RGB color space.
      */
-    public static int[] YUVtoRGB(float y, float u, float v){
+    public static int[] YUVtoRGB(double y, double u, double v){
         int[] rgb = new int[3];
-        float r,g,b;
+        double r,g,b;
         
-        r = (float)((y + 0.000 * u + 1.140 * v) * 255);
-        g = (float)((y - 0.396 * u - 0.581 * v) * 255);
-        b = (float)((y + 2.029 * u + 0.000 * v) * 255);
+        r = (double)((y + 0.000 * u + 1.140 * v) * 255);
+        g = (double)((y - 0.396 * u - 0.581 * v) * 255);
+        b = (double)((y + 2.029 * u + 0.000 * v) * 255);
         
         rgb[0] = (int)r;
         rgb[1] = (int)g;
@@ -196,7 +274,7 @@ public class ColorConverter {
      * @param color Color.
      * @return YIQ color space.
      */
-    public static float[] RGBtoYIQ(Color color){
+    public static double[] RGBtoYIQ(Color color){
         return RGBtoYIQ(color.r, color.g, color.b);
     }
     
@@ -207,17 +285,17 @@ public class ColorConverter {
      * @param blue Values in the range [0..255].
      * @return YIQ color space.
      */
-    public static float[] RGBtoYIQ(int red, int green, int blue){
-        float[] yiq = new float[3];
-        float y,i,q;
+    public static double[] RGBtoYIQ(int red, int green, int blue){
+        double[] yiq = new double[3];
+        double y,i,q;
         
-        float r = (float)red / 255;
-        float g = (float)green / 255;
-        float b = (float)blue / 255;
+        double r = (double)red / 255;
+        double g = (double)green / 255;
+        double b = (double)blue / 255;
         
-        y = (float)(0.299 * r + 0.587 * g + 0.114 * b);
-        i = (float)(0.596 * r - 0.275 * g - 0.322 * b);
-        q = (float)(0.212 * r - 0.523 * g + 0.311 * b);
+        y = (double)(0.299 * r + 0.587 * g + 0.114 * b);
+        i = (double)(0.596 * r - 0.275 * g - 0.322 * b);
+        q = (double)(0.212 * r - 0.523 * g + 0.311 * b);
         
         yiq[0] = y;
         yiq[1] = i;
@@ -252,50 +330,50 @@ public class ColorConverter {
         return rgb;
     }
     
-    public static float[] RGBtoYCbCr(Color color, YCbCrColorSpace colorSpace){
+    public static double[] RGBtoYCbCr(Color color, YCbCrColorSpace colorSpace){
         return RGBtoYCbCr(color.r, color.g, color.b, colorSpace);
     }
     
-    public static float[] RGBtoYCbCr(int red, int green, int blue, YCbCrColorSpace colorSpace){
+    public static double[] RGBtoYCbCr(int red, int green, int blue, YCbCrColorSpace colorSpace){
         
-        float r = (float)red / 255;
-        float g = (float)green / 255;
-        float b = (float)blue / 255;
+        double r = (double)red / 255;
+        double g = (double)green / 255;
+        double b = (double)blue / 255;
         
-        float[] YCbCr = new float[3];
-        float y,cb,cr;
+        double[] YCbCr = new double[3];
+        double y,cb,cr;
         
         if (colorSpace == YCbCrColorSpace.ITU_BT_601) {
-            y = (float)(0.299 * r + 0.587 * g + 0.114 * b);
-            cb = (float)(-0.169 * r - 0.331 * g + 0.500 * b);
-            cr = (float)(0.500 * r - 0.419 * g - 0.081 * b);
+            y = (double)(0.299 * r + 0.587 * g + 0.114 * b);
+            cb = (double)(-0.169 * r - 0.331 * g + 0.500 * b);
+            cr = (double)(0.500 * r - 0.419 * g - 0.081 * b);
         }
         else{
-            y = (float)(0.2215 * r + 0.7154 * g + 0.0721 * b);
-            cb = (float)(-0.1145 * r - 0.3855 * g + 0.5000 * b);
-            cr = (float)(0.5016 * r - 0.4556 * g - 0.0459 * b);
+            y = (double)(0.2215 * r + 0.7154 * g + 0.0721 * b);
+            cb = (double)(-0.1145 * r - 0.3855 * g + 0.5000 * b);
+            cr = (double)(0.5016 * r - 0.4556 * g - 0.0459 * b);
         }
         
-        YCbCr[0] = (float)y;
-        YCbCr[1] = (float)cb;
-        YCbCr[2] = (float)cr;
+        YCbCr[0] = (double)y;
+        YCbCr[1] = (double)cb;
+        YCbCr[2] = (double)cr;
         
         return YCbCr;
     }
     
-    public static int[] YCbCrtoRGB(float y, float cb, float cr, YCbCrColorSpace colorSpace){
+    public static int[] YCbCrtoRGB(double y, double cb, double cr, YCbCrColorSpace colorSpace){
         int[] rgb = new int[3];
-        float r,g,b;
+        double r,g,b;
         
         if (colorSpace == YCbCrColorSpace.ITU_BT_601) {
-            r = (float)(y + 0.000 * cb + 1.403 * cr) * 255;
-            g = (float)(y - 0.344 * cb - 0.714 * cr) * 255;
-            b = (float)(y + 1.773 * cb + 0.000 * cr) * 255;
+            r = (double)(y + 0.000 * cb + 1.403 * cr) * 255;
+            g = (double)(y - 0.344 * cb - 0.714 * cr) * 255;
+            b = (double)(y + 1.773 * cb + 0.000 * cr) * 255;
         }
         else{
-            r = (float)(y + 0.000 * cb + 1.5701 * cr) * 255;
-            g = (float)(y - 0.1870 * cb - 0.4664 * cr) * 255;
-            b = (float)(y + 1.8556 * cb + 0.000 * cr) * 255;
+            r = (double)(y + 0.000 * cb + 1.5701 * cr) * 255;
+            g = (double)(y - 0.1870 * cb - 0.4664 * cr) * 255;
+            b = (double)(y + 1.8556 * cb + 0.000 * cr) * 255;
         }
         
         rgb[0] = (int)r;
@@ -354,7 +432,7 @@ public class ColorConverter {
      * @param color Color.
      * @return HSV color space.
      */
-    public static float[] RGBtoHSV(Color color){
+    public static double[] RGBtoHSV(Color color){
         return RGBtoHSV(color.r, color.g, color.b);
     }
     
@@ -366,15 +444,15 @@ public class ColorConverter {
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return HSV color space.
      */
-    public static float[] RGBtoHSV(int red, int green, int blue){
-        float[] hsv = new float[3];
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+    public static double[] RGBtoHSV(int red, int green, int blue){
+        double[] hsv = new double[3];
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
-        float max = Math.max(r, Math.max(g, b));
-        float min = Math.min(r, Math.min(g, b));
-        float delta = max - min;
+        double max = Math.max(r, Math.max(g, b));
+        double min = Math.min(r, Math.min(g, b));
+        double delta = max - min;
         
         // Hue
         if (max == min){
@@ -409,14 +487,14 @@ public class ColorConverter {
      * @param value Value. In the range[0..1].
      * @return RGB color space. In the range[0..255].
      */
-    public static int[] HSVtoRGB(float hue, float saturation, float value){
+    public static int[] HSVtoRGB(double hue, double saturation, double value){
         int[] rgb = new int[3];
         
-        float hi = (float)Math.floor(hue / 60.0) % 6;
-        float f =  (float)((hue / 60.0) - Math.floor(hue / 60.0));
-        float p = (float)(value * (1.0 - saturation));
-        float q = (float)(value * (1.0 - (f * saturation)));
-        float t = (float)(value * (1.0 - ((1.0 - f) * saturation)));
+        double hi = (double)Math.floor(hue / 60.0) % 6;
+        double f =  (double)((hue / 60.0) - Math.floor(hue / 60.0));
+        double p = (double)(value * (1.0 - saturation));
+        double q = (double)(value * (1.0 - (f * saturation)));
+        double t = (double)(value * (1.0 - ((1.0 - f) * saturation)));
         
         if (hi == 0){
             rgb[0] = (int)(value * 255);
@@ -457,7 +535,7 @@ public class ColorConverter {
      * @param color Color.
      * @return YCC color space. In the range [0..1].
      */
-    public static float[] RGBtoYCC(Color color){
+    public static double[] RGBtoYCC(Color color){
         return RGBtoYCC(color.r, color.g, color.b);
     }
     
@@ -468,16 +546,16 @@ public class ColorConverter {
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return YCC color space. In the range [0..1].
      */
-    public static float[] RGBtoYCC(int red, int green, int blue){
-        float[] ycc = new float[3];
+    public static double[] RGBtoYCC(int red, int green, int blue){
+        double[] ycc = new double[3];
         
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
-        float y = 0.213f * r + 0.419f * g + 0.081f * b;
-        float c1 = -0.131f * r - 0.256f * g + 0.387f * b + 0.612f;
-        float c2 = 0.373f * r - 0.312f * r - 0.061f * b + 0.537f;
+        double y = 0.213f * r + 0.419f * g + 0.081f * b;
+        double c1 = -0.131f * r - 0.256f * g + 0.387f * b + 0.612f;
+        double c2 = 0.373f * r - 0.312f * r - 0.061f * b + 0.537f;
         
         ycc[0] = y;
         ycc[1] = c1;
@@ -493,12 +571,12 @@ public class ColorConverter {
      * @param c2 C coefficient.
      * @return RGB color space.
      */
-    public static int[] YCCtoRGB(float y, float c1, float c2){
+    public static int[] YCCtoRGB(double y, double c1, double c2){
         int[] rgb = new int[3];
         
-        float r = 0.981f * y + 1.315f * (c2 - 0.537f);
-        float g = 0.981f * y - 0.311f * (c1 - 0.612f)- 0.669f * (c2 - 0.537f);
-        float b = 0.981f * y + 1.601f * (c1 - 0.612f);
+        double r = 0.981f * y + 1.315f * (c2 - 0.537f);
+        double g = 0.981f * y - 0.311f * (c1 - 0.612f)- 0.669f * (c2 - 0.537f);
+        double b = 0.981f * y + 1.601f * (c1 - 0.612f);
         
         rgb[0] = (int)(r * 255f);
         rgb[1] = (int)(g * 255f);
@@ -512,7 +590,7 @@ public class ColorConverter {
      * @param color Color.
      * @return YCoCg color space.
      */
-    public static float[] RGBtoYCoCg(Color color){
+    public static double[] RGBtoYCoCg(Color color){
         return RGBtoYCoCg(color.r, color.g, color.b);
     }
     
@@ -523,16 +601,16 @@ public class ColorConverter {
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return YCoCg color space.
      */
-    public static float[] RGBtoYCoCg(int red, int green, int blue){
-        float[] yCoCg = new float[3];
+    public static double[] RGBtoYCoCg(int red, int green, int blue){
+        double[] yCoCg = new double[3];
         
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
-        float y = r / 4f + g / 2f + b / 4f;
-        float co = r / 2f - b / 2f;
-        float cg = -r / 4f + g / 2f - b / 4f;
+        double y = r / 4f + g / 2f + b / 4f;
+        double co = r / 2f - b / 2f;
+        double cg = -r / 4f + g / 2f - b / 4f;
         
         yCoCg[0] = y;
         yCoCg[1] = co;
@@ -548,12 +626,12 @@ public class ColorConverter {
      * @param cg Green chrominance.
      * @return RGB color space.
      */
-    public static int[] YCoCgtoRGB(float y, float co, float cg){
+    public static int[] YCoCgtoRGB(double y, double co, double cg){
         int[] rgb = new int[3];
         
-        float r = y + co - cg;
-        float g = y + cg;
-        float b = y - co - cg;
+        double r = y + co - cg;
+        double g = y + cg;
+        double b = y - co - cg;
         
         rgb[0] = (int)(r * 255f);
         rgb[1] = (int)(g * 255f);
@@ -567,7 +645,7 @@ public class ColorConverter {
      * @param color Color.
      * @return XYZ color space.
      */
-    public static float[] RGBtoXYZ(Color color){
+    public static double[] RGBtoXYZ(Color color){
         return RGBtoXYZ(color.r, color.g, color.b);
     }
     
@@ -578,28 +656,28 @@ public class ColorConverter {
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return XYZ color space.
      */
-    public static float[] RGBtoXYZ(int red, int green, int blue){
-        float[] xyz = new float[3];
+    public static double[] RGBtoXYZ(int red, int green, int blue){
+        double[] xyz = new double[3];
         
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
         //R
         if ( r > 0.04045)
-            r = (float)Math.pow(( ( r + 0.055f ) / 1.055f ), 2.4f);
+            r = (double)Math.pow(( ( r + 0.055f ) / 1.055f ), 2.4f);
         else
             r /= 12.92f;
         
         //G
         if ( g > 0.04045)
-            g = (float)Math.pow(( ( g + 0.055f ) / 1.055f ), 2.4f);
+            g = (double)Math.pow(( ( g + 0.055f ) / 1.055f ), 2.4f);
         else
             g /= 12.92f;
         
         //B
         if ( b > 0.04045)
-            b = (float)Math.pow(( ( b + 0.055f ) / 1.055f ), 2.4f);
+            b = (double)Math.pow(( ( b + 0.055f ) / 1.055f ), 2.4f);
         else
             b /= 12.92f;
         
@@ -607,9 +685,9 @@ public class ColorConverter {
         g *= 100;
         b *= 100;
         
-        float x = 0.412453f * r + 0.35758f * g + 0.180423f * b;
-        float y = 0.212671f * r + 0.71516f * g + 0.072169f * b;
-        float z = 0.019334f * r + 0.119193f * g + 0.950227f * b;
+        double x = 0.412453f * r + 0.35758f * g + 0.180423f * b;
+        double y = 0.212671f * r + 0.71516f * g + 0.072169f * b;
+        double z = 0.019334f * r + 0.119193f * g + 0.950227f * b;
         
         xyz[0] = x;
         xyz[1] = y;
@@ -625,29 +703,29 @@ public class ColorConverter {
      * @param z Z coefficient.
      * @return RGB color space.
      */
-    public static int[] XYZtoRGB(float x, float y, float z){
+    public static int[] XYZtoRGB(double x, double y, double z){
         int[] rgb = new int[3];
         
         x /= 100;
         y /= 100;
         z /= 100;
         
-        float r = 3.240479f * x - 1.53715f * y - 0.498535f * z;
-        float g = -0.969256f * x + 1.875991f * y + 0.041556f * z;
-        float b = 0.055648f * x - 0.204043f * y + 1.057311f * z;
+        double r = 3.240479f * x - 1.53715f * y - 0.498535f * z;
+        double g = -0.969256f * x + 1.875991f * y + 0.041556f * z;
+        double b = 0.055648f * x - 0.204043f * y + 1.057311f * z;
         
         if ( r > 0.0031308 )
-            r = 1.055f * ( (float)Math.pow(r, 0.4166f) ) - 0.055f;
+            r = 1.055f * ( (double)Math.pow(r, 0.4166f) ) - 0.055f;
         else
             r = 12.92f * r;
         
         if ( g > 0.0031308 )
-            g = 1.055f * ( (float)Math.pow(g, 0.4166f) ) - 0.055f;
+            g = 1.055f * ( (double)Math.pow(g, 0.4166f) ) - 0.055f;
         else
             g = 12.92f * g;
         
         if ( b > 0.0031308 )
-            b = 1.055f * ( (float)Math.pow(b, 0.4166f) ) - 0.055f;
+            b = 1.055f * ( (double)Math.pow(b, 0.4166f) ) - 0.055f;
         else
             b = 12.92f * b;
         
@@ -665,15 +743,15 @@ public class ColorConverter {
      * @param z Z coefficient.
      * @return HunterLab coefficient.
      */
-    public static float[] XYZtoHunterLAB(float x, float y, float z){
-        float[] hunter = new float[3];
+    public static double[] XYZtoHunterLAB(double x, double y, double z){
+        double[] hunter = new double[3];
         
         
-        float sqrt = (float)Math.sqrt(y);
+        double sqrt = (double)Math.sqrt(y);
         
-        float l = 10 * sqrt;
-        float a = 17.5f * (((1.02f * x) - y) / sqrt);
-        float b = 7f * ((y - (0.847f * z)) / sqrt);
+        double l = 10 * sqrt;
+        double a = 17.5f * (((1.02f * x) - y) / sqrt);
+        double b = 7f * ((y - (0.847f * z)) / sqrt);
         
         hunter[0] = l;
         hunter[1] = a;
@@ -689,17 +767,17 @@ public class ColorConverter {
      * @param b B coefficient.
      * @return XYZ color space.
      */
-    public static float[] HunterLABtoXYZ(float l, float a, float b){
-        float[] xyz = new float[3];
+    public static double[] HunterLABtoXYZ(double l, double a, double b){
+        double[] xyz = new double[3];
         
         
-        float tempY = l / 10f;
-        float tempX = a / 17.5f * l / 10f;
-        float tempZ = b / 7f * l / 10f;
+        double tempY = l / 10f;
+        double tempX = a / 17.5f * l / 10f;
+        double tempZ = b / 7f * l / 10f;
         
-        float y = tempY * tempY;
-        float x = (tempX + y) / 1.02f;
-        float z = -(tempZ - y) / 0.847f;
+        double y = tempY * tempY;
+        double x = (tempX + y) / 1.02f;
+        double z = -(tempZ - y) / 0.847f;
         
         xyz[0] = x;
         xyz[1] = y;
@@ -713,7 +791,7 @@ public class ColorConverter {
      * @param color Color.
      * @return HunterLAB color space.
      */
-    public static float[] RGBtoHunterLAB(Color color){
+    public static double[] RGBtoHunterLAB(Color color){
         return RGBtoHunterLAB(color.r, color.g, color.b);
     }
     
@@ -724,8 +802,8 @@ public class ColorConverter {
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return HunterLAB color space.
      */
-    public static float[] RGBtoHunterLAB(int red, int green, int blue){
-        float[] xyz = RGBtoXYZ(red, green, blue);
+    public static double[] RGBtoHunterLAB(int red, int green, int blue){
+        double[] xyz = RGBtoXYZ(red, green, blue);
         return XYZtoHunterLAB(xyz[0], xyz[1], xyz[2]);
     }
     
@@ -736,42 +814,42 @@ public class ColorConverter {
      * @param b B coefficient.
      * @return RGB color space.
      */
-    public static int[] HunterLABtoRGB(float l, float a, float b){
-        float[] xyz = HunterLABtoXYZ(l, a, b);
+    public static int[] HunterLABtoRGB(double l, double a, double b){
+        double[] xyz = HunterLABtoXYZ(l, a, b);
         return XYZtoRGB(xyz[0], xyz[1], xyz[2]);
     }
     
     /**
-     * RGB -> HLS.
+     * RGB -> HSL.
      * @param color Color.
      * @return HLS color space.
      */
-    public static float[] RGBtoHSL(Color color){
-        return RGBtoHLS(color.r, color.g, color.b);
+    public static double[] RGBtoHSL(Color color){
+        return RGBtoHSL(color.r, color.g, color.b);
     }
     
     /**
-     * RGB -> HLS.
+     * RGB -> HSL.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
      * @return HLS color space.
      */
-    public static float[] RGBtoHLS(int red, int green, int blue){
-        float[] hsl = new float[3];
+    public static double[] RGBtoHSL(int red, int green, int blue){
+        double[] hsl = new double[3];
         
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
         
-        float max = Math.max(r,Math.max(g,b));
-        float min = Math.min(r,Math.min(g,b));
-        float delta = max - min;
+        double max = Math.max(r,Math.max(g,b));
+        double min = Math.min(r,Math.min(g,b));
+        double delta = max - min;
         
         //HSK
-        float h = 0;
-        float s = 0;
-        float l = (max + min) / 2;
+        double h = 0;
+        double s = 0;
+        double l = (max + min) / 2;
         
         if ( delta == 0 ){
             // gray color
@@ -784,7 +862,7 @@ public class ColorConverter {
             s = ( l <= 0.5 ) ? ( delta / ( max + min ) ) : ( delta / ( 2f - max - min ) );
 
             // get hue value
-            float hue;
+            double hue;
 
             if ( r == max )
             {
@@ -822,9 +900,9 @@ public class ColorConverter {
      * @param luminance Luminance.
      * @return RGB color space.
      */
-    public static int[] HSLtoRGB(float hue, float saturation, float luminance){
+    public static int[] HSLtoRGB(double hue, double saturation, double luminance){
         int[] rgb = new int[3];
-        float r = 0, g = 0, b = 0;
+        double r = 0, g = 0, b = 0;
         
         if ( saturation == 0 )
         {
@@ -833,8 +911,8 @@ public class ColorConverter {
         }
         else
         {
-            float v1, v2;
-            float h = (float) hue / 360;
+            double v1, v2;
+            double h = (double) hue / 360;
 
             v2 = ( luminance < 0.5 ) ?
                 ( luminance * ( 1 + saturation ) ) :
@@ -853,7 +931,7 @@ public class ColorConverter {
         return rgb;
     }
     
-    private static float Hue_2_RGB( float v1, float v2, float vH ){
+    private static double Hue_2_RGB( double v1, double v2, double vH ){
         if ( vH < 0 )
             vH += 1;
         if ( vH > 1 )
@@ -873,7 +951,7 @@ public class ColorConverter {
      * @param tristimulus XYZ Tristimulus.
      * @return CIE-LAB color space.
      */
-    public static float[] RGBtoLAB(Color color, float[] tristimulus){
+    public static double[] RGBtoLAB(Color color, double[] tristimulus){
         return RGBtoLAB(color.r, color.g, color.b, tristimulus);
     }
     
@@ -885,9 +963,9 @@ public class ColorConverter {
      * @param tristimulus XYZ Tristimulus.
      * @return CIE-LAB color space.
      */
-    public static float[] RGBtoLAB(int red, int green, int blue, float[] tristimulus){
-        float[] xyz = RGBtoXYZ(red, green, blue);
-        float[] lab = XYZtoLAB(xyz[0], xyz[1], xyz[2], tristimulus);
+    public static double[] RGBtoLAB(int red, int green, int blue, double[] tristimulus){
+        double[] xyz = RGBtoXYZ(red, green, blue);
+        double[] lab = XYZtoLAB(xyz[0], xyz[1], xyz[2], tristimulus);
         
         return lab;
     }
@@ -900,8 +978,8 @@ public class ColorConverter {
      * @param tristimulus XYZ Tristimulus.
      * @return RGB color space.
      */
-    public static int[] LABtoRGB(float l, float a, float b, float[] tristimulus){
-        float[] xyz = LABtoXYZ(l, a, b, tristimulus);
+    public static int[] LABtoRGB(double l, double a, double b, double[] tristimulus){
+        double[] xyz = LABtoXYZ(l, a, b, tristimulus);
         return XYZtoRGB(xyz[0], xyz[1], xyz[2]);
     }
     
@@ -913,25 +991,25 @@ public class ColorConverter {
      * @param tristimulus XYZ Tristimulus.
      * @return CIE-LAB color space.
      */
-    public static float[] XYZtoLAB(float x, float y, float z, float[] tristimulus){
-        float[] lab = new float[3];
+    public static double[] XYZtoLAB(double x, double y, double z, double[] tristimulus){
+        double[] lab = new double[3];
         
         x /= tristimulus[0];
         y /= tristimulus[1];
         z /= tristimulus[2];
         
         if (x > 0.008856)
-            x = (float)Math.pow(x,0.33f);
+            x = (double)Math.pow(x,0.33f);
         else
             x = (7.787f * x) + ( 0.1379310344827586f );
         
         if (y > 0.008856)
-            y = (float)Math.pow(y,0.33f);
+            y = (double)Math.pow(y,0.33f);
         else
             y = (7.787f * y) + ( 0.1379310344827586f );
         
         if (z > 0.008856)
-            z = (float)Math.pow(z,0.33f);
+            z = (double)Math.pow(z,0.33f);
         else
             z = (7.787f * z) + ( 0.1379310344827586f );
         
@@ -950,30 +1028,30 @@ public class ColorConverter {
      * @param tristimulus XYZ Tristimulus.
      * @return XYZ color space.
      */
-    public static float[] LABtoXYZ(float l, float a, float b, float[] tristimulus){
-        float[] xyz = new float[3];
+    public static double[] LABtoXYZ(double l, double a, double b, double[] tristimulus){
+        double[] xyz = new double[3];
         
-        float y = ( l + 16f ) / 116f;
-        float x = a / 500f + y;
-        float z = y - b / 200f;
+        double y = ( l + 16f ) / 116f;
+        double x = a / 500f + y;
+        double z = y - b / 200f;
         
         //Y
         if ( Math.pow(y,3) > 0.008856 )
-            y = (float)Math.pow(y,3);
+            y = (double)Math.pow(y,3);
         else
-            y = (float)(( y - 16 / 116 ) / 7.787);
+            y = (double)(( y - 16 / 116 ) / 7.787);
         
         //X
         if ( Math.pow(x,3) > 0.008856 )
-            x = (float)Math.pow(x,3);
+            x = (double)Math.pow(x,3);
         else
-            x = (float)(( x - 16 / 116 ) / 7.787);
+            x = (double)(( x - 16 / 116 ) / 7.787);
         
         // Z
         if ( Math.pow(z,3) > 0.008856 )
-            z = (float)Math.pow(z,3);
+            z = (double)Math.pow(z,3);
         else
-            z = (float)(( z - 16 / 116 ) / 7.787);
+            z = (double)(( z - 16 / 116 ) / 7.787);
         
         xyz[0] = x * tristimulus[0];
         xyz[1] = y * tristimulus[1];
@@ -987,7 +1065,7 @@ public class ColorConverter {
      * @param color Color.
      * @return C1C2C3 color space.
      */
-    public static float[] RGBtoC1C2C3(Color color){
+    public static double[] RGBtoC1C2C3(Color color){
         return RGBtoC1C2C3(color.r, color.g, color.b);
     }
     
@@ -998,13 +1076,13 @@ public class ColorConverter {
      * @param b Blue coefficient. Values in the range [0..255].
      * @return C1C2C3 color space.
      */
-    public static float[] RGBtoC1C2C3(int r, int g, int b){
+    public static double[] RGBtoC1C2C3(int r, int g, int b){
         
-        float[] c = new float[3];
+        double[] c = new double[3];
         
-        c[0] = (float)Math.atan(r / Math.max(g, b));
-        c[1] = (float)Math.atan(g / Math.max(r, b));
-        c[2] = (float)Math.atan(b / Math.max(r, g));
+        c[0] = (double)Math.atan(r / Math.max(g, b));
+        c[1] = (double)Math.atan(g / Math.max(r, b));
+        c[2] = (double)Math.atan(b / Math.max(r, g));
         
         return c;
         
@@ -1015,7 +1093,7 @@ public class ColorConverter {
      * @param color Color.
      * @return O1O2 color space.
      */
-    public static float[] RGBtoO1O2(Color color){
+    public static double[] RGBtoO1O2(Color color){
         return RGBtoO1O2(color.r, color.g, color.b);
     }
     
@@ -1026,9 +1104,9 @@ public class ColorConverter {
      * @param b Blue coefficient. Values in the range [0..255].
      * @return O1O2 color space.
      */
-    public static float[] RGBtoO1O2(int r, int g, int b){
+    public static double[] RGBtoO1O2(int r, int g, int b){
         
-        float[] o = new float[2];
+        double[] o = new double[2];
         
         o[0] = (r - g) / 2f;
         o[1] = (r + g) / 4f - (b / 2f);
@@ -1042,7 +1120,7 @@ public class ColorConverter {
      * @param color Color.
      * @return Grayscale color space.
      */
-    public static float RGBtoGrayscale(Color color){
+    public static double RGBtoGrayscale(Color color){
         return RGBtoGrayscale(color.r, color.g, color.b);
     }
     
@@ -1053,7 +1131,7 @@ public class ColorConverter {
      * @param b Blue coefficient. Values in the range [0..255].
      * @return Grayscale color space.
      */
-    public static float RGBtoGrayscale(int r, int g, int b){
+    public static double RGBtoGrayscale(int r, int g, int b){
         return r*0.2125f + g*0.7154f + b*0.0721f;
     }
 }
