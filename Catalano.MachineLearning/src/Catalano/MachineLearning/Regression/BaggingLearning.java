@@ -20,9 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification;
+package Catalano.MachineLearning.Regression;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +36,18 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class BaggingLearning implements IClassifier{
+public class BaggingLearning implements IRegression{
     
     private int times;
-    private List<IClassifier> classifiers;
-    private IClassifier classifier;
+    private List<IRegression> regressions;
+    private IRegression regression;
 
     /**
      * Initializes a new instance of the BaggingLearning class.
      * @param classifier Classifier.
      */
-    public BaggingLearning(IClassifier classifier) {
-        this(classifier, 11);
+    public BaggingLearning(IRegression regression) {
+        this(regression, 11);
     }
 
     /**
@@ -55,19 +55,19 @@ public class BaggingLearning implements IClassifier{
      * @param classifier Classifier.
      * @param times Times to train.
      */
-    public BaggingLearning(IClassifier classifier, int times) {
-        this.classifier = classifier;
-        this.classifiers = new ArrayList<IClassifier>(times);
+    public BaggingLearning(IRegression regression, int times) {
+        this.regression = regression;
+        this.regressions = new ArrayList<IRegression>(times);
         this.times = times;
     }
-
-    @Override
-    public void Learn(DatasetClassification dataset) {
+    
+    public void Learn(DatasetRegression dataset) {
         Learn(dataset.getInput(), dataset.getOutput());
     }
     
+    
     @Override
-    public void Learn(double[][] input, int[] labels){
+    public void Learn(double[][] input, double[] output){
         
         for (int i = 0; i < times; i++) {
             
@@ -79,20 +79,20 @@ public class BaggingLearning implements IClassifier{
             }
             
             double[][] train = Matrix.getRows(input, index);
-            int[] labelsTrain = Matrix.getColumns(labels, index);
+            double[] labelsTrain = Matrix.getColumns(output, index);
             
-            classifier.Learn(train, labelsTrain);
-            classifiers.add(classifier);
+            regression.Learn(train, labelsTrain);
+            regressions.add(regression);
         }
     }
     
     @Override
-    public int Predict(double[] sample){
-        int[] map = new int[classifiers.size()];
+    public double Predict(double[] sample){
+        double[] map = new double[regressions.size()];
         for (int i = 0; i < map.length; i++) {
-            map[i] = classifiers.get(i).Predict(sample);
+            map[i] = regressions.get(i).Predict(sample);
         }
         
-        return Catalano.Statistics.Tools.Mode(map);
+        return Catalano.Statistics.Tools.Mean(map);
     }
 }
