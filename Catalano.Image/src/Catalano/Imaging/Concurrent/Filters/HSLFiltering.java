@@ -258,7 +258,7 @@ public class HSLFiltering implements IApplyInPlace{
                     int g = share.fastBitmap.getGreen(i, j);
                     int b = share.fastBitmap.getBlue(i, j);
                     
-                    float[] hsl = ColorConverter.RGBtoHLS(r, g, b);
+                    double[] hsl = ColorConverter.RGBtoHLS(r, g, b);
                     
                     // check HSL values
                     if (
