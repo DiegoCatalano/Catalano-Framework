@@ -78,7 +78,7 @@ public class ExtractYCbCrChannel implements IApplyInPlace{
             FastBitmap l = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
             
             int r,g,b;
-            float[] ycbcr;
+            double[] ycbcr;
             switch(YCbCr){
                 case Y:
                     for (int x = 0; x < height; x++) {

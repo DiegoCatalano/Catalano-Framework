@@ -68,7 +68,7 @@ public class HueModifier implements IApplyInPlace{
                 int g = fastBitmap.getGreen(i);
                 int b = fastBitmap.getBlue(i);
                 
-                float[] color = ColorConverter.RGBtoHLS(r, g, b);
+                double[] color = ColorConverter.RGBtoHLS(r, g, b);
                 int[] newColor = ColorConverter.HSLtoRGB(degree,color[1],color[2]);
                 
                 newColor[0] = newColor[0] > 255 ? 255 : newColor[0];
