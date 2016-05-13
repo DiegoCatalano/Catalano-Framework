@@ -95,7 +95,6 @@ public class Variance implements IApplyInPlace{
                     fastBitmap.setGray(x, y, (int)var);
                 }
             }
-            
         }
         if (fastBitmap.isRGB()){
             

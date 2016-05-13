@@ -175,29 +175,16 @@ public class KNearestNeighbors implements IClassifier, Serializable {
         }
         
         Collections.sort(lst);
-        int min = output[lst.get(0).index];
         
         //Compute vote majority
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        int max = 0;
+        int classes = Matrix.Max(output) + 1;
+        int[] votes = new int[classes];
         for (int i = 0; i < k; i++) {
-            int index = lst.get(i).index;
-            if(!map.containsKey(output[index])){
-                map.put(output[index], 1);
-            }
-            else{
-                int x = map.get(output[index]) + 1;
-                map.put(output[index], x);
-                if(x > max) max = x;
-            }
+            votes[output[lst.get(i).index]]++;
         }
         
-        for(Map.Entry<Integer,Integer> entry : map.entrySet())
-          if(entry.getValue() == max)
-              return entry.getKey();
-        
-        
-        return min;
+        return Matrix.MaxIndex(votes);
+
     }
     
     private class Score implements Comparable<Score> {
