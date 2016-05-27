@@ -439,6 +439,40 @@ public class DatasetRegression implements Serializable{
     }
     
     /**
+     * Split the percentange of the dataset in Trainning and the rest in Validation.
+     * @param percentage Percentage.
+     * @return Validation dataset.
+     */
+    public DatasetRegression Split(float percentage){
+        return Split(percentage, name + "_Validation");
+    }
+    
+    /**
+     * Split the percentange of the dataset in Trainning and the rest in Validation.
+     * @param percentage Percentage.
+     * @param name Name of the validation dataset.
+     * @return Validation dataset.
+     */
+    public DatasetRegression Split(float percentage, String name){
+        
+        int n = (int)((float)output.length * percentage);
+        
+        //Trainning data
+        double[][] trainInput = Matrix.getRows(input, Matrix.Indices(0, n));
+        double[] trainOutput = Matrix.getColumns(output, Matrix.Indices(0, n));
+        
+        //Validation data
+        double[][] valInput = Matrix.RemoveRows(input, Matrix.Indices(0, n));
+        double[] valOutput = Matrix.RemoveColumns(output, Matrix.Indices(0, n));
+        
+        this.input = trainInput;
+        this.output = trainOutput;
+        
+        return new DatasetRegression(name, valInput, valOutput, attributes);
+        
+    }
+    
+    /**
      * Standartize all continuous data.
      * x = (x - u) / s
      * @return Range of standartization.
