@@ -34,10 +34,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -461,6 +463,74 @@ public class DatasetClassification implements Serializable{
     public void RemoveAttribute(int index){
         this.input = Matrix.RemoveColumn(input, index);
         this.attributes = Matrix.RemoveColumn(attributes, index);
+    }
+    
+    /**
+     * Split the percentange of the dataset in Trainning and the rest in Validation.
+     * @param percentage Percentage.
+     * @return Validation dataset.
+     */
+    public DatasetClassification Split(float percentage){
+        return Split(percentage,this.name + "_Validation");
+    }
+    
+    /**
+     * Split the percentange of the dataset in Trainning and the rest in Validation.
+     * @param percentage Percentage.
+     * @param name Name of the validation dataset.
+     * @return Validation dataset.
+     */
+    public DatasetClassification Split(float percentage, String name){
+        
+        //Count labels and amount.
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < output.length; i++) {
+            if(!map.containsKey(output[i])){
+                map.put(output[i], 1);
+            }
+            else{
+                int t = map.get(output[i]) + 1;
+                map.put(output[i], t);
+            }
+        }
+        
+        //Define size of training
+        int[] sizeClass = new int[map.size()];
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            sizeClass[entry.getKey()] = (int)(entry.getValue() * percentage);
+        }
+        
+        //Get the index of training and validation features
+        int size = 0;
+        for (int i = 0; i < sizeClass.length; i++) {
+            size += sizeClass[i];
+        }
+        
+        int[] indexTraining = new int[size];
+        int[] indexValidation = new int[input.length - size];
+        
+        int idxT = 0;
+        int idxV = 0;
+        for (int i = 0; i < input.length; i++) {
+            if(sizeClass[output[i]] > 0){
+                indexTraining[idxT++] = i;
+                sizeClass[output[i]]--;
+            }
+            else{
+                indexValidation[idxV++] = i;
+            }
+        }
+        
+        //Build data validation
+        double[][] valInput = Matrix.getRows(input, indexValidation);
+        int[] valOutput = Matrix.getRows(output, indexValidation);
+        
+        //Build data trainning
+        this.input = Matrix.getRows(input, indexTraining);
+        this.output = Matrix.getRows(output, indexTraining);
+        
+        return new DatasetClassification(name, valInput, valOutput, this.attributes);
+        
     }
     
     /**
