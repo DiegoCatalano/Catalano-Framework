@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -79,6 +78,22 @@ public class DatasetClassification implements Serializable{
      */
     public int[] getOutput() {
         return output;
+    }
+
+    /**
+     * Get the class index.
+     * @return Class index.
+     */
+    public int getClassIndex() {
+        return classIndex;
+    }
+
+    /**
+     * Set the class index.
+     * @param classIndex Class index.
+     */
+    public void setClassIndex(int classIndex) {
+        this.classIndex = classIndex;
     }
 
     /**
@@ -370,11 +385,23 @@ public class DatasetClassification implements Serializable{
      * @param output Output data.
      */
     public DatasetClassification(String name, double[][] input, int[] output, DecisionVariable[] attributes){
+        this(name, input, output, attributes, input[0].length);
+    }
+    
+    /**
+     * Initializes a new instance of the DatasetClassification class.
+     * @param name Name of the dataset.
+     * @param attributes Decision variables.
+     * @param input Input data.
+     * @param output Output data.
+     * @param classIndex Class index.
+     */
+    public DatasetClassification(String name, double[][] input, int[] output, DecisionVariable[] attributes, int classIndex){
         this.name = name;
         this.input = input;
         this.output = output;
         this.numClasses = Matrix.Max(output) + 1;
-        this.classIndex = input[0].length;
+        this.classIndex = classIndex;
         if(attributes == null){
             attributes = new DecisionVariable[input[0].length + 1];
             for (int i = 0; i < attributes.length; i++) {
@@ -644,26 +671,35 @@ public class DatasetClassification implements Serializable{
         WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"));
     }
     
+    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
+        WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"), false);
+    }
+    
     /**
      *  Write the dataset as CSV file.
      * @param filename Filename.
      * @param decimalPlaces Decimal places.
      * @param delimiter Delimiter.
      * @param newLine Newline char.
+     * @param writeHeader Save the file with no header information.
      */
-    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
+    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine, boolean writeHeader){
         try {
             String dec = "%." + decimalPlaces + "f";
             
             FileWriter fw = new FileWriter(filename);
             
+            if(classIndex < 0) classIndex = attributes.length - 1;
+            
             //Header
-            for (int i = 0; i < attributes.length; i++) {
-                if(i!=classIndex)
-                    fw.append(attributes[i].name + delimiter);
+            if(writeHeader){
+                for (int i = 0; i < attributes.length; i++) {
+                    if(i!=classIndex)
+                        fw.append(attributes[i].name + delimiter);
+                }
+                fw.append(attributes[classIndex].name);
+                fw.append(newLine);
             }
-            fw.append(attributes[classIndex].name);
-            fw.append(newLine);
             
             //Data
             for (int i = 0; i < input.length; i++) {

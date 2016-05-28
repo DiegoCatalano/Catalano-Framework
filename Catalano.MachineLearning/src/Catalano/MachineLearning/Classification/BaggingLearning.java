@@ -27,6 +27,8 @@ import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Bagging Learning (Bootstrap aggregation).
@@ -41,6 +43,23 @@ public class BaggingLearning implements IClassifier{
     private int times;
     private List<IClassifier> classifiers;
     private IClassifier classifier;
+    private boolean includeAttributes;
+
+    /**
+     * Check if features are drawn with replacement.
+     * @return True, if the feature are included, otherwise false.
+     */
+    public boolean isIncludeAttributes() {
+        return includeAttributes;
+    }
+
+    /**
+     * Set attributes in the bagging model.
+     * @param includeAttributes True, if the feature are included, otherwise false.
+     */
+    public void setIncludeAttributes(boolean includeAttributes) {
+        this.includeAttributes = includeAttributes;
+    }
 
     /**
      * Initializes a new instance of the BaggingLearning class.
@@ -49,16 +68,27 @@ public class BaggingLearning implements IClassifier{
     public BaggingLearning(IClassifier classifier) {
         this(classifier, 11);
     }
-
+    
     /**
      * Initializes a new instance of the BaggingLearning class.
      * @param classifier Classifier.
      * @param times Times to train.
      */
-    public BaggingLearning(IClassifier classifier, int times) {
+    public BaggingLearning(IClassifier classifier, int times){
+        this(classifier, times, false);
+    }
+
+    /**
+     * Initializes a new instance of the BaggingLearning class.
+     * @param classifier Classifier.
+     * @param times Times to train.
+     * @param includeAttributes Include attributes in the bagging process.
+     */
+    public BaggingLearning(IClassifier classifier, int times, boolean includeAttributes) {
         this.classifier = classifier;
         this.classifiers = new ArrayList<IClassifier>(times);
         this.times = times;
+        this.includeAttributes = includeAttributes;
     }
 
     @Override
@@ -81,8 +111,18 @@ public class BaggingLearning implements IClassifier{
             double[][] train = Matrix.getRows(input, index);
             int[] labelsTrain = Matrix.getColumns(labels, index);
             
+            //Create random features subspace
+            if(includeAttributes){
+                index = new int[input[0].length];
+                for (int j = 0; j < index.length; j++) {
+                    index[j] = r.nextInt(input[0].length);
+                }
+                
+                train = Matrix.getColumns(train, index);
+            }
+            
             classifier.Learn(train, labelsTrain);
-            classifiers.add(classifier);
+            classifiers.add(classifier.clone());
         }
     }
     
@@ -94,5 +134,15 @@ public class BaggingLearning implements IClassifier{
         }
         
         return Catalano.Statistics.Tools.Mode(map);
+    }
+
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(KNearestNeighbors.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

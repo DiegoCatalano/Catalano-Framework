@@ -45,6 +45,8 @@ public class SuppliedValidation implements IValidation{
 
     @Override
     public double Run(IClassifier classifier, double[][] data, int[] labels) {
+        
+        //Predict
         int pos = 0;
         for (int i = 0; i < data.length; i++) {
             if(classifier.Predict(data[i]) == labels[i])

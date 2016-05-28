@@ -30,9 +30,7 @@ import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * K Nearest Neighbour classifier.
@@ -185,6 +183,15 @@ public class KNearestNeighbors implements IClassifier, Serializable {
         
         return Matrix.MaxIndex(votes);
 
+    }
+    
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
     }
     
     private class Score implements Comparable<Score> {

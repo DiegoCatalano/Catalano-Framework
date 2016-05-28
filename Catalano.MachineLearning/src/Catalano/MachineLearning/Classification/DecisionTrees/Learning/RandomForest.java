@@ -653,4 +653,13 @@ public class RandomForest implements IClassifier, Serializable {
         
         return Matrix.MaxIndex(y);
     }
+    
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
 }

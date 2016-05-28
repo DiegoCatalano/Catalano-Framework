@@ -28,7 +28,7 @@ import Catalano.MachineLearning.DatasetClassification;
  * The interface describe the predict of the classifier.
  * @author Diego Catalano
  */
-public interface IClassifier {
+public interface IClassifier extends Cloneable{
     
     /**
      * Learn from a dataset.
@@ -49,4 +49,10 @@ public interface IClassifier {
      * @return Label.
      */
     public int Predict(double[] feature);
+    
+    /**
+     * Clone of the object.
+     * @return A new copy of the object.
+     */
+    public IClassifier clone();
 }

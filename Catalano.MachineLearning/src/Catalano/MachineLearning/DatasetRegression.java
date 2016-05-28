@@ -22,7 +22,6 @@
 
 package Catalano.MachineLearning;
 
-import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Statistics.DescriptiveStatistics;
@@ -76,6 +75,22 @@ public class DatasetRegression implements Serializable{
      */
     public double[] getOutput() {
         return output;
+    }
+
+    /**
+     * Get class index.
+     * @return Class index.
+     */
+    public int getClassIndex() {
+        return classIndex;
+    }
+
+    /**
+     * Set class index.
+     * @param classIndex Class index.
+     */
+    public void setClassIndex(int classIndex) {
+        this.classIndex = classIndex;
     }
 
     /**
@@ -571,18 +586,34 @@ public class DatasetRegression implements Serializable{
      * @param newLine Newline char.
      */
     public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
+        WriteAsCSV(filename, decimalPlaces,delimiter, newLine, true);
+    }
+    
+    /**
+     *  Write the dataset as CSV file.
+     * @param filename Filename.
+     * @param decimalPlaces Decimal places.
+     * @param delimiter Delimiter.
+     * @param newLine Newline char.
+     * @param writeHeader Write the header of the dataset.
+     */
+    public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine, boolean writeHeader){
         try {
             String dec = "%." + decimalPlaces + "f";
             
             FileWriter fw = new FileWriter(filename);
             
+            if(classIndex < 0) classIndex = attributes.length - 1;
+            
             //Header
-            for (int i = 0; i < attributes.length; i++) {
-                if(i!=classIndex)
-                    fw.append(attributes[i].name + delimiter);
+            if(writeHeader){
+                for (int i = 0; i < attributes.length; i++) {
+                    if(i!=classIndex)
+                        fw.append(attributes[i].name + delimiter);
+                }
+                fw.append(attributes[classIndex].name);
+                fw.append(newLine);
             }
-            fw.append(attributes[classIndex].name);
-            fw.append(newLine);
             
             //Data
             for (int i = 0; i < input.length; i++) {

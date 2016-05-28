@@ -466,5 +466,14 @@ public class AdaBoost implements IClassifier, Serializable {
         
         return index;        
     }
+    
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
 }
 

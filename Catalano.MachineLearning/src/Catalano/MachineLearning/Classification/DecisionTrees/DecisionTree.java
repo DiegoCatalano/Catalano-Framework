@@ -960,4 +960,13 @@ public class DecisionTree implements IClassifier, Serializable {
     public int Predict(double[] feature) {
         return root.predict(feature);
     }
+
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
 }

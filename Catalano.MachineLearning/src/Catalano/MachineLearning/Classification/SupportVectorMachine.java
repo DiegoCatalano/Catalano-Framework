@@ -89,6 +89,15 @@ public class SupportVectorMachine implements IClassifier, Serializable {
         return svm.Predict(feature);
     }
     
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
+    
     /*
      * Process support vectors until converge.
      */

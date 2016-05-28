@@ -672,4 +672,13 @@ public class GradientBoostingTree implements IClassifier, Serializable{
             return y;            
         }
     }
+    
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
 }

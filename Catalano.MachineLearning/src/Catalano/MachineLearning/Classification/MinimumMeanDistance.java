@@ -89,6 +89,15 @@ public class MinimumMeanDistance implements IClassifier{
         return Matrix.MinIndex(distance);
     }
     
+    @Override
+    public IClassifier clone() {
+        try {
+            return (IClassifier)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
+    
     private int[] CountGroups(int[] labels, int classes){
         int[] groups = new int[classes];
         for (int i = 0; i < labels.length; i++) {
