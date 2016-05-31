@@ -25,6 +25,7 @@
 package Catalano.MachineLearning.Regression.RegressionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
@@ -295,6 +296,11 @@ public class GradientBoostingTree implements IRegression, Serializable{
         this.J = J;
         this.shrinkage = shrinkage;
         this.f = f;
+    }
+    
+    @Override
+    public void Learn(DatasetRegression dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
     }
 
     @Override
@@ -609,5 +615,13 @@ public class GradientBoostingTree implements IRegression, Serializable{
         return y;
     }
     
+    @Override
+    public IRegression clone() {
+        try {
+            return (IRegression)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
+    }
     
 }

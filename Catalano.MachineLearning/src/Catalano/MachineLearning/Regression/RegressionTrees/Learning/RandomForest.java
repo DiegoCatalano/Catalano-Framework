@@ -26,6 +26,7 @@ package Catalano.MachineLearning.Regression.RegressionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
@@ -417,6 +418,11 @@ public class RandomForest implements IRegression, Serializable{
             }
         }
     }
+    
+    @Override
+    public void Learn(DatasetRegression dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
+    }
 
     @Override
     public void Learn(double[][] input, double[] output) {
@@ -431,5 +437,14 @@ public class RandomForest implements IRegression, Serializable{
         }
         
         return y / trees.size();
+    }
+    
+    @Override
+    public IRegression clone() {
+        try {
+            return (IRegression)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
     }
 }

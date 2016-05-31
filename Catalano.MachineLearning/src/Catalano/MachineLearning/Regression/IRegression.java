@@ -22,11 +22,19 @@
 
 package Catalano.MachineLearning.Regression;
 
+import Catalano.MachineLearning.DatasetRegression;
+
 /**
  * The interface describe the predict of the regression.
  * @author Diego Catalano
  */
-public interface IRegression {
+public interface IRegression extends Cloneable{
+    
+    /**
+     * Learn.
+     * @param dataset Dataset regression.
+     */
+    public void Learn(DatasetRegression dataset);
     
     /**
      * Learn.
@@ -41,4 +49,10 @@ public interface IRegression {
      * @return Value.
      */
     public double Predict(double[] feature);
+    
+    /**
+     * Clone of the object.
+     * @return A new copy of the object.
+     */
+    public IRegression clone();
 }

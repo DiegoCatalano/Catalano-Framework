@@ -27,8 +27,6 @@ import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Bagging Learning (Bootstrap aggregation).
@@ -141,8 +139,7 @@ public class BaggingLearning implements IClassifier{
         try {
             return (IClassifier)super.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(KNearestNeighbors.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
         }
-        return null;
     }
 }

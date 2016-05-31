@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning.Regression;
 
+import Catalano.MachineLearning.DatasetRegression;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
@@ -93,6 +94,11 @@ public class KNearestNeighbors implements IRegression, Serializable{
         this.k = k;
         this.kernel = kernel;
     }
+    
+    @Override
+    public void Learn(DatasetRegression dataset) {
+        Learn(dataset.getInput(), dataset.getOutput());
+    }
 
     @Override
     public void Learn(double[][] input, double[] output) {
@@ -131,7 +137,15 @@ public class KNearestNeighbors implements IRegression, Serializable{
         }
         
         return result / (double)k;
-        
+    }
+    
+    @Override
+    public IRegression clone() {
+        try {
+            return (IRegression)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
     }
     
     private class Score implements Comparable<Score> {

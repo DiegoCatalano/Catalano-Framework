@@ -41,10 +41,27 @@ public class BaggingLearning implements IRegression{
     private int times;
     private List<IRegression> regressions;
     private IRegression regression;
+    private boolean includeAttributes;
+    
+    /**
+     * Check if features are drawn with replacement.
+     * @return True, if the feature are included, otherwise false.
+     */
+    public boolean isIncludeAttributes() {
+        return includeAttributes;
+    }
+
+    /**
+     * Set attributes in the bagging model.
+     * @param includeAttributes True, if the feature are included, otherwise false.
+     */
+    public void setIncludeAttributes(boolean includeAttributes) {
+        this.includeAttributes = includeAttributes;
+    }
 
     /**
      * Initializes a new instance of the BaggingLearning class.
-     * @param classifier Classifier.
+     * @param regression Regression.
      */
     public BaggingLearning(IRegression regression) {
         this(regression, 11);
@@ -52,19 +69,30 @@ public class BaggingLearning implements IRegression{
 
     /**
      * Initializes a new instance of the BaggingLearning class.
-     * @param classifier Classifier.
+     * @param regression Regression.
      * @param times Times to train.
      */
     public BaggingLearning(IRegression regression, int times) {
+        this(regression, times, false);
+    }
+    
+    /**
+     * Initializes a new instance of the BaggingLearning class.
+     * @param regression regression.
+     * @param times Times to train.
+     * @param includeAttributes Include attributes in the bagging process.
+     */
+    public BaggingLearning(IRegression regression, int times, boolean includeAttributes) {
         this.regression = regression;
         this.regressions = new ArrayList<IRegression>(times);
         this.times = times;
+        this.includeAttributes = includeAttributes;
     }
     
+    @Override
     public void Learn(DatasetRegression dataset) {
         Learn(dataset.getInput(), dataset.getOutput());
     }
-    
     
     @Override
     public void Learn(double[][] input, double[] output){
@@ -79,10 +107,20 @@ public class BaggingLearning implements IRegression{
             }
             
             double[][] train = Matrix.getRows(input, index);
-            double[] labelsTrain = Matrix.getColumns(output, index);
+            double[] outputTrain = Matrix.getColumns(output, index);
             
-            regression.Learn(train, labelsTrain);
-            regressions.add(regression);
+            //Create random features subspace
+            if(includeAttributes){
+                index = new int[input[0].length];
+                for (int j = 0; j < index.length; j++) {
+                    index[j] = r.nextInt(input[0].length);
+                }
+                
+                train = Matrix.getColumns(train, index);
+            }
+            
+            regression.Learn(train, outputTrain);
+            regressions.add(regression.clone());
         }
     }
     
@@ -94,5 +132,14 @@ public class BaggingLearning implements IRegression{
         }
         
         return Catalano.Statistics.Tools.Mean(map);
+    }
+    
+    @Override
+    public IRegression clone() {
+        try {
+            return (IRegression)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
+        }
     }
 }
