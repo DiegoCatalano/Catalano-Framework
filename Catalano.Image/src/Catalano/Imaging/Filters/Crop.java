@@ -21,6 +21,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Shapes.IntRectangle;
 
 /**
  * Crop an image.
@@ -119,6 +120,14 @@ public class Crop {
     public void setSize(int height, int width){
         this.height = height;
         this.width = width;
+    }
+    
+    /**
+     * Initialize a new instance of the Crop class.
+     * @param rectangle Rectangle.
+     */
+    public Crop(IntRectangle rectangle){
+        this(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
     
     /**

@@ -63,6 +63,7 @@ Catalano Framework 1.6 road map
     - New: IBinaryPattern.
 
 * Catalano.Image.Tools
+    - New: Blob Extractor.
     - New: Image Utils.
     - New: Spatial Pyramid Histogram.
     - New: Spatial Histogram.
@@ -70,6 +71,9 @@ Catalano Framework 1.6 road map
     - Added: Euler Number in the Shape Descriptors.
     - Added: new methods and ctor in the Curve.
 
+    - Reworked: Extract Biggest Blob.
+
+    - Fixed: Blob detection was computing bounding box with wrong size.
     - Fixed: Kernel.Decompose.
     - Fixed: RGBtoHSL in ColorConverter.
 

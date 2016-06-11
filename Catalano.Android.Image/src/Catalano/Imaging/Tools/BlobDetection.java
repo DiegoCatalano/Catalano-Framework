@@ -300,7 +300,7 @@ public class BlobDetection {
             int h = Math.abs(lst.get(0).x - lst.get(1).x);
             int w = Math.abs(lst.get(0).y - lst.get(1).y);
             
-            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x, lst.get(0).y, w, h));
+            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x-1, lst.get(0).y-1, w+2, h+2));
             blobs.add(blob);
             size++;
             id++;

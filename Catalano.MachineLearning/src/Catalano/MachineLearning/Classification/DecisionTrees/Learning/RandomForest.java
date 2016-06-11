@@ -390,7 +390,7 @@ public class RandomForest implements IClassifier, Serializable {
      * @param attributes the attribute properties.
      * @param T the number of trees.
      * @param M  the number of random selected features.
-     * @param seed Random seed.
+     * @param rule Split rule decision tree.
      */
     public RandomForest(DecisionVariable[] attributes, int T, int M, SplitRule rule){
         this(attributes, T, M, rule, 0);
