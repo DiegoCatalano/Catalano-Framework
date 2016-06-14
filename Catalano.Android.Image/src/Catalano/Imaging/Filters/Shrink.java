@@ -55,7 +55,7 @@ public class Shrink implements IApplyInPlace{
             //Minimum height
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
+                    if(fastBitmap.getGray(i*width+j) != 0){
                         minHeight = i;
                         found = true;
                         break;
@@ -69,7 +69,7 @@ public class Shrink implements IApplyInPlace{
             //Maximum height
             for (int i = height - 1; i >= 0; i--) {
                 for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
+                    if(fastBitmap.getGray(i*width+j) != 0){
                         maxHeight = i;
                         found = true;
                         break;
@@ -83,7 +83,7 @@ public class Shrink implements IApplyInPlace{
             //Minimum width
             for (int j = 0; j < height; j++) {
                 for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
+                    if(fastBitmap.getGray(i*width+j) != 0){
                         minWidth = j;
                         found = true;
                         break;
@@ -97,7 +97,7 @@ public class Shrink implements IApplyInPlace{
             //Maximum width
             for (int j = width - 1; j >= 0; j--) {
                 for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
+                    if(fastBitmap.getGray(i*width+j) != 0){
                         maxWidth = j;
                         found = true;
                         break;

@@ -7,6 +7,9 @@ Catalano Framework 1.6 road map
      - Added: Shuffle in the ArraysUtil.
 
 * Catalano.Image
+    - Added: toArrayGrayAsFloat.
+    - Added: toArrayGrayAsInt.
+    - Added: toArrayGrayAsDouble.
     - Added: clampValues in the FastBitmap class.
 
     - Reworked: toArrayGray and other related methods.
@@ -29,6 +32,7 @@ Catalano Framework 1.6 road map
 
     - Renamed: Watershed to BinaryWatershed.
 
+    - Fixed: Shrink in the grayscale.
     - Fixed: Separable Convolution.
     - Fixed: Kuwahara.
     - Fixed: Crop now is working in both coordinate system.

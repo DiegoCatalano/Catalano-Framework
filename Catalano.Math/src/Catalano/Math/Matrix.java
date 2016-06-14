@@ -24,6 +24,7 @@ package Catalano.Math;
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.IntPoint;
 import Catalano.Math.Decompositions.LUDecomposition;
+import Catalano.Math.Decompositions.QRDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
 import java.util.List;

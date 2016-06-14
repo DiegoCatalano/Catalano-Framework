@@ -42,15 +42,7 @@ public class BinaryErosion implements IApplyInPlace{
      * Initialize a new instance of the Binary Erosion class with radius = 1.
      */
     public BinaryErosion() {
-        this.radius = 1;
-    }
-    
-    /**
-     * Initialize a new instance of the Binary Erosion class with structuring element.
-     * @param se Structuring element.
-     */
-    public BinaryErosion(int[][] se) {
-        this.kernel = se;
+        this(1);
     }
 
     /**
@@ -60,6 +52,14 @@ public class BinaryErosion implements IApplyInPlace{
     public BinaryErosion(int radius) {
         radius = radius < 1 ? 1 : radius;
         this.radius = radius;
+    }
+    
+    /**
+     * Initialize a new instance of the Binary Erosion class with structuring element.
+     * @param se Structuring element.
+     */
+    public BinaryErosion(int[][] se) {
+        this.kernel = se;
     }
     
     /**

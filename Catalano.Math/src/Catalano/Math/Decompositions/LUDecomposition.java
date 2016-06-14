@@ -67,7 +67,7 @@ public class LUDecomposition implements java.io.Serializable {
 
    // Use a "left-looking", dot-product, Crout/Doolittle algorithm.
 
-      LU = matrix.clone();
+      LU = Matrix.Copy(matrix);
       m = matrix.length;
       n = matrix[0].length;
       piv = new int[m];

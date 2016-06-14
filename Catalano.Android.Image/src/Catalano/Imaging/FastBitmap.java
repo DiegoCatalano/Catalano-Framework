@@ -238,6 +238,42 @@ public class FastBitmap {
     }
     
     /**
+     * Convert the image to array of double representation.
+     * @return Array of the image.
+     */
+    public double[] toArrayGrayAsDouble(){
+        double[] array = new double[getHeight()*getWidth()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = getGray(i);
+        }
+        return array;
+    }
+    
+    /**
+     * Convert the image to array of double representation.
+     * @return Array of the image.
+     */
+    public int[] toArrayGrayAsInt(){
+        int[] array = new int[getHeight()*getWidth()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = getGray(i);
+        }
+        return array;
+    }
+    
+    /**
+     * Convert the image to array of double representation.
+     * @return Array of the image.
+     */
+    public float[] toArrayGrayAsFloat(){
+        float[] array = new float[getHeight()*getWidth()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = getGray(i);
+        }
+        return array;
+    }
+    
+    /**
      * Convert the image to matrix of integer representation.
      * @return Matrix of the image.
      */
