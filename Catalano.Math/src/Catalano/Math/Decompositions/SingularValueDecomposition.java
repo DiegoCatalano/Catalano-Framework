@@ -120,12 +120,23 @@ public class SingularValueDecomposition implements java.io.Serializable {
    
    private void Compute(double[][] matrix){
        
+       boolean swapped = false;
+       
        if(matrix.length == 0 && matrix[0].length == 0)
            throw new IllegalArgumentException("Matrix does not have any rows or columns.");
+       
+       double[][] A;
+       if(matrix.length < matrix[0].length){
+           A = Matrix.Transpose(matrix);
+           swapped = true;
+       }
+       else{
+           A = Matrix.Copy(matrix);
+       }
 
-      double[][] A = Matrix.Copy(matrix);
-      m = matrix.length;
-      n = matrix[0].length;
+      //double[][] A = Matrix.Copy(matrix);
+      m = A.length;
+      n = A[0].length;
 
       /* Apparently the failing cases are only a proper subset of (m<n), 
 	 so let's not throw error.  Correct fix to come later?
@@ -299,7 +310,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
       if (wantv) {
          for (int k = n-1; k >= 0; k--) {
             if ((k < nrt) & (e[k] != 0.0)) {
-               for (int j = k+1; j < nu; j++) {
+               for (int j = k+1; j < n; j++) {
                   double t = 0;
                   for (int i = k+1; i < n; i++) {
                      t += V[i][k]*V[i][j];
@@ -537,6 +548,13 @@ public class SingularValueDecomposition implements java.io.Serializable {
             break;
          }
       }
+      
+      if(swapped){
+          double[][] temp = Matrix.Copy(U);
+          this.U = this.V;
+          this.V = temp;
+      }
+      
    }
 
    /**
@@ -552,16 +570,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
     * @return Right singular vectors.
     */
    public double[][] getV () {
-       double[][] v = new double[n][n];
-       
-       for (int i = 0; i < v.length; i++) {
-           for (int j = 0; j < v[0].length; j++) {
-               v[i][j] = V[i][j];
-           }
-       }
-       
-       return v;
-       
+       return V;
    }
 
    /** Return the one-dimensional array of singular values

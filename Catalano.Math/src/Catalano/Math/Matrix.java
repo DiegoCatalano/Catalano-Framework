@@ -2018,11 +2018,6 @@ public final class Matrix {
      * @return Pseudo-inverse of the matrix.
      */
     public static double[][] PseudoInverse(double[][] A){
-        if(A.length < A[0].length){
-            double[][] copy = Matrix.Transpose(A);
-            return new SingularValueDecomposition(copy).inverse();
-        }
-
         return new SingularValueDecomposition(A).inverse();
     }
     
