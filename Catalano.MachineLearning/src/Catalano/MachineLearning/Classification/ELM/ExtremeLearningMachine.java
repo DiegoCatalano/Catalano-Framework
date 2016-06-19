@@ -163,7 +163,6 @@ public class ExtremeLearningMachine implements IClassifier{
         
         double[] r = Matrix.Multiply(temp, outputWeight);
         int v = Matrix.MaxIndex(r);
-        System.out.println(v);
         
         return v;
         
