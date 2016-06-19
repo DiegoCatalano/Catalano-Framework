@@ -1,9 +1,11 @@
-// Catalano Machine Learning Library
+// Catalano Neuro Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2016
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
+// Copyright © Andrew Kirillov, 2007-2008
+// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,13 +22,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM;
+package Catalano.MachineLearning.Classification.ELM.Functions;
 
 /**
- * Activation function.
+ * Threshold activation function.
  * @author Diego Catalano
  */
-public interface IActivationFunction {
-    void Compute(double[][] x);
-    void Compute(double[] x);
+public class ThresholdFunction implements IActivationFunction{
+
+    @Override
+    public double Compute(double x) {
+        return ( x >= 0 ) ? 1 : 0;
+    }
+    
 }

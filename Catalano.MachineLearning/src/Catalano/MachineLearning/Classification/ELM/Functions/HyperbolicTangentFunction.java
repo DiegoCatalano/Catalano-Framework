@@ -1,7 +1,7 @@
-// Catalano Machine Learning Library
+// Catalano Neuro Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2016
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
 //
@@ -20,29 +20,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM;
+package Catalano.MachineLearning.Classification.ELM.Functions;
 
 /**
- * Sigmoid function.
+ * Hyperbolic tangent sigmoid activation function.
  * @author Diego Catalano
  */
-public class Sigmoid implements IActivationFunction{
-
-    public Sigmoid() {}
+public class HyperbolicTangentFunction implements IActivationFunction{
 
     @Override
-    public void Compute(double[][] x) {
-        for (int i = 0; i < x.length; i++) {
-            for (int j = 0; j < x[0].length; j++) {
-                x[i][j] = 1.0 / (1.0 + Math.exp(-x[i][j]));
-            }
-        }
+    public double Compute(double x) {
+        return Math.tanh(x);
     }
-
-    @Override
-    public void Compute(double[] x) {
-        for (int i = 0; i < x.length; i++) {
-            x[i] = 1.0 / (1.0 + Math.exp(-x[i]));
-        }
-    }
+    
 }

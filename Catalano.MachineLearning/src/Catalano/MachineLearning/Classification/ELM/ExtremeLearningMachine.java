@@ -28,6 +28,8 @@
 
 package Catalano.MachineLearning.Classification.ELM;
 
+import Catalano.MachineLearning.Classification.ELM.Functions.SigmoidFunction;
+import Catalano.MachineLearning.Classification.ELM.Functions.IActivationFunction;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
@@ -42,7 +44,7 @@ public class ExtremeLearningMachine implements IClassifier{
     
     private int nHiddenNodes;
     private IActivationFunction function;
-    private double c = 10;
+    private double c = 1;
     
     private double[] bias;
     private double[][] inputWeight;
@@ -69,7 +71,7 @@ public class ExtremeLearningMachine implements IClassifier{
      * @param c Regularization factor.
      */
     public ExtremeLearningMachine(int nHiddenNodes, double c){
-        this(nHiddenNodes, c, new Sigmoid());
+        this(nHiddenNodes, c, new SigmoidFunction());
     }
 
     /**
@@ -136,8 +138,12 @@ public class ExtremeLearningMachine implements IClassifier{
             }
         }
         
-        //Compute a function
-        function.Compute(h);
+        //Compute functions
+        for (int i = 0; i < h.length; i++) {
+            for (int j = 0; j < h[0].length; j++) {
+                h[i][j] = function.Compute(h[i][j]);
+            }
+        }
         
         //Add regularization factor.
         double[][] b = Matrix.MultiplyByTranspose(h);
@@ -149,6 +155,7 @@ public class ExtremeLearningMachine implements IClassifier{
         //Calculate the output weight
         outputWeight = Matrix.Multiply(Matrix.Inverse(b), h);
         outputWeight = Matrix.Multiply(outputWeight, Matrix.Transpose(t));
+        
     }
 
     @Override
@@ -158,10 +165,15 @@ public class ExtremeLearningMachine implements IClassifier{
         Matrix.Add(temp, bias);
         
         //Compute the function
-        function.Compute(temp);
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = function.Compute(temp[i]);
+        }
         
         double[] r = Matrix.Multiply(temp, outputWeight);
-        return Matrix.MaxIndex(r);
+        int v = Matrix.MaxIndex(r);
+        
+        return v;
+        
     }
     
     /**
@@ -174,7 +186,9 @@ public class ExtremeLearningMachine implements IClassifier{
         Matrix.Add(temp, bias);
         
         //Compute the function
-        function.Compute(temp);
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = function.Compute(temp[i]);
+        }
         
         double[] r = Matrix.Multiply(temp, outputWeight);
         return Matrix.Max(r);
