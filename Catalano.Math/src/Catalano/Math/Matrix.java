@@ -1562,6 +1562,66 @@ public final class Matrix {
     }
     
     /**
+     * Multiply A vector by a matrix B.
+     * @param A Vector.
+     * @param B Matrix.
+     * @return Result of the multiplication.
+     */
+    public static double[] Multiply(double[] A, double[][] B){
+        
+        if(A.length != B[0].length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
+        
+        double[] r = new double[B[0].length];
+        for (int j = 0; j < B[0].length; j++) {
+            for (int i = 0; i < B.length; i++) {
+                r[j] += A[i] * B[i][j];
+            }
+        }
+        return r;
+    }
+    
+    /**
+     * Multiply A vector by a matrix B.
+     * @param A Vector.
+     * @param B Matrix.
+     * @return Result of the multiplication.
+     */
+    public static int[] Multiply(int[] A, int[][] B){
+        
+        if(A.length != B[0].length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
+        
+        int[] r = new int[B[0].length];
+        for (int j = 0; j < B[0].length; j++) {
+            for (int i = 0; i < B.length; i++) {
+                r[j] += A[i] * B[i][j];
+            }
+        }
+        return r;
+    }
+    
+    /**
+     * Multiply A vector by a matrix B.
+     * @param A Vector.
+     * @param B Matrix.
+     * @return Result of the multiplication.
+     */
+    public static float[] Multiply(float[] A, float[][] B){
+        
+        if(A.length != B[0].length)
+            throw new IllegalArgumentException("Illegal matrix dimensions.");
+        
+        float[] r = new float[B[0].length];
+        for (int j = 0; j < B[0].length; j++) {
+            for (int i = 0; i < B.length; i++) {
+                r[j] += A[i] * B[i][j];
+            }
+        }
+        return r;
+    }
+    
+    /**
      * Multiply two matrices.
      * @param A Matrix.
      * @param B Matrix.
