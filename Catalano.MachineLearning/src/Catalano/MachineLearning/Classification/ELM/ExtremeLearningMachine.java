@@ -42,7 +42,7 @@ public class ExtremeLearningMachine implements IClassifier{
     
     private int nHiddenNodes;
     private IActivationFunction function;
-    private double c = 1;
+    private double c = 10;
     
     private double[] bias;
     private double[][] inputWeight;
@@ -149,7 +149,6 @@ public class ExtremeLearningMachine implements IClassifier{
         //Calculate the output weight
         outputWeight = Matrix.Multiply(Matrix.Inverse(b), h);
         outputWeight = Matrix.Multiply(outputWeight, Matrix.Transpose(t));
-        
     }
 
     @Override
@@ -162,10 +161,23 @@ public class ExtremeLearningMachine implements IClassifier{
         function.Compute(temp);
         
         double[] r = Matrix.Multiply(temp, outputWeight);
-        int v = Matrix.MaxIndex(r);
+        return Matrix.MaxIndex(r);
+    }
+    
+    /**
+     * Compute the probability of the predicted feature.
+     * @param feature Feature.
+     * @return probability of the predicted feature.
+     */
+    public double Probability(double[] feature){
+        double[] temp = Matrix.MultiplyByTranspose(inputWeight, feature);
+        Matrix.Add(temp, bias);
         
-        return v;
+        //Compute the function
+        function.Compute(temp);
         
+        double[] r = Matrix.Multiply(temp, outputWeight);
+        return Matrix.Max(r);
     }
 
     @Override
