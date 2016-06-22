@@ -33,6 +33,7 @@ import Catalano.MachineLearning.Classification.ELM.Functions.IActivationFunction
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -40,7 +41,7 @@ import java.util.Random;
  * Extreme Learning Machine.
  * @author Diego Catalano
  */
-public class ExtremeLearningMachine implements IClassifier{
+public class ExtremeLearningMachine implements IClassifier, Serializable{
     
     private int nHiddenNodes;
     private IActivationFunction function;
@@ -49,6 +50,102 @@ public class ExtremeLearningMachine implements IClassifier{
     private double[] bias;
     private double[][] inputWeight;
     private double[][] outputWeight;
+
+    /**
+     * Get the number of hidden nodes.
+     * @return Number of hidden nodes.
+     */
+    public int getNumberOfHiddenNodes() {
+        return nHiddenNodes;
+    }
+
+    /**
+     * Set the number of hidden nodes.
+     * @param nHiddenNodes Number of hidden nodes.
+     */
+    public void setNumberOfHiddenNodes(int nHiddenNodes) {
+        this.nHiddenNodes = nHiddenNodes;
+    }
+
+    /**
+     * Get regularization factor.
+     * @return Regularization factor.
+     */
+    public double getRegulazationFactor() {
+        return c;
+    }
+    
+    /**
+     * Set regularization factor.
+     * @param c Regularization factor.
+     */
+    public void setRegularizationFactor(double c){
+        this.c = Math.max(1, c);
+    }
+
+    /**
+     * Get the bias of the hidden nodes.
+     * @return Bias of the hidden nodes.
+     */
+    public double[] getBias() {
+        return bias;
+    }
+
+    /**
+     * Set the bias of the hidden nodes.
+     * @param bias Bias of the hidden nodes.
+     */
+    public void setBias(double[] bias) {
+        this.bias = bias;
+    }
+
+    /**
+     * Get the input weight.
+     * @return Input weight.
+     */
+    public double[][] getInputWeight() {
+        return inputWeight;
+    }
+
+    /**
+     * Set the input weight.
+     * @param inputWeight Input weight.
+     */
+    public void setInputWeight(double[][] inputWeight) {
+        this.inputWeight = inputWeight;
+    }
+
+    /**
+     * Get the output weight.
+     * @return Output weight.
+     */
+    public double[][] getOutputWeight() {
+        return outputWeight;
+    }
+
+    /**
+     * Set the output weight.
+     * @param outputWeight Output weight.
+     */
+    public void setOutputWeight(double[][] outputWeight) {
+        this.outputWeight = outputWeight;
+    }
+
+    /**
+     * Get the activation function.
+     * @return Activation function.
+     */
+    public IActivationFunction getFunction() {
+        return function;
+    }
+
+    /**
+     * Set the activation function.
+     * @param function Activation function.
+     */
+    public void setFunction(IActivationFunction function) {
+        this.function = function;
+    }
     
     /**
      * Initializes a new instance of the ExtremeLearningMachine class.
