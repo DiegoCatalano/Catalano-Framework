@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.FeatureSelection;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
 
 /**
@@ -38,6 +39,11 @@ public class MeanVarianceFeatureSelection implements ISupervisionedFeatureSelect
      * Initializes a new instance of the MeanVarianceFeatureSelection class.
      */
     public MeanVarianceFeatureSelection() {}
+
+    @Override
+    public void Compute(DatasetClassification dataset) {
+        Compute(dataset.getInput(), dataset.getOutput());
+    }
 
     @Override
     public void Compute(double[][] input, int[] labels) {

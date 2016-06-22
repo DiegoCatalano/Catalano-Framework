@@ -784,6 +784,14 @@ public final class Matrix {
         return v;
     }
     
+    public static <T> T[] getColumns(T[] A, int[] indexes){
+        T[] v = (T[])Array.newInstance(A[0].getClass(), indexes.length);
+        for (int i = 0; i < v.length; i++) {
+            v[i] = A[indexes[i]];
+        }
+        return v;
+    }
+    
     /**
      * Return a vector from specified range.
      * @param A Vector.

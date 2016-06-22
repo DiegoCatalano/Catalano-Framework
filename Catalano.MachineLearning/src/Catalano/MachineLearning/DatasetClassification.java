@@ -365,6 +365,7 @@ public class DatasetClassification implements Serializable{
         this.input = dataset.getInput();
         this.output = dataset.getOutput();
         this.numClasses = dataset.getNumberOfClasses();
+        this.classIndex = dataset.getClassIndex();
     }
     
     /**
@@ -464,18 +465,18 @@ public class DatasetClassification implements Serializable{
         double[][] range = new double[2][continuous];
         
         int idx = 0;
-        for (int i = 0; i < attributes.length - 1; i++) {
+        for (int i = 0; i < attributes.length; i++) {
             if(i != classIndex){
                 if(attributes[i].type == DecisionVariable.Type.Continuous){
-                    double[] temp = Matrix.getColumn(input, i);
+                    double[] temp = Matrix.getColumn(input, idx);
                     double _min = Catalano.Statistics.Tools.Min(temp);
                     double _max = Catalano.Statistics.Tools.Max(temp);
                     range[0][idx] = _min;
                     range[1][idx] = _max;
-                    idx++;
                     for (int j = 0; j < temp.length; j++) {
-                        input[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+                        input[j][idx] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
                     }
+                    idx++;
                 }
             }
         }
@@ -490,6 +491,24 @@ public class DatasetClassification implements Serializable{
     public void RemoveAttribute(int index){
         this.input = Matrix.RemoveColumn(input, index);
         this.attributes = Matrix.RemoveColumn(attributes, index);
+    }
+    
+    /**
+     * Remove attributes.
+     * @param indexes Indexes of the attributes.
+     */
+    public void RemoveAttribute(int[] indexes){
+        this.input = Matrix.RemoveColumns(input, indexes);
+        this.attributes = Matrix.RemoveColumns(attributes, indexes);
+    }
+    
+    /**
+     * Keep the selected attributes and remove the rest.
+     * @param indexes Indexes of the attributes.
+     */
+    public void KeepAttributes(int[] indexes){
+        this.input = Matrix.getColumns(input, indexes);
+        this.attributes = Matrix.getColumns(attributes, indexes);
     }
     
     /**
@@ -597,18 +616,18 @@ public class DatasetClassification implements Serializable{
         double[][] range = new double[2][continuous];
         
         int idx = 0;
-        for (int i = 0; i < attributes.length - 1; i++) {
+        for (int i = 0; i < attributes.length; i++) {
             if(i != classIndex){
                 if(attributes[i].type == DecisionVariable.Type.Continuous){
-                    double[] temp = Matrix.getColumn(input, i);
+                    double[] temp = Matrix.getColumn(input, idx);
                     double mean = Catalano.Statistics.Tools.Mean(temp);
                     double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
                     range[0][idx] = mean;
                     range[1][idx] = std;
-                    idx++;
                     for (int j = 0; j < temp.length; j++) {
-                        input[j][i] = (input[j][i] - mean) / std;
+                        input[j][idx] = (input[j][idx] - mean) / std;
                     }
+                    idx++;
                 }
             }
         }

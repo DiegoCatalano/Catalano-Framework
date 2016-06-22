@@ -54,6 +54,15 @@ public final class Tools {
     public static double Square(double x){
         return x*x;
     }
+    
+    /**
+     * Sinc function.
+     * @param x Value.
+     * @return Sinc of the value.
+     */
+    public static double Sinc(double x){
+        return Math.sin(Math.PI * x) / (Math.PI * x);
+    }
 
     /**
      * Don't let anyone instantiate this class.
@@ -127,44 +136,109 @@ public final class Tools {
         return b;
     }
     
-    /**
-     * Check if the string is numeric.
-     * @param number Number.
-     * @return True if the string is numeric, otherwise false.
-     */
-    public static boolean isNumeric(final String number){
-        if(number.length() == 0)
-            return false;
-        
-        int dot = 0;
-        int idx = 0;
-        
-        char c = number.charAt(0);
-        boolean t = Character.isDigit(c);
-        
-        //Check if is negative or if the number starts with dot.
-        if(number.charAt(0) == '-'){
-            idx = 1;
-        }
-        else if (number.charAt(0) == '.'){
-            dot = 1;
-        }
-        
-        for (int i = idx; i < number.length(); i++) {
-            if(Character.isDigit(number.charAt(i))){
-            
+        public static boolean isNumeric(String str) {
+            if (str.length() == 0) {
+                return false;
             }
-            else{
-                if(number.charAt(i) == '.')
-                    dot++;
-                else
+            char[] chars = str.toCharArray();
+            int sz = chars.length;
+            boolean hasExp = false;
+            boolean hasDecPoint = false;
+            boolean allowSigns = false;
+            boolean foundDigit = false;
+            // deal with any possible sign up front
+            int start = (chars[0] == '-') ? 1 : 0;
+            if (sz > start + 1) {
+                if (chars[start] == '0' && chars[start + 1] == 'x') {
+                    int i = start + 2;
+                    if (i == sz) {
+                        return false; // str == "0x"
+                    }
+                    // checking hex (it can't be anything else)
+                    for (; i < chars.length; i++) {
+                        if ((chars[i] < '0' || chars[i] > '9')
+                            && (chars[i] < 'a' || chars[i] > 'f')
+                            && (chars[i] < 'A' || chars[i] > 'F')) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            sz--; // don't want to loop to the last char, check it afterwords
+                  // for type qualifiers
+            int i = start;
+            // loop to the next to last char or to the last char if we need another digit to
+            // make a valid number (e.g. chars[0..5] = "1234E")
+            while (i < sz || (i < sz + 1 && allowSigns && !foundDigit)) {
+                if (chars[i] >= '0' && chars[i] <= '9') {
+                    foundDigit = true;
+                    allowSigns = false;
+    
+                } else if (chars[i] == '.') {
+                    if (hasDecPoint || hasExp) {
+                        // two decimal points or dec in exponent   
+                        return false;
+                    }
+                    hasDecPoint = true;
+                } else if (chars[i] == 'e' || chars[i] == 'E') {
+                    // we've already taken care of hex.
+                    if (hasExp) {
+                        // two E's
+                        return false;
+                    }
+                    if (!foundDigit) {
+                        return false;
+                    }
+                    hasExp = true;
+                    allowSigns = true;
+                } else if (chars[i] == '+' || chars[i] == '-') {
+                    if (!allowSigns) {
+                        return false;
+                    }
+                    allowSigns = false;
+                    foundDigit = false; // we need a digit after the E
+                } else {
                     return false;
+                }
+                i++;
             }
+            if (i < chars.length) {
+                if (chars[i] >= '0' && chars[i] <= '9') {
+                    // no type qualifier, OK
+                    return true;
+                }
+                if (chars[i] == 'e' || chars[i] == 'E') {
+                    // can't have an E at the last byte
+                    return false;
+                }
+                if (chars[i] == '.') {
+                    if (hasDecPoint || hasExp) {
+                        // two decimal points or dec in exponent
+                        return false;
+                    }
+                    // single trailing decimal point after non-exponent is ok
+                    return foundDigit;
+                }
+                if (!allowSigns
+                    && (chars[i] == 'd'
+                        || chars[i] == 'D'
+                        || chars[i] == 'f'
+                        || chars[i] == 'F')) {
+                    return foundDigit;
+                }
+                if (chars[i] == 'l'
+                    || chars[i] == 'L') {
+                    // not allowing L with an exponent
+                    return foundDigit && !hasExp;
+                }
+                // last character is illegal
+                return false;
+            }
+            // allowSigns is true iff the val ends in 'E'
+            // found digit it to make sure weird stuff like '.' and '1E-' doesn't pass
+            return !allowSigns && foundDigit;
         }
-        
-        if(dot > 1) return false;
-        return true;
-    }
     
     /**
      * Checks if the specified integer is power of 2.

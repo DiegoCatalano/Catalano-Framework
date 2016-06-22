@@ -1,9 +1,11 @@
-// Catalano Machine Learning Library
+// Catalano Neuro Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
+// Copyright © Andrew Kirillov, 2007-2008
+// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,39 +22,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.FeatureSelection;
-
-import Catalano.MachineLearning.DatasetClassification;
+package Catalano.MachineLearning.Classification.ELM.Functions;
 
 /**
- * Interface represents supervisioned feature selection.
+ * Linear activation function.
+ * https://en.wikipedia.org/wiki/Activation_function#Comparison_of_activation_functions
  * @author Diego Catalano
  */
-public interface ISupervisionedFeatureSelection {
+public class SoftPlusFunction implements IActivationFunction{
+
+    @Override
+    public double Compute(double x) {
+        return Math.log(Math.exp(x) + 1);
+    }
     
-    
-    /**
-     * Compute the feature selection.
-     * @param dataset Dataset.
-     */
-    public void Compute(DatasetClassification dataset);
-    
-    /**
-     * Compute the feature selection.
-     * @param input Input.
-     * @param labels Labels.
-     */
-    public void Compute(double[][] input, int[] labels);
-    
-    /**
-     * Get the feature index.
-     * @return Feature index.
-     */
-    public int[] getFeatureIndex();
-    
-    /**
-     * Get the rank of the features.
-     * @return 
-     */
-    public double[] getRank();
 }

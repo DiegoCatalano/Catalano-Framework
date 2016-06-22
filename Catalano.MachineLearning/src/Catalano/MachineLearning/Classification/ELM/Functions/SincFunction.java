@@ -1,4 +1,4 @@
-// Catalano Machine Learning Library
+// Catalano Neuro Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2015
@@ -20,39 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.FeatureSelection;
+package Catalano.MachineLearning.Classification.ELM.Functions;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.Math.Tools;
 
 /**
- * Interface represents supervisioned feature selection.
+ * Sine activation function.
  * @author Diego Catalano
  */
-public interface ISupervisionedFeatureSelection {
+public class SincFunction implements IActivationFunction{
+
+    @Override
+    public double Compute(double x) {
+        if(x == 0) return 1;
+        return Tools.Sinc(x);
+    }
     
-    
-    /**
-     * Compute the feature selection.
-     * @param dataset Dataset.
-     */
-    public void Compute(DatasetClassification dataset);
-    
-    /**
-     * Compute the feature selection.
-     * @param input Input.
-     * @param labels Labels.
-     */
-    public void Compute(double[][] input, int[] labels);
-    
-    /**
-     * Get the feature index.
-     * @return Feature index.
-     */
-    public int[] getFeatureIndex();
-    
-    /**
-     * Get the rank of the features.
-     * @return 
-     */
-    public double[] getRank();
 }
