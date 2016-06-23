@@ -1,7 +1,7 @@
-// Catalano Neuro Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2016
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
@@ -29,6 +29,11 @@ package Catalano.MachineLearning.Classification.ELM.Functions;
  * @author Diego Catalano
  */
 public class ThresholdFunction implements IActivationFunction{
+
+    /**
+     * Initializes a new instance of the ThresholdFunction class.
+     */
+    public ThresholdFunction() {}
 
     @Override
     public double Compute(double x) {

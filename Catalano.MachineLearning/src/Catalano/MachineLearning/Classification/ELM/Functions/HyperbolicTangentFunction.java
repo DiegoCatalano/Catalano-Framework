@@ -1,7 +1,7 @@
-// Catalano Neuro Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2016
 // diego.catalano at live.com
 //
 //
@@ -27,6 +27,11 @@ package Catalano.MachineLearning.Classification.ELM.Functions;
  * @author Diego Catalano
  */
 public class HyperbolicTangentFunction implements IActivationFunction{
+
+    /**
+     * Initializes a new instance of the HyperbolicTangentFunction class.
+     */
+    public HyperbolicTangentFunction() {}
 
     @Override
     public double Compute(double x) {

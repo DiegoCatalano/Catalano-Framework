@@ -1,11 +1,9 @@
-// Catalano Neuro Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2016
 // diego.catalano at live.com
 //
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -25,11 +23,15 @@
 package Catalano.MachineLearning.Classification.ELM.Functions;
 
 /**
- * Linear activation function.
- * https://en.wikipedia.org/wiki/Activation_function#Comparison_of_activation_functions
+ * Soft plus activation function.
  * @author Diego Catalano
  */
 public class SoftPlusFunction implements IActivationFunction{
+
+    /**
+     * Initializes a new instance of the SoftPlusFunction class.
+     */
+    public SoftPlusFunction() {}
 
     @Override
     public double Compute(double x) {

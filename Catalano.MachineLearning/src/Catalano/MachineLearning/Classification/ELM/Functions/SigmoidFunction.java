@@ -1,7 +1,7 @@
-// Catalano Neuro Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2016
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008

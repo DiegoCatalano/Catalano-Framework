@@ -691,7 +691,7 @@ public class DatasetClassification implements Serializable{
     }
     
     public void WriteAsCSV(String filename, int decimalPlaces, char delimiter, String newLine){
-        WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"), false);
+        WriteAsCSV(filename,decimalPlaces,delimiter, System.getProperty("line.separator"), true);
     }
     
     /**

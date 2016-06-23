@@ -1,7 +1,7 @@
-// Catalano Neuro Library
+// Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2016
 // diego.catalano at live.com
 //
 //
@@ -25,7 +25,7 @@ package Catalano.MachineLearning.Classification.ELM.Functions;
 import Catalano.Math.Tools;
 
 /**
- * Sine activation function.
+ * Sinc activation function.
  * @author Diego Catalano
  */
 public class SincFunction implements IActivationFunction{
