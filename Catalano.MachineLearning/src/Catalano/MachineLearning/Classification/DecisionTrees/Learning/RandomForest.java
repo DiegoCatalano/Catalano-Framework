@@ -32,12 +32,12 @@ import Catalano.MachineLearning.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.DatasetClassification;
 import Catalano.Math.Matrix;
-import Catalano.Math.Random;
 import Catalano.Math.Tools;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 
 /**
