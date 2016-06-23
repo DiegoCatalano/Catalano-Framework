@@ -1,7 +1,7 @@
  // Catalano Android Imaging Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
 //    This library is free software; you can redistribute it and/or

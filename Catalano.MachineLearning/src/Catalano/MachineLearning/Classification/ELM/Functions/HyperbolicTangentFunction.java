@@ -1,7 +1,7 @@
 // Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2016
+// Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
 //

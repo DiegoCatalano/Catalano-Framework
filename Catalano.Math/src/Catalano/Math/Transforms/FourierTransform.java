@@ -1,7 +1,7 @@
 // Catalano Imaging Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
 // Copyright © Nayuki Minase, 2014

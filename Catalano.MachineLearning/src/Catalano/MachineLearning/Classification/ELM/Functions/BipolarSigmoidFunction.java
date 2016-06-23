@@ -1,7 +1,7 @@
 // Catalano Neuro Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2015
+// Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
 // Copyright © Andrew Kirillov, 2007-2008
