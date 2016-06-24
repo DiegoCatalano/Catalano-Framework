@@ -23,49 +23,23 @@
 package Catalano.MachineLearning.Classification.ELM.Functions;
 
 /**
- * ReLU activation function.
+ * Triangular basis activation function.
  * @author Diego Catalano
  */
-public class ReluFunction implements IActivationFunction{
-    
-    private double alpha = 1;
+public class TriangularBasisFunction implements IActivationFunction{
 
     /**
-     * Get alpha parameter.
-     * @return Alpha parameter.
+     * Initializes a new instance of the TriangularBasisFunction class.
      */
-    public double getAlpha() {
-        return alpha;
-    }
-
-    /**
-     * Set alpha parameter.
-     * @param alpha Alpha parameter.
-     */
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    /**
-     * Initializes a new instance of the ReluFunction function.
-     */
-    public ReluFunction() {
-        this(0);
-    }
-    
-    /**
-     * Initializes a new instance of the ReluFunction function.
-     * @param alpha Alpha.
-     */
-    public ReluFunction(double alpha){
-        this.alpha = alpha;
-    }
+    public TriangularBasisFunction() {}
 
     @Override
     public double Compute(double x) {
         if(x < 0)
-            return alpha*x;
-        return x;
+            return 0;
+        else if (x > 1)
+            return 0;
+        return 1 - Math.abs(x);
     }
     
 }
