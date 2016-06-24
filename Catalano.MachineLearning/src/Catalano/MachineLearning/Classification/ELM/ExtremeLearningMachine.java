@@ -46,6 +46,7 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
     private int nHiddenNodes;
     private IActivationFunction function;
     private double c = 1;
+    private long seed = 0;
     
     private double[] bias;
     private double[][] inputWeight;
@@ -146,6 +147,22 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
     public void setFunction(IActivationFunction function) {
         this.function = function;
     }
+
+    /**
+     * Get random seed.
+     * @return Seed.
+     */
+    public long getSeed() {
+        return seed;
+    }
+
+    /**
+     * Set random seed.
+     * @param seed Seed.
+     */
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
     
     /**
      * Initializes a new instance of the ExtremeLearningMachine class.
@@ -178,9 +195,21 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
      * @param function Activation function.
      */
     public ExtremeLearningMachine(int nHiddenNodes, double c, IActivationFunction function) {
+        this(nHiddenNodes, c, function, 0);
+    }
+    
+    /**
+     * Initializes a new instance of the ExtremeLearningMachine class.
+     * @param nHiddenNodes Number of hidden nodes.
+     * @param c Regularization factor.
+     * @param function Activation function.
+     * @param seed Random seed.
+     */
+    public ExtremeLearningMachine(int nHiddenNodes, double c, IActivationFunction function, long seed){
         this.nHiddenNodes = nHiddenNodes;
         this.c = c;
         this.function = function;
+        this.seed = seed;
     }
 
     @Override
@@ -192,6 +221,7 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
     public void Learn(double[][] input, int[] output) {
         
         Random r = new Random();
+        if(seed != 0) r.setSeed(seed);
         
         //Transpose initial data
         double[][] _input = Matrix.Transpose(input);
