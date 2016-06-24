@@ -21,6 +21,8 @@
 
 package Catalano.Statistics;
 
+import Catalano.Core.ArraysUtil;
+
 /**
  * Used to compare two vectors in feature space by finding the similarity between the two.
  * @author Diego Catalano
@@ -82,13 +84,16 @@ public final class Correlations {
     
     public static double SpearmanCorrelation(double[] x, double[] y){
         
+        int[] r1 = ArraysUtil.Argsort(x, true);
+        int[] r2 = ArraysUtil.Argsort(y, true);
+        
         double diff = 0;
-        for (int i = 0; i < x.length; i++) {
-            diff += x[i] - y[i];
+        for (int i = 0; i < r1.length; i++) {
+            diff += r1[i] - r2[i];
         }
         diff *= 6;
         
-        double den = x.length * (Math.pow(x.length,2) - 1);
+        double den = r1.length * (Math.pow(r1.length,2) - 1);
         
         return 1 - (diff / den);
     }
