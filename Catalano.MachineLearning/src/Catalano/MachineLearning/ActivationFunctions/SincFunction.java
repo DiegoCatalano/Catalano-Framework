@@ -20,22 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
+
+import Catalano.Math.Tools;
 
 /**
- * Hyperbolic tangent sigmoid activation function.
+ * Sinc activation function.
  * @author Diego Catalano
  */
-public class HyperbolicTangentFunction implements IActivationFunction{
-
-    /**
-     * Initializes a new instance of the HyperbolicTangentFunction class.
-     */
-    public HyperbolicTangentFunction() {}
+public class SincFunction implements IActivationFunction{
 
     @Override
     public double Compute(double x) {
-        return Math.tanh(x);
+        if(x == 0) return 1;
+        return Tools.Sinc(x);
     }
     
 }

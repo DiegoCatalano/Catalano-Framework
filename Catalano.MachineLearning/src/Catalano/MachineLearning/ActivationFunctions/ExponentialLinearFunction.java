@@ -20,20 +20,52 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
-
-import Catalano.Math.Tools;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Sinc activation function.
+ * Exponential linear activation function.
  * @author Diego Catalano
  */
-public class SincFunction implements IActivationFunction{
+public class ExponentialLinearFunction implements IActivationFunction{
+    
+    private double alpha;
+
+    /**
+     * Get alpha parameter.
+     * @return Alpha parameter.
+     */
+    public double getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * Set alpha parameter.
+     * @param alpha Alpha parameter.
+     */
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
+    }
+
+    /**
+     * Initializes a new instance of the ExponentialLinearFunction class.
+     */
+    public ExponentialLinearFunction() {
+        this(1);
+    }
+
+    /**
+     * Initializes a new instance of the ExponentialLinearFunction class.
+     * @param alpha Alpha.
+     */
+    public ExponentialLinearFunction(double alpha) {
+        this.alpha = alpha;
+    }
 
     @Override
     public double Compute(double x) {
-        if(x == 0) return 1;
-        return Tools.Sinc(x);
+        if(x < 0)
+            return alpha * (Math.exp(x) - 1);
+        return x;
     }
     
 }

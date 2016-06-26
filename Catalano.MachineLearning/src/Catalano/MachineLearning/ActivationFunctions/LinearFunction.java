@@ -4,6 +4,8 @@
 // Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
+// Copyright © Andrew Kirillov, 2007-2008
+// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,51 +22,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * ReLU activation function.
+ * Linear activation function.
  * @author Diego Catalano
  */
-public class ReluFunction implements IActivationFunction{
-    
-    private double alpha = 1;
+public class LinearFunction implements IActivationFunction{
 
     /**
-     * Get alpha parameter.
-     * @return Alpha parameter.
+     * Initializes a new instance of the LinearFunction class.
      */
-    public double getAlpha() {
-        return alpha;
-    }
-
-    /**
-     * Set alpha parameter.
-     * @param alpha Alpha parameter.
-     */
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    /**
-     * Initializes a new instance of the ReluFunction function.
-     */
-    public ReluFunction() {
-        this(0);
-    }
-    
-    /**
-     * Initializes a new instance of the ReluFunction function.
-     * @param alpha Alpha.
-     */
-    public ReluFunction(double alpha){
-        this.alpha = alpha;
-    }
+    public LinearFunction() {}
 
     @Override
     public double Compute(double x) {
-        if(x < 0)
-            return alpha*x;
         return x;
     }
     

@@ -20,15 +20,15 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Soft exponential activation function.
+ * ReLU activation function.
  * @author Diego Catalano
  */
-public class SoftExponentialFunction implements IActivationFunction{
+public class ReluFunction implements IActivationFunction{
     
-    private double alpha;
+    private double alpha = 1;
 
     /**
      * Get alpha parameter.
@@ -47,29 +47,25 @@ public class SoftExponentialFunction implements IActivationFunction{
     }
 
     /**
-     * Initializes a new instance of the SoftExponentialFunction class.
+     * Initializes a new instance of the ReluFunction function.
      */
-    public SoftExponentialFunction() {
+    public ReluFunction() {
         this(0);
     }
-
+    
     /**
-     * Initializes a new instance of the SoftExponentialFunction class.
+     * Initializes a new instance of the ReluFunction function.
      * @param alpha Alpha.
      */
-    public SoftExponentialFunction(double alpha) {
+    public ReluFunction(double alpha){
         this.alpha = alpha;
     }
 
     @Override
     public double Compute(double x) {
-        if(alpha == 0)
-            return x;
-        
-        if(alpha < 0)
-            return - (Math.log(1 - alpha * (x + alpha))) / alpha;
-        else
-            return ((Math.exp(alpha*x) - 1) / alpha) + alpha;
+        if(x < 0)
+            return alpha*x;
+        return x;
     }
     
 }

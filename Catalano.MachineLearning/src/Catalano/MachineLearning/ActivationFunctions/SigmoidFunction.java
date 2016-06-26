@@ -4,6 +4,8 @@
 // Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
+// Copyright © Andrew Kirillov, 2007-2008
+// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,22 +22,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Soft sign activation function.
+ * Sigmoid activation function.
  * @author Diego Catalano
  */
-public class SoftSignFunction implements IActivationFunction{
+public class SigmoidFunction implements IActivationFunction{
 
     /**
-     * Initializes a new instance of the SoftSignFunction class.
+     * Initializes a new instance of the SigmoidFunction class.
      */
-    public SoftSignFunction() {}
+    public SigmoidFunction() {}
 
     @Override
     public double Compute(double x) {
-        return x / (1 + Math.abs(x));
+        return 1.0 / (1.0 + Math.exp(-x));
     }
     
 }

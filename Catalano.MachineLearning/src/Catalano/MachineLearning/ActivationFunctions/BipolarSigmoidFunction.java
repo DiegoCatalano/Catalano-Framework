@@ -22,7 +22,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
  * Bipolar sigmoid activation function.

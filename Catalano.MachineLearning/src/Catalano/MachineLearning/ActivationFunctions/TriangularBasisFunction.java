@@ -20,18 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Inverse triangular basis activation function.
+ * Triangular basis activation function.
  * @author Diego Catalano
  */
-public class InverseTriangularBasisFunction implements IActivationFunction{
+public class TriangularBasisFunction implements IActivationFunction{
 
     /**
-     * Initializes a new instance of the InverseTriangularBasisFunction class.
+     * Initializes a new instance of the TriangularBasisFunction class.
      */
-    public InverseTriangularBasisFunction() {}
+    public TriangularBasisFunction() {}
 
     @Override
     public double Compute(double x) {
@@ -39,7 +39,7 @@ public class InverseTriangularBasisFunction implements IActivationFunction{
             return 0;
         else if (x > 1)
             return 0;
-        return Math.abs(x);
+        return 1 - Math.abs(x);
     }
     
 }

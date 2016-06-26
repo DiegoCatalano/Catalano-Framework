@@ -20,20 +20,26 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
-
-import java.io.Serializable;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Common interface for activation functions.
+ * Inverse triangular basis activation function.
  * @author Diego Catalano
  */
-public interface IActivationFunction extends Serializable{
-    
+public class InverseTriangularBasisFunction implements IActivationFunction{
+
     /**
-     * Compute the activation function.
-     * @param x Value.
-     * @return Computed value.
+     * Initializes a new instance of the InverseTriangularBasisFunction class.
      */
-    double Compute(double x);
+    public InverseTriangularBasisFunction() {}
+
+    @Override
+    public double Compute(double x) {
+        if(x < 0)
+            return 0;
+        else if (x > 1)
+            return 0;
+        return Math.abs(x);
+    }
+    
 }

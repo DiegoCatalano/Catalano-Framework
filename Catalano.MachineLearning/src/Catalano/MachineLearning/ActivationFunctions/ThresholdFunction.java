@@ -22,22 +22,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Sigmoid activation function.
+ * Threshold activation function.
  * @author Diego Catalano
  */
-public class SigmoidFunction implements IActivationFunction{
+public class ThresholdFunction implements IActivationFunction{
 
     /**
-     * Initializes a new instance of the SigmoidFunction class.
+     * Initializes a new instance of the ThresholdFunction class.
      */
-    public SigmoidFunction() {}
+    public ThresholdFunction() {}
 
     @Override
     public double Compute(double x) {
-        return 1.0 / (1.0 + Math.exp(-x));
+        return ( x >= 0 ) ? 1 : 0;
     }
     
 }

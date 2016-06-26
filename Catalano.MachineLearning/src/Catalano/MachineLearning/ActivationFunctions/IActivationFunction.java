@@ -20,22 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
+
+import java.io.Serializable;
 
 /**
- * Soft plus activation function.
+ * Common interface for activation functions.
  * @author Diego Catalano
  */
-public class SoftPlusFunction implements IActivationFunction{
-
-    /**
-     * Initializes a new instance of the SoftPlusFunction class.
-     */
-    public SoftPlusFunction() {}
-
-    @Override
-    public double Compute(double x) {
-        return Math.log(Math.exp(x) + 1);
-    }
+public interface IActivationFunction extends Serializable{
     
+    /**
+     * Compute the activation function.
+     * @param x Value.
+     * @return Computed value.
+     */
+    double Compute(double x);
 }

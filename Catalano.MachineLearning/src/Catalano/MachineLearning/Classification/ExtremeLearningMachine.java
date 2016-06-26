@@ -26,12 +26,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM;
+package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.Classification.ELM.Functions.SigmoidFunction;
-import Catalano.MachineLearning.Classification.ELM.Functions.IActivationFunction;
-import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.ActivationFunctions.IActivationFunction;
+import Catalano.MachineLearning.ActivationFunctions.SigmoidFunction;
 import Catalano.Math.Matrix;
 import java.io.Serializable;
 import java.util.Arrays;

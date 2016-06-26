@@ -4,8 +4,6 @@
 // Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -22,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Radial basis activation function.
+ * Sine activation function.
  * @author Diego Catalano
  */
-public class RadialBasisFunction implements IActivationFunction{
+public class SineFunction implements IActivationFunction{
 
     /**
-     * Initializes a new instance of the RadialBasisFunction class.
+     * Initializes a new instance of the SineFunction class.
      */
-    public RadialBasisFunction() {}
+    public SineFunction() {}
 
     @Override
     public double Compute(double x) {
-        return Math.exp(-x*x);
+        return Math.sin(x);
     }
     
 }

@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Classification.ELM.Functions;
+package Catalano.MachineLearning.ActivationFunctions;
 
 /**
- * Sine activation function.
+ * Soft sign activation function.
  * @author Diego Catalano
  */
-public class SineFunction implements IActivationFunction{
+public class SoftSignFunction implements IActivationFunction{
 
     /**
-     * Initializes a new instance of the SineFunction class.
+     * Initializes a new instance of the SoftSignFunction class.
      */
-    public SineFunction() {}
+    public SoftSignFunction() {}
 
     @Override
     public double Compute(double x) {
-        return Math.sin(x);
+        return x / (1 + Math.abs(x));
     }
     
 }
