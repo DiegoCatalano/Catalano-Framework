@@ -101,7 +101,7 @@ public class RandomForest implements IClassifier, Serializable {
     private int T;
     private int M;
     private RandomSelection rs;
-    private long seed = 1;
+    //private long seed = 1;
     private SplitRule rule;
     
     /**
@@ -166,22 +166,38 @@ public class RandomForest implements IClassifier, Serializable {
     }
 
     /**
-     * Random seed.
-     * @return Random seed.
+     * Get split rule.
+     * @return Split rule.
      */
-    public long getSeed() {
-        if(seed == 0)
-            return Thread.currentThread().getId() * System.currentTimeMillis();
-        return seed;
+    public SplitRule getRule() {
+        return rule;
     }
 
     /**
-     * Set Random seed.
-     * @param seed Seed.
+     * Set split rule.
+     * @param rule Split rule.
      */
-    public void setSeed(long seed) {
-        this.seed = seed;
+    public void setRule(SplitRule rule) {
+        this.rule = rule;
     }
+
+//    /**
+//     * Random seed.
+//     * @return Random seed.
+//     */
+//    public long getSeed() {
+//        if(seed == 0)
+//            return Thread.currentThread().getId() * System.currentTimeMillis();
+//        return seed;
+//    }
+//
+//    /**
+//     * Set Random seed.
+//     * @param seed Seed.
+//     */
+//    public void setSeed(long seed) {
+//        this.seed = seed;
+//    }
     
     /**
      * Trains a regression tree.
@@ -216,21 +232,11 @@ public class RandomForest implements IClassifier, Serializable {
          * Split rule decision tree.
          */
         SplitRule rule;
-        /**
-         * Random seed.
-         */
-        long seed;
-
-        public long getSeed() {
-            if(seed == 0)
-                return Thread.currentThread().getId() * System.currentTimeMillis();
-            return seed;
-        }
 
         /**
          * Constructor.
          */
-        TrainingTask(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[][] order, int[][] prediction, SplitRule rule, long seed) {
+        TrainingTask(DecisionVariable[] attributes, double[][] x, int[] y, int M, int[][] order, int[][] prediction, SplitRule rule) {
             this.attributes = attributes;
             this.x = x;
             this.y = y;
@@ -238,13 +244,12 @@ public class RandomForest implements IClassifier, Serializable {
             this.M = M;
             this.prediction = prediction;
             this.rule = rule;
-            this.seed = seed;
         }
 
         @Override
         public DecisionTree call() {            
             int n = x.length;
-            Random random = new Random(getSeed()); //Thread.currentThread().getId() * System.currentTimeMillis()
+            Random random = new Random(Thread.currentThread().getId() * System.currentTimeMillis());
             int[] samples = new int[n]; // Training samples draw with replacement.
             for (int i = 0; i < n; i++) {
                 samples[random.nextInt(n)]++;
@@ -302,19 +307,7 @@ public class RandomForest implements IClassifier, Serializable {
      * @param rule Split rule decision tree.
      */
     public RandomForest(int T, int M, SplitRule rule){
-        this(null, T, M, rule, 0);
-    }
-    
-    /**
-     * Initializes a new instance of the RandomForest class.
-     * @param T the number of trees.
-     * @param M the number of random selected features to be used to determine
-     * the decision at a node of the tree. floor(sqrt(dim)) seems to give
-     * generally good performance, where dim is the number of variables.
-     * @param rule Split rule decision tree.
-     */
-    public RandomForest(int T, int M, SplitRule rule, long seed){
-        this(null, T, M, rule, seed);
+        this(null, T, M, rule);
     }
     
     /**
@@ -332,26 +325,7 @@ public class RandomForest implements IClassifier, Serializable {
      * @param randomSelection the number of random selected features.
      */
     public RandomForest(int T, RandomSelection randomSelection, SplitRule rule){
-        this(null, T, randomSelection, rule, 0);
-    }
-    
-    /**
-     * Initializes a new instance of the RandomForest class. 
-     * @param T the number of trees.
-     * @param randomSelection the number of random selected features.
-     */
-    public RandomForest(int T, RandomSelection randomSelection, SplitRule rule, long seed){
-        this(null, T, randomSelection, rule, seed);
-    }
-    
-    /**
-     * Initializes a new instance of the RandomForest class. 
-     * @param T the number of trees.
-     * @param randomSelection the number of random selected features.
-     * @param seed Random seed.
-     */
-    public RandomForest(int T, RandomSelection randomSelection, long seed){
-        this(null, T, randomSelection, SplitRule.GINI, seed);
+        this(null, T, randomSelection, rule);
     }
     
     /**
@@ -393,22 +367,10 @@ public class RandomForest implements IClassifier, Serializable {
      * @param rule Split rule decision tree.
      */
     public RandomForest(DecisionVariable[] attributes, int T, int M, SplitRule rule){
-        this(attributes, T, M, rule, 0);
-    }
-    
-    /**
-     * Initializes a new instance of the RandomForest class.
-     * @param attributes the attribute properties.
-     * @param T the number of trees.
-     * @param M  the number of random selected features.
-     * @param rule Split rule decision tree.
-     * @param seed Random seed.
-     */
-    public RandomForest(DecisionVariable[] attributes, int T, int M, SplitRule rule, long seed){
         this.attributes = attributes;
         this.T = T;
         this.M = M;
-        this.seed = seed;
+        //this.seed = seed;
         this.rule = rule;
     }
     
@@ -433,29 +395,13 @@ public class RandomForest implements IClassifier, Serializable {
      * @param randomSelection The method for create random selected features to be used to determine
      * the decision at a node of the tree. floor(sqrt(dim)) seems to give
      * generally good performance, where dim is the number of variables.
-     * @param rule Split rule decision tree.
+     * @param rule SplitRule decision tree.
      */
     public RandomForest(DecisionVariable[] attributes, int T, RandomSelection randomSelection, SplitRule rule){
-        this(attributes, T, randomSelection, rule, 0);
-    }
-    
-    /**
-     * Initializes a new instance of the RandomForest class.
-     *
-     * @param attributes the attribute properties.
-     * @param T the number of trees.
-     * @param randomSelection The method for create random selected features to be used to determine
-     * the decision at a node of the tree. floor(sqrt(dim)) seems to give
-     * generally good performance, where dim is the number of variables.
-     * @param rule SplitRule decision tree.
-     * @param seed Random seed.
-     */
-    public RandomForest(DecisionVariable[] attributes, int T, RandomSelection randomSelection, SplitRule rule, long seed){
         this.attributes = attributes;
         this.T = T;
         this.rs = randomSelection;
         this.rule = rule;
-        this.seed = seed;
     }
     
     /**
@@ -469,7 +415,7 @@ public class RandomForest implements IClassifier, Serializable {
      * the decision at a node of the tree. floor(sqrt(dim)) seems to give
      * generally good performance, where dim is the number of variables.
      */
-    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M, SplitRule rule, long seed) {
+    private void BuildModel(DecisionVariable[] attributes, double[][] x, int[] y, int T, int M, SplitRule rule) {
         
         if (attributes == null) {
             int s = x[0].length;
@@ -515,7 +461,7 @@ public class RandomForest implements IClassifier, Serializable {
         int[][] order = sort(attributes, x);
         List<TrainingTask> tasks = new ArrayList<TrainingTask>();
         for (int i = 0; i < T; i++) {
-            tasks.add(new TrainingTask(attributes, x, y, M, order, prediction, rule, seed));
+            tasks.add(new TrainingTask(attributes, x, y, M, order, prediction, rule));
         }
         
         try {
@@ -620,7 +566,7 @@ public class RandomForest implements IClassifier, Serializable {
                 this.M = (int)Tools.Log(input[0].length, 2) + 1;
         }
         
-        BuildModel(attributes, input, output, T, M, rule, seed);
+        BuildModel(attributes, input, output, T, M, rule);
     }
     
     @Override

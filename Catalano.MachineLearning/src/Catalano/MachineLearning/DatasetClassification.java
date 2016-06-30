@@ -576,7 +576,37 @@ public class DatasetClassification implements Serializable{
         this.output = Matrix.getRows(output, indexTraining);
         
         return new DatasetClassification(name, valInput, valOutput, this.attributes);
+    }
+    
+    /**
+     * Shuffle the dataset.
+     */
+    public void Shuffle(){
+        Shuffle(0);
+    }
+    
+    /**
+     * Shuffle the dataset.
+     * @param seed Random seed.
+     */
+    public void Shuffle(long seed){
         
+        //Create indexes
+        int[] idx = Matrix.Indices(0, output.length);
+        
+        //Shuffle
+        ArraysUtil.Shuffle(idx, seed);
+        
+        for (int j = 0; j < input[0].length; j++) {
+            double[] col = Matrix.getColumn(input, j);
+            for (int i = 0; i < col.length; i++)
+                input[i][j] = col[idx[i]];
+        }
+        
+        //Sort labels
+        int[] copy = (int[])output.clone();
+        for (int i = 0; i < output.length; i++)
+            output[i] = copy[idx[i]];
     }
     
     /**

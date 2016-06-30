@@ -268,7 +268,18 @@ public class ArraysUtil {
      * @param array Array.
      */
     public static void Shuffle(double[] array){
+        Shuffle(array, 0);
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     * @param seed Random seed.
+     */
+    public static void Shuffle(double[] array, long seed){
         Random random = new Random();
+        if(seed != 0) random.setSeed(seed);
+        
         for (int i = array.length - 1; i > 0; i--)
         {
             int index = random.nextInt(i + 1);
@@ -283,7 +294,19 @@ public class ArraysUtil {
      * @param array Array.
      */
     public static void Shuffle(int[] array){
+        Shuffle(array, 0);
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     * @param seed Seed of the random.
+     */
+    public static void Shuffle(int[] array, long seed){
+        
         Random random = new Random();
+        if(seed != 0) random.setSeed(seed);
+        
         for (int i = array.length - 1; i > 0; i--)
         {
             int index = random.nextInt(i + 1);
@@ -297,8 +320,19 @@ public class ArraysUtil {
      * Shuffle an array.
      * @param array Array.
      */
-    public static void Shuffle(float[] array){
+    public static void Shuflle(float[] array){
+        Shuffle(array, 0);
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     * @param seed Random seed.
+     */
+    public static void Shuffle(float[] array, long seed){
         Random random = new Random();
+        if(seed != 0) random.setSeed(seed);
+        
         for (int i = array.length - 1; i > 0; i--)
         {
             int index = random.nextInt(i + 1);
