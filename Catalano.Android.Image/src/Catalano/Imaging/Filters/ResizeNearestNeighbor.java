@@ -119,7 +119,7 @@ public class ResizeNearestNeighbor implements IApplyInPlace{
             }
 
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
         else{
             for (int i = 0; i < newHeight; i++) {
@@ -139,7 +139,7 @@ public class ResizeNearestNeighbor implements IApplyInPlace{
             }
 
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
     }
 }

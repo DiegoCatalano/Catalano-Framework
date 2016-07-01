@@ -174,8 +174,7 @@ public class RotateNearestNeighbor implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
-            
+            //destinationData.recycle();
         }
         else if (fastBitmap.isRGB()){
             int width = fastBitmap.getWidth();
@@ -229,8 +228,7 @@ public class RotateNearestNeighbor implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
-            
+            //destinationData.recycle();
         }
         
     }

@@ -211,8 +211,7 @@ public class RotateBilinear implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
-            
+            //destinationData.recycle();
         }
         else if (fastBitmap.isRGB()){
             int width = fastBitmap.getWidth();
@@ -321,7 +320,7 @@ public class RotateBilinear implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
+            //destinationData.recycle();
         }
         
     }

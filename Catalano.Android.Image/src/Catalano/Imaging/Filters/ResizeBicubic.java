@@ -158,14 +158,13 @@ public class ResizeBicubic implements IApplyInPlace{
                     }
                     
                     g = Math.max( 0, Math.min( 255, g ) );
-                    
                     dest.setGray(i, j, g);
                 }
                 
             }
             
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
         else{
             int width = fastBitmap.getWidth();
@@ -234,7 +233,7 @@ public class ResizeBicubic implements IApplyInPlace{
                 }
             }
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
     }
 }

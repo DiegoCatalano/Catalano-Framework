@@ -150,7 +150,7 @@ public class ResizeBilinear implements IApplyInPlace{
                 }
             }
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
         else{
             int width = fastBitmap.getWidth();
@@ -225,7 +225,7 @@ public class ResizeBilinear implements IApplyInPlace{
                 }
             }
             fastBitmap.setImage(dest);
-            dest.recycle();
+            //dest.recycle();
         }
     }
 }

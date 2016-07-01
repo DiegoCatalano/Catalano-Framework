@@ -215,7 +215,7 @@ public class RotateBicubic implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
+            //destinationData.recycle();
             
         }
         else if (fastBitmap.isRGB()){
@@ -313,7 +313,7 @@ public class RotateBicubic implements IApplyInPlace {
             }
             
             fastBitmap.setImage(destinationData);
-            destinationData.recycle();
+            //destinationData.recycle();
         }
         
     }
