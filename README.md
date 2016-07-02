@@ -5,21 +5,46 @@ The Catalano Framework is a framework for scientific computing for Java and Andr
 
 The project is organized under the same architecture found in the afore mentioned frameworks. Experienced users who would wish to leverage their expertise on Accord and AForge to work on Android can rely on the same namespaces for:
 
-  - Image Processing
-  - IO
-  - Fuzzy Logic
-  - Graph
-  - Math
-  - Statistics
-  - Machine Learning
-  - Neural Network
-  - Signal
-  - Vision
+- Fuzzy
+- Graph
+- IO
+  + Arff
+  + CSV
+  + Generic data parser
+- Image Processing
+  + Coutour
+  + Corner
+  + Filters
+  + Texture
+  + Shapes
+- Machine Learning
+  + Classification
+  + Clustering
+  + Exploration
+  + Feature Selection
+  + Regression
+- Math
+  + Decompositions
+  + Dissimilarities
+  + Distances
+  + Functions
+  + Geometry
+  + Transforms
+  + Wavelets
+- Neural Networks
+- Signal
+- Statistics
+  + Analysis
+  + Distributions
+  + Kernels
+  + Regression
+- Video
+- Vision
 
 Version
 ----
 
-1.5
+1.6
 
 
 License
