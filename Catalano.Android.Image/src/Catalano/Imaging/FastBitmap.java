@@ -35,7 +35,7 @@ public class FastBitmap {
     int[] pixels;
     private CoordinateSystem cSystem;
     private boolean isGrayscale = false;
-    private int stride, strideX, strideY;
+    private int strideX, strideY;
     
     /**
      * Coodinate system.
@@ -56,7 +56,6 @@ public class FastBitmap {
         * Color space.
         */
     public static enum ColorSpace {
-
         /**
             * Grayscale.
             */
@@ -82,9 +81,9 @@ public class FastBitmap {
         refresh();
 
         if (fastBitmap.isRGB())
-                isGrayscale = false;
+            isGrayscale = false;
         else
-                isGrayscale = true;
+            isGrayscale = true;
     }
 
     /**
@@ -857,7 +856,6 @@ public class FastBitmap {
      */
     public void setImage(Bitmap bitmap){
         this.b = bitmap;
-        this.stride = b.getWidth();
         setCoordinateSystem(CoordinateSystem.Matrix);
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
@@ -869,7 +867,6 @@ public class FastBitmap {
      */
     public void setImage(FastBitmap fastBitmap){
         this.b = fastBitmap.toBitmap();
-        this.stride = b.getWidth();
         setCoordinateSystem(fastBitmap.getCoordinateSystem());
         pixels = new int[b.getHeight() * b.getWidth()];
         b.getPixels(pixels, 0, getWidth(), 0, 0, b.getWidth(), b.getHeight());
