@@ -245,7 +245,7 @@ public class Tools {
             r += x[i];
         }
         
-        return r / x.length;
+        return r / (double)x.length;
     }
     
     /**

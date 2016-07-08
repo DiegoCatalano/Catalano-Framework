@@ -96,6 +96,7 @@ Catalano Framework 1.6 road map
     - Fixed: Normalization and Standartize in the DatasetClassification.
 
 * Catalano.MachineLearning.Classification
+    - New: Extreme Learning Machine.
     - New: Minimum Mean Distance.
 
 * Catalano.MachineLearning.Classification.DecisionTrees
@@ -116,6 +117,9 @@ Catalano Framework 1.6 road map
     - New: Holdout Validation (Regression support).
     - New: Leave One Out Cross Validation (Regression support).
     - New: Regression Measure.
+
+* Catalano.MachineLearning.Regression
+    - New: Extreme Learning Machine.
 
 * Catalano.Math
     - New: Padding Matrix.
