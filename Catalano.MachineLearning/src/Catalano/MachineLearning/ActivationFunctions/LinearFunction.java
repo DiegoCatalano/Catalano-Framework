@@ -29,15 +29,35 @@ package Catalano.MachineLearning.ActivationFunctions;
  * @author Diego Catalano
  */
 public class LinearFunction implements IActivationFunction{
+    
+    private double c;
+
+    public double getConstant() {
+        return c;
+    }
+
+    public void setConstant(double c) {
+        this.c = c;
+    }
 
     /**
      * Initializes a new instance of the LinearFunction class.
      */
-    public LinearFunction() {}
+    public LinearFunction() {
+        this(1);
+    }
+
+    /**
+     * Initializes a new instance of the LinearFunction class.
+     * @param a Constant.
+     */
+    public LinearFunction(double a) {
+        this.c = a;
+    }
 
     @Override
     public double Compute(double x) {
-        return x;
+        return c * x;
     }
     
 }

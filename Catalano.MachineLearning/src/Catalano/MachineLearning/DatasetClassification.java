@@ -512,6 +512,43 @@ public class DatasetClassification implements Serializable{
     }
     
     /**
+     * Remove all instances within related class.
+     * The labels will be reindexed.
+     * @param id Class.
+     */
+    public void RemoveClass(int id){
+        
+        this.numClasses--;
+        
+        // Search all the input and output.
+        List<Integer> lst = new ArrayList<Integer>();
+        for (int i = 0; i < output.length; i++) {
+            if(output[i] == id) lst.add(i);
+        }
+        
+        int[] v = new int[lst.size()];
+        for (int i = 0; i < lst.size(); i++) {
+            v[i] = lst.get(i);
+        }
+        
+        //Remove from input and output
+        this.input = Matrix.RemoveRows(input, v);
+        this.output = Matrix.RemoveColumns(output, v);
+        
+        //Reorder the output
+        int[] uniques = Tools.Unique(output);
+        
+        for (int i = 0; i < uniques.length; i++) {
+            int el = uniques[i];
+            for (int j = 0; j < output.length; j++) {
+                if(output[j] == el)
+                    output[j] = i;
+            }
+        }
+        
+    }
+    
+    /**
      * Split the percentange of the dataset in Trainning and the rest in Validation.
      * @param percentage Percentage.
      * @return Validation dataset.
