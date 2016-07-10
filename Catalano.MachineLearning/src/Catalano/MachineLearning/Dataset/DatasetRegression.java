@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  * Dataset for regression.
  * @author Diego Catalano
  */
-public class DatasetRegression implements Serializable{
+public class DatasetRegression implements IDataset<double[][], double[]>, Serializable{
     
     private String name;
     private double[][] input;
@@ -65,6 +65,7 @@ public class DatasetRegression implements Serializable{
      * Get the input data.
      * @return Input data.
      */
+    @Override
     public double[][] getInput() {
         return input;
     }
@@ -73,6 +74,7 @@ public class DatasetRegression implements Serializable{
      * Get the output data.
      * @return Output data.
      */
+    @Override
     public double[] getOutput() {
         return output;
     }
@@ -97,6 +99,7 @@ public class DatasetRegression implements Serializable{
      * Get the decision variables.
      * @return Decision Variables.
      */
+    @Override
     public DecisionVariable[] getDecisionVariables() {
         return Matrix.RemoveColumn(attributes, classIndex);
     }
@@ -543,7 +546,8 @@ public class DatasetRegression implements Serializable{
         return range;
     }
     
-    public DatasetStatistics[] DatasetStatistics(){
+    @Override
+    public StatisticsDataset[] getStatistics(){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -551,12 +555,30 @@ public class DatasetRegression implements Serializable{
                 continuous++;
         }
         
-        DatasetStatistics[] stat = new DatasetStatistics[continuous];
+        StatisticsDataset[] stat = new StatisticsDataset[continuous];
         int idx = 0;
         for (int i = 0; i < attributes.length; i++) {
             if(attributes[i].type == DecisionVariable.Type.Continuous){
                 
+                //Remove missing values
+                boolean isMissing = false;
                 double[] temp = Matrix.getColumn(input, i);
+                
+                List<Integer> lst = new ArrayList<Integer>();
+                for (int j = 0; j < temp.length; j++) {
+                    if(temp[i] == Double.NaN){
+                        isMissing = true;
+                        lst.add(j);
+                    }
+                }
+                
+                int[] v = new int[lst.size()];
+                for (int j = 0; j < v.length; j++) {
+                    v[j] = lst.get(j);
+                }
+                
+                temp = Matrix.RemoveColumns(temp, v);
+                
                 double mean = DescriptiveStatistics.Mean(temp);
                 double median = DescriptiveStatistics.Median(temp);
                 double min = DescriptiveStatistics.Minimum(temp);
@@ -565,7 +587,7 @@ public class DatasetRegression implements Serializable{
                 double kurtosis = DescriptiveStatistics.Kurtosis(temp, mean, std);
                 double skewness = DescriptiveStatistics.Skewness(temp, mean, std);
                 
-                stat[idx++] = new DatasetStatistics(attributes[i].name, mean, median, min, max, std, skewness, kurtosis);
+                stat[idx++] = new StatisticsDataset(attributes[i].name, mean, median, min, max, std, skewness, kurtosis, isMissing);
             }
         }
         return stat;

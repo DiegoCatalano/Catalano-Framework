@@ -26,7 +26,7 @@ package Catalano.MachineLearning.Dataset;
  * Descriptive statistics for dataset.
  * @author Diego Catalano
  */
-public class DatasetStatistics {
+public class StatisticsDataset {
     
     private final String name;
     
@@ -37,6 +37,7 @@ public class DatasetStatistics {
     private final double  median ;
     private final double  min;
     private final double  max;
+    private final boolean isMissingValues;
 
     /**
      * Get the name associated attribute.
@@ -103,6 +104,14 @@ public class DatasetStatistics {
     }
 
     /**
+     * Check if the attribute is missing values.
+     * @return True if is missing values, otherwise return false.
+     */
+    public boolean isMissingValues() {
+        return isMissingValues;
+    }
+
+    /**
      * Initializes a new instance of the DatasetStatistics class.
      * @param name Name of the attribute.
      * @param mean Mean.
@@ -113,7 +122,7 @@ public class DatasetStatistics {
      * @param skewness Skewness.
      * @param kurtosis Kurtosis.
      */
-    public DatasetStatistics(String name, double mean, double median, double min, double max, double std, double skewness, double kurtosis) {
+    public StatisticsDataset(String name, double mean, double median, double min, double max, double std, double skewness, double kurtosis, boolean isMissingValues) {
         this.name = name;
         this.mean = mean;
         this.median = median;
@@ -122,5 +131,6 @@ public class DatasetStatistics {
         this.stdDev = std;
         this.kurtosis = kurtosis;
         this.skewness = skewness;
+        this.isMissingValues = isMissingValues;
     }
 }

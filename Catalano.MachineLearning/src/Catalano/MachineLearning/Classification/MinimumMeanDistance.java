@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Classification;
 
 import Catalano.MachineLearning.Dataset.DatasetClassification;
+import Catalano.MachineLearning.Dataset.IDataset;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;

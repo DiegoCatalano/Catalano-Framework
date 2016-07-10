@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  * Dataset for classification.
  * @author Diego Catalano
  */
-public class DatasetClassification implements Serializable{
+public class DatasetClassification implements IDataset<double[][], int[]>, Serializable{
     
     private String name;
     private double[][] input;
@@ -68,6 +68,7 @@ public class DatasetClassification implements Serializable{
      * Get the input data.
      * @return Input data.
      */
+    @Override
     public double[][] getInput() {
         return input;
     }
@@ -76,6 +77,7 @@ public class DatasetClassification implements Serializable{
      * Get the output data.
      * @return Output data.
      */
+    @Override
     public int[] getOutput() {
         return output;
     }
@@ -100,6 +102,7 @@ public class DatasetClassification implements Serializable{
      * Get the decision variables.
      * @return Decision Variables.
      */
+    @Override
     public DecisionVariable[] getDecisionVariables() {
         return Matrix.RemoveColumn(attributes, classIndex);
     }
@@ -760,7 +763,7 @@ public class DatasetClassification implements Serializable{
         return range;
     }
     
-    public DatasetStatistics[] DatasetStatistics(){
+    public StatisticsDataset[] getStatistics(){
         
         int continuous = 0;
         for (int i = 0; i < attributes.length; i++) {
@@ -768,12 +771,30 @@ public class DatasetClassification implements Serializable{
                 continuous++;
         }
         
-        DatasetStatistics[] stat = new DatasetStatistics[continuous];
+        StatisticsDataset[] stat = new StatisticsDataset[continuous];
         int idx = 0;
         for (int i = 0; i < attributes.length; i++) {
             if(attributes[i].type == DecisionVariable.Type.Continuous){
                 
+                //Remove missing values
+                boolean isMissing = false;
                 double[] temp = Matrix.getColumn(input, i);
+                
+                List<Integer> lst = new ArrayList<Integer>();
+                for (int j = 0; j < temp.length; j++) {
+                    if(temp[i] == Double.NaN){
+                        isMissing = true;
+                        lst.add(j);
+                    }
+                }
+                
+                int[] v = new int[lst.size()];
+                for (int j = 0; j < v.length; j++) {
+                    v[j] = lst.get(j);
+                }
+                
+                temp = Matrix.RemoveColumns(temp, v);
+                
                 double mean = DescriptiveStatistics.Mean(temp);
                 double median = DescriptiveStatistics.Median(temp);
                 double min = DescriptiveStatistics.Minimum(temp);
@@ -782,7 +803,7 @@ public class DatasetClassification implements Serializable{
                 double kurtosis = DescriptiveStatistics.Kurtosis(temp, mean, std);
                 double skewness = DescriptiveStatistics.Skewness(temp, mean, std);
                 
-                stat[idx++] = new DatasetStatistics(attributes[i].name, mean, median, min, max, std, skewness, kurtosis);
+                stat[idx++] = new StatisticsDataset(attributes[i].name, mean, median, min, max, std, skewness, kurtosis, isMissing);
             }
         }
         return stat;
