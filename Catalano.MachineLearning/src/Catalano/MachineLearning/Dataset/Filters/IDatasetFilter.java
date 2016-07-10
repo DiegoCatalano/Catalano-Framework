@@ -5,7 +5,6 @@
 // diego.catalano at live.com
 //
 //
-//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -21,39 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Dataset;
+package Catalano.MachineLearning.Dataset.Filters;
 
-import java.io.Serializable;
+import Catalano.MachineLearning.Dataset.IDataset;
 
 /**
- * Common interface to a dataset.
+ * Common interface to filter a dataset.
  * @author Diego Catalano
- * @param <T> Input data type.
- * @param <E> Output data type.
  */
-public interface IDataset<T,E> extends Serializable{
+public interface IDatasetFilter {
     
     /**
-     * Get the decision variables.
-     * @return Decision Variables.
+     * Apply filter.
+     * @param dataset Dataset.
      */
-    public DecisionVariable[] getDecisionVariables();
-    
-    /**
-     * Get the statistics from the dataset.
-     * @return Statistics.
-     */
-    public StatisticsDataset[] getStatistics();
-    
-    /**
-     * Get the input data.
-     * @return Input data.
-     */
-    public T getInput();
-    
-    /**
-     * Get the output data.
-     * @return Output data.
-     */
-    public E getOutput();
+    public void Apply(IDataset dataset);
 }

@@ -31,7 +31,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +43,7 @@ import java.util.logging.Logger;
  * Dataset for regression.
  * @author Diego Catalano
  */
-public class DatasetRegression implements IDataset<double[][], double[]>, Serializable{
+public class DatasetRegression implements IDataset<double[][], double[]>{
     
     private String name;
     private double[][] input;

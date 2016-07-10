@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,7 +45,7 @@ import java.util.logging.Logger;
  * Dataset for classification.
  * @author Diego Catalano
  */
-public class DatasetClassification implements IDataset<double[][], int[]>, Serializable{
+public class DatasetClassification implements IDataset<double[][], int[]>{
     
     private String name;
     private double[][] input;

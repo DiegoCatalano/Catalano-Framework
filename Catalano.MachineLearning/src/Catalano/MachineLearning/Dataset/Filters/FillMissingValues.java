@@ -30,7 +30,7 @@ import Catalano.MachineLearning.Dataset.StatisticsDataset;
  * Fill missing values in the dataset.
  * @author Diego Catalano
  */
-public class FillMissingValues {
+public class FillMissingValues implements IDatasetFilter{
     
     public static enum Mode{
         
@@ -62,10 +62,7 @@ public class FillMissingValues {
         this.mode = mode;
     }
     
-    /**
-     * Apply the filter in the dataset.
-     * @param dataset Dataset.
-     */
+    @Override
     public void Apply(IDataset dataset){
         
         StatisticsDataset[] stat = dataset.getStatistics();
