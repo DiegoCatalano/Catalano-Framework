@@ -26,9 +26,9 @@ package Catalano.MachineLearning.Regression.RegressionTrees;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
-import Catalano.MachineLearning.DecisionVariable;
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.MachineLearning.Classification.DecisionTrees.Learning.RandomForest;
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.Math.Tools;
 import java.io.Serializable;

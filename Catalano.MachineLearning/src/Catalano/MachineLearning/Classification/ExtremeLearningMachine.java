@@ -28,7 +28,7 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.MachineLearning.ActivationFunctions.IActivationFunction;
 import Catalano.MachineLearning.ActivationFunctions.SigmoidFunction;
 import Catalano.Math.Matrix;

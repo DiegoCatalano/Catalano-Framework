@@ -26,9 +26,9 @@ package Catalano.MachineLearning.Classification.DecisionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.DecisionTrees.DecisionTree;
-import Catalano.MachineLearning.DecisionVariable;
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import java.io.Serializable;

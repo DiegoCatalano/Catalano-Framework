@@ -26,8 +26,8 @@ package Catalano.MachineLearning.Regression.RegressionTrees.Learning;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.Concurrent.MulticoreExecutor;
-import Catalano.MachineLearning.DatasetRegression;
-import Catalano.MachineLearning.DecisionVariable;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
 import Catalano.Math.Random;

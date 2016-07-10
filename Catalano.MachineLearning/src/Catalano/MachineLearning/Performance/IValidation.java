@@ -23,7 +23,7 @@
 package Catalano.MachineLearning.Classification.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 
 /**
  * Interface common for classifier performance.

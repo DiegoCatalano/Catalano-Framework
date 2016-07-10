@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.Classification.Performance.IValidation;
 import java.util.List;

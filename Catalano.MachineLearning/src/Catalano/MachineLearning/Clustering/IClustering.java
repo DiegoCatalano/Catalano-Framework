@@ -24,7 +24,7 @@
 
 package Catalano.MachineLearning.Clustering;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 
 /**
  * Clustering interface.

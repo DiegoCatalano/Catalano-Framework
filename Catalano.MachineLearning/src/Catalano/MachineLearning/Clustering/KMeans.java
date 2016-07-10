@@ -25,7 +25,7 @@
 package Catalano.MachineLearning.Clustering;
 
 import Catalano.Core.Concurrent.MulticoreExecutor;
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Distances.Distance;
 import java.util.ArrayList;
 import java.util.Arrays;

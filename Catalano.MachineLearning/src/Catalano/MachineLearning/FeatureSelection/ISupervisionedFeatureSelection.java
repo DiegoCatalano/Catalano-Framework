@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.FeatureSelection;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 
 /**
  * Interface represents supervisioned feature selection.

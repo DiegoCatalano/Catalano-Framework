@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.Math.Matrix;
 
 /**

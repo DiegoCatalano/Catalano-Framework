@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
 

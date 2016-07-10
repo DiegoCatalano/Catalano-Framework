@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Regression;
 
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 
 /**
  * The interface describe the predict of the regression.

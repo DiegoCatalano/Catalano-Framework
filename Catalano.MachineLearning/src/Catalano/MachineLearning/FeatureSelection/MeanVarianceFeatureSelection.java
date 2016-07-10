@@ -23,7 +23,7 @@
 package Catalano.MachineLearning.FeatureSelection;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Matrix;
 
 /**

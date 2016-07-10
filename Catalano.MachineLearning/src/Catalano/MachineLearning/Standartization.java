@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning;
 
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;

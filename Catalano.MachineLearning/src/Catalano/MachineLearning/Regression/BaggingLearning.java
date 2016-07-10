@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Regression;
 
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;

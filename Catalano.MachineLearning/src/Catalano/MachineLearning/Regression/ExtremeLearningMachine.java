@@ -28,7 +28,7 @@
 
 package Catalano.MachineLearning.Regression;
 
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.ActivationFunctions.IActivationFunction;
 import Catalano.MachineLearning.ActivationFunctions.LinearFunction;
 import Catalano.Math.Matrix;

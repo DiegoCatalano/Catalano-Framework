@@ -7,8 +7,8 @@ package Catalano.MachineLearning.FeatureSelection;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.DecisionTrees.Learning.RandomForest;
-import Catalano.MachineLearning.DatasetClassification;
-import Catalano.MachineLearning.DecisionVariable;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DecisionVariable;
 
 /**
  *

@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Performance;
 
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionMeasure;
 

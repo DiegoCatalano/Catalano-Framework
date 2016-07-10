@@ -24,8 +24,8 @@ package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
 import Catalano.MachineLearning.Classification.Performance.IValidation;
-import Catalano.MachineLearning.DatasetClassification;
-import Catalano.MachineLearning.DatasetRegression;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionMeasure;
 import Catalano.Math.Matrix;

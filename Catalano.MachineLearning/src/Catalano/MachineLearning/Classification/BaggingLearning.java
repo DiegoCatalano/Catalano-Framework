@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;

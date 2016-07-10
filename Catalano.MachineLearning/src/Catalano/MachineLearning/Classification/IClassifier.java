@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
-import Catalano.MachineLearning.DatasetClassification;
+import Catalano.MachineLearning.Dataset.DatasetClassification;
 
 /**
  * The interface describe the predict of the classifier.
