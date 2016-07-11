@@ -34,5 +34,5 @@ public interface IDatasetFilter {
      * Apply filter.
      * @param dataset Dataset.
      */
-    public void Apply(IDataset dataset);
+    public void ApplyInPlace(IDataset dataset);
 }

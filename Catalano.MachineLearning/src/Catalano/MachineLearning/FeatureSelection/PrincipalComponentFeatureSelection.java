@@ -22,7 +22,7 @@
 
 package Catalano.MachineLearning.FeatureSelection;
 
-import Catalano.MachineLearning.Normalization;
+import Catalano.MachineLearning.FeatureScaling.Normalization;
 import Catalano.Math.Decompositions.EigenvalueDecomposition;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
@@ -83,7 +83,7 @@ public class PrincipalComponentFeatureSelection implements IUnsupervisionedFeatu
         
         //Normalize data [0..1]
         Normalization norm = new Normalization();
-        double[][] data = norm.Normalize(input);
+        double[][] data = norm.Apply(input);
         
         //Creta a correlation matrix.
         double[][] mat = Catalano.Statistics.Tools.Correlation(data);

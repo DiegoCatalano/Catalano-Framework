@@ -29,9 +29,9 @@ import java.io.Serializable;
  * Common interface to a dataset.
  * @author Diego Catalano
  * @param <T> Input data type.
- * @param <E> Output data type.
+ * @param <U> Output data type.
  */
-public interface IDataset<T,E> extends Serializable{
+public interface IDataset<T,U> extends Serializable{
     
     /**
      * Get the decision variables.
@@ -55,5 +55,5 @@ public interface IDataset<T,E> extends Serializable{
      * Get the output data.
      * @return Output data.
      */
-    public E getOutput();
+    public U getOutput();
 }

@@ -63,7 +63,7 @@ public class FillMissingValues implements IDatasetFilter{
     }
     
     @Override
-    public void Apply(IDataset dataset){
+    public void ApplyInPlace(IDataset dataset){
         
         StatisticsDataset[] stat = dataset.getStatistics();
         DecisionVariable[] dv = dataset.getDecisionVariables();

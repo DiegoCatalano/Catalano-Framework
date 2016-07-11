@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning;
+package Catalano.MachineLearning.FeatureScaling;
 
 import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.Math.Matrix;
@@ -31,7 +31,7 @@ import Catalano.Math.Matrix;
  * 
  * @author Diego Catalano
  */
-public class Normalization {
+public class Normalization implements IFeatureScaling{
     
     private double min = 0;
     private double max = 1;
@@ -99,26 +99,41 @@ public class Normalization {
         this.min = min;
         this.max = max;
     }
-    
-    /**
-     * Normalize data.
-     * All the columns will be normalized.
-     * @param data Data.
-     * @return Normalized data.
-     */
-    public double[][] Normalize(double[][] data){
-        return Normalize(null, data);
+
+    @Override
+    public double[][] Apply(double[][] data) {
+        double[][] result = Matrix.Copy(data);
+        ApplyInPlace(result);
+        return result;
     }
-    
-    /**
-     * Normalize matrix.
-     * Only the continuous data will be normalized.
-     * @param attributes Attributes.
-     * @param data Data.
-     * @return Normalized data.
-     */
-    public double[][] Normalize(DecisionVariable[] attributes, double[][] data){
+
+    @Override
+    public double[][] Apply(DecisionVariable[] variables, double[][] data) {
+        double[][] result = Matrix.Copy(data);
+        ApplyInPlace(variables, result);
+        return result;
+    }
+
+    @Override
+    public void ApplyInPlace(double[][] data){
+        range = new double[2][data[0].length];
         
+        int idx = 0;
+        for (int i = 0; i < data[0].length; i++) {
+            double[] temp = Matrix.getColumn(data, i);
+            double _min = Catalano.Statistics.Tools.Min(temp);
+            double _max = Catalano.Statistics.Tools.Max(temp);
+            range[0][idx] = _min;
+            range[1][idx] = _max;
+            idx++;
+            for (int j = 0; j < temp.length; j++) {
+                data[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+            }
+        }
+    }
+
+    @Override
+    public void ApplyInPlace(DecisionVariable[] attributes, double[][] data){
         int continuous = 0;
         if(attributes == null){
             attributes = new DecisionVariable[data[0].length + 1];
@@ -136,7 +151,6 @@ public class Normalization {
         }
         
         range = new double[2][continuous];
-        double[][] matrix = new double[data.length][data[0].length];
         
         int idx = 0;
         for (int i = 0; i < data[0].length; i++) {
@@ -148,45 +162,32 @@ public class Normalization {
                 range[1][idx] = _max;
                 idx++;
                 for (int j = 0; j < temp.length; j++) {
-                    matrix[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
+                    data[j][i] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
                 }
             }
         }
-        
-        return matrix;
     }
-    
-    /**
-     * Normalize the feature for to be used in the some classifier.
-     * @param normalization Normalization coefficients.
-     * @param feature Feature.
-     * @return Normalized feature.
-     */
-    public double[] NormalizeFeature(double[][] normalization, double[] feature){
-        return NormalizeFeature(null, normalization, feature);
-    }
-    
-    /**
-     * Normalize the feature for to be used in the some classifier.
-     * @param attributes Attributes.
-     * @param normalization Normalization coefficients.
-     * @param feature Feature.
-     * @return Normalized feature.
-     */
-    public double[] NormalizeFeature(DecisionVariable[] attributes, double[][] normalization, double[] feature){
-        
-        if(attributes == null){
-            attributes = new DecisionVariable[feature.length];
-            for (int i = 0; i < attributes.length; i++) {
-                attributes[i] = new DecisionVariable("F" + i, DecisionVariable.Type.Continuous);
-            }
+
+    @Override
+    public double[] ComputeFeature(double[] feature){
+        double[] norm = new double[feature.length];
+        for (int i = 0; i < norm.length; i++) {
+            double v = Catalano.Math.Tools.Scale(range[0][i], range[1][i], min, max, feature[i]);
+            v = v > 1 ? 1 : v;
+            v = v < 0 ? 0 : v;
+            norm[i] = v;
         }
         
+        return norm;
+    }
+    
+    @Override
+    public double[] ComputeFeature(DecisionVariable[] attributes, double[] feature){
         double[] norm = new double[feature.length];
         for (int i = 0; i < norm.length; i++) {
             int idx = 0;
             if(attributes[i].type == DecisionVariable.Type.Continuous){
-                double v = Catalano.Math.Tools.Scale(normalization[0][idx], normalization[1][idx], min, max, feature[i]);
+                double v = Catalano.Math.Tools.Scale(range[0][idx], range[1][idx], min, max, feature[i]);
                 idx++;
 
                 v = v > 1 ? 1 : v;
@@ -194,7 +195,6 @@ public class Normalization {
                 norm[i] = v;
             }
         }
-        
         return norm;
     }
 }
