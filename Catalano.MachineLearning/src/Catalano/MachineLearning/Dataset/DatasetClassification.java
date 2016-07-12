@@ -57,6 +57,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     private int numClasses;
     private int continuous = 0;
     private int classIndex = -1;
+    private IFeatureScaling normalization;
 
     /**
      * Get the name of the dataset.
@@ -155,6 +156,14 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
      */
     public int getNumberOfDiscrete(){
         return this.attributes.length - continuous;
+    }
+
+    /**
+     * Get normalization.
+     * @return Normalization.
+     */
+    public IFeatureScaling getNormalization() {
+        return normalization;
     }
     
     /**
@@ -496,6 +505,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
      * @param normalization Normalization.
      */
     public void Normalize(IFeatureScaling normalization){
+        this.normalization = normalization;
         normalization.ApplyInPlace(getDecisionVariables(), input);
     }
     
