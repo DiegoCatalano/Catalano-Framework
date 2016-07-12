@@ -23,6 +23,9 @@
 package Catalano.MachineLearning.Dataset;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
+import Catalano.MachineLearning.FeatureScaling.Normalization;
+import Catalano.MachineLearning.FeatureScaling.Standartization;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Statistics.DescriptiveStatistics;
@@ -474,47 +477,26 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     /**
      * Normalize all continuous data.
      * Default: (0..1).
-     * @return Coefficient of the normalization.
      */
-    public double[][] Normalize(){
-        return Normalize(0,1);
+    public void Normalize(){
+        Normalize(0,1);
     }
     
     /**
      * Normalize all continuous data.
-     * @param min Minimum.
-     * @param max Maximum.
-     * @return Range of the normalization.
+     * @param min Minimum value.
+     * @param max Maximum value.
      */
-    public double[][] Normalize(double min, double max){
-        
-        int continuous = 0;
-        for (int i = 0; i < attributes.length; i++) {
-            if(i != classIndex)
-                if(attributes[i].type == DecisionVariable.Type.Continuous)
-                    continuous++;
-        }
-        
-        double[][] range = new double[2][continuous];
-        
-        int idx = 0;
-        for (int i = 0; i < attributes.length; i++) {
-            if(i != classIndex){
-                if(attributes[i].type == DecisionVariable.Type.Continuous){
-                    double[] temp = Matrix.getColumn(input, idx);
-                    double _min = Catalano.Statistics.Tools.Min(temp);
-                    double _max = Catalano.Statistics.Tools.Max(temp);
-                    range[0][idx] = _min;
-                    range[1][idx] = _max;
-                    for (int j = 0; j < temp.length; j++) {
-                        input[j][idx] = Catalano.Math.Tools.Scale(_min, _max, min, max, temp[j]);
-                    }
-                    idx++;
-                }
-            }
-        }
-        
-        return range;
+    public void Normalize(double min, double max){
+        Normalize(new Normalization(min,max));
+    }
+    
+    /**
+     * Normalize all continuous data.
+     * @param normalization Normalization.
+     */
+    public void Normalize(IFeatureScaling normalization){
+        normalization.ApplyInPlace(getDecisionVariables(), input);
     }
     
     /**
@@ -729,39 +711,12 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     /**
      * Standartize all continuous data.
      * x = (x - u) / s
-     * @return Coefficients of the standartization.
      */
-    public double[][] Standartize(){
-        
-        int continuous = 0;
-        for (int i = 0; i < attributes.length; i++) {
-            if(i != classIndex)
-                if(attributes[i].type == DecisionVariable.Type.Continuous)
-                    continuous++;
-        }
-        
-        double[][] range = new double[2][continuous];
-        
-        int idx = 0;
-        for (int i = 0; i < attributes.length; i++) {
-            if(i != classIndex){
-                if(attributes[i].type == DecisionVariable.Type.Continuous){
-                    double[] temp = Matrix.getColumn(input, idx);
-                    double mean = Catalano.Statistics.Tools.Mean(temp);
-                    double std = Catalano.Statistics.Tools.StandartDeviation(temp, mean);
-                    range[0][idx] = mean;
-                    range[1][idx] = std;
-                    for (int j = 0; j < temp.length; j++) {
-                        input[j][idx] = (input[j][idx] - mean) / std;
-                    }
-                    idx++;
-                }
-            }
-        }
-        
-        return range;
+    public void Standartize(){
+        Normalize(new Standartization());
     }
     
+    @Override
     public StatisticsDataset[] getStatistics(){
         
         int continuous = 0;
