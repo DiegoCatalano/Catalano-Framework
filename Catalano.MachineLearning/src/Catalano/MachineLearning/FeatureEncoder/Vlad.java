@@ -110,7 +110,7 @@ public class Vlad {
         if(preNormalize){
             for (int i = 0; i < result.length; i++) {
                 for (int j = 0; j < result[0].length; j++) {
-                    result[i][j] = Math.sqrt(result[i][j]);
+                    result[i][j] = Math.signum(result[i][j]) * Math.sqrt(Math.abs(result[i][j]));
                 }
             }
         }
@@ -142,7 +142,7 @@ public class Vlad {
         //Should apply sqrt ?
         if(preNormalize){
             for (int i = 0; i < result.length; i++) {
-                result[i] = Math.sqrt(result[i]);
+                result[i] = Math.signum(result[i]) * Math.sqrt(Math.abs(result[i]));
             }
         }
         
