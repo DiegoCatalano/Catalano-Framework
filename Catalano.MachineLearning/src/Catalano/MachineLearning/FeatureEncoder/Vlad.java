@@ -27,7 +27,6 @@ import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
 
 /**
  * Vlad (Vector Locally Agreggate Descriptors).
- * Experimental, is not working.
  * @author Diego Catalano
  */
 public class Vlad {
@@ -84,13 +83,16 @@ public class Vlad {
         int d = features[0].length;
         int D = k*d;
         
-        double[][] result = new double[k][D];
+        double[][] result = new double[features.length][D];
         
-        //TODO: Need to read the article below and to implement correctly.
-        //https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf
-        for (int i = 0; i < features.length; i++) {
-            for (int j = 0; j < d; j++) {
-                result[i][j] = features[i][j] - centroids[i][j];
+        //v(i,j) = sum(xj - cij)
+        int idx;
+        for (int f = 0; f < features.length; f++) {
+            idx = 0;
+            for (int i = 0; i < k; i++) {
+                for (int j = 0; j < d; j++) {
+                    result[f][idx++] = features[f][j] - centroids[i][j];
+                }
             }
         }
         
@@ -98,6 +100,31 @@ public class Vlad {
         if(normalize){
             VectorNormalization vn = new VectorNormalization();
             vn.ApplyInPlace(result);
+        }
+        
+        return result;
+    }
+    
+    public double[] ComputeFeature(double[] feature){
+        double[] result = new double[feature.length * centroids.length];
+        int idx;
+        for (int i = 0; i < centroids.length; i++) {
+            idx = 0;
+            for (int j = 0; j < feature.length; j++) {
+                result[idx++] = feature[j] - centroids[i][j];
+            }
+        }
+        
+        //Should apply ||x||^2
+        if(normalize){
+            double sum = 0;
+            for (int i = 0; i < result.length; i++) {
+                sum += result[i] * result[i];
+            }
+            sum = Math.sqrt(sum);
+            for (int i = 0; i < result.length; i++) {
+                result[i] /= sum;
+            }
         }
         
         return result;
