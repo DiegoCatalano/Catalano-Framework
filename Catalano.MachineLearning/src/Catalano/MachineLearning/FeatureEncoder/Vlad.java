@@ -33,24 +33,27 @@ public class Vlad {
     
     private ICentroidClustering clustering;
     private double[][] centroids;
-    private boolean normalize;
+    private boolean posNormalize;
+    private boolean preNormalize;
     
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
      */
     public Vlad(double[][] centroids){
-        this(centroids, true);
+        this(centroids, false, true);
     }
 
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
-     * @param normalize ||x||^2 normalization.
+     * @param preNormalize Sqrt(vlad).
+     * @param posNormalize ||x||^2 normalization.
      */
-    public Vlad(double[][] centroids, boolean normalize) {
+    public Vlad(double[][] centroids, boolean preNormalize, boolean posNormalize) {
         this.centroids = centroids;
-        this.normalize = normalize;
+        this.preNormalize = preNormalize;
+        this.posNormalize = posNormalize;
     }
     
     /**
@@ -58,22 +61,29 @@ public class Vlad {
      * @param clustering Clustering algorithm.
      */
     public Vlad(ICentroidClustering clustering){
-        this(clustering, true);
+        this(clustering, false, true);
     }
     
     /**
      * Initializes a new instance of the Vlad class.
      * @param clustering CLustering algorithm.
-     * @param normalize ||x||^2 normalization.
+     * @param preNormalize sqrt(vlad).
+     * @param posNormalize ||x||^2 normalization.
      */
-    public Vlad(ICentroidClustering clustering, boolean normalize){
+    public Vlad(ICentroidClustering clustering, boolean preNormalize, boolean posNormalize){
         this.clustering = clustering;
-        this.normalize = normalize;
+        this.preNormalize = preNormalize;
+        this.posNormalize = posNormalize;
     }
     
+    /**
+     * Compute VLAD.
+     * @param features Features.
+     * @return Descriptors.
+     */
     public double[][] Compute(double[][] features){
         
-        //If doensn't exists centroids, we need to compute
+        //If doesn't exists centroids, we need to compute
         if(centroids == null){
             clustering.Compute(features);
             this.centroids = clustering.getCentroids();
@@ -96,8 +106,17 @@ public class Vlad {
             }
         }
         
-        //Should apply ||x||^2
-        if(normalize){
+        //Should apply sqrt normalization before ?
+        if(preNormalize){
+            for (int i = 0; i < result.length; i++) {
+                for (int j = 0; j < result[0].length; j++) {
+                    result[i][j] = Math.sqrt(result[i][j]);
+                }
+            }
+        }
+        
+        //Should apply ||x||^2 ?
+        if(posNormalize){
             VectorNormalization vn = new VectorNormalization();
             vn.ApplyInPlace(result);
         }
@@ -105,6 +124,11 @@ public class Vlad {
         return result;
     }
     
+    /**
+     * Compute a specified feature.
+     * @param feature Feature.
+     * @return Descriptors.
+     */
     public double[] ComputeFeature(double[] feature){
         double[] result = new double[feature.length * centroids.length];
         int idx;
@@ -115,8 +139,15 @@ public class Vlad {
             }
         }
         
-        //Should apply ||x||^2
-        if(normalize){
+        //Should apply sqrt ?
+        if(preNormalize){
+            for (int i = 0; i < result.length; i++) {
+                result[i] = Math.sqrt(result[i]);
+            }
+        }
+        
+        //Should apply ||x||^2 ?
+        if(posNormalize){
             double sum = 0;
             for (int i = 0; i < result.length; i++) {
                 sum += result[i] * result[i];
