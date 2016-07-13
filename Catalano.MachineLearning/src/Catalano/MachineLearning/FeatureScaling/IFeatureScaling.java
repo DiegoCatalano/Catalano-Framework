@@ -64,7 +64,7 @@ public interface IFeatureScaling extends Serializable{
      * @param feature Feature to be normalized.
      * @return Normalized feature.
      */
-    public double[] ComputeFeature(double[] feature);
+    public double[] Compute(double[] feature);
     
     /**
      * Normalize the feature.
@@ -72,5 +72,5 @@ public interface IFeatureScaling extends Serializable{
      * @param feature Feature.
      * @return Normalized feature.
      */
-    public double[] ComputeFeature(DecisionVariable[] variables, double[] feature);
+    public double[] Compute(DecisionVariable[] variables, double[] feature);
 }

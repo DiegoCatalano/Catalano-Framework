@@ -23,18 +23,19 @@
 package Catalano.MachineLearning.FeatureEncoder;
 
 import Catalano.MachineLearning.Clustering.ICentroidClustering;
+import Catalano.MachineLearning.FeatureScaling.PowerNormalization;
 import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
 
 /**
  * Vlad (Vector Locally Agreggate Descriptors).
  * @author Diego Catalano
  */
-public class Vlad {
+public class Vlad implements IFeatureEncoder{
     
     private ICentroidClustering clustering;
     private double[][] centroids;
-    private boolean posNormalize;
-    private boolean preNormalize;
+    private boolean normalize;
+    private boolean powerNormalize;
     
     /**
      * Initializes a new instance of the Vlad class.
@@ -47,13 +48,13 @@ public class Vlad {
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
-     * @param preNormalize Sqrt(vlad).
-     * @param posNormalize ||x||^2 normalization.
+     * @param powerNormalize Power Normalization(vlad).
+     * @param normalize ||x||^2 normalization.
      */
-    public Vlad(double[][] centroids, boolean preNormalize, boolean posNormalize) {
+    public Vlad(double[][] centroids, boolean powerNormalize, boolean normalize) {
         this.centroids = centroids;
-        this.preNormalize = preNormalize;
-        this.posNormalize = posNormalize;
+        this.powerNormalize = powerNormalize;
+        this.normalize = normalize;
     }
     
     /**
@@ -67,13 +68,13 @@ public class Vlad {
     /**
      * Initializes a new instance of the Vlad class.
      * @param clustering CLustering algorithm.
-     * @param preNormalize sqrt(vlad).
-     * @param posNormalize ||x||^2 normalization.
+     * @param powerNormalize Power Normalization(vlad).
+     * @param normalize ||x||^2 normalization.
      */
-    public Vlad(ICentroidClustering clustering, boolean preNormalize, boolean posNormalize){
+    public Vlad(ICentroidClustering clustering, boolean powerNormalize, boolean normalize){
         this.clustering = clustering;
-        this.preNormalize = preNormalize;
-        this.posNormalize = posNormalize;
+        this.powerNormalize = powerNormalize;
+        this.normalize = normalize;
     }
     
     /**
@@ -81,6 +82,7 @@ public class Vlad {
      * @param features Features.
      * @return Descriptors.
      */
+    @Override
     public double[][] Compute(double[][] features){
         
         //If doesn't exists centroids, we need to compute
@@ -106,17 +108,14 @@ public class Vlad {
             }
         }
         
-        //Should apply sqrt normalization before ?
-        if(preNormalize){
-            for (int i = 0; i < result.length; i++) {
-                for (int j = 0; j < result[0].length; j++) {
-                    result[i][j] = Math.signum(result[i][j]) * Math.sqrt(Math.abs(result[i][j]));
-                }
-            }
+        //Should apply power normalization before ?
+        if(powerNormalize){
+            PowerNormalization pn = new PowerNormalization(0.5);
+            pn.ApplyInPlace(result);
         }
         
         //Should apply ||x||^2 ?
-        if(posNormalize){
+        if(normalize){
             VectorNormalization vn = new VectorNormalization();
             vn.ApplyInPlace(result);
         }
@@ -129,7 +128,8 @@ public class Vlad {
      * @param feature Feature.
      * @return Descriptors.
      */
-    public double[] ComputeFeature(double[] feature){
+    @Override
+    public double[] Compute(double[] feature){
         double[] result = new double[feature.length * centroids.length];
         int idx;
         for (int i = 0; i < centroids.length; i++) {
@@ -139,15 +139,14 @@ public class Vlad {
             }
         }
         
-        //Should apply sqrt ?
-        if(preNormalize){
-            for (int i = 0; i < result.length; i++) {
-                result[i] = Math.signum(result[i]) * Math.sqrt(Math.abs(result[i]));
-            }
+        //Should apply power normalization ?
+        if(powerNormalize){
+            PowerNormalization pn = new PowerNormalization(0.5);
+            result = pn.Compute(result);
         }
         
         //Should apply ||x||^2 ?
-        if(posNormalize){
+        if(normalize){
             double sum = 0;
             for (int i = 0; i < result.length; i++) {
                 sum += result[i] * result[i];

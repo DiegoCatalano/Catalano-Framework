@@ -28,7 +28,7 @@ import Catalano.Math.Matrix;
 /**
  * Standartize matrix.
  * Standartize each column in the matrix.
- * x = (x - u) / s;
+ * f(x) = (x - u) / s;
  * 
  * @author Diego Catalano
  */
@@ -127,7 +127,7 @@ public class Standartization implements IFeatureScaling{
     }
 
     @Override
-    public double[] ComputeFeature(double[] feature) {
+    public double[] Compute(double[] feature) {
         double[] norm = new double[feature.length];
         for (int i = 0; i < norm.length; i++){
             norm[i] = (feature[i] - range[0][i]) / range[1][i];
@@ -137,7 +137,7 @@ public class Standartization implements IFeatureScaling{
     }
 
     @Override
-    public double[] ComputeFeature(DecisionVariable[] variables, double[] feature) {
+    public double[] Compute(DecisionVariable[] variables, double[] feature) {
         double[] norm = new double[feature.length];
         for (int i = 0; i < norm.length; i++){
             int idx = 0;

@@ -169,7 +169,7 @@ public class Normalization implements IFeatureScaling{
     }
 
     @Override
-    public double[] ComputeFeature(double[] feature){
+    public double[] Compute(double[] feature){
         double[] norm = new double[feature.length];
         for (int i = 0; i < norm.length; i++) {
             double v = Catalano.Math.Tools.Scale(range[0][i], range[1][i], min, max, feature[i]);
@@ -182,7 +182,7 @@ public class Normalization implements IFeatureScaling{
     }
     
     @Override
-    public double[] ComputeFeature(DecisionVariable[] attributes, double[] feature){
+    public double[] Compute(DecisionVariable[] attributes, double[] feature){
         double[] norm = new double[feature.length];
         for (int i = 0; i < norm.length; i++) {
             int idx = 0;

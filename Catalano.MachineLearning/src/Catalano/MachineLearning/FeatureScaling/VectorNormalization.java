@@ -27,7 +27,8 @@ import Catalano.Math.Matrix;
 
 /**
  * Vector normalization.
- * Apply norm (1 / ||x||).
+ * f(x) = 1 / ||x||
+ * 
  * @author Diego Catalano
  */
 public class VectorNormalization implements IFeatureScaling{
@@ -114,7 +115,7 @@ public class VectorNormalization implements IFeatureScaling{
     }
     
     @Override
-    public double[] ComputeFeature(double[] feature){
+    public double[] Compute(double[] feature){
         double[] result = new double[feature.length];
         
         double sum = 0;
@@ -130,7 +131,7 @@ public class VectorNormalization implements IFeatureScaling{
     }
     
     @Override
-    public double[] ComputeFeature(DecisionVariable[] variables, double[] feature){
+    public double[] Compute(DecisionVariable[] variables, double[] feature){
         double[] result = new double[feature.length];
         
         double sum = 0;
