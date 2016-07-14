@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.FeatureEncoder;
 
 import Catalano.MachineLearning.Clustering.ICentroidClustering;
+import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
 import Catalano.MachineLearning.FeatureScaling.PowerNormalization;
 import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
 
@@ -35,26 +36,35 @@ public class Vlad implements IFeatureEncoder{
     private ICentroidClustering clustering;
     private double[][] centroids;
     private boolean normalize;
-    private boolean powerNormalize;
+    private IFeatureScaling scaleVlad;
     
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
      */
     public Vlad(double[][] centroids){
-        this(centroids, false, true);
+        this(centroids, true, null);
     }
 
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
-     * @param powerNormalize Power Normalization(vlad).
      * @param normalize ||x||^2 normalization.
      */
-    public Vlad(double[][] centroids, boolean powerNormalize, boolean normalize) {
+    public Vlad(double[][] centroids, boolean normalize) {
+        this(centroids, normalize, null);
+    }
+    
+    /**
+     * Initializes a new instance of the Vlad class.
+     * @param centroids Centroids.
+     * @param normalize ||x||^2 normalization.
+     * @param scaleVlad Scale(Vlad).
+     */
+    public Vlad(double[][] centroids, boolean normalize, IFeatureScaling scaleVlad){
         this.centroids = centroids;
-        this.powerNormalize = powerNormalize;
         this.normalize = normalize;
+        this.scaleVlad = scaleVlad;
     }
     
     /**
@@ -62,19 +72,28 @@ public class Vlad implements IFeatureEncoder{
      * @param clustering Clustering algorithm.
      */
     public Vlad(ICentroidClustering clustering){
-        this(clustering, false, true);
+        this(clustering, true, null);
     }
     
     /**
      * Initializes a new instance of the Vlad class.
      * @param clustering CLustering algorithm.
-     * @param powerNormalize Power Normalization(vlad).
      * @param normalize ||x||^2 normalization.
      */
-    public Vlad(ICentroidClustering clustering, boolean powerNormalize, boolean normalize){
+    public Vlad(ICentroidClustering clustering, boolean normalize){
+        this(clustering, normalize, null);
+    }
+    
+    /**
+     * Initializes a new instance of the Vlad class.
+     * @param clustering CLustering algorithm.
+     * @param normalize ||x||^2 normalization.
+     * @param scaleVlad Scale(Vlad).
+     */
+    public Vlad(ICentroidClustering clustering, boolean normalize, IFeatureScaling scaleVlad){
         this.clustering = clustering;
-        this.powerNormalize = powerNormalize;
         this.normalize = normalize;
+        this.scaleVlad = scaleVlad;
     }
     
     /**
@@ -108,10 +127,9 @@ public class Vlad implements IFeatureEncoder{
             }
         }
         
-        //Should apply power normalization before ?
-        if(powerNormalize){
-            PowerNormalization pn = new PowerNormalization(0.5);
-            pn.ApplyInPlace(result);
+        //Should apply feature scaling ?
+        if(scaleVlad != null){
+            scaleVlad.ApplyInPlace(result);
         }
         
         //Should apply ||x||^2 ?
@@ -139,10 +157,9 @@ public class Vlad implements IFeatureEncoder{
             }
         }
         
-        //Should apply power normalization ?
-        if(powerNormalize){
-            PowerNormalization pn = new PowerNormalization(0.5);
-            result = pn.Compute(result);
+        //Should apply feature scaling ?
+        if(scaleVlad != null){
+            result = scaleVlad.Compute(result);
         }
         
         //Should apply ||x||^2 ?
