@@ -116,14 +116,17 @@ public class Vlad implements IFeatureEncoder{
         int D = k*d;
         
         double[] result = new double[D];
+        double[] current = new double[D];
         
         //v(i,j) = sum(xj - cij)
         int idx = 0;
         for (int f = 0; f < features.length; f++) {
             for (int c = 0; c < k; c++) {
-                double[] sub = Matrix.Subtract(features[f], centroids[c]);
-                for (int i = 0; i < sub.length; i++) {
-                    result[idx+i] = sub[i];
+                for (int l = 0; l < d; l++) {
+                    current[l] = features[f][l] - centroids[c][l];
+                }
+                for (int i = 0; i < current.length; i++) {
+                    result[idx+i] += current[i];
                 }
                 idx += k;
             }
@@ -146,49 +149,13 @@ public class Vlad implements IFeatureEncoder{
         
         //Should apply feature scaling ?
         if(scaleVlad != null){
-            scaleVlad.ApplyInPlace(result);
-        }
-        
-        //Should apply ||x||^2 ?
-        if(normalize){
-            VectorNormalization vn = new VectorNormalization();
-            vn.ApplyInPlace(result);
-        }
-        
-        return result;
-    }
-    
-    /**
-     * Compute a specified feature.
-     * @param feature Feature.
-     * @return Descriptors.
-     */
-    @Override
-    public double[] Compute(double[] feature){
-        double[] result = new double[feature.length * centroids.length];
-        int idx;
-        for (int i = 0; i < centroids.length; i++) {
-            idx = 0;
-            for (int j = 0; j < feature.length; j++) {
-                result[idx++] = feature[j] - centroids[i][j];
-            }
-        }
-        
-        //Should apply feature scaling ?
-        if(scaleVlad != null){
             result = scaleVlad.Compute(result);
         }
         
         //Should apply ||x||^2 ?
         if(normalize){
-            double sum = 0;
-            for (int i = 0; i < result.length; i++) {
-                sum += result[i] * result[i];
-            }
-            sum = Math.sqrt(sum);
-            for (int i = 0; i < result.length; i++) {
-                result[i] /= sum;
-            }
+            VectorNormalization vn = new VectorNormalization();
+            result = vn.Compute(result);
         }
         
         return result;
