@@ -23,7 +23,6 @@ package Catalano.MachineLearning.Clustering;
 
 import Catalano.Math.Distances.Distance;
 import Catalano.Math.Distances.IDivergence;
-import Catalano.Math.Random;
 import Catalano.Math.Tools;
 import java.util.Arrays;
 

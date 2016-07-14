@@ -24,8 +24,8 @@ package Catalano.MachineLearning.FeatureEncoder;
 
 import Catalano.MachineLearning.Clustering.ICentroidClustering;
 import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
-import Catalano.MachineLearning.FeatureScaling.PowerNormalization;
 import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
+import Catalano.Math.Distances.Distance;
 
 /**
  * Vlad (Vector Locally Agreggate Descriptors).
@@ -127,6 +127,21 @@ public class Vlad implements IFeatureEncoder{
             }
         }
         
+        //Euclidian distances
+        double[][] dist = new double[features.length][centroids.length];
+        for (int i = 0; i < features.length; i++) {
+            for (int j = 0; j < centroids.length; j++) {
+                dist[i][j] = Catalano.Math.Distances.Distance.Euclidean(features[i], centroids[j]);
+            }
+        }
+        
+        //Softmax
+        for (int i = 0; i < dist.length; i++) {
+            for (int j = 0; j < dist[0].length; j++) {
+                dist[i] = Softmax(dist[i], dist[i]);
+            }
+        }
+        
         //Should apply feature scaling ?
         if(scaleVlad != null){
             scaleVlad.ApplyInPlace(result);
@@ -174,6 +189,22 @@ public class Vlad implements IFeatureEncoder{
             }
         }
         
+        return result;
+    }
+    
+    private double[] Softmax(double[] input, double[] result)
+    {
+        double sum = 0;
+        for (int i = 0; i < input.length; i++)
+        {
+            double u = Math.exp(input[i]);
+            result[i] = u;
+            sum += u;
+        }
+
+        for (int i = 0; i < result.length; i++)
+            result[i] /= sum;
+
         return result;
     }
 }
