@@ -26,6 +26,7 @@ import Catalano.MachineLearning.Clustering.ICentroidClustering;
 import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
 import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
 import Catalano.Math.Distances.Distance;
+import Catalano.Math.Matrix;
 
 /**
  * Vlad (Vector Locally Agreggate Descriptors).
@@ -102,7 +103,7 @@ public class Vlad implements IFeatureEncoder{
      * @return Descriptors.
      */
     @Override
-    public double[][] Compute(double[][] features){
+    public double[] Compute(double[][] features){
         
         //If doesn't exists centroids, we need to compute
         if(centroids == null){
@@ -114,16 +115,17 @@ public class Vlad implements IFeatureEncoder{
         int d = features[0].length;
         int D = k*d;
         
-        double[][] result = new double[features.length][D];
+        double[] result = new double[D];
         
         //v(i,j) = sum(xj - cij)
-        int idx;
+        int idx = 0;
         for (int f = 0; f < features.length; f++) {
-            idx = 0;
-            for (int i = 0; i < k; i++) {
-                for (int j = 0; j < d; j++) {
-                    result[f][idx++] = features[f][j] - centroids[i][j];
+            for (int c = 0; c < k; c++) {
+                double[] sub = Matrix.Subtract(features[f], centroids[c]);
+                for (int i = 0; i < sub.length; i++) {
+                    result[idx+i] = sub[i];
                 }
+                idx += k;
             }
         }
         

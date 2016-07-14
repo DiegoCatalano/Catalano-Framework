@@ -32,6 +32,5 @@ public interface IFeatureEncoder {
      * @param data Data.
      * @return New data encoded.
      */
-    public double[][] Compute(double[][] data);
-    public double[] Compute(double[] feature);
+    public double[] Compute(double[][] data);
 }
