@@ -115,35 +115,38 @@ public class Vlad implements IFeatureEncoder{
         int d = features[0].length;
         int D = k*d;
         
-        double[] result = new double[D];
-        double[] current = new double[D];
-        
+        double[] result = new double[k * d];
+        double[] current = new double[k * d];
+
         //v(i,j) = sum(xj - cij)
-        int idx = 0;
         for (int f = 0; f < features.length; f++) {
+            int idx = 0;
             for (int c = 0; c < k; c++) {
                 for (int l = 0; l < d; l++) {
-                    current[l] = features[f][l] - centroids[c][l];
+                    current[idx++] = features[f][l] - centroids[c][l];
                 }
-                for (int i = 0; i < current.length; i++) {
-                    result[idx+i] += current[i];
-                }
-                idx += k;
             }
-        }
-        
-        //Euclidian distances
-        double[][] dist = new double[features.length][centroids.length];
-        for (int i = 0; i < features.length; i++) {
+
+            //Euclidian distances
+            double[] dist = new double[centroids.length];
             for (int j = 0; j < centroids.length; j++) {
-                dist[i][j] = Catalano.Math.Distances.Distance.Euclidean(features[i], centroids[j]);
+                dist[j] = Catalano.Math.Distances.Distance.Euclidean(features[f], centroids[j]);
             }
-        }
-        
-        //Softmax
-        for (int i = 0; i < dist.length; i++) {
-            for (int j = 0; j < dist[0].length; j++) {
-                dist[i] = Softmax(dist[i], dist[i]);
+
+            //Softmax
+            dist = Softmax(dist, dist);
+
+            //Multiply by softmax of distance
+            idx = 0;
+            for (int c = 0; c < k; c++) {
+                for (int l = 0; l < d; l++) {
+                    current[idx++] *= dist[c];
+                }
+            }
+
+            //sum
+            for (int i = 0; i < current.length; i++) {
+                result[idx+i] += current[i];
             }
         }
         
