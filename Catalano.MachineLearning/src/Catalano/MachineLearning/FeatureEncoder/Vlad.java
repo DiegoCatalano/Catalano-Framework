@@ -22,11 +22,8 @@
 
 package Catalano.MachineLearning.FeatureEncoder;
 
-import Catalano.MachineLearning.Clustering.ICentroidClustering;
 import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
 import Catalano.MachineLearning.FeatureScaling.VectorNormalization;
-import Catalano.Math.Distances.Distance;
-import Catalano.Math.Matrix;
 
 /**
  * Vlad (Vector Locally Agreggate Descriptors).
@@ -34,9 +31,9 @@ import Catalano.Math.Matrix;
  */
 public class Vlad implements IFeatureEncoder{
     
-    private ICentroidClustering clustering;
     private double[][] centroids;
     private boolean normalize;
+    private boolean softmax;
     private IFeatureScaling scaleVlad;
     
     /**
@@ -44,7 +41,7 @@ public class Vlad implements IFeatureEncoder{
      * @param centroids Centroids.
      */
     public Vlad(double[][] centroids){
-        this(centroids, true, null);
+        this(centroids, true);
     }
 
     /**
@@ -53,46 +50,28 @@ public class Vlad implements IFeatureEncoder{
      * @param normalize ||x||^2 normalization.
      */
     public Vlad(double[][] centroids, boolean normalize) {
-        this(centroids, normalize, null);
+        this(centroids, normalize, false);
     }
     
     /**
      * Initializes a new instance of the Vlad class.
      * @param centroids Centroids.
      * @param normalize ||x||^2 normalization.
+     * @param softmax Apply softmax function.
+     */
+    public Vlad(double[][] centroids, boolean normalize, boolean softmax){
+        this(centroids, normalize, softmax, null);
+    }
+    
+    /**
+     * Initializes a new instance of the Vlad class.
+     * @param centroids Centroids.
+     * @param normalize ||x||^2 normalization.
+     * @param softmax Apply softmax function.
      * @param scaleVlad Scale(Vlad).
      */
-    public Vlad(double[][] centroids, boolean normalize, IFeatureScaling scaleVlad){
+    public Vlad(double[][] centroids, boolean normalize, boolean softmax, IFeatureScaling scaleVlad){
         this.centroids = centroids;
-        this.normalize = normalize;
-        this.scaleVlad = scaleVlad;
-    }
-    
-    /**
-     * Initializes a new instance of the Vlad class.
-     * @param clustering Clustering algorithm.
-     */
-    public Vlad(ICentroidClustering clustering){
-        this(clustering, true, null);
-    }
-    
-    /**
-     * Initializes a new instance of the Vlad class.
-     * @param clustering CLustering algorithm.
-     * @param normalize ||x||^2 normalization.
-     */
-    public Vlad(ICentroidClustering clustering, boolean normalize){
-        this(clustering, normalize, null);
-    }
-    
-    /**
-     * Initializes a new instance of the Vlad class.
-     * @param clustering CLustering algorithm.
-     * @param normalize ||x||^2 normalization.
-     * @param scaleVlad Scale(Vlad).
-     */
-    public Vlad(ICentroidClustering clustering, boolean normalize, IFeatureScaling scaleVlad){
-        this.clustering = clustering;
         this.normalize = normalize;
         this.scaleVlad = scaleVlad;
     }
@@ -106,14 +85,11 @@ public class Vlad implements IFeatureEncoder{
     public double[] Compute(double[][] features){
         
         //If doesn't exists centroids, we need to compute
-        if(centroids == null){
-            clustering.Compute(features);
-            this.centroids = clustering.getCentroids();
-        }
+        if(centroids == null)
+            throw new IllegalArgumentException("Centroids cant be null");
         
         int k = centroids.length;
         int d = features[0].length;
-        int D = k*d;
         
         double[] result = new double[k * d];
         double[] current = new double[k * d];
@@ -126,25 +102,29 @@ public class Vlad implements IFeatureEncoder{
                     current[idx++] = features[f][l] - centroids[c][l];
                 }
             }
+            
+            //Should apply softmax ?
+            if(softmax){
+                //Euclidean distances
+                double[] dist = new double[centroids.length];
+                for (int j = 0; j < centroids.length; j++) {
+                    dist[j] = Catalano.Math.Distances.Distance.Euclidean(features[f], centroids[j]);
+                }
 
-            //Euclidian distances
-            double[] dist = new double[centroids.length];
-            for (int j = 0; j < centroids.length; j++) {
-                dist[j] = Catalano.Math.Distances.Distance.Euclidean(features[f], centroids[j]);
-            }
+                //Softmax
+                dist = Softmax(dist, dist);
 
-            //Softmax
-            dist = Softmax(dist, dist);
-
-            //Multiply by softmax of distance
-            idx = 0;
-            for (int c = 0; c < k; c++) {
-                for (int l = 0; l < d; l++) {
-                    current[idx++] *= dist[c];
+                //Multiply by softmax of distance
+                idx = 0;
+                for (int c = 0; c < k; c++) {
+                    for (int l = 0; l < d; l++) {
+                        current[idx++] *= dist[c];
+                    }
                 }
             }
 
             //sum
+            idx = 0;
             for (int i = 0; i < current.length; i++) {
                 result[idx+i] += current[i];
             }

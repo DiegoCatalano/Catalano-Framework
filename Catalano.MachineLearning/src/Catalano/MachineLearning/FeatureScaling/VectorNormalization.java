@@ -88,7 +88,7 @@ public class VectorNormalization implements IFeatureScaling{
                 sum += Math.pow(Math.abs(data[i][j]),l);
 
             }
-            sum = Math.pow(sum, 1/l);
+            sum = Math.pow(sum, 1D/l);
             for (int j = 0; j < data[0].length; j++) {
                 data[i][j] /= sum;
             }
@@ -105,7 +105,7 @@ public class VectorNormalization implements IFeatureScaling{
                     sum += Math.pow(Math.abs(data[i][j]),l);
                 }
             }
-            sum = Math.pow(sum, 1/l);
+            sum = Math.pow(sum, 1D/l);
             for (int j = 0; j < data[0].length; j++) {
                 if(variables[j].type == DecisionVariable.Type.Continuous){
                     data[i][j] /= sum;
@@ -122,9 +122,9 @@ public class VectorNormalization implements IFeatureScaling{
         for (int i = 0; i < feature.length; i++) {
             sum += Math.pow(Math.abs(feature[i]),l);
         }
-        sum = Math.pow(sum, 1/l);
+        sum = Math.pow(sum, 1D/l);
         for (int i = 0; i < feature.length; i++) {
-            feature[i] /= sum;
+            result[i] = feature[i] / sum;
         }
         
         return result;
@@ -139,10 +139,10 @@ public class VectorNormalization implements IFeatureScaling{
             if(variables[i].type == DecisionVariable.Type.Continuous)
                 sum += Math.pow(Math.abs(feature[i]),l);
         }
-        sum = Math.pow(sum, 1/l);
+        sum = Math.pow(sum, 1D/l);
         for (int i = 0; i < feature.length; i++) {
             if(variables[i].type == DecisionVariable.Type.Continuous)
-                feature[i] /= sum;
+                result[i] = feature[i] / sum;
         }
         
         return result;
