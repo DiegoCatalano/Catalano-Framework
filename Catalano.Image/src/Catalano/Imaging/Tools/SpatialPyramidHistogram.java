@@ -96,4 +96,25 @@ public class SpatialPyramidHistogram {
         
         return all;   
     }
+    
+    /**
+     * Compute the spatial histogram.
+     * @param fastBitmap Image to be processed.
+     * @param features Aggregate vectors.
+     * @return Spatial features.
+     */
+    public double[] Compute(FastBitmap fastBitmap, IAggregateVectors features){
+        
+        List<double[]> lst = new ArrayList<double[]>();
+        int size = 1;
+        for (int i = 0; i < level; i++) {
+            SpatialHistogram sh = new SpatialHistogram(size, size);
+            lst.add(sh.Compute(fastBitmap, features));
+            size *= 2;
+        }
+        
+        //Concatenate the the histograms
+        return ArraysUtil.ConcatenateDouble(lst);   
+        
+    }
 }

@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -19,21 +19,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Imaging.Texture.BinaryPattern;
+package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Tools.ImageHistogram;
 
 /**
- * Common interface to related binary pattern algorithms.
+ * Common interface for custom aggregation of the descriptors.
  * @author Diego Catalano
  */
-public interface IBinaryPattern {
-    
-    /**
-     * Compute binary pattern.
-     * @param fastBitmap Image to be processed.
-     * @return Binary pattern.
-     */
-    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap);
+public interface IAggregateVectors {
+    double[] Compute(FastBitmap fastBitmap);
 }

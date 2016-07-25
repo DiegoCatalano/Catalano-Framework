@@ -30,13 +30,13 @@ import Catalano.Imaging.Tools.ImageHistogram;
  */
 public class CenterSymmetricLocalBinaryPattern implements IBinaryPattern{
     
-    private int threshold;
+    private double threshold;
 
     /**
      * Get threshold.
      * @return Threshold value.
      */
-    public int getThreshold() {
+    public double getThreshold() {
         return threshold;
     }
 
@@ -52,19 +52,19 @@ public class CenterSymmetricLocalBinaryPattern implements IBinaryPattern{
      * Initializes a new instance of the CenterSymmetricLocalBinaryPattern class.
      */
     public CenterSymmetricLocalBinaryPattern() {
-        this(0);
+        this(0.1);
     }
     
     /**
      * Initializes a new instance of the CenterSymmetricLocalBinaryPattern class.
      * @param threshold Threshold value.
      */
-    public CenterSymmetricLocalBinaryPattern(int threshold){
+    public CenterSymmetricLocalBinaryPattern(double threshold){
         this.threshold = threshold;
     }
 
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap) {
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap) {
         
         if(!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("CS-LBP only works in grayscale images.");
@@ -78,10 +78,10 @@ public class CenterSymmetricLocalBinaryPattern implements IBinaryPattern{
             for (int y = 1; y < width; y++) {
                 sum = 0;
                 threshold = fastBitmap.getGray(x, y);
-                if (Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x + 1, y + 1)) - threshold >= 0)    sum += 8;
-                if (Math.abs(fastBitmap.getGray(x - 1, y) - fastBitmap.getGray(x + 1, y)) - threshold >= 0)            sum += 4;
-                if (Math.abs(fastBitmap.getGray(x - 1, y + 1) - fastBitmap.getGray(x + 1, y - 1)) - threshold >= 0)    sum += 2;
-                if (Math.abs(fastBitmap.getGray(x, y + 1) - fastBitmap.getGray(x, y - 1)) - threshold >= 0)            sum += 1;
+                if (Math.abs(fastBitmap.getGray(x - 1, y - 1) - fastBitmap.getGray(x + 1, y + 1)) >= threshold)    sum += 8;
+                if (Math.abs(fastBitmap.getGray(x - 1, y) - fastBitmap.getGray(x + 1, y)) >= threshold)            sum += 4;
+                if (Math.abs(fastBitmap.getGray(x - 1, y + 1) - fastBitmap.getGray(x + 1, y - 1)) >= threshold)    sum += 2;
+                if (Math.abs(fastBitmap.getGray(x, y + 1) - fastBitmap.getGray(x, y - 1)) >= threshold)            sum += 1;
                 g[sum]++;
             }
         }

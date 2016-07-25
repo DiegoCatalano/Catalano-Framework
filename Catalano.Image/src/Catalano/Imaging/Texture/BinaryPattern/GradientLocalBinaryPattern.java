@@ -37,7 +37,7 @@ public class GradientLocalBinaryPattern implements IBinaryPattern{
     public GradientLocalBinaryPattern() {}
     
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale()) {
             try {
                 throw new Exception("GLBP works only with grayscale images.");

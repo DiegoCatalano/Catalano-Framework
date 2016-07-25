@@ -79,7 +79,7 @@ public class LocalAdaptiveTernaryPattern implements IBinaryPattern{
     
     /**
      * Initialize a new instance of the LocalTernaryPattern class.
-     * @param threshold Threshold.
+     * @param constant Threshold.
      */
     public LocalAdaptiveTernaryPattern(double constant){
         this.constant = constant;
@@ -90,7 +90,7 @@ public class LocalAdaptiveTernaryPattern implements IBinaryPattern{
      * @param fastBitmap Image to be processed.
      */
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if(!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("Local Adaptive Ternary Pattern only works in grayscale images.");
         

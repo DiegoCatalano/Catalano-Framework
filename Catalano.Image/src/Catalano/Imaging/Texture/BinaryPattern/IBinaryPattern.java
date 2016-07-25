@@ -35,5 +35,5 @@ public interface IBinaryPattern {
      * @param fastBitmap Image to be processed.
      * @return Binary pattern.
      */
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap);
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap);
 }

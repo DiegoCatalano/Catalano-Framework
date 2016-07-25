@@ -38,7 +38,7 @@ public class MultiblockLocalBinaryPattern implements IBinaryPattern{
     }
 
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap) {
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap) {
         
         if (!fastBitmap.isGrayscale()) {
             try {
@@ -57,7 +57,6 @@ public class MultiblockLocalBinaryPattern implements IBinaryPattern{
         
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                
                 //Get rectangle mean for each top block
                 mask[0] = (int)ii.getRectangleMean(i, j, i + recHeight - 1, j + recWidth - 1);
                 mask[1] = (int)ii.getRectangleMean(i, j + recWidth - 1, i + recHeight - 1, j + 2 * recWidth - 1);

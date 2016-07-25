@@ -275,7 +275,7 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
         double[][] b = Matrix.MultiplyByTranspose(h);
         
         for (int i = 0; i < b.length; i++) {
-            b[i][i] += 1.0/c;
+            b[i][i] += 1.0 / c;
         }
         
         //Calculate the output weight

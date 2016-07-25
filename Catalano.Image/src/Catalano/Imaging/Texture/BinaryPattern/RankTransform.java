@@ -38,7 +38,7 @@ public class RankTransform implements IBinaryPattern{
     public RankTransform() {}
 
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap) {
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap) {
         if (!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("Rank Transform works only with grayscale images.");
         

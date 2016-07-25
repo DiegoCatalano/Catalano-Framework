@@ -21,9 +21,12 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.Crop;
 import Catalano.Imaging.Texture.BinaryPattern.IBinaryPattern;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Spatial Histogram.
@@ -71,7 +74,7 @@ public class SpatialHistogram {
         for (int i = 0; i < hBlock; i++) {
             for (int j = 0; j < wBlock; j++) {
                 FastBitmap copy = getSubimage(fastBitmap, i*hDiv, j*wDiv, wDiv, hDiv);
-                hist[idx++] = pattern.ProcessImage(copy);
+                hist[idx++] = pattern.ComputeFeatures(copy);
             }
         }
         
@@ -87,6 +90,34 @@ public class SpatialHistogram {
         }
         
         return all;
+        
+    }
+    
+    /**
+     * Compute the spatial histogram.
+     * @param fastBitmap Image to be processed.
+     * @param features Aggregate vectors.
+     * @return Spatial features.
+     */
+    public double[] Compute(FastBitmap fastBitmap, IAggregateVectors features){
+        
+        int width = fastBitmap.getWidth();
+        int height = fastBitmap.getHeight();
+        
+        int wDiv = (int)Math.round((double)width / (double)wBlock) - 1;
+        int hDiv = (int)Math.round((double)height / (double)hBlock) - 1;
+        
+        List<double[]> lst = new ArrayList<double[]>();
+        
+        for (int i = 0; i < hBlock; i++) {
+            for (int j = 0; j < wBlock; j++) {
+                FastBitmap copy = getSubimage(fastBitmap, i*hDiv, j*wDiv, wDiv, hDiv);
+                lst.add(features.Compute(copy));
+            }
+        }
+        
+        //Concatenate all the histograms
+        return ArraysUtil.ConcatenateDouble(lst);
         
     }
     

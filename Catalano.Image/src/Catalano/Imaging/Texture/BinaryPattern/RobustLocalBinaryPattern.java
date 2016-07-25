@@ -38,7 +38,7 @@ public class RobustLocalBinaryPattern implements IBinaryPattern{
     public RobustLocalBinaryPattern() {}
     
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("RLBP works only with grayscale images.");
         

@@ -66,13 +66,13 @@ public class UniformLocalBinaryPattern implements IBinaryPattern{
     }
 
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap) {
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap) {
         
         if(!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("Uniform LBP only works in grayscale images.");
         
         LocalBinaryPattern lbp = new LocalBinaryPattern();
-        return Encode(lbp.ProcessImage(fastBitmap),nonUniform);
+        return Encode(lbp.ComputeFeatures(fastBitmap),nonUniform);
         
     }
     

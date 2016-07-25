@@ -39,7 +39,7 @@ public class ImprovedLocalBinaryPattern implements IBinaryPattern{
     public ImprovedLocalBinaryPattern() {}
     
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("ILBP works only with grayscale images.");
         

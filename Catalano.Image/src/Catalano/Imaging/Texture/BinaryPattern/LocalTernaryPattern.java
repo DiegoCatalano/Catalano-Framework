@@ -89,7 +89,7 @@ public class LocalTernaryPattern implements IBinaryPattern{
      * @param fastBitmap Image to be processed.
      */
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if(!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("Local Ternary Pattern only works in grayscale images.");
         

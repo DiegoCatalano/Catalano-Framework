@@ -44,7 +44,7 @@ public class LocalGradientCodingHD implements IBinaryPattern{
     public LocalGradientCodingHD() {}
 
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap) {
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap) {
         if (!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("LGC-HD works only with grayscale images.");
         

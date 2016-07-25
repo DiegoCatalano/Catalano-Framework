@@ -38,7 +38,7 @@ public class LocalBinaryPattern implements IBinaryPattern{
     public LocalBinaryPattern() {}
     
     @Override
-    public ImageHistogram ProcessImage(FastBitmap fastBitmap){
+    public ImageHistogram ComputeFeatures(FastBitmap fastBitmap){
         if (!fastBitmap.isGrayscale())
             throw new IllegalArgumentException("LBP works only with grayscale images.");
         
@@ -64,5 +64,40 @@ public class LocalBinaryPattern implements IBinaryPattern{
             }
         }
         return new ImageHistogram(g);
+    }
+    
+    /**
+     * Convert the image in binary pattern representation.
+     * @param fastBitmap Image.
+     * @return Binary pattern image.
+     */
+    public FastBitmap toFastBitmap(FastBitmap fastBitmap){
+        
+        if (!fastBitmap.isGrayscale())
+            throw new IllegalArgumentException("LBP works only with grayscale images.");
+        
+        FastBitmap fb = new FastBitmap(fastBitmap.getWidth(), fastBitmap.getHeight(), FastBitmap.ColorSpace.Grayscale);
+        
+        int width = fastBitmap.getWidth() - 1;
+        int height = fastBitmap.getHeight() - 1;
+        
+        int sum;
+        int gray;
+        for (int x = 1; x < height; x++) {
+            for (int y = 1; y < width; y++) {
+                gray = fastBitmap.getGray(x, y);
+                sum = 0;
+                if (fastBitmap.getGray(x - 1, y - 1) - gray >= 0)    sum += 128;
+                if (fastBitmap.getGray(x - 1, y) - gray >= 0)        sum += 64;
+                if (fastBitmap.getGray(x - 1, y + 1) - gray >= 0)    sum += 32;
+                if (fastBitmap.getGray(x, y + 1) - gray >= 0)        sum += 16;
+                if (fastBitmap.getGray(x + 1, y + 1) - gray >= 0)    sum += 8;
+                if (fastBitmap.getGray(x + 1, y) - gray >= 0)        sum += 4;
+                if (fastBitmap.getGray(x + 1, y - 1) - gray >= 0)    sum += 2;
+                if (fastBitmap.getGray(x, y - 1) - gray >= 0)        sum += 1;
+                fb.setGray(x, y, sum);
+            }
+        }
+        return fb;
     }
 }
