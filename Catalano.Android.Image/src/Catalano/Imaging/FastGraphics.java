@@ -225,6 +225,50 @@ public class FastGraphics {
     }
     
     /**
+     * Draw image over a image.
+     * @param image Image.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     */
+    public void DrawImage(FastBitmap image, int x, int y){
+        int width = image.getWidth();
+        int height = image.getHeight();
+        
+        if(image.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+            if(image.isGrayscale()){
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        fastBitmap.setGray(i+x, j+y, image.getGray(i, j));
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        fastBitmap.setRGB(i+x, j+y, image.getRGB(i, j));
+                    }
+                }
+            }
+        }
+        else{
+            if(image.isGrayscale()){
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        fastBitmap.setGray(j+x, i+y, image.getGray(j, i));
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        fastBitmap.setRGB(j+x, i+y, image.getRGB(j, i));
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
      * Draw Polygon.
      * @param polygon Polygon.
      */

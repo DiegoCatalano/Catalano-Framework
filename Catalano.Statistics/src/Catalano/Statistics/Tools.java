@@ -249,6 +249,27 @@ public class Tools {
     }
     
     /**
+     * Mean of the matrix for each column.
+     * @param data Data.
+     * @return Mean of the each column.
+     */
+    public static double[] Mean(double[][] data){
+        
+        double[] means = new double[data[0].length];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[0].length; j++) {
+                means[j] += data[i][j];
+            }
+        }
+
+        for (int i = 0; i < means.length; i++) {
+            means[i] /= (double)data.length;
+        }
+        return means;
+        
+    }
+    
+    /**
      * Minimum element.
      * @param x Vector.
      * @return Minimum element of the vector.
@@ -424,5 +445,38 @@ public class Tools {
      */
     public static double StandartDeviation(double[] x, double mean){
         return Math.sqrt(Variance(x, mean));
+    }
+    
+    /**
+     * Standart deviation for each column.
+     * @param data Data.
+     * @return Standart deviation of the data.
+     */
+    public static double[] StandartDeviation(double[][] data){
+        double[] means = Mean(data);
+        return StandartDeviation(data, means);
+    }
+    
+    /**
+     * Standart deviation for each column.
+     * @param data Data.
+     * @param means Means of the columns.
+     * @return Standart deviation of the data.
+     */
+    public static double[] StandartDeviation(double[][] data, double[] means){
+        
+        double[] std = new double[means.length];
+        
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[0].length; j++) {
+                std[j] += Math.pow(data[i][j] - means[j], 2);
+            }
+        }
+
+        for (int i = 0; i < std.length; i++) {
+            std[i] = Math.sqrt(std[i] / ((double)data.length - 1D));
+        }
+        
+        return std;
     }
 }
