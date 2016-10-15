@@ -25,6 +25,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Imaging.Filters.Grayscale;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 
 /**
  * FastBitmap for manipulation of images.
@@ -85,15 +86,33 @@ public class FastBitmap {
         else
             isGrayscale = true;
     }
+    
+    /**
+     * Initializes a new instance of the FastBitmap class.
+     * @param pathname Pathname.
+     */
+    public FastBitmap(String pathname){
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inMutable = true;
+        opt.inPreferredConfig = Config.ARGB_8888;
+        
+        this.b = BitmapFactory.decodeFile(pathname, opt);
+    }
 
     /**
      * Initialize a new instance of the FastBitmap class.
+     * This constructor is creating OutOfMemory exception with large resolution.
      * @param bitmap Bitmap type.
      */
     public FastBitmap(Bitmap bitmap){
-        this.b = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
-        refresh();
+        if(bitmap.isMutable()){
+            this.b = bitmap;
+            setCoordinateSystem(FastBitmap.CoordinateSystem.Matrix);
+            refresh();
+        }
+        else{
+            throw new IllegalArgumentException("Bitmap needs to be mutable.");
+        }
     }
 
     /**

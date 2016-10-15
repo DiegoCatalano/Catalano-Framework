@@ -342,6 +342,29 @@ public class ImageUtils {
      * Normalize the image within the range [0..255].
      * @param image Image.
      */
+    public static void Normalize(int[][] image){
+        Normalize(image,0,255);
+    }
+    
+    /**
+     * Normalize the image.
+     * @param image Image.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     */
+    public static void Normalize(int[][] image, int min, int max){
+        int[] mm = Matrix.MinMax(image);
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[0].length; j++) {
+                image[i][j] = (int)Catalano.Math.Tools.Scale(mm[0], mm[1], min, max, image[i][j]);
+            }
+        }
+    }
+    
+    /**
+     * Normalize the image within the range [0..255].
+     * @param image Image.
+     */
     public static void Normalize(double[][] image){
         Normalize(image,0,255);
     }
