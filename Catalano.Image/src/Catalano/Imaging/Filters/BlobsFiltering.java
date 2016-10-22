@@ -39,15 +39,14 @@ import java.util.List;
 public class BlobsFiltering implements IApplyInPlace{
     
     public static enum Filter {Area, Size};
+    public static enum Logic {Or, And};
     private Filter filter = Filter.Area;
+    private Logic logic = Logic.Or;
     
     private int minArea = 0;
-    private int maxArea = Integer.MAX_VALUE;
-    
+
     private int minHeight = 0;
-    private int maxHeight = Integer.MAX_VALUE;
     private int minWidth = 0;
-    private int maxWidth = Integer.MAX_VALUE;
 
     /**
      * Get filtering type.
@@ -82,22 +81,6 @@ public class BlobsFiltering implements IApplyInPlace{
     }
 
     /**
-     * Get Maximum width allowed.
-     * @return Maximum width.
-     */
-    public int getMaxWidth() {
-        return maxWidth;
-    }
-
-    /**
-     * Set Maximum width allowed.
-     * @param maxWidth Maximum width.
-     */
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
-    }
-
-    /**
      * Get Minimum height allowed.
      * @return Minimum height.
      */
@@ -111,38 +94,6 @@ public class BlobsFiltering implements IApplyInPlace{
      */
     public void setMinHeight(int minHeight) {
         this.minHeight = minHeight;
-    }
-
-    /**
-     * Get Maximum height allowed.
-     * @return Maximum height.
-     */
-    public int getMaxHeight() {
-        return maxHeight;
-    }
-
-    /**
-     * Set Maximum height allowed.
-     * @param maxHeight Maximum height.
-     */
-    public void setMaxHeight(int maxHeight) {
-        this.maxHeight = maxHeight;
-    }
-    
-    /**
-     * Maximum area allowed for eliminate.
-     * @return Maximum area.
-     */
-    public int getMaxArea() {
-        return maxArea;
-    }
-
-    /**
-     * Maximum area allowed for eliminate.
-     * @param maxArea Maximum area.
-     */
-    public void setMaxArea(int maxArea) {
-        this.maxArea = Math.max(0, maxArea);
     }
 
     /**
@@ -168,27 +119,35 @@ public class BlobsFiltering implements IApplyInPlace{
     
     /**
      * Initialize a new instance of the BlobsFiltering class.
-     * @param minArea Minimum area.
-     * @param maxArea Maximum area.
+     * @param minArea Minimum area to remove.
      */
-    public BlobsFiltering(int minArea, int maxArea) {
+    public BlobsFiltering(int minArea) {
         this.minArea = Math.max(0, minArea);
-        this.maxArea = Math.max(0, maxArea);
     }
     
     /**
      * Initialize a new instance of the BlobsFiltering class.
-     * @param minWidth Minimum allowed width.
-     * @param maxWidth Maximum allowed width.
-     * @param minHeight Minimum allowed height.
-     * @param maxHeight Maximum allowed height.
+     * @param minWidth Minimum width to remove.
+     * @param minHeight Minimum height to remove.
      */
-    public BlobsFiltering(int minWidth, int maxWidth, int minHeight, int maxHeight){
+    public BlobsFiltering(int minWidth, int minHeight){
         this.minWidth = minWidth;
-        this.maxWidth = maxWidth;
         this.minHeight = minHeight;
-        this.maxHeight = maxHeight;
         this.filter = Filter.Size;
+        this.logic = Logic.Or;
+    }
+    
+    /**
+     * Initialize a new instance of the BlobsFiltering class.
+     * @param minWidth Minimum width to remove.
+     * @param minHeight Minimum height to remove.
+     * @param logic Logic.
+     */
+    public BlobsFiltering(int minWidth, int minHeight, Logic logic){
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
+        this.filter = Filter.Size;
+        this.logic = Logic.Or;
     }
     
     @Override
@@ -201,7 +160,7 @@ public class BlobsFiltering implements IApplyInPlace{
                 int area;
                 for (int i = 0; i < blobs.size(); i++) {
                     area = blobs.get(i).getArea();
-                    if ((area > minArea) && (area <= maxArea)) {
+                    if (area < minArea) {
                         for (IntPoint p : blobs.get(i).getPoints()) {
                             fastBitmap.setGray(p.x, p.y, 0);
                         }
@@ -214,8 +173,15 @@ public class BlobsFiltering implements IApplyInPlace{
                 for (int i = 0; i < blobs.size(); i++) {
                     blobWidth = blobs.get(i).getWidth();
                     blobHeight = blobs.get(i).getHeight();
-                    if ((blobWidth > minWidth) && (blobWidth <= maxWidth)) {
-                        if ((blobHeight > minHeight) && (blobHeight <= maxHeight)){
+                    if(logic == Logic.Or){
+                        if (blobWidth < minWidth || blobHeight < minHeight) {
+                            for (IntPoint p : blobs.get(i).getPoints()) {
+                                fastBitmap.setGray(p.x, p.y, 0);
+                            }
+                        }
+                    }
+                    else{
+                        if (blobWidth < minWidth && blobHeight < minHeight) {
                             for (IntPoint p : blobs.get(i).getPoints()) {
                                 fastBitmap.setGray(p.x, p.y, 0);
                             }

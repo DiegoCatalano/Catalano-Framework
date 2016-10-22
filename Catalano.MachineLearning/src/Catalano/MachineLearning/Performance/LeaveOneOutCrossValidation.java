@@ -51,20 +51,12 @@ public class LeaveOneOutCrossValidation implements IValidation, IRegressionValid
     @Override
     public double Run(IClassifier classifier, final double[][] data, final int[] labels) {
         int p = 0;
-        int e = 0;
         for (int i = 0; i < data.length; i++) {
             double[][] a = Matrix.RemoveRow(data, i);
             int[] b = Matrix.RemoveColumn(labels, i);
             classifier.Learn(a, b);
             if(classifier.Predict(data[i]) == labels[i])
                 p++;
-            else
-                e++;
-            
-            System.out.println("Faltam: " + (data.length - (i+1)));
-            double pp = ((data.length - e) * 100D) / data.length;
-            System.out.println("Classificação acertos: " + pp);
-            System.out.println("");
             
         }
         

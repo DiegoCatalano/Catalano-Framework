@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -32,22 +32,19 @@ import Catalano.Imaging.IApplyInPlace;
  * @author Diego Catalano
  */
 public class FillHoles implements IApplyInPlace{
-    private int minArea = 0; private int maxArea = 0;
+    
+    private int minArea = 0;
 
     /**
      * Initialize a new instance of the FillHoles class.
      */
-    public FillHoles() {
-        
-    }
+    public FillHoles() {}
     
     /**
      * Initialize a new instance of the FillHoles class.
      * @param minArea Minimum area of a hole to fill.
-     * @param maxArea Maximum area of a hole to fill.
      */
-    public FillHoles(int minArea, int maxArea) {
-        this.maxArea = Math.max(0, maxArea);
+    public FillHoles(int minArea) {
         this.minArea = Math.max(0, minArea);
     }
 
@@ -66,22 +63,6 @@ public class FillHoles implements IApplyInPlace{
     public void setMinArea(int minArea) {
         this.minArea = minArea;
     }
-
-    /**
-     * Maximum area of a hole.
-     * @return Area.
-     */
-    public int getMaxArea() {
-        return maxArea;
-    }
-
-    /**
-     * Maximum area of a hole.
-     * @param maxArea Area.
-     */
-    public void setMaxArea(int maxArea) {
-        this.maxArea = maxArea;
-    }
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
@@ -89,9 +70,7 @@ public class FillHoles implements IApplyInPlace{
         Invert inv = new Invert();
         inv.applyInPlace(fastBitmap);
         
-        BlobsFiltering bf = new BlobsFiltering();
-        bf.setMinArea(minArea);
-        bf.setMaxArea(maxArea);
+        BlobsFiltering bf = new BlobsFiltering(minArea);
         bf.applyInPlace(fastBitmap);
         inv.applyInPlace(fastBitmap);
         
