@@ -32,7 +32,14 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.FileImageOutputStream;
 import javax.swing.ImageIcon;
 
 /**
@@ -1332,6 +1339,26 @@ public class FastBitmap {
     public void saveAsGIF(String pathname){
         try {
             ImageIO.write(this.bufferedImage, "gif", new File(pathname));
+        } catch (IOException ex) {
+            //Logger.getLogger(FastBitmap.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Save FastBitmap as JPG.
+     * @param pathname Path name.
+     * @param quality Quality.
+     */
+    public void saveAsJPG(String pathname, float quality){
+        try {
+            JPEGImageWriteParam params = new JPEGImageWriteParam(null);
+            params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            params.setCompressionQuality(quality);
+            
+            final ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+            writer.setOutput(new FileImageOutputStream(new File(pathname)));
+            writer.write(null, new IIOImage(bufferedImage, null, null), params);
         } catch (IOException ex) {
             //Logger.getLogger(FastBitmap.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();

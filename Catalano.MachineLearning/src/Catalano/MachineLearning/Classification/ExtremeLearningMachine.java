@@ -301,24 +301,6 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
         return v;
         
     }
-    
-    /**
-     * Compute the probability of the predicted feature.
-     * @param feature Feature.
-     * @return probability of the predicted feature.
-     */
-    public double Probability(double[] feature){
-        double[] temp = Matrix.MultiplyByTranspose(inputWeight, feature);
-        Matrix.Add(temp, bias);
-        
-        //Compute the function
-        for (int i = 0; i < temp.length; i++) {
-            temp[i] = function.Compute(temp[i]);
-        }
-        
-        double[] r = Matrix.Multiply(temp, outputWeight);
-        return Matrix.Max(r);
-    }
 
     @Override
     public IClassifier clone() {
