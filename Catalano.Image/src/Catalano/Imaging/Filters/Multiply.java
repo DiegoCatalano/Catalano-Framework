@@ -35,14 +35,14 @@ public class Multiply implements IApplyInPlace{
     private boolean isOverlay = false;
 
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Mulltiply class.
      */
     public Multiply() {
         
     }
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Mulltiply class.
      * @param gray Gray value.
      */
     public Multiply(double gray){
@@ -50,7 +50,7 @@ public class Multiply implements IApplyInPlace{
     }
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Mulltiply class.
      * @param r Red value.
      * @param g Green value.
      * @param b Blue value.
@@ -62,7 +62,7 @@ public class Multiply implements IApplyInPlace{
     }
 
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Mulltiply class.
      * @param overlayImage Overlay image.
      */
     public Multiply(FastBitmap overlayImage) {

@@ -35,12 +35,12 @@ public class Subtract implements IApplyInPlace{
     private boolean isOverlay = false;
 
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Subtract class.
      */
     public Subtract() {}
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Subtract class.
      * @param gray Gray value.
      */
     public Subtract(int gray){
@@ -48,7 +48,7 @@ public class Subtract implements IApplyInPlace{
     }
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Subtract class.
      * @param r Red value.
      * @param g Green value.
      * @param b Blue value.
@@ -60,7 +60,7 @@ public class Subtract implements IApplyInPlace{
     }
 
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Subtract class.
      * @param overlayImage Overlay image.
      */
     public Subtract(FastBitmap overlayImage) {

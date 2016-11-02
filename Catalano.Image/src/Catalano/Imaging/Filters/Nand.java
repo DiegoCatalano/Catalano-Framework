@@ -27,7 +27,7 @@ import Catalano.Imaging.IApplyInPlace;
 /**
  * Nand filter - Performs logical operator "nand" between two images.
  * <br />Logical operators are generally derived from <i>Boolean algebra</i>.
- * <br /><br />Truth-tables for AND: <br /><br />
+ * <br /><br />Truth-tables for NAND: <br /><br />
  * A    B  |    Q <br />
  * --------- <br />
  * 0    0  |    1 <br />
@@ -40,14 +40,25 @@ import Catalano.Imaging.IApplyInPlace;
 public class Nand implements IApplyInPlace{
     FastBitmap overlayImage;
 
+    /**
+     * Initialize a new instance of the Nand class.
+     */
     public Nand() {
         
     }
 
+    /**
+     * Initialize a new instance of the Nand class with defined an overlay image.
+     * @param overlayImage Overlay image.
+     */
     public Nand(FastBitmap overlayImage) {
         this.overlayImage = overlayImage;
     }
 
+    /**
+     * Set Overlay image.
+     * @param overlayImage Overlay image.
+     */
     public void setOverlayImage(FastBitmap overlayImage) {
         this.overlayImage = overlayImage;
     }

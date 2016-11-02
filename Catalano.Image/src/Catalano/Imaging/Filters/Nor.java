@@ -27,7 +27,7 @@ import Catalano.Imaging.IApplyInPlace;
 /**
  * Nor filter - Performs logical operator "nor" between two images.
  * <br />Logical operators are generally derived from <i>Boolean algebra</i>.
- * <br /><br />Truth-tables for AND: <br /><br />
+ * <br /><br />Truth-tables for NOR: <br /><br />
  * A    B  |    Q <br />
  * --------- <br />
  * 0    0  |    1 <br />
@@ -40,14 +40,25 @@ import Catalano.Imaging.IApplyInPlace;
 public class Nor implements IApplyInPlace{
     FastBitmap overlayImage;
 
+    /**
+     * Initialize a new instance of the Nor class.
+     */
     public Nor() {
         
     }
 
+    /**
+     * Initialize a new instance of the Nor class with defined an overlay image.
+     * @param overlayImage Overlay image.
+     */
     public Nor(FastBitmap overlayImage) {
         this.overlayImage = overlayImage;
     }
 
+    /**
+     * Set Overlay image.
+     * @param overlayImage Overlay image.
+     */
     public void setOverlayImage(FastBitmap overlayImage) {
         this.overlayImage = overlayImage;
     }

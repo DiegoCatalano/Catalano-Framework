@@ -25,7 +25,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
- * Add filter - Performs logical operator "and" between two images.
+ * And filter - Performs logical operator "and" between two images.
  * <br />Logical operators are generally derived from <i>Boolean algebra</i>.
  * <br /><br />Truth-tables for AND: <br /><br />
  * A    B  |    Q <br />
