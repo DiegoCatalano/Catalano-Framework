@@ -127,11 +127,12 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     }
     
     /**
-     * Get the number of attributes.
+     * Get the number of all the attributes.
+     * Number of feature + class.
      * @return Number of attributes.
      */
     public int getNumberOfAttributes(){
-        return attributes.length + 1;
+        return attributes.length;
     }
     
     /**

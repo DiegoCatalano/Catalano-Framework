@@ -4,17 +4,20 @@
  * and open the template in the editor.
  */
 
-package Catalano.Genetic.SwarmIntelligence;
+package Catalano.Genetic.SwarmIntelligence.PSO;
 
 import Catalano.Core.DoubleRange;
+import Catalano.Genetic.SwarmIntelligence.BoundConstraint;
+import Catalano.Genetic.SwarmIntelligence.IObjectiveFunction;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- *
- * @author Diego
+ * Particle Swarm Optimization (PSO).
+ * 
+ * @author Diego Catalano
  */
 public class ParticleSwarmOptimization {
     
@@ -38,18 +41,41 @@ public class ParticleSwarmOptimization {
     private List<Location> pBestLocation = new ArrayList<Location>();
     private List<Particle> swarm = new ArrayList<Particle>();
 
+    /**
+     * Initializes a new instance of the ParticleSwarmOptimization class.
+     */
     public ParticleSwarmOptimization() {
         this(64,100);
     }
     
+    /**
+     * Initializes a new instance of the ParticleSwarmOptimization class.
+     * @param swarm Number of swarms.
+     * @param iterations Number of iterations.
+     */
     public ParticleSwarmOptimization(int swarm, int iterations) {
         this(swarm, iterations, 1.5, 1.5);
     }
     
+    /**
+     * Initializes a new instance of the ParticleSwarmOptimization class.
+     * @param swarm Number of swarms.
+     * @param iterations Number of iterations.
+     * @param c1 Learning factor 1.
+     * @param c2 Learning factor 2.
+     */
     public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2){
         this(swarm, iterations, c1, c2, 0);
     }
     
+    /**
+     * Initializes a new instance of the ParticleSwarmOptimization class.
+     * @param swarm Number of swarms.
+     * @param iterations Number of iterations.
+     * @param c1 Learning factor 1.
+     * @param c2 Learning factor 2.
+     * @param seed Random seed.
+     */
     public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2, long seed){
         this.swarmSize = swarm;
         this.iterations = iterations;
@@ -61,7 +87,13 @@ public class ParticleSwarmOptimization {
         this.pBest = new double[swarmSize];
     }
     
-    public double[] Optimize(IFitness function, BoundConstraint constraint){
+    /**
+     * Optimize the function.
+     * @param function Objective function.
+     * @param constraint Constraint.
+     * @return Best parameters.
+     */
+    public double[] Optimize(IObjectiveFunction function, BoundConstraint constraint){
         
         //Initialize the particle
         initializeSwarm(swarmSize, constraint, seed);
@@ -89,8 +121,8 @@ public class ParticleSwarmOptimization {
             //2) Update gBest
             int bestParticleIndex = Matrix.MinIndex(fitness);
             if(i == 0 || fitness[bestParticleIndex] < gBest) {
-                    gBest = fitness[bestParticleIndex];
-                    gBestLocation = swarm.get(bestParticleIndex).getLocation();
+                gBest = fitness[bestParticleIndex];
+                gBestLocation = swarm.get(bestParticleIndex).getLocation();
             }
             
             w = W_UPPERBOUND - (((double) i) / (double)iterations) * (W_UPPERBOUND - W_LOWERBOUND);
@@ -140,14 +172,13 @@ public class ParticleSwarmOptimization {
     }
     
     private void initializeSwarm(int swarmSize, BoundConstraint constraint, long seed) {
-        Particle p;
+        
         int size = constraint.getLocationRange().size();
         
         Random r = new Random();
         if(seed != 0) r.setSeed(seed);
         
         for(int i = 0; i < swarmSize; i++) {
-            p = new Particle();
 
             // randomize location inside a space defined in Problem Set
             double[] loc = new double[size];
@@ -165,13 +196,11 @@ public class ParticleSwarmOptimization {
             }
             Velocity velocity = new Velocity(vel);
 
-            p.setLocation(location);
-            p.setVelocity(velocity);
-            swarm.add(p);
+            swarm.add(new Particle(location, velocity));
         }
     }
     
-    private void UpdateFitness(IFitness function){
+    private void UpdateFitness(IObjectiveFunction function){
         for (int i = 0; i < swarmSize; i++) {
             fitness[i] = function.Compute(swarm.get(i).getLocation().getValue());
         }

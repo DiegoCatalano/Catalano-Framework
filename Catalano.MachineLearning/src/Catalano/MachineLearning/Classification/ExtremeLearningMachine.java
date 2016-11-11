@@ -251,9 +251,11 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
         }
         
         //Create random biases BiasofHiddenNeurons
-        bias = new double[nHiddenNodes];
-        for (int i = 0; i < bias.length; i++) {
-            bias[i] = r.nextDouble();
+        if (bias == null){
+            bias = new double[nHiddenNodes];
+            for (int i = 0; i < bias.length; i++) {
+                bias[i] = r.nextDouble();
+            }
         }
         
         //Add bias

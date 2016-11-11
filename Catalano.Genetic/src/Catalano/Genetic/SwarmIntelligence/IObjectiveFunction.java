@@ -8,8 +8,8 @@ package Catalano.Genetic.SwarmIntelligence;
 
 /**
  *
- * @author Diego
+ * @author Diego Catalano
  */
-public interface IFitness {
+public interface IObjectiveFunction {
     double Compute(double[] location);
 }

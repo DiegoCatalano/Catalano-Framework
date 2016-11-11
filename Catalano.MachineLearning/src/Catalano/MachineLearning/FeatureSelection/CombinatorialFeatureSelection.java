@@ -130,9 +130,11 @@ public class CombinatorialFeatureSelection {
                 score = val;
                 bestIndexes = index;
             }
-            
-            System.out.println(n-i);
+//            System.out.println("Combination: " + (n-i));
+//            System.out.println("Score: " + val);
+//            System.out.println();
         }
+        //System.out.println("Best Score: " + score);
     }
     
     private boolean[] toBinary(int number, int bits) {

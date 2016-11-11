@@ -4,24 +4,36 @@
  * and open the template in the editor.
  */
 
-package Catalano.Genetic.SwarmIntelligence;
+package Catalano.Genetic.SwarmIntelligence.PSO;
 
 /**
- *
- * @author Diego
+ * Velocity.
+ * @author Diego Catalano
  */
 public class Velocity {
     
     private double[] velocity;
 
+    /**
+     * Get value.
+     * @return Value.
+     */
     public double[] getValue() {
         return velocity;
     }
 
+    /**
+     * Set value.
+     * @param velocity Value.
+     */
     public void setValue(double[] velocity) {
         this.velocity = velocity;
     }
 
+    /**
+     * Initializes a new instance of the Velocity class.
+     * @param velocity 
+     */
     public Velocity(double[] velocity) {
         this.velocity = velocity;
     }
