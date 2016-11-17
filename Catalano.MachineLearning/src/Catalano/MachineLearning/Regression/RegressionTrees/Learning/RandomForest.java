@@ -30,7 +30,7 @@ import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.MachineLearning.Regression.IRegression;
 import Catalano.MachineLearning.Regression.RegressionTrees.RegressionTree;
-import Catalano.Math.Random;
+import Catalano.Math.Random.Random;
 import Catalano.Math.Tools;
 import java.io.Serializable;
 import java.util.ArrayList;

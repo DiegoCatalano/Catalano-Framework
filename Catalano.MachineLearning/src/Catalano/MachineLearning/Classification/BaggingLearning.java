@@ -101,7 +101,7 @@ public class BaggingLearning implements IClassifier{
             
             //Create random trainning sample
             Random r = new Random();
-            int[] index = new int[input.length];
+            int[] index = new int[(int)(input.length * 0.6)];
             for (int j = 0; j < index.length; j++) {
                 index[j] = r.nextInt(input.length);
             }

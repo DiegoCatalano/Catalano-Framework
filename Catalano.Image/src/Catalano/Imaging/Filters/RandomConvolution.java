@@ -24,7 +24,7 @@ package Catalano.Imaging.Filters;
 import Catalano.Core.DoubleRange;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IApplyInPlace;
-import Catalano.Math.Random;
+import Catalano.Math.Random.Random;
 
 /**
  * Random Convolution filter.

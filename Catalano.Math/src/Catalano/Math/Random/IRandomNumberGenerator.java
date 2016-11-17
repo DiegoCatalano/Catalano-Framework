@@ -22,19 +22,25 @@
 // limitations under the License.
 //
 
-package Catalano.Math;
+package Catalano.Math.Random;
 
 /**
  * Random number generator interface.
  * 
  * @author Haifeng Li
  */
-public interface RandomNumberGenerator {
+public interface IRandomNumberGenerator {
+    
+    /**
+     * Set seed.
+     * @param seed Seed.
+     */
+    public void setSeed(long seed);
     
     /**
      * Returns up to 32 random bits.
      */
-    public int next(int numbits);
+    public int nextBits(int numbits);
 
     /**
      * Returns the next pseudorandom, uniformly distributed int value

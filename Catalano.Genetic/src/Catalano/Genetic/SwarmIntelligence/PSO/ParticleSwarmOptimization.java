@@ -1,8 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Genetic Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2012-2016
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 package Catalano.Genetic.SwarmIntelligence.PSO;
 
@@ -16,7 +32,6 @@ import java.util.Random;
 
 /**
  * Particle Swarm Optimization (PSO).
- * 
  * @author Diego Catalano
  */
 public class ParticleSwarmOptimization {
@@ -31,15 +46,26 @@ public class ParticleSwarmOptimization {
     private double gBest;
     private Location gBestLocation;
     
+    private double w;
     private double C1;
     private double C2;
     private double W_UPPERBOUND = 1.0;
     private double W_LOWERBOUND = 0;
     
+    private double minError = Double.MAX_VALUE;
+    
     private Random random = new Random();
     
     private List<Location> pBestLocation = new ArrayList<Location>();
     private List<Particle> swarm = new ArrayList<Particle>();
+    
+    /**
+     * Get minimum error of the function.
+     * @return Minimum error found by PSO.
+     */
+    public double getError(){
+        return minError;
+    }
 
     /**
      * Initializes a new instance of the ParticleSwarmOptimization class.
@@ -54,7 +80,7 @@ public class ParticleSwarmOptimization {
      * @param iterations Number of iterations.
      */
     public ParticleSwarmOptimization(int swarm, int iterations) {
-        this(swarm, iterations, 1.5, 1.5);
+        this(swarm, iterations, 1.5, 1.5, 0.9);
     }
     
     /**
@@ -63,9 +89,10 @@ public class ParticleSwarmOptimization {
      * @param iterations Number of iterations.
      * @param c1 Learning factor 1.
      * @param c2 Learning factor 2.
+     * @param w Learning factor 0.
      */
-    public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2){
-        this(swarm, iterations, c1, c2, 0);
+    public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2, double w){
+        this(swarm, iterations, c1, c2, w, 0);
     }
     
     /**
@@ -74,13 +101,15 @@ public class ParticleSwarmOptimization {
      * @param iterations Number of iterations.
      * @param c1 Learning factor 1.
      * @param c2 Learning factor 2.
+     * @param w Learning factor 0.
      * @param seed Random seed.
      */
-    public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2, long seed){
+    public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2, double w, long seed){
         this.swarmSize = swarm;
         this.iterations = iterations;
         this.C1 = c1;
         this.C2 = c2;
+        this.w = w;
         this.seed = seed;
         
         this.fitness = new double[swarmSize];
@@ -106,8 +135,6 @@ public class ParticleSwarmOptimization {
             pBestLocation.add(swarm.get(i).getLocation());
         }
         
-        double w = 0;
-        double err = 0;
         for (int i = 0; i < iterations; i++) {
             
             //1) Update pBest
@@ -124,8 +151,6 @@ public class ParticleSwarmOptimization {
                 gBest = fitness[bestParticleIndex];
                 gBestLocation = swarm.get(bestParticleIndex).getLocation();
             }
-            
-            w = W_UPPERBOUND - (((double) i) / (double)iterations) * (W_UPPERBOUND - W_LOWERBOUND);
             
             //For each swarm
             for (int j = 0; j < swarmSize; j++) {
@@ -156,13 +181,7 @@ public class ParticleSwarmOptimization {
                 swarm.set(j, p);
             }
             
-            err = function.Compute(gBestLocation.getValue());
-            
-            System.out.println("ITERATION " + i + ": ");
-            System.out.println("     Best X: " + gBestLocation.getValue()[0]);
-            System.out.println("     Best Y: " + gBestLocation.getValue()[1]);
-            System.out.println("     Value: " + err);
-            
+            minError = function.Compute(gBestLocation.getValue());
             UpdateFitness(function);
             
         }

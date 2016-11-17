@@ -22,7 +22,7 @@
 // limitations under the License.
 //
 
-package Catalano.Math;
+package Catalano.Math.Random;
 
 /**
  * The so called "Universal Generator" based on multiplicative congruential
@@ -35,7 +35,7 @@ package Catalano.Math;
  * 
  * @author Haifeng Li
  */
-public class UniversalGenerator implements RandomNumberGenerator {
+public class UniversalGenerator implements IRandomNumberGenerator {
 
     /**
      * Default seed.  <CODE>DEFAULT_RANDOM_SEED=54217137</CODE>
@@ -52,6 +52,11 @@ public class UniversalGenerator implements RandomNumberGenerator {
     private static final int BIG_PRIME = 899999963;
     private double c, cd, cm, u[];
     private int i97, j97;
+
+    @Override
+    public void setSeed(long seed) {
+        srand(Math.abs((int) (seed % BIG_PRIME)));
+    }
 
     /**
      * Initialize Random with default seed.
@@ -71,7 +76,7 @@ public class UniversalGenerator implements RandomNumberGenerator {
      * Initialize Random with a specified long seed
      */
     public UniversalGenerator(long seed) {
-        srand(Math.abs((int) (seed % BIG_PRIME)));
+        setSeed(seed);
     }
 
     /**
@@ -184,7 +189,7 @@ public class UniversalGenerator implements RandomNumberGenerator {
     }
 
     @Override
-    public int next(int numbits) {
+    public int nextBits(int numbits) {
         return nextInt() >>> (32 - numbits);
     }
     
@@ -201,12 +206,12 @@ public class UniversalGenerator implements RandomNumberGenerator {
         
         // n is a power of 2
         if ((n & -n) == n) {
-            return (int) ((n * (long) next(31)) >> 31);
+            return (int) ((n * (long) nextBits(31)) >> 31);
         }
 
         int bits, val;
         do {
-            bits = next(31);
+            bits = nextBits(31);
             val = bits % n;
         } while (bits - val + (n - 1) < 0);
         

@@ -22,7 +22,7 @@
 // limitations under the License.
 //
 
-package Catalano.Math;
+package Catalano.Math.Random;
 
 /**
  * This is a high quality random number generator as a replacement of
@@ -32,7 +32,16 @@ package Catalano.Math;
  */
 public class Random {
 
-    private RandomNumberGenerator rng;
+    private IRandomNumberGenerator rng;
+    private long seed;
+
+    public long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
 
     /**
      * Initialize with default random number generator engine.
@@ -51,7 +60,7 @@ public class Random {
     /**
      * Initialize with given random number generator engine.
      */
-    public Random(RandomNumberGenerator rng) {
+    public Random(IRandomNumberGenerator rng) {
         this.rng = rng;
     }
 

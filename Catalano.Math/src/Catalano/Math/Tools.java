@@ -24,6 +24,7 @@
 
 package Catalano.Math;
 
+import Catalano.Math.Random.Random;
 import Catalano.Core.DoubleRange;
 import Catalano.Core.FloatRange;
 import Catalano.Core.IntRange;
