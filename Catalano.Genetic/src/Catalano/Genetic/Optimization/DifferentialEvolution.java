@@ -99,6 +99,7 @@ public class DifferentialEvolution {
                 //Select a random feature
                 int var = rand.nextInt(pop[0].length + 1);
 
+                //Crossover
                 double[] trial = new double[pop[0].length];
                 for (int i = 0; i < trial.length; i++) {
                     if(rand.nextDouble() <= prob || i == var){
@@ -107,6 +108,12 @@ public class DifferentialEvolution {
                     else{
                         trial[i] = pop[p][i];
                     }
+                }
+                
+                //Fix constraint
+                for (int i = 0; i < trial.length; i++) {
+                    trial[i] = trial[i] < boundConstraint.get(0).getMin() ? boundConstraint.get(0).getMin() : trial[i];
+                    trial[i] = trial[i] > boundConstraint.get(0).getMax() ? boundConstraint.get(0).getMax() : trial[i];
                 }
 
                 double fTrial = function.Compute(trial);
