@@ -23,8 +23,8 @@
 package Catalano.Genetic.SwarmIntelligence.PSO;
 
 import Catalano.Core.DoubleRange;
+import Catalano.Genetic.Optimization.IObjectiveFunction;
 import Catalano.Genetic.SwarmIntelligence.BoundConstraint;
-import Catalano.Genetic.SwarmIntelligence.IObjectiveFunction;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ import java.util.Random;
 
 /**
  * Particle Swarm Optimization (PSO).
+ * Need implements news weight (w). http://www.ijmlc.org/vol5/535-C037.pdf
  * @author Diego Catalano
  */
 public class ParticleSwarmOptimization {

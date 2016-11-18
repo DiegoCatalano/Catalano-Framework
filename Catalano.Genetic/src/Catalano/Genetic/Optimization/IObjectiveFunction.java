@@ -20,12 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Genetic.SwarmIntelligence;
+package Catalano.Genetic.Optimization;
 
 /**
  *
  * @author Diego Catalano
  */
 public interface IObjectiveFunction {
-    double Compute(double[] location);
+    double Compute(double[] values);
 }
