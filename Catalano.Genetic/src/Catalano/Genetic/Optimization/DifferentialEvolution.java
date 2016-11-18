@@ -1,17 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Catalano Genetic Library
+// The Catalano Framework
+//
+// Copyright © Diego Catalano, 2012-2016
+// diego.catalano at live.com
+//
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 package Catalano.Genetic.Optimization;
 
 import Catalano.Core.ArraysUtil;
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
+import Catalano.Math.Random.Random;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -23,7 +39,7 @@ public class DifferentialEvolution {
     private int generations;
     
     private double f;
-    private double prob;
+    private float prob;
     
     private double minError;
     
@@ -32,10 +48,18 @@ public class DifferentialEvolution {
     }
     
     public DifferentialEvolution(){
-        this(100,100,0.2,0.3);
+        this(100,100,0.5,0.85f);
+    }
+    
+    public DifferentialEvolution(int population, int generations){
+        this(population, generations, 1.5);
+    }
+    
+    public DifferentialEvolution(int population, int generations, double f){
+        this(population, generations, f, 0.85f);
     }
 
-    public DifferentialEvolution(int population, int generations, double f, double prob) {
+    public DifferentialEvolution(int population, int generations, double f, float prob) {
         this.population = population;
         this.generations = generations;
         this.f = f;
@@ -62,12 +86,13 @@ public class DifferentialEvolution {
         }
         
         double[] best = new double[pop[0].length];
+        minError = fitness[0];
         
         for (int g = 0; g < generations; g++) {
             for (int p = 0; p < pop.length; p++) {
 
                 //Select 3 random individual
-                int[] idx = Matrix.CreateMatrix1D(0, fitness.length);
+                int[] idx = Matrix.Indices(0, fitness.length);
                 ArraysUtil.Shuffle(idx);
                 idx = Arrays.copyOf(idx, 3);
 
@@ -87,12 +112,12 @@ public class DifferentialEvolution {
                 double fTrial = function.Compute(trial);
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
-                    best = trial;
-                    minError = fTrial;
+                    if(fTrial < minError) best = trial;
+                    minError = Math.min(minError, fTrial);
                 }
             }
         }
         
-        return pop[Matrix.MinIndex(fitness)];
+        return best;
     }
 }
