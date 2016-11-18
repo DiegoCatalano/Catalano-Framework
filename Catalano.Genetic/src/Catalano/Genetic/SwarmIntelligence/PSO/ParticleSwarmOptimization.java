@@ -178,6 +178,12 @@ public class ParticleSwarmOptimization {
                 Location loc = new Location(newLocation);
                 p.setLocation(loc);
                 
+                //Fix constraint
+                for (int k = 0; k < newLocation.length; k++) {
+                    newLocation[k] = newLocation[k] < constraint.getLocationRange().get(k).getMin() ? constraint.getLocationRange().get(k).getMin() : newLocation[k];
+                    newLocation[k] = newLocation[k] > constraint.getLocationRange().get(k).getMax() ? constraint.getLocationRange().get(k).getMax() : newLocation[k];
+                }
+                
                 //Swap the swarm
                 swarm.set(j, p);
             }
