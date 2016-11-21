@@ -114,28 +114,36 @@ public class DifferentialEvolution implements IOptimization{
     }
     
     public DifferentialEvolution(int population, int generations, double f, float prob, Strategy strategy) {
+        this(population, generations, f, prob, strategy, f);
+    }
+    
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     * @param population Population size.
+     * @param generations Generations.
+     * @param f Mutation factor.
+     * @param prob Crossover probability.
+     * @param strategy Strategy.
+     * @param f2 Mutation factor 2 (RAND_TO_BEST and CURRENT_) only.
+     */
+    public DifferentialEvolution(int population, int generations, double f, float prob, Strategy strategy, double f2) {
         this.population = population;
         this.generations = generations;
         this.f = f;
         this.prob = prob;
         this.strategy = strategy;
+        this.f2 = f2;
     }
     
     @Override
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint){
         
-        switch(strategy){
-            case RAND_1:
-                return Rand(function, boundConstraint, strategy);
-            case RAND_2:
-                return Rand(function, boundConstraint, strategy);
-            case BEST_1:
-                return Best(function, boundConstraint, strategy);
-            case BEST_2:
-                return Best(function, boundConstraint, strategy);
+        if(strategy == Strategy.RAND_1 || strategy == Strategy.RAND_2){
+            return Rand(function, boundConstraint, strategy);
         }
-        
-        return null;
+        else{
+            return Best(function, boundConstraint, strategy);
+        }
         
     }
     
