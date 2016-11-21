@@ -24,6 +24,7 @@ package Catalano.Genetic.SwarmIntelligence.PSO;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
+import Catalano.Genetic.Optimization.IOptimization;
 import Catalano.Genetic.SwarmIntelligence.BoundConstraint;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.Random;
  * Need implements news weight (w). http://www.ijmlc.org/vol5/535-C037.pdf
  * @author Diego Catalano
  */
-public class ParticleSwarmOptimization {
+public class ParticleSwarmOptimization implements IOptimization{
     
     private int swarmSize;
     private int iterations;
@@ -116,17 +117,29 @@ public class ParticleSwarmOptimization {
         this.fitness = new double[swarmSize];
         this.pBest = new double[swarmSize];
     }
+
+    @Override
+    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+        List<DoubleRange> velocity = new ArrayList(boundConstraint.size());
+        for (int i = 0; i < boundConstraint.size(); i++) {
+            velocity.add(new DoubleRange(-1, 1));
+        }
+        
+        return Compute(function, boundConstraint, velocity);
+        
+    }
     
     /**
      * Optimize the function.
      * @param function Objective function.
-     * @param constraint Constraint.
+     * @param boundConstraint Constraint.
+     * @param velocity Velocity.
      * @return Best parameters.
      */
-    public double[] Optimize(IObjectiveFunction function, BoundConstraint constraint){
+    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
         //Initialize the particle
-        initializeSwarm(swarmSize, constraint, seed);
+        initializeSwarm(swarmSize, boundConstraint, velocity, seed);
         
         //Update fitness for each swarm
         UpdateFitness(function);
@@ -161,7 +174,7 @@ public class ParticleSwarmOptimization {
                 Particle p = swarm.get(j);
 
                 //Update velocity
-                double[] newVelocity = new double[constraint.getLocationRange().size()];
+                double[] newVelocity = new double[boundConstraint.size()];
                 for (int k = 0; k < newVelocity.length; k++) {
                     newVelocity[k] = (w * p.getVelocity().getValue()[0]) + 
                                         (r1 * C1) * (pBestLocation.get(k).getValue()[0] - p.getLocation().getValue()[0]) +
@@ -172,7 +185,7 @@ public class ParticleSwarmOptimization {
                 p.setVelocity(vel);
 
                 //Update location
-                double[] newLocation = new double[constraint.getLocationRange().size()];
+                double[] newLocation = new double[boundConstraint.size()];
                 newLocation[0] = p.getLocation().getValue()[0] + newVelocity[0];
                 newLocation[1] = p.getLocation().getValue()[1] + newVelocity[1];
                 Location loc = new Location(newLocation);
@@ -180,8 +193,8 @@ public class ParticleSwarmOptimization {
                 
                 //Fix constraint
                 for (int k = 0; k < newLocation.length; k++) {
-                    newLocation[k] = newLocation[k] < constraint.getLocationRange().get(k).getMin() ? constraint.getLocationRange().get(k).getMin() : newLocation[k];
-                    newLocation[k] = newLocation[k] > constraint.getLocationRange().get(k).getMax() ? constraint.getLocationRange().get(k).getMax() : newLocation[k];
+                    newLocation[k] = newLocation[k] < boundConstraint.get(k).getMin() ? boundConstraint.get(k).getMin() : newLocation[k];
+                    newLocation[k] = newLocation[k] > boundConstraint.get(k).getMax() ? boundConstraint.get(k).getMax() : newLocation[k];
                 }
                 
                 //Swap the swarm
@@ -197,9 +210,9 @@ public class ParticleSwarmOptimization {
         
     }
     
-    private void initializeSwarm(int swarmSize, BoundConstraint constraint, long seed) {
+    private void initializeSwarm(int swarmSize, List<DoubleRange> location, List<DoubleRange> velocity, long seed) {
         
-        int size = constraint.getLocationRange().size();
+        int size = location.size();
         
         Random r = new Random();
         if(seed != 0) r.setSeed(seed);
@@ -209,20 +222,20 @@ public class ParticleSwarmOptimization {
             // randomize location inside a space defined in Problem Set
             double[] loc = new double[size];
             for (int j = 0; j < size; j++) {
-                DoubleRange range = constraint.getLocationRange().get(j);
+                DoubleRange range = location.get(j);
                 loc[j] = range.getMin() + r.nextDouble() * (range.getMax() - range.getMin());
             }
-            Location location = new Location(loc);
+            Location l = new Location(loc);
 
             // randomize velocity in the range defined in Problem Set
             double[] vel = new double[size];
             for (int j = 0; j < size; j++) {
-                DoubleRange range = constraint.getVelocityRange().get(j);
+                DoubleRange range = velocity.get(j);
                 vel[j] = range.getMin() + r.nextDouble() * (range.getMax() - range.getMin());
             }
-            Velocity velocity = new Velocity(vel);
+            Velocity v = new Velocity(vel);
 
-            swarm.add(new Particle(location, velocity));
+            swarm.add(new Particle(l, v));
         }
     }
     
