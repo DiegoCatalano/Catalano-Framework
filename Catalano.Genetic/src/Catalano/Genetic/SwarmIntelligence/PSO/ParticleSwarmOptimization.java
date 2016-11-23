@@ -25,7 +25,6 @@ package Catalano.Genetic.SwarmIntelligence.PSO;
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
 import Catalano.Genetic.Optimization.IOptimization;
-import Catalano.Genetic.SwarmIntelligence.BoundConstraint;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private double[] fitness;
     
     private double gBest;
-    private Location gBestLocation;
+    private double[] gBestLocation;
     
     private double w;
     private double C1;
@@ -58,7 +57,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     
     private Random random = new Random();
     
-    private List<Location> pBestLocation = new ArrayList<Location>();
+    private List<double[]> pBestLocation = new ArrayList<double[]>();
     private List<Particle> swarm = new ArrayList<Particle>();
     
     /**
@@ -151,6 +150,10 @@ public class ParticleSwarmOptimization implements IOptimization{
         
         for (int i = 0; i < iterations; i++) {
             
+            if(i == 99){
+                int stop = 0;
+            }
+            
             //1) Update pBest
             for(int s = 0; s < swarmSize; s++) {
                 if(fitness[s] < pBest[s]) {
@@ -176,20 +179,18 @@ public class ParticleSwarmOptimization implements IOptimization{
                 //Update velocity
                 double[] newVelocity = new double[boundConstraint.size()];
                 for (int k = 0; k < newVelocity.length; k++) {
-                    newVelocity[k] = (w * p.getVelocity().getValue()[0]) + 
-                                        (r1 * C1) * (pBestLocation.get(k).getValue()[0] - p.getLocation().getValue()[0]) +
-                                        (r2 * C2) * (gBestLocation.getValue()[0] - p.getLocation().getValue()[0]);
+                    newVelocity[k] = (w * p.getVelocity()[0]) + 
+                                        (r1 * C1) * (pBestLocation.get(k)[0] - p.getLocation()[0]) +
+                                        (r2 * C2) * (gBestLocation[0] - p.getLocation()[0]);
                 }
-                
-                Velocity vel = new Velocity(newVelocity);
-                p.setVelocity(vel);
+                p.setVelocity(newVelocity);
 
                 //Update location
                 double[] newLocation = new double[boundConstraint.size()];
-                newLocation[0] = p.getLocation().getValue()[0] + newVelocity[0];
-                newLocation[1] = p.getLocation().getValue()[1] + newVelocity[1];
-                Location loc = new Location(newLocation);
-                p.setLocation(loc);
+                for (int k = 0; k < newLocation.length; k++) {
+                    newLocation[k] = p.getLocation()[k] + newVelocity[k];
+                }
+                p.setLocation(newLocation);
                 
                 //Fix constraint
                 for (int k = 0; k < newLocation.length; k++) {
@@ -201,12 +202,12 @@ public class ParticleSwarmOptimization implements IOptimization{
                 swarm.set(j, p);
             }
             
-            minError = function.Compute(gBestLocation.getValue());
+            minError = function.Compute(gBestLocation);
             UpdateFitness(function);
             
         }
         
-        return gBestLocation.getValue();
+        return gBestLocation;
         
     }
     
@@ -225,7 +226,6 @@ public class ParticleSwarmOptimization implements IOptimization{
                 DoubleRange range = location.get(j);
                 loc[j] = range.getMin() + r.nextDouble() * (range.getMax() - range.getMin());
             }
-            Location l = new Location(loc);
 
             // randomize velocity in the range defined in Problem Set
             double[] vel = new double[size];
@@ -233,15 +233,14 @@ public class ParticleSwarmOptimization implements IOptimization{
                 DoubleRange range = velocity.get(j);
                 vel[j] = range.getMin() + r.nextDouble() * (range.getMax() - range.getMin());
             }
-            Velocity v = new Velocity(vel);
 
-            swarm.add(new Particle(l, v));
+            swarm.add(new Particle(loc, vel));
         }
     }
     
     private void UpdateFitness(IObjectiveFunction function){
         for (int i = 0; i < swarmSize; i++) {
-            fitness[i] = function.Compute(swarm.get(i).getLocation().getValue());
+            fitness[i] = function.Compute(swarm.get(i).getLocation());
         }
     }
     

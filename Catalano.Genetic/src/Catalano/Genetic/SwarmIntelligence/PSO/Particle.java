@@ -29,8 +29,8 @@ package Catalano.Genetic.SwarmIntelligence.PSO;
 public class Particle {
     
     private double fitness;
-    private Velocity velocity;
-    private Location location;
+    private double[] velocity;
+    private double[] location;
 
     /**
      * Get fitness value.
@@ -52,7 +52,7 @@ public class Particle {
      * Get velocity.
      * @return Velocity value.
      */
-    public Velocity getVelocity() {
+    public double[] getVelocity() {
         return velocity;
     }
 
@@ -60,7 +60,7 @@ public class Particle {
      * Set velocity.
      * @param velocity Velocity.
      */
-    public void setVelocity(Velocity velocity) {
+    public void setVelocity(double[] velocity) {
         this.velocity = velocity;
     }
 
@@ -68,7 +68,7 @@ public class Particle {
      * Get location.
      * @return Location value.
      */
-    public Location getLocation() {
+    public double[] getLocation() {
         return location;
     }
 
@@ -76,7 +76,7 @@ public class Particle {
      * Set location.
      * @param location Set location value.
      */
-    public void setLocation(Location location) {
+    public void setLocation(double[] location) {
         this.location = location;
     }
 
@@ -90,7 +90,7 @@ public class Particle {
      * @param location Location value.
      * @param velocity Velocity value.
      */
-    public Particle(Location location, Velocity velocity) {
+    public Particle(double[] location, double[] velocity) {
         this(location, velocity, 0);
     }
 
@@ -100,7 +100,7 @@ public class Particle {
      * @param velocity Velocity value.
      * @param fitness Fitness value.
      */
-    public Particle(Location location, Velocity velocity, double fitness) {
+    public Particle(double[] location, double[] velocity, double fitness) {
         this.location = location;
         this.velocity = velocity;
         this.fitness = fitness;

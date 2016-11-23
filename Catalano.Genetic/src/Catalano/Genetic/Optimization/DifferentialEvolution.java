@@ -30,7 +30,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * Differential Evolution (DE).
+ * 
+ * Differential evolution (DE) is a method that optimizes a problem by iteratively trying to
+ * improve a candidate solution with regard to a given measure of quality.
+ * 
  * @author Diego Catalano
  */
 public class DifferentialEvolution implements IOptimization{
@@ -85,34 +89,136 @@ public class DifferentialEvolution implements IOptimization{
     private double minError;
     private Strategy strategy;
     
+    @Override
     public double getError(){
         return minError;
     }
 
+    /**
+     * Get number of population.
+     * @return Population.
+     */
+    public int getPopulation() {
+        return population;
+    }
+
+    /**
+     * Set number of population.
+     * @param population Population.
+     */
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    /**
+     * Get number of generations.
+     * @return Generations.
+     */
+    public int getGenerations() {
+        return generations;
+    }
+
+    /**
+     * Set number of generations.
+     * @param generations Generations.
+     */
+    public void setGenerations(int generations) {
+        this.generations = generations;
+    }
+
+    /**
+     * Get mutation factor.
+     * @return Mutation factor.
+     */
+    public double getF() {
+        return f;
+    }
+
+    /**
+     * Set mutation factor.
+     * @param f Mutation factor.
+     */
+    public void setF(double f) {
+        this.f = f;
+    }
+    
+    /**
+     * Get crossover probability.
+     * @return Crossover probability.
+     */
+    public float getCrossoverProbability(){
+        return prob;
+    }
+    
+    /**
+     * Set crossover probability.
+     * @param prob Probability.
+     */
+    public void setCrossoverProbability(float prob){
+        this.prob = prob;
+    }
+
+    /**
+     * Get strategy.
+     * @return Strategy.
+     */
     public Strategy getStrategy() {
         return strategy;
     }
 
+    /**
+     * Set strategy.
+     * @param strategy Strategy.
+     */
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
     
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     */
     public DifferentialEvolution(){
         this(100,100);
     }
     
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     * @param population Population.
+     * @param generations Generations.
+     */
     public DifferentialEvolution(int population, int generations){
         this(population, generations, 1.5);
     }
     
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     * @param population Population.
+     * @param generations Generations.
+     * @param f Mutation factor.
+     */
     public DifferentialEvolution(int population, int generations, double f){
         this(population, generations, f, 0.85f);
     }
 
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     * @param population Population.
+     * @param generations Generations.
+     * @param f Mutation factor.
+     * @param prob Crossover probability.
+     */
     public DifferentialEvolution(int population, int generations, double f, float prob) {
         this(population, generations, f, prob, Strategy.RAND_1);
     }
     
+    /**
+     * Initializes a new instance of the DifferentialEvolution class.
+     * @param population Population.
+     * @param generations Generations.
+     * @param f Mutation factor.
+     * @param prob Crossover probability.
+     * @param strategy Strategy algorithm.
+     */
     public DifferentialEvolution(int population, int generations, double f, float prob, Strategy strategy) {
         this(population, generations, f, prob, strategy, f);
     }
