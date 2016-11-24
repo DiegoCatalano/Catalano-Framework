@@ -25,6 +25,7 @@ package Catalano.Genetic.Optimization.SwarmOptimization.PSO;
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
 import Catalano.Genetic.Optimization.IOptimization;
+import Catalano.Math.Random.Pcg32;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,7 +48,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private double C1;
     private double C2;
     
-    private Random random = new Random();
+    private Pcg32 random = new Pcg32();
     
     private List<Particle> swarm = new ArrayList<Particle>();
     
