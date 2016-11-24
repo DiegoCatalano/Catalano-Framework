@@ -109,6 +109,81 @@ public final class Tools {
     }
     
     /**
+     * Clamp values.
+     * @param x Value.
+     * @param range Range.
+     * @return Value.
+     */
+    public static double Clamp(double x, DoubleRange range){
+        return Clamp(x, range.getMin(), range.getMax());
+    }
+    
+    /**
+     * Clamp values.
+     * @param x Value.
+     * @param range Range.
+     * @return Value.
+     */
+    public static int Clamp(int x, IntRange range){
+        return Clamp(x, range.getMin(), range.getMax());
+    }
+    
+    /**
+     * Clamp values.
+     * @param x Value.
+     * @param range Range.
+     * @return Value.
+     */
+    public static float Clamp(float x, FloatRange range){
+        return Clamp(x, range.getMin(), range.getMax());
+    }
+    
+    /**
+     * Clamp values.
+     * @param x Value.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return Value.
+     */
+    public static double Clamp(double x, double min, double max){
+        if(x < min)
+            return min;
+        if(x > max)
+            return max;
+        return x;
+    }
+    
+    /**
+     * Clamp values.
+     * @param x Value.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return Value.
+     */
+    public static int Clamp(int x, int min, int max){
+        if(x < min)
+            return min;
+        if(x > max)
+            return max;
+        return x;
+    }
+    
+    /**
+     * Clamp values.
+     * @param x Value.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return Value.
+     */
+    public static float Clamp(float x, float min, float max){
+        if(x < min)
+            return min;
+        if(x > max)
+            return max;
+        return x;
+    }
+    
+    /**
      * Return the digital root from a number.
      * Example:
      * Number: 24365

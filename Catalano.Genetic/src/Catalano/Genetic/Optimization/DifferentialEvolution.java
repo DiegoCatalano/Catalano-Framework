@@ -275,13 +275,12 @@ public class DifferentialEvolution implements IOptimization{
         double[] best = new double[pop[0].length];
         minError = fitness[0];
         
-        //Solution
-        double[] trial = new double[pop[0].length];
-        
         for (int g = 0; g < generations; g++) {
             for (int p = 0; p < pop.length; p++) {
                 
                 int var = rand.nextInt(pop[0].length + 1);
+                
+                double[] trial = new double[pop[0].length];
 
                 int[] idx;
                 switch(strategy){
@@ -322,12 +321,14 @@ public class DifferentialEvolution implements IOptimization{
                 double fTrial = function.Compute(trial);
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
-                    if(fTrial < minError) best = trial;
-                    minError = Math.min(minError, fTrial);
+                    fitness[p] = fTrial;
+                    if(fTrial < minError) {
+                        best = trial;
+                        minError = fTrial;
+                    }
                 }
             }
         }
-        
         return best;
     }
     
@@ -441,8 +442,11 @@ public class DifferentialEvolution implements IOptimization{
                 double fTrial = function.Compute(trial);
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
-                    if(fTrial < minError) best = trial;
-                    minError = Math.min(minError, fTrial);
+                    fitness[p] = fTrial;
+                    if(fTrial < minError){
+                        best = trial;
+                        minError = fTrial;
+                    }
                 }
             }
         }

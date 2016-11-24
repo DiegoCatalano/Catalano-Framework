@@ -31,6 +31,9 @@ public class Particle {
     private double fitness;
     private double[] velocity;
     private double[] location;
+    
+    private double bestFitness;
+    private double[] bestLocation;
 
     /**
      * Get fitness value.
@@ -46,6 +49,22 @@ public class Particle {
      */
     public void setFitness(double fitness) {
         this.fitness = fitness;
+    }
+
+    public double getBestFitness() {
+        return bestFitness;
+    }
+
+    public void setBestFitness(double bestFitness) {
+        this.bestFitness = bestFitness;
+    }
+
+    public double[] getBestLocation() {
+        return bestLocation;
+    }
+
+    public void setBestLocation(double[] bestLocation) {
+        this.bestLocation = bestLocation;
     }
 
     /**
