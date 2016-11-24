@@ -1907,6 +1907,14 @@ public final class Matrix {
         
     }
     
+    public static double Norm2(double[] A){
+        double sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            sum += Math.pow(Math.abs(A[i]),2);
+        }
+        return Math.sqrt(sum);
+    }
+    
     /**
      * Calculate 2-norm of a matrix.
      * @param A Matrix.

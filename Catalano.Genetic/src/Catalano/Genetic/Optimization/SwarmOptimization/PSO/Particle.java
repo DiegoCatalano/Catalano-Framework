@@ -20,7 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Genetic.SwarmIntelligence.PSO;
+package Catalano.Genetic.Optimization.SwarmOptimization.PSO;
+
 
 /**
  * Particle.

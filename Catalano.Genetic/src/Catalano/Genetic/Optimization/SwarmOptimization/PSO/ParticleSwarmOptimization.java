@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Genetic.SwarmIntelligence.PSO;
+package Catalano.Genetic.Optimization.SwarmOptimization.PSO;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
@@ -133,8 +133,6 @@ public class ParticleSwarmOptimization implements IOptimization{
             
             //For each swarm
             for (int j = 0; j < swarmSize; j++) {
-                double r1 = random.nextDouble();
-                double r2 = random.nextDouble();
 
                 Particle p = swarm.get(j);
 
@@ -142,8 +140,8 @@ public class ParticleSwarmOptimization implements IOptimization{
                 double[] newVelocity = new double[boundConstraint.size()];
                 for (int k = 0; k < newVelocity.length; k++) {
                     newVelocity[k] = (w * p.getVelocity()[k]) + 
-                                        (r1 * C1) * (p.getBestLocation()[k] - p.getLocation()[k]) +
-                                        (r2 * C2) * (gBestLocation[k] - p.getLocation()[k]);
+                                        (random.nextDouble() * C1) * (p.getBestLocation()[k] - p.getLocation()[k]) +
+                                        (random.nextDouble() * C2) * (gBestLocation[k] - p.getLocation()[k]);
                 }
                 
                 //Fix constraint

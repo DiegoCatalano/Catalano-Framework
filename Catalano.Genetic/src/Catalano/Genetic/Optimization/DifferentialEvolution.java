@@ -187,7 +187,7 @@ public class DifferentialEvolution implements IOptimization{
      * @param generations Generations.
      */
     public DifferentialEvolution(int population, int generations){
-        this(population, generations, 1.5);
+        this(population, generations, 0.5);
     }
     
     /**
