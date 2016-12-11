@@ -22,7 +22,7 @@
 
 package Catalano.Genetic.Selection;
 
-import Catalano.Genetic.BinaryChromossome;
+import Catalano.Genetic.IChromosome;
 import java.util.List;
 
 /**
@@ -30,7 +30,5 @@ import java.util.List;
  * @author Diego
  */
 public interface ISelection {
-    int getSize();
-    void setSize(int size);
-    int[] Compute(List<BinaryChromossome> chromossomes);
+    int[] Compute(List<IChromosome> chromosomes);
 }

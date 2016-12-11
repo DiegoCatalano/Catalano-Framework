@@ -23,7 +23,8 @@
 package Catalano.Genetic.Selection;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.Genetic.BinaryChromossome;
+import Catalano.Genetic.IChromosome;
+import Catalano.Math.Matrix;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -34,35 +35,19 @@ import java.util.Random;
  */
 public class RouletteWheelSelection implements ISelection{
     
-    private int size;
     private long seed;
 
     public RouletteWheelSelection() {}
-    
-    public RouletteWheelSelection(int size){
-        this(size, 0);
-    }
 
-    public RouletteWheelSelection(int size, long seed) {
-        this.size = size;
+    public RouletteWheelSelection(long seed) {
         this.seed = seed;
     }
 
     @Override
-    public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSize(int size) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int[] Compute(List<BinaryChromossome> chromossomes) {
+    public int[] Compute(List<IChromosome> chromossomes) {
         
         //Scale fitness [0..1]
-        int[] index = new int[size];
+        int[] index = new int[2];
         double[] fitness = new double[chromossomes.size()];
         
         double max = 0;
@@ -95,5 +80,4 @@ public class RouletteWheelSelection implements ISelection{
         return index;
         
     }
-    
 }

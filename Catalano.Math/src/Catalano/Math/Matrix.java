@@ -1146,10 +1146,11 @@ public final class Matrix {
      * @return The subtract of the given vectors.
      */
     public static double[] Subtract(double[] A, double[] B){
+        double[] r = new double[A.length];
         for (int i = 0; i < A.length; i++) {
-            A[i] -= B[i];
+            r[i] = A[i] - B[i];
         }
-        return B;
+        return r;
     }
     
     /**
@@ -1159,10 +1160,11 @@ public final class Matrix {
      * @return The subtract of the given vectors.
      */
     public static int[] Subtract(int[] A, int[] B){
+        int[] r = new int[A.length];
         for (int i = 0; i < A.length; i++) {
-            A[i] -= B[i];
+            r[i] = A[i] - B[i];
         }
-        return B;
+        return r;
     }
     
     /**
@@ -1172,10 +1174,11 @@ public final class Matrix {
      * @return The subtract of the given vectors.
      */
     public static float[] Subtract(float[] A, float[] B){
+        float[] r = new float[A.length];
         for (int i = 0; i < A.length; i++) {
-            A[i] -= B[i];
+            r[i] = A[i] - B[i];
         }
-        return B;
+        return r;
     }
     
     /**
@@ -1185,12 +1188,13 @@ public final class Matrix {
      * @return The subtract of the given matrices.
      */
     public static double[][] Subtract(double[][] A, double[][] B){
+        double[][] r = new double[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] -= B[i][j];
+                r[i][j] = A[i][j] - B[i][j];
             }
         }
-        return A;
+        return r;
     }
     
     /**
@@ -1200,12 +1204,13 @@ public final class Matrix {
      * @return The subtract of the given matrices.
      */
     public static int[][] Subtract(int[][] A, int[][] B){
+        int[][] r = new int[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] -= B[i][j];
+                r[i][j] = A[i][j] - B[i][j];
             }
         }
-        return A;
+        return r;
     }
     
     /**
@@ -1215,12 +1220,13 @@ public final class Matrix {
      * @return The subtract of the given matrices.
      */
     public static float[][] Subtract(float[][] A, float[][] B){
+        float[][] r = new float[A.length][A[0].length];
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
-                A[i][j] -= B[i][j];
+                r[i][j] = A[i][j] - B[i][j];
             }
         }
-        return A;
+        return r;
     }
     
     /**
@@ -1491,6 +1497,48 @@ public final class Matrix {
                 A[b][j] = t1;
             }
         }
+    }
+    
+    /**
+     * Multiply a vector by a scalar.
+     * @param A Vector.
+     * @param scalar Scalar.
+     * @return The multiply of the vector with the scalar.
+     */
+    public static double[] Multiply(double[] A, double scalar){
+        double[] r = new double[A.length];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = A[i] * scalar;
+        }
+        return r;
+    }
+    
+    /**
+     * Multiply a vector by a scalar.
+     * @param A Vector.
+     * @param scalar Scalar.
+     * @return The multiply of the vector with the scalar.
+     */
+    public static int[] Multiply(int[] A, int scalar){
+        int[] r = new int[A.length];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = A[i] * scalar;
+        }
+        return r;
+    }
+    
+    /**
+     * Multiply a vector by a scalar.
+     * @param A Vector.
+     * @param scalar Scalar.
+     * @return The multiply of the vector with the scalar.
+     */
+    public static float[] Multiply(float[] A, float scalar){
+        float[] r = new float[A.length];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = A[i] * scalar;
+        }
+        return r;
     }
     
     /**

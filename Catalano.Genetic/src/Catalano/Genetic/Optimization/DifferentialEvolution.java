@@ -254,6 +254,7 @@ public class DifferentialEvolution implements IOptimization{
     }
     
     private double[] Rand(IObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+        
         Random rand = new Random();
         
         //Generate the population

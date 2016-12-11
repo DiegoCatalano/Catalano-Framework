@@ -243,10 +243,12 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
         }
         
         //Create InputWeight (w_i)
-        inputWeight = new double[nHiddenNodes][_input.length];
-        for (int i = 0; i < inputWeight.length; i++) {
-            for (int j = 0; j < inputWeight[0].length; j++) {
-                inputWeight[i][j] = r.nextDouble()* 2 - 1;
+        if(inputWeight == null){
+            inputWeight = new double[nHiddenNodes][_input.length];
+            for (int i = 0; i < inputWeight.length; i++) {
+                for (int j = 0; j < inputWeight[0].length; j++) {
+                    inputWeight[i][j] = r.nextDouble()* 2 - 1;
+                }
             }
         }
         

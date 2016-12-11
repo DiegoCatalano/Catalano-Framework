@@ -4,6 +4,31 @@
 // Copyright © Diego Catalano, 2012-2016
 // diego.catalano at live.com
 //
+// Copyright (c) 2015, Yarpiz (www.yarpiz.com)
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//	  
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in
+//       the documentation and/or other materials provided with the distribution
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -20,12 +45,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Genetic.Optimization.SwarmOptimization.PSO;
+package Catalano.Genetic.Optimization.SwarmOptimization;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
 import Catalano.Genetic.Optimization.IOptimization;
-import Catalano.Math.Random.Pcg32;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,7 +72,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private double C1;
     private double C2;
     
-    private Pcg32 random = new Pcg32();
+    private Random random = new Random();
     
     private List<Particle> swarm = new ArrayList<Particle>();
     
@@ -224,4 +248,105 @@ public class ParticleSwarmOptimization implements IOptimization{
             swarm.add(p);
         }
     }
+}
+
+class Particle {
+    
+    private double fitness;
+    private double[] velocity;
+    private double[] location;
+    
+    private double bestFitness;
+    private double[] bestLocation;
+
+    /**
+     * Get fitness value.
+     * @return Fitness value.
+     */
+    public double getFitness() {
+        return fitness;
+    }
+
+    /**
+     * Set fitness value.
+     * @param fitness Fitness value.
+     */
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
+    public double getBestFitness() {
+        return bestFitness;
+    }
+
+    public void setBestFitness(double bestFitness) {
+        this.bestFitness = bestFitness;
+    }
+
+    public double[] getBestLocation() {
+        return bestLocation;
+    }
+
+    public void setBestLocation(double[] bestLocation) {
+        this.bestLocation = bestLocation;
+    }
+
+    /**
+     * Get velocity.
+     * @return Velocity value.
+     */
+    public double[] getVelocity() {
+        return velocity;
+    }
+
+    /**
+     * Set velocity.
+     * @param velocity Velocity.
+     */
+    public void setVelocity(double[] velocity) {
+        this.velocity = velocity;
+    }
+
+    /**
+     * Get location.
+     * @return Location value.
+     */
+    public double[] getLocation() {
+        return location;
+    }
+
+    /**
+     * Set location.
+     * @param location Set location value.
+     */
+    public void setLocation(double[] location) {
+        this.location = location;
+    }
+
+    /**
+     * Initializes a new instance of the Particle class.
+     */
+    public Particle() {}
+    
+    /**
+     * Initializes a new instance of the Particle class.
+     * @param location Location value.
+     * @param velocity Velocity value.
+     */
+    public Particle(double[] location, double[] velocity) {
+        this(location, velocity, 0);
+    }
+
+    /**
+     * Initializes a new instance of the Particle class.
+     * @param location Location value.
+     * @param velocity Velocity value.
+     * @param fitness Fitness value.
+     */
+    public Particle(double[] location, double[] velocity, double fitness) {
+        this.location = location;
+        this.velocity = velocity;
+        this.fitness = fitness;
+    }
+    
 }

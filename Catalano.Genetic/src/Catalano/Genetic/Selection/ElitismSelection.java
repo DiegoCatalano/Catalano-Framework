@@ -23,7 +23,7 @@
 package Catalano.Genetic.Selection;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.Genetic.BinaryChromossome;
+import Catalano.Genetic.IChromosome;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,26 +31,12 @@ import java.util.List;
  *
  * @author Diego
  */
-public class ElitismSelection implements ISelection{
-    
-    private int size;
+public class ElitismSelection implements ISelection, IRealCodedSelection{
+
+    public ElitismSelection() {}
 
     @Override
-    public int getSize() {
-        return size;
-    }
-
-    @Override
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public ElitismSelection(int size) {
-        this.size = size;
-    }
-
-    @Override
-    public int[] Compute(List<BinaryChromossome> chromossomes) {
+    public int[] Compute(List<IChromosome> chromossomes) {
         
         //Sort the chromossomes
         double[] fitness = new double[chromossomes.size()];
@@ -60,10 +46,14 @@ public class ElitismSelection implements ISelection{
         
         int[] index = ArraysUtil.Argsort(fitness, false);
         
-        return Arrays.copyOfRange(index, 0, size);
+        return Arrays.copyOfRange(index, 0, 2);
         
     }
 
-    
+    @Override
+    public int[] Compute(double[] fitness) {
+        int[] order = ArraysUtil.Argsort(fitness, false);
+        return Arrays.copyOf(order, 2);
+    }
     
 }

@@ -1,31 +1,20 @@
-// Catalano Genetic Library
-// The Catalano Framework
-//
-// Copyright © Diego Catalano, 2012-2016
-// diego.catalano at live.com
-//
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package Catalano.Genetic;
 
+import Catalano.Genetic.Crossover.ICrossover;
+import Catalano.Genetic.Crossover.SinglePointCrossover;
+import Catalano.Genetic.Fitness.IFitness;
+import Catalano.Genetic.Mutation.BitFlipMutation;
+import Catalano.Genetic.Mutation.IMutation;
+import Catalano.Genetic.Selection.ISelection;
+import Catalano.Genetic.Selection.RouletteWheelSelection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -33,43 +22,69 @@ import java.util.Random;
  */
 public class Population {
     
-    private List<BinaryChromossome> chromossomes;
+    private int population;
+    private IFitness function;
+    private float crossoverRate;
+    private float mutationRate;
+    private List<IChromosome> list;
     
-    public static Population Generate(int nBits, int size, long seed){
+    private int popCO;
+    private int popMU;
+    
+    private IChromosome best;
+    private double minError;
+
+    public Population(IChromosome base, int population, IFitness function, float crossoverRate, float mutationRate) {
+        this.population = population;
+        this.crossoverRate = crossoverRate;
+        this.mutationRate = mutationRate;
+        Generate(base);
         
-        Random r = new Random();
-        if(seed != 0) r.setSeed(seed);
+        popCO = (int)((crossoverRate * population) / 2);
+        popMU = (int)(mutationRate * population);
+    }
+    
+    private void Generate(IChromosome chromossome){
+        list = new ArrayList<IChromosome>(population);
         
-        List<BinaryChromossome> pop = new ArrayList<BinaryChromossome>(size);
-        for (int i = 0; i < size; i++) {
-            pop.add(BinaryChromossome.Generate(nBits, seed));
+        chromossome.Evaluate(function);
+        minError = chromossome.getFitness();
+        best = chromossome.Clone();
+        
+        list.add(chromossome);
+        for (int i = 1; i < population; i++) {
+            IChromosome c = chromossome.CreateNew();
+            c.Evaluate(function);
+            list.add(c);
+            
+            if(c.getFitness() < minError){
+                minError = c.getFitness();
+                best = c.Clone();
+            }
+        }
+    }
+    
+    public void RunEpoch(IFitness function){
+            
+        //Crossover
+        ICrossover crossover = new SinglePointCrossover();
+        for (int i = 0; i < popCO; i++) {
+            List<IChromosome> elem = crossover.Compute(list.get(0), list.get(1));
+            list.addAll(elem);
         }
         
-        return new Population(pop);
+        //Mutation
+        IMutation mutation = new BitFlipMutation();
+        for (int i = 0; i < popMU; i++) {
+            list.add((IChromosome)mutation.Compute(list.get(i)));
+        }
+
+        //Selection
+        ISelection selection = new RouletteWheelSelection(population);
+        int[] index = selection.Compute(list);
         
-    }
-
-    public List<BinaryChromossome> getChromossomes() {
-        return chromossomes;
-    }
-
-    public void setChromossomes(List<BinaryChromossome> chromossomes) {
-        this.chromossomes = chromossomes;
-    }
-
-    public Population(List<BinaryChromossome> chromossomes) {
-        this.chromossomes = chromossomes;
-    }
-    
-    public void Sort(){
-        Sort(false);
-    }
-    
-    public void Sort(boolean ascending){
-        if(ascending)
-            Collections.reverse(chromossomes);
-        else
-            Collections.sort(chromossomes);
+        
+        
     }
     
 }

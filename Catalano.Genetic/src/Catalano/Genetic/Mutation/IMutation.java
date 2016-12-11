@@ -22,12 +22,10 @@
 
 package Catalano.Genetic.Mutation;
 
-import Catalano.Genetic.BinaryChromossome;
-
 /**
  *
  * @author Diego
  */
-public interface IMutation {
-    BinaryChromossome Compute(BinaryChromossome chromossome);
+public interface IMutation<T> {
+    T Compute(T chromossome);
 }

@@ -22,12 +22,12 @@
 
 package Catalano.Genetic.Fitness;
 
-import Catalano.Genetic.BinaryChromossome;
+import Catalano.Genetic.IChromosome;
 
 /**
  *
  * @author Diego
  */
 public interface IFitness {
-    double Compute(BinaryChromossome chromossome);
+    double Evaluate(IChromosome chromossome);
 }

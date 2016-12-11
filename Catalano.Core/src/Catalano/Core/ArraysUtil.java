@@ -343,6 +343,32 @@ public class ArraysUtil {
     }
     
     /**
+     * Shuffle an array.
+     * @param array Array.
+     */
+    public static <T> void Shuffle(T[] array){
+        Shuffle(array, 0);
+    }
+    
+    /**
+     * Shuffle an array.
+     * @param array Array.
+     * @param seed Random seed.
+     */
+    public static <T> void Shuffle(T[] array, long seed){
+        Random random = new Random();
+        if(seed != 0) random.setSeed(seed);
+        
+        for (int i = array.length - 1; i > 0; i--)
+        {
+            int index = random.nextInt(i + 1);
+            T temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+    }
+    
+    /**
      * 1-D Integer array to float array.
      * @param array Integer array.
      * @return Float array.

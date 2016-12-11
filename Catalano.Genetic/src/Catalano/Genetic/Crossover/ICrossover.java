@@ -22,13 +22,12 @@
 
 package Catalano.Genetic.Crossover;
 
-import Catalano.Genetic.BinaryChromossome;
 import java.util.List;
 
 /**
  *
  * @author Diego
  */
-public interface ICrossover {
-    List<BinaryChromossome> Compute(List<BinaryChromossome> chromossomes);
+public interface ICrossover<T> {
+    List<T> Compute(T chromosome1, T chromosome2);
 }

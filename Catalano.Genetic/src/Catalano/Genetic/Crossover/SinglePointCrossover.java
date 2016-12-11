@@ -1,29 +1,16 @@
-// Catalano Genetic Library
-// The Catalano Framework
-//
-// Copyright © Diego Catalano, 2012-2016
-// diego.catalano at live.com
-//
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package Catalano.Genetic.Crossover;
 
-import Catalano.Genetic.BinaryChromossome;
+import Catalano.Genetic.BinaryChromosome;
+import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.PermutationChromosome;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -31,66 +18,72 @@ import java.util.Random;
  *
  * @author Diego
  */
-public class SinglePointCrossover implements ICrossover{
-    
-    private float prob;
-    private long seed;
+public class SinglePointCrossover implements ICrossover<IChromosome> {
 
-    public SinglePointCrossover() {
-        this(0.8f);
-    }
-
-    public SinglePointCrossover(float prob) {
-        this(prob, 0);
-    }
-
-    public SinglePointCrossover(float prob, long seed) {
-        this.prob = prob;
-        this.seed = seed;
-    }
+    public SinglePointCrossover() {}
 
     @Override
-    public List<BinaryChromossome> Compute(List<BinaryChromossome> chromossomes) {
+    public List<IChromosome> Compute(IChromosome chromosome1, IChromosome chromosome2) {
         
-        List<BinaryChromossome> lst = new ArrayList<>(2);
+        if(chromosome1 instanceof BinaryChromosome){
+            return ComputeBC((BinaryChromosome)chromosome1,(BinaryChromosome)chromosome2);
+        }
+        return ComputePC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
         
-        Random r = new Random();
-        if(seed != 0) r.setSeed(seed);
+    }
+    
+    private List<IChromosome> ComputeBC(BinaryChromosome chromosome1, BinaryChromosome chromosome2) {
         
-        //First element
-        if(r.nextFloat() < prob){
-            String bin1 = chromossomes.get(0).toBinary();
-            String bin2 = chromossomes.get(1).toBinary();
-            
-            int middle = chromossomes.get(0).getNumberOfBits() / 2;
-            String newBin = bin1.substring(0, middle);
-            newBin += bin2.substring(middle, chromossomes.get(0).getNumberOfBits());
-            
-            BinaryChromossome bc = new BinaryChromossome(chromossomes.get(0));
-            bc.setValue(newBin, 2);
-            lst.add(bc);
-            
+        Random rand = new Random();
+        
+        //Cut point
+        int cut = rand.nextInt(chromosome1.getLength());
+        
+        String a = chromosome1.toBinary();
+        String b = chromosome2.toBinary();
+        
+        String newA = a.substring(0,cut) + b.substring(cut, a.length());
+        String newB = b.substring(0,cut) + a.substring(cut, a.length());
+        
+        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        lst.add(new BinaryChromosome(a.length(), newA));
+        lst.add(new BinaryChromosome(b.length(), newB));
+        
+        return lst;
+        
+    }
+    
+    private List<IChromosome> ComputePC(PermutationChromosome chromosome1, PermutationChromosome chromosome2) {
+        
+        Random rand = new Random();
+        int size = chromosome1.getLength();
+        
+        //Cut point
+        int cut = rand.nextInt(chromosome1.getLength());
+        
+        List<Integer> set1 = new ArrayList<Integer>(chromosome1.getLength());
+        List<Integer> set2 = new ArrayList<Integer>(chromosome1.getLength());
+        for (int i = cut; i < size; i++) {
+            set1.add((Integer)chromosome1.getGene(i));
+            set2.add((Integer)chromosome2.getGene(i));
         }
-        else{
-            lst.add(chromossomes.get(0).clone());
+        Collections.shuffle(set1);
+        Collections.shuffle(set2);
+        
+        int[] c1 = new int[size];
+        int[] c2 = new int[size];
+        for (int i = 0; i < cut; i++) {
+            c1[i] = (Integer)chromosome1.getGene(i);
+            c2[i] = (Integer)chromosome2.getGene(i);
+        }
+        for (int i = cut; i < size; i++) {
+            c1[i] = set1.get(i - cut);
+            c2[i] = set2.get(i - cut);
         }
         
-        //Second element
-        if(Math.random() < prob){
-            String bin1 = chromossomes.get(1).toBinary();
-            String bin2 = chromossomes.get(0).toBinary();
-            
-            int middle = chromossomes.get(0).getNumberOfBits() / 2;
-            String newBin = bin1.substring(0, middle);
-            newBin += bin2.substring(middle, chromossomes.get(0).getNumberOfBits());
-            
-            BinaryChromossome bc = new BinaryChromossome(chromossomes.get(0));
-            bc.setValue(newBin, 2);
-            lst.add(bc);
-        }
-        else{
-            lst.add(chromossomes.get(1).clone());
-        }
+        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        lst.add(new PermutationChromosome(c1));
+        lst.add(new PermutationChromosome(c2));
         
         return lst;
         
