@@ -26,7 +26,8 @@ import Catalano.Core.DoubleRange;
 import java.util.List;
 
 /**
- *Common interface to optimization problems.
+ * Common interface to optimization problems.
+ * 
  * @author Diego Catalano
  */
 public interface IOptimization {

@@ -82,18 +82,41 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
         return minError;
     }
 
+    /**
+     * Initializes a new instance of the RealCodedGeneticAlgorithm class.
+     */
     public RealCodedGeneticAlgorithm() {
         this(100,1000);
     }
     
+    /**
+     * Initializes a new instance of the RealCodedGeneticAlgorithm class.
+     * @param population Initial population.
+     * @param generations Generations.
+     */
     public RealCodedGeneticAlgorithm(int population, int generations){
         this(population,generations,0.7f,0.3f);
     }
 
+    /**
+     * Initializes a new instance of the RealCodedGeneticAlgorithm class.
+     * @param population Initial population.
+     * @param generations Generations.
+     * @param crossoverPercentage Crossover percentage.
+     * @param mutationPercentage Mutation percentage.
+     */
     public RealCodedGeneticAlgorithm(int population, int generations, float crossoverPercentage, float mutationPercentage) {
         this(population, generations, crossoverPercentage, mutationPercentage, Selection.Random);
     }
     
+/**
+     * Initializes a new instance of the RealCodedGeneticAlgorithm class.
+     * @param population Initial population.
+     * @param generations Generations.
+     * @param crossoverPercentage Crossover percentage.
+     * @param mutationPercentage Mutation percentage.
+     * @param selection Selection method.
+     */
     public RealCodedGeneticAlgorithm(int population, int generations, float crossoverPercentage, float mutationPercentage, Selection selection) {
         this.population = population;
         this.generations = generations;

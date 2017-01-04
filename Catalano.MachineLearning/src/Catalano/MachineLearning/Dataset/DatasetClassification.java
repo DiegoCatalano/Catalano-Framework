@@ -311,16 +311,16 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
                 output = new int[lines.size() - start];
                 idx = 0;
                 HashMap<String,Integer> map = new HashMap<String, Integer>();
-                for (int j = 1; j < lines.size(); j++) {
+                for (int j = start; j < lines.size(); j++) {
                     String[] temp = lines.get(j).split(String.valueOf(","));
                     String s = temp[classIndex];
                     if(!map.containsKey(s)){
                         map.put(s, idx++);
-                        output[j-1] = map.get(s);
+                        output[j-start] = map.get(s);
                         numClasses++;
                     }
                     else{
-                        output[j-1] = map.get(s);
+                        output[j-start] = map.get(s);
                     }
                 }
             }

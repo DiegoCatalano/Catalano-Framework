@@ -71,10 +71,18 @@ public class TeachingLearningBasedOptimization implements IOptimization{
         return minError;
     }
 
+    /**
+     * Initializes a new instance of the TeachingLearningBasedOptimization class.
+     */
     public TeachingLearningBasedOptimization() {
         this(25,1000);
     }
 
+    /**
+     * Initializes a new instance of the TeachingLearningBasedOptimization class.
+     * @param population Initial population.
+     * @param iterations Iterations.
+     */
     public TeachingLearningBasedOptimization(int population, int iterations) {
         this.population = population;
         this.iterations = iterations;

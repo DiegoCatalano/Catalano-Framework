@@ -23,7 +23,7 @@
 package Catalano.Genetic.Optimization;
 
 /**
- *
+ * Common interface to objetive functions.
  * @author Diego Catalano
  */
 public interface IObjectiveFunction {
