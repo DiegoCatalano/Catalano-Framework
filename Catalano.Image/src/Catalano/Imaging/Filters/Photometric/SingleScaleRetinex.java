@@ -145,7 +145,7 @@ public class SingleScaleRetinex implements IPhotometricFilter{
         
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[0].length; j++) {
-                r[i][j] = Math.log(image[i][j] + 0.01) - Math.log(r[i][j]);
+                r[i][j] = Math.log(image[i][j] + 0.01) - Math.log(Math.abs(r[i][j]));
             }
         }
         
