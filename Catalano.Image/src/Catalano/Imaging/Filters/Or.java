@@ -27,7 +27,7 @@ import Catalano.Imaging.IApplyInPlace;
 /**
  * Or filter - Performs logical operator "or" between two images.
  * <br />Logical operators are generally derived from <i>Boolean algebra</i>.
- * <br /><br />Truth-tables for AND: <br /><br />
+ * <br /><br />Truth-tables for OR: <br /><br />
  * A    B  |    Q <br />
  * --------- <br />
  * 0    0  |    0 <br />

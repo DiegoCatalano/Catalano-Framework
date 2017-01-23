@@ -44,7 +44,7 @@ public class Division implements IApplyInPlace{
     public Division() {}
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Division class.
      * @param gray Gray value.
      */
     public Division(double gray){
@@ -52,7 +52,7 @@ public class Division implements IApplyInPlace{
     }
     
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Division class.
      * @param r Red value.
      * @param g Green value.
      * @param b Blue value.
@@ -64,7 +64,7 @@ public class Division implements IApplyInPlace{
     }
 
     /**
-     * Initialize a new instance of the Add class.
+     * Initialize a new instance of the Division class.
      * @param overlayImage Overlay image.
      */
     public Division(FastBitmap overlayImage) {
