@@ -42,6 +42,7 @@ public class BlobsFiltering implements IApplyInPlace{
     public static enum Logic {Or, And};
     private Filter filter = Filter.Area;
     private Logic logic = Logic.Or;
+    private boolean remove;
     
     private int minArea = 0;
 
@@ -111,6 +112,22 @@ public class BlobsFiltering implements IApplyInPlace{
     public void setMinArea(int minArea) {
         this.minArea = Math.max(0, minArea);
     }
+
+    /**
+     * Check if the filter gonna remove the blobs.
+     * @return True if the blobs will be removed, otherwise false.
+     */
+    public boolean isRemove() {
+        return remove;
+    }
+
+    /**
+     * Remove or keep the blobs.
+     * @param remove True if you want to remove, otherwise if you want to keep.
+     */
+    public void setRemove(boolean remove) {
+        this.remove = remove;
+    }
     
     /**
      * Initialize a new instance of the BlobsFiltering class.
@@ -122,7 +139,18 @@ public class BlobsFiltering implements IApplyInPlace{
      * @param minArea Minimum area to remove.
      */
     public BlobsFiltering(int minArea) {
+        this(minArea, true);
+    }
+    
+    /**
+     * Initialize a new instance of the BlobsFiltering class.
+     * @param minArea Minimum area to remove or keep.
+     * @param remove True if you want to remove, otherwise if you want to keep.
+     */
+    public BlobsFiltering(int minArea, boolean remove){
         this.minArea = Math.max(0, minArea);
+        this.remove = remove;
+        this.filter = Filter.Area;
     }
     
     /**
@@ -131,10 +159,7 @@ public class BlobsFiltering implements IApplyInPlace{
      * @param minHeight Minimum height to remove.
      */
     public BlobsFiltering(int minWidth, int minHeight){
-        this.minWidth = minWidth;
-        this.minHeight = minHeight;
-        this.filter = Filter.Size;
-        this.logic = Logic.Or;
+        this(minWidth, minHeight, Logic.Or);
     }
     
     /**
@@ -144,10 +169,22 @@ public class BlobsFiltering implements IApplyInPlace{
      * @param logic Logic.
      */
     public BlobsFiltering(int minWidth, int minHeight, Logic logic){
+        this(minWidth, minHeight, logic, true);
+    }
+    
+    /**
+     * Initialize a new instance of the BlobsFiltering class.
+     * @param minWidth Minimum width to remove or keep.
+     * @param minHeight Minimum height to remove or keep.
+     * @param logic Logic.
+     * @param remove True if you want to remove, otherwise if you want to keep.
+     */
+    public BlobsFiltering(int minWidth, int minHeight, Logic logic, boolean remove){
         this.minWidth = minWidth;
         this.minHeight = minHeight;
         this.filter = Filter.Size;
         this.logic = Logic.Or;
+        this.remove = remove;
     }
     
     @Override
@@ -160,9 +197,18 @@ public class BlobsFiltering implements IApplyInPlace{
                 int area;
                 for (int i = 0; i < blobs.size(); i++) {
                     area = blobs.get(i).getArea();
-                    if (area < minArea) {
-                        for (IntPoint p : blobs.get(i).getPoints()) {
-                            fastBitmap.setGray(p.x, p.y, 0);
+                    if(remove){
+                        if (area < minArea) {
+                            for (IntPoint p : blobs.get(i).getPoints()) {
+                                fastBitmap.setGray(p.x, p.y, 0);
+                            }
+                        }
+                    }
+                    else{
+                        if (area > minArea) {
+                            for (IntPoint p : blobs.get(i).getPoints()) {
+                                fastBitmap.setGray(p.x, p.y, 0);
+                            }
                         }
                     }
                 }
@@ -174,16 +220,34 @@ public class BlobsFiltering implements IApplyInPlace{
                     blobWidth = blobs.get(i).getWidth();
                     blobHeight = blobs.get(i).getHeight();
                     if(logic == Logic.Or){
-                        if (blobWidth < minWidth || blobHeight < minHeight) {
-                            for (IntPoint p : blobs.get(i).getPoints()) {
-                                fastBitmap.setGray(p.x, p.y, 0);
+                        if(remove){
+                            if (blobWidth < minWidth || blobHeight < minHeight) {
+                                for (IntPoint p : blobs.get(i).getPoints()) {
+                                    fastBitmap.setGray(p.x, p.y, 0);
+                                }
+                            }
+                        }
+                        else{
+                            if (blobWidth > minWidth || blobHeight > minHeight) {
+                                for (IntPoint p : blobs.get(i).getPoints()) {
+                                    fastBitmap.setGray(p.x, p.y, 0);
+                                }
                             }
                         }
                     }
                     else{
-                        if (blobWidth < minWidth && blobHeight < minHeight) {
-                            for (IntPoint p : blobs.get(i).getPoints()) {
-                                fastBitmap.setGray(p.x, p.y, 0);
+                        if(remove){
+                            if (blobWidth < minWidth && blobHeight < minHeight) {
+                                for (IntPoint p : blobs.get(i).getPoints()) {
+                                    fastBitmap.setGray(p.x, p.y, 0);
+                                }
+                            }
+                        }
+                        else{
+                            if (blobWidth > minWidth && blobHeight > minHeight) {
+                                for (IntPoint p : blobs.get(i).getPoints()) {
+                                    fastBitmap.setGray(p.x, p.y, 0);
+                                }
                             }
                         }
                     }
