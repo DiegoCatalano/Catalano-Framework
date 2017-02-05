@@ -11,10 +11,15 @@ import Catalano.Genetic.Crossover.SinglePointCrossover;
 import Catalano.Genetic.Fitness.IFitness;
 import Catalano.Genetic.Mutation.BitFlipMutation;
 import Catalano.Genetic.Mutation.IMutation;
+import Catalano.Genetic.Mutation.ScrambleMutation;
+import Catalano.Genetic.Mutation.SwapMutation;
+import Catalano.Genetic.Selection.ElitismSelection;
 import Catalano.Genetic.Selection.ISelection;
 import Catalano.Genetic.Selection.RouletteWheelSelection;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -34,14 +39,19 @@ public class Population {
     private IChromosome best;
     private double minError;
 
+    public IChromosome getBest() {
+        return best;
+    }
+
     public Population(IChromosome base, int population, IFitness function, float crossoverRate, float mutationRate) {
         this.population = population;
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
+        this.function = function;
         Generate(base);
         
-        popCO = (int)((crossoverRate * population) / 2);
-        popMU = (int)(mutationRate * population);
+        popCO = (int)((crossoverRate * (float)population) / 2f);
+        popMU = (int)(mutationRate * (float)population);
     }
     
     private void Generate(IChromosome chromossome){
@@ -64,27 +74,55 @@ public class Population {
         }
     }
     
-    public void RunEpoch(IFitness function){
-            
-        //Crossover
-        ICrossover crossover = new SinglePointCrossover();
-        for (int i = 0; i < popCO; i++) {
-            List<IChromosome> elem = crossover.Compute(list.get(0), list.get(1));
-            list.addAll(elem);
-        }
+    public void RunEpoch(){
         
-        //Mutation
-        IMutation mutation = new BitFlipMutation();
-        for (int i = 0; i < popMU; i++) {
-            list.add((IChromosome)mutation.Compute(list.get(i)));
-        }
+        Random rand = new Random();
 
         //Selection
         ISelection selection = new RouletteWheelSelection(population);
         int[] index = selection.Compute(list);
+            
+        //Crossover
+        if(rand.nextFloat() <= crossoverRate){
+            ICrossover crossover = new SinglePointCrossover();
+            List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
+            elem.get(0).Evaluate(function);
+            elem.get(1).Evaluate(function);
+            list.addAll(elem);
+        }
         
+        //Mutation
+        if(rand.nextFloat() <= mutationRate){
+            IMutation mutation = new BitFlipMutation();
+            IChromosome c1 = (IChromosome)mutation.Compute(list.get(index[0]));
+            IChromosome c2 = (IChromosome)mutation.Compute(list.get(index[1]));
+            c1.Evaluate(function);
+            c2.Evaluate(function);
+            list.add(c1);
+            list.add(c2);
+        }
         
+        //Sort the chromossomes
+        Sort();
         
+        //Get the new population
+        list = list.subList(0, population);
+        
+        if(list.get(0).getFitness() > minError){
+            best = list.get(0).Clone();
+            minError = list.get(0).getFitness();
+        }
+        
+    }
+    
+    private void Sort(){
+        list.sort(new Comparator<IChromosome>() {
+
+            @Override
+            public int compare(IChromosome o1, IChromosome o2) {
+                return Double.compare(o2.getFitness(), o1.getFitness());
+            }
+        });
     }
     
 }
