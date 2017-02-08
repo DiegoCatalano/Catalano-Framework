@@ -26,12 +26,12 @@ public class UniformCrossover implements ICrossover<BinaryChromosome>{
         int size = chromosome1.getLength();
         for (int i = 0; i < size; i++) {
             if(Math.random() <= 0.5){
-                c1 = (String)chromosome1.getGene(i);
-                c2 = (String)chromosome2.getGene(i);
+                c1 = chromosome1.getGene(i).toString();
+                c2 = chromosome2.getGene(i).toString();
             }
             else{
-                c1 = (String)chromosome2.getGene(i);
-                c2 = (String)chromosome1.getGene(i);
+                c1 = chromosome2.getGene(i).toString();
+                c2 = chromosome1.getGene(i).toString();
             }
         }
         

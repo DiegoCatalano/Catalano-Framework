@@ -7,15 +7,9 @@
 package Catalano.Genetic;
 
 import Catalano.Genetic.Crossover.ICrossover;
-import Catalano.Genetic.Crossover.SinglePointCrossover;
 import Catalano.Genetic.Fitness.IFitness;
-import Catalano.Genetic.Mutation.BitFlipMutation;
 import Catalano.Genetic.Mutation.IMutation;
-import Catalano.Genetic.Mutation.ScrambleMutation;
-import Catalano.Genetic.Mutation.SwapMutation;
-import Catalano.Genetic.Selection.ElitismSelection;
 import Catalano.Genetic.Selection.ISelection;
-import Catalano.Genetic.Selection.RouletteWheelSelection;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -32,6 +26,10 @@ public class Population {
     private float crossoverRate;
     private float mutationRate;
     private List<IChromosome> list;
+    
+    private ISelection selection;
+    private ICrossover crossover;
+    private IMutation mutation;
     
     private int popCO;
     private int popMU;
@@ -52,6 +50,12 @@ public class Population {
         
         popCO = (int)((crossoverRate * (float)population) / 2f);
         popMU = (int)(mutationRate * (float)population);
+    }
+    
+    public void setOperators(ISelection selection, ICrossover crossover, IMutation mutation){
+        this.selection = selection;
+        this.crossover = crossover;
+        this.mutation = mutation;
     }
     
     private void Generate(IChromosome chromossome){
@@ -79,12 +83,10 @@ public class Population {
         Random rand = new Random();
 
         //Selection
-        ISelection selection = new RouletteWheelSelection(population);
         int[] index = selection.Compute(list);
             
         //Crossover
         if(rand.nextFloat() <= crossoverRate){
-            ICrossover crossover = new SinglePointCrossover();
             List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
             elem.get(0).Evaluate(function);
             elem.get(1).Evaluate(function);
@@ -93,7 +95,6 @@ public class Population {
         
         //Mutation
         if(rand.nextFloat() <= mutationRate){
-            IMutation mutation = new BitFlipMutation();
             IChromosome c1 = (IChromosome)mutation.Compute(list.get(index[0]));
             IChromosome c2 = (IChromosome)mutation.Compute(list.get(index[1]));
             c1.Evaluate(function);
