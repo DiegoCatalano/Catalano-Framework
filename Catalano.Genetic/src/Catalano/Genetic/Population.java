@@ -31,9 +31,6 @@ public class Population {
     private ICrossover crossover;
     private IMutation mutation;
     
-    private int popCO;
-    private int popMU;
-    
     private IChromosome best;
     private double minError;
 
@@ -47,9 +44,6 @@ public class Population {
         this.mutationRate = mutationRate;
         this.function = function;
         Generate(base);
-        
-        popCO = (int)((crossoverRate * (float)population) / 2f);
-        popMU = (int)(mutationRate * (float)population);
     }
     
     public void setOperators(ISelection selection, ICrossover crossover, IMutation mutation){
@@ -86,7 +80,7 @@ public class Population {
         int[] index = selection.Compute(list);
             
         //Crossover
-        if(rand.nextFloat() <= crossoverRate){
+        if(rand.nextFloat() < crossoverRate){
             List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
             elem.get(0).Evaluate(function);
             elem.get(1).Evaluate(function);
@@ -94,7 +88,7 @@ public class Population {
         }
         
         //Mutation
-        if(rand.nextFloat() <= mutationRate){
+        if(rand.nextFloat() < mutationRate){
             IChromosome c1 = (IChromosome)mutation.Compute(list.get(index[0]));
             IChromosome c2 = (IChromosome)mutation.Compute(list.get(index[1]));
             c1.Evaluate(function);
