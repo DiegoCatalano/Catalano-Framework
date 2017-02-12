@@ -11,6 +11,7 @@ import Catalano.Genetic.Fitness.IFitness;
 import Catalano.Genetic.Mutation.IMutation;
 import Catalano.Genetic.Selection.ISelection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -30,12 +31,21 @@ public class Population {
     private ISelection selection;
     private ICrossover crossover;
     private IMutation mutation;
+    private boolean autoShuffle = false;
     
     private IChromosome best;
     private double minError;
 
     public IChromosome getBest() {
         return best;
+    }
+
+    public boolean isAutoShuffle() {
+        return autoShuffle;
+    }
+
+    public void setAutoShuffle(boolean autoShuffle) {
+        this.autoShuffle = autoShuffle;
     }
 
     public Population(IChromosome base, int population, IFitness function, float crossoverRate, float mutationRate) {
@@ -75,38 +85,60 @@ public class Population {
     public void RunEpoch(){
         
         Random rand = new Random();
-
-        //Selection
-        int[] index = selection.Compute(list);
             
         //Crossover
-        if(rand.nextFloat() < crossoverRate){
-            List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
-            elem.get(0).Evaluate(function);
-            elem.get(1).Evaluate(function);
-            list.addAll(elem);
+        for (int i = 1; i < population; i+=2) {
+            if(rand.nextFloat() < crossoverRate){
+                
+                //Selection
+                int[] index = selection.Compute(list);
+                
+                List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
+                elem.get(0).Evaluate(function);
+                elem.get(1).Evaluate(function);
+                list.addAll(elem);
+            }
         }
         
         //Mutation
-        if(rand.nextFloat() < mutationRate){
-            IChromosome c1 = (IChromosome)mutation.Compute(list.get(index[0]));
-            IChromosome c2 = (IChromosome)mutation.Compute(list.get(index[1]));
-            c1.Evaluate(function);
-            c2.Evaluate(function);
-            list.add(c1);
-            list.add(c2);
+        for (int i = 0; i < list.size(); i++) {
+            if(rand.nextFloat() < mutationRate){
+                IChromosome c = (IChromosome)mutation.Compute(list.get(i));
+                c.Evaluate(function);
+                list.add(c);
+            }
+        }
+        
+        //Find best chromossome
+        IChromosome bTemp = FindBestChromossome(list);
+        if(bTemp.getFitness() > minError){
+            minError = bTemp.getFitness();
+            best = bTemp.Clone();
         }
         
         //Sort the chromossomes
-        Sort();
+        if(autoShuffle)
+            Collections.shuffle(list);
+        else
+            Sort();
         
         //Get the new population
         list = list.subList(0, population);
         
-        if(list.get(0).getFitness() > minError){
-            best = list.get(0).Clone();
-            minError = list.get(0).getFitness();
+    }
+    
+    private IChromosome FindBestChromossome(List<IChromosome> list){
+        
+        IChromosome b = null;
+        double f = -Double.MAX_VALUE;
+        for (IChromosome c : list) {
+            if(c.getFitness() > f){
+                f = c.getFitness();
+                b = c.Clone();
+            }
         }
+        
+        return b;
         
     }
     
