@@ -70,6 +70,7 @@ public class Share {
         this.fastBitmap = fastBitmap;
         this.startX = startX;
         this.endHeight = endHeight;
+        this.endWidth = fastBitmap.getWidth();
     }
     
     /**
@@ -83,6 +84,7 @@ public class Share {
         this.fastBitmap = fastBitmap;
         this.startX = startX;
         this.endHeight = endHeight;
+        this.endWidth = fastBitmap.getWidth();
         this.lastThread = lastThread;
     }
     
@@ -90,8 +92,9 @@ public class Share {
      * Initializes a new instance of the Share class.
      * @param fastBitmap Image to be shared.
      * @param startX Initial X axis coordinate position.
+     * @param startY Initial Y axis coordinate position.
      * @param endHeight End of height.
-     * @param lastThead Specifies if is the last thread for to run.
+     * @param endWidth End of width.
      */
     public Share(FastBitmap fastBitmap, int startX, int startY, int endWidth, int endHeight){
         this.fastBitmap = fastBitmap;
@@ -105,8 +108,10 @@ public class Share {
      * Initializes a new instance of the Share class.
      * @param fastBitmap Image to be shared.
      * @param startX Initial X axis coordinate position.
+     * @param startY Initial Y axis coordinate position.
      * @param endHeight End of height.
-     * @param lastThead Specifies if is the last thread for to run.
+     * @param endWidth End of width.
+     * @param lastThread Specifies if is the last thread for to run.
      */
     public Share(FastBitmap fastBitmap, int startX, int startY, int endWidth, int endHeight, boolean lastThread){
         this.fastBitmap = fastBitmap;
