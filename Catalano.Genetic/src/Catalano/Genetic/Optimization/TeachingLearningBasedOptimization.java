@@ -63,7 +63,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
     private int population;
     private int iterations;
     
-    private double minError = Double.MAX_VALUE;
+    private double minError;
     private double[] best;
     
     @Override
@@ -90,6 +90,8 @@ public class TeachingLearningBasedOptimization implements IOptimization{
 
     @Override
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+        
+        minError = Double.MAX_VALUE;
         
         Random rand = new Random();
         

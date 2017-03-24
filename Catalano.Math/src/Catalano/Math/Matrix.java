@@ -22,12 +22,13 @@
 package Catalano.Math;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.Core.DoubleRange;
 import Catalano.Core.IntPoint;
 import Catalano.Math.Decompositions.LUDecomposition;
-import Catalano.Math.Decompositions.QRDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Defines a set of methods that works on multidimensional arrays and vectors.
@@ -2253,6 +2254,32 @@ public final class Matrix {
             }
         }
         return t;
+    }
+    
+    public static double[] UniformRandom(List<DoubleRange> ranges){
+        Random rand = new Random();
+        
+        double[] r = new double[ranges.size()];
+        for (int i = 0; i < r.length; i++) {
+            DoubleRange range = ranges.get(i);
+            r[i] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
+        }
+        return r;
+    }
+    
+    public static double[] UniformRandom(DoubleRange range, int size){
+        return UniformRandom(range.getMin(), range.getMax(), size);
+    }
+    
+    public static double[] UniformRandom(double min, double max, int size){
+        Random rand = new Random();
+        
+        double[] r = new double[size];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = min + rand.nextDouble() * (max - min);
+        }
+        
+        return r;
     }
     
     /**

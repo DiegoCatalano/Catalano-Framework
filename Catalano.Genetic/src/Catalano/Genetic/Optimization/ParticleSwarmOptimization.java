@@ -45,7 +45,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Genetic.Optimization.SwarmOptimization;
+package Catalano.Genetic.Optimization;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Genetic.Optimization.IObjectiveFunction;
@@ -65,7 +65,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private int iterations;
     private long seed;
     
-    private double gBest = Double.MAX_VALUE;
+    private double gBest;
     private double[] gBestLocation;
     
     private double w;
@@ -74,7 +74,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     
     private Random random = new Random();
     
-    private List<Particle> swarm = new ArrayList<Particle>();
+    private List<Particle> swarm;
     
     /**
      * Get minimum error of the function.
@@ -151,6 +151,9 @@ public class ParticleSwarmOptimization implements IOptimization{
      */
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
+        gBest = Double.MAX_VALUE;
+        double wf = w;
+
         //Initialize the particles
         Initialize(swarmSize, boundConstraint, function, seed);
         
@@ -164,7 +167,7 @@ public class ParticleSwarmOptimization implements IOptimization{
                 //Update velocity
                 double[] newVelocity = new double[boundConstraint.size()];
                 for (int k = 0; k < newVelocity.length; k++) {
-                    newVelocity[k] = (w * p.getVelocity()[k]) + 
+                    newVelocity[k] = (wf * p.getVelocity()[k]) + 
                                         (random.nextDouble() * C1) * (p.getBestLocation()[k] - p.getLocation()[k]) +
                                         (random.nextDouble() * C2) * (gBestLocation[k] - p.getLocation()[k]);
                 }
@@ -207,7 +210,7 @@ public class ParticleSwarmOptimization implements IOptimization{
             }
             
             //Dumping factor
-            w *= 0.99;
+            wf *= 0.99;
             
         }
         
@@ -216,6 +219,8 @@ public class ParticleSwarmOptimization implements IOptimization{
     }
     
     private void Initialize(int swarmSize, List<DoubleRange> location, IObjectiveFunction function, long seed) {
+        
+        swarm = new ArrayList<Particle>(swarmSize);
         
         int size = location.size();
         
