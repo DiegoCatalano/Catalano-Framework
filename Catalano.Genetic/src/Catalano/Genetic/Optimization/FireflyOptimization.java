@@ -49,6 +49,7 @@ package Catalano.Genetic.Optimization;
 
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
+import Catalano.Math.Tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -56,7 +57,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Firefly Optimization
+ * Firefly Optimization (FA).
+ * 
+ * The firefly algorithm is a metaheuristic proposed by Xin-She Yang and inspired
+ * by the flashing behaviour of fireflies.
+ * 
  * @author Diego Catalano
  */
 public class FireflyOptimization implements IOptimization{
@@ -74,23 +79,142 @@ public class FireflyOptimization implements IOptimization{
     private double[] best;
     private double minError;
     
+    /**
+     * Get mutation coefficient.
+     * @return Alpha value.
+     */
+    public double getMutationCoefficient(){
+        return alpha;
+    }
+    
+    /**
+     * Set mutation coefficient.
+     * @param alpha Alpha value.
+     */
+    public void setMutationCoefficient(double alpha){
+        this.alpha = alpha;
+    }
+    
+    /**
+     * Get attraction coefficient
+     * @return Beta0 value.
+     */
+    public double getAttractionCoefficient(){
+        return beta0;
+    }
+    
+    /**
+     * Set Attraction Coefficient.
+     * @param beta0 Beta0 value.
+     */
+    public void setAttractionCoefficient(double beta0){
+        this.beta0 = beta0;
+    }
+    
+    /**
+     * Get light absorption coefficient.
+     * @return Gamma value.
+     */
+    public double getLightAbsorptionCoefficient(){
+        return gamma;
+    }
+    
+    /**
+     * Set light absorption coefficient.
+     * @param gamma Gamma value.
+     */
+    public void setLightAbsorptionCoefficient(double gamma){
+        this.gamma = gamma;
+    }
+    
+    /**
+     * Get damping ratio
+     * @return Damping value.
+     */
+    public double getDampingRatio(){
+        return alphaDamp;
+    }
+    
+    /**
+     * Set damping ratio.
+     * @param damp Damping value.
+     */
+    public void setDampingRatio(double damp){
+        this.alphaDamp = damp;
+    }
+    
+    /**
+     * Get uniform mutation ratio.
+     * @return Delta value.
+     */
+    public double getUniformMutationRatio(){
+        return delta;
+    }
+    
+    /**
+     * Set uniform mutation ratio.
+     * @param delta Delta value.
+     */
+    public void setUniformMutationRatio(double delta){
+        this.delta = delta;
+    }
+    
     @Override
     public double getError() {
         return minError;
     }
 
+    /**
+     * Initializes a new instance of the FireflyOptimization class.
+     */
     public FireflyOptimization(){
         this(25, 1000);
     }
     
+    /**
+     * Initializes a new instance of the FireflyOptimization class.
+     * @param population Number of population.
+     * @param generations Number of generations.
+     */
     public FireflyOptimization(int population, int generations){
+        this(population, generations, 0.2, 2, 1);
+    }
+    
+    /**
+     * Initializes a new instance of the FireflyOptimization class.
+     * @param population Number of population.
+     * @param generations Number of generations.
+     * @param alpha Mutation coefficient.
+     * @param beta0 Attraction Coefficient Base Value.
+     * @param gamma Light Absorption Coefficient.
+     */
+    public FireflyOptimization(int population, int generations, double alpha, double beta0, double gamma){
+        this(population, generations, alpha, beta0, gamma, 0.98, 0.05);
+    }
+    
+    /**
+     * Initializes a new instance of the FireflyOptimization class.
+     * @param population Number of population.
+     * @param generations Number of generations.
+     * @param alpha Mutation coefficient.
+     * @param beta0 Attraction Coefficient Base Value.
+     * @param gamma Light Absorption Coefficient.
+     * @param alphaDamp Mutation Coefficient Damping Ratio.
+     * @param delta Uniform Mutation Range Base Value.
+     */
+    public FireflyOptimization(int population, int generations, double alpha, double beta0, double gamma, double alphaDamp, double delta){
         this.population = population;
         this.generations = generations;
+        this.beta0 = beta0;
+        this.gamma = gamma;
+        this.alphaDamp = alphaDamp;
+        this.delta = delta;
     }
 
     @Override
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
+        double damp = alpha;
         minError = Double.MAX_VALUE;
         
         Random rand = new Random();
@@ -141,7 +265,8 @@ public class FireflyOptimization implements IOptimization{
                     for (int k = 0; k < newsol.length; k++) {
                         Firefly a = pop.get(i);
                         Firefly b = pop.get(j);
-                        newsol[k] = a.location[k] + beta * rand.nextDouble() * (b.location[k] - a.location[k]) + alpha * e[k];
+                        newsol[k] = a.location[k] + beta * rand.nextDouble() * (b.location[k] - a.location[k]) + damp * e[k];
+                        newsol[k] = Tools.Clamp(newsol[k], boundConstraint.get(j));
                     }
 
                     double newfit = function.Compute(newsol);
@@ -170,7 +295,7 @@ public class FireflyOptimization implements IOptimization{
             //Truncate
             pop = pop.subList(0, population);
         }
-        alpha = alpha*alphaDamp;
+        damp = damp*alphaDamp;
         
         return best;
         
@@ -191,5 +316,4 @@ public class FireflyOptimization implements IOptimization{
         }
         
     }
-    
 }
