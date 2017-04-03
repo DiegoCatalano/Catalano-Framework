@@ -123,7 +123,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
             double[] mean = Catalano.Statistics.Tools.Mean(pop);
             
             //Select teacher
-            double[] teacher = Arrays.copyOf(best, best.length);
+            double[] teacher = Arrays.copyOf(pop[Matrix.MinIndex(fitness)], best.length);
             
             //Teacher phase
             for (int i = 0; i < population; i++) {
