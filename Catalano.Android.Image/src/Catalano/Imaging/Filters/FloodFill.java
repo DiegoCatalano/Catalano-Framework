@@ -241,15 +241,15 @@ public class FloodFill implements IApplyInPlace{
                         
                         while (examList.size() > 0) {
                             IntPoint p = examList.removeLast();
-                            old = new Color(fastBitmap.getRGB(p));
+                            Color temp = new Color(fastBitmap.getRGB(p));
 
-                            if (!Color.isEqual(old, replace)) {
+                            if (Color.isEqual(old, temp)) {
                                 int x = p.x;
                                 int y = p.y;
 
                                 fastBitmap.setRGB(x, y, replace);
 
-                                if (y-1 > 0) {
+                                if (y-1 >= 0) {
                                     examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
@@ -258,7 +258,7 @@ public class FloodFill implements IApplyInPlace{
                                 if (x+1 < height) {
                                     examList.addFirst(new IntPoint(x+1,y));        // check south neighbor
                                 }
-                                if (x-1 > 0) {
+                                if (x-1 >= 0) {
                                     examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                             }
@@ -271,29 +271,30 @@ public class FloodFill implements IApplyInPlace{
                         examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
                             IntPoint p = examList.removeFirst();
+                            Color temp = new Color(fastBitmap.getRGB(p));
 
-                            if (Color.isEqual(old, replace)) {
+                            if (Color.isEqual(old, temp)) {
                                 int x = p.x;
                                 int y = p.y;
 
                                 fastBitmap.setRGB(x, y, replace);
 
-                                if ((x-1 > 0) && (y-1 > 0)) {
+                                if ((x-1 >= 0) && (y-1 >= 0)) {
                                     examList.addFirst(new IntPoint(x-1,y-1));        // check north-west neighbor
                                 }
-                                if (x-1 > 0) {
+                                if (x-1 >= 0) {
                                     examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                                 }
                                 if ((x+1 < height) && (y+1 < width)) {
                                     examList.addFirst(new IntPoint(x+1,y+1));        // check north-east neighbor
                                 }
-                                if (y-1 > 0) {
+                                if (y-1 >= 0) {
                                     examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                                 }
                                 if (y+1 < width) {
                                     examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                                 }
-                                if ((x+1 < height) && (y-1 > 0)) {
+                                if ((x+1 < height) && (y-1 >= 0)) {
                                     examList.addFirst(new IntPoint(x+1,y-1));        // check south-west neighbor
                                 }
                                 if (x+1 < height) {
@@ -355,7 +356,7 @@ public class FloodFill implements IApplyInPlace{
                     if (iGray != _Gray) {
                         examList.addFirst(new IntPoint(startPoint));
                         while (examList.size() > 0) {
-                            IntPoint p = examList.removeFirst();
+                            IntPoint p = examList.pop();
                             _gray = fastBitmap.getGray(p.x, p.y);
                             _Gray = _gray;
 

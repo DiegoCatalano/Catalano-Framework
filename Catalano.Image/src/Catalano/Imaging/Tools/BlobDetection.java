@@ -177,13 +177,13 @@ public class BlobDetection {
                         xc += p.x;
                         yc += p.y;
 
-                        if (x-1 > 0) {
+                        if (x-1 >= 0) {
                             examList.addFirst(new IntPoint(x-1,y));        // check west neighbor
                         }
                         if (x+1 < height) {
                             examList.addFirst(new IntPoint(x+1,y));        // check east neighbor
                         }
-                        if (y-1 > 0) {
+                        if (y-1 >= 0) {
                             examList.addFirst(new IntPoint(x,y-1));        // check north neighbor
                         }
                         if (y+1 < width) {
@@ -210,22 +210,22 @@ public class BlobDetection {
                         xc += p.x;
                         yc += p.y;
 
-                        if (x-1 > 0 && y-1 > 0) {
+                        if (x-1 >= 0 && y-1 >= 0) {
                             examList.addFirst(new IntPoint(x-1,y-1));        // check west-north neighbor
                         }
-                        if (x-1 > 0) {
+                        if (x-1 >= 0) {
                             examList.addFirst(new IntPoint(x-1,y));        // check north neighbor
                         }
-                        if (x-1 > 0 && y+1 < width) {
+                        if (x-1 >= 0 && y+1 < width) {
                             examList.addFirst(new IntPoint(x-1,y+1));        // check east-north neighbor
                         }
-                        if (y-1 > 0) {
+                        if (y-1 >= 0) {
                             examList.addFirst(new IntPoint(x,y-1));        // check west neighbor
                         }
                         if (y+1 < width) {
                             examList.addFirst(new IntPoint(x,y+1));        // check east neighbor
                         }
-                        if (x+1 < height && y-1 > 0) {
+                        if (x+1 < height && y-1 >= 0) {
                             examList.addFirst(new IntPoint(x+1,y-1));        // check south-west neighbor
                         }
                         if (x+1 < height) {
