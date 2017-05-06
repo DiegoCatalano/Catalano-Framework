@@ -174,7 +174,7 @@ public class ExtremeLearningMachine implements IRegression, Serializable{
      * @param nHiddenNodes Number of hidden nodes.
      */
     public ExtremeLearningMachine(int nHiddenNodes){
-        this(20, 1);
+        this(nHiddenNodes, 1);
     }
     
     /**

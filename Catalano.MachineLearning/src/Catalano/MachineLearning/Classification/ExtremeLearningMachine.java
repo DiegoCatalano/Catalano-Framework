@@ -175,7 +175,7 @@ public class ExtremeLearningMachine implements IClassifier, Serializable{
      * @param nHiddenNodes Number of hidden nodes.
      */
     public ExtremeLearningMachine(int nHiddenNodes){
-        this(20, 100);
+        this(nHiddenNodes, 100);
     }
     
     /**

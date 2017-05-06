@@ -25,6 +25,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import Catalano.Math.Wavelets.IWavelet;
 
