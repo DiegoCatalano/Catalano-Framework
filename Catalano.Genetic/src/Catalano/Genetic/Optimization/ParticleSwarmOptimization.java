@@ -64,6 +64,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private int swarmSize;
     private int iterations;
     private long seed;
+    private int nEval;
     
     private double gBest;
     private double[] gBestLocation;
@@ -75,6 +76,11 @@ public class ParticleSwarmOptimization implements IOptimization{
     private Random random = new Random();
     
     private List<Particle> swarm;
+
+    @Override
+    public int getNumberOfEvaluations() {
+        return nEval;
+    }
     
     /**
      * Get minimum error of the function.
@@ -152,6 +158,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
         gBest = Double.MAX_VALUE;
+        nEval = 0;
         double wf = w;
 
         //Initialize the particles
@@ -193,6 +200,7 @@ public class ParticleSwarmOptimization implements IOptimization{
                 p.setLocation(newLocation);
                 
                 p.setFitness(function.Compute(newLocation));
+                nEval++;
                 
                 if(p.getFitness() < p.getBestFitness()){
                     p.setBestLocation(p.getLocation());

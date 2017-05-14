@@ -78,6 +78,7 @@ public class FireflyOptimization implements IOptimization{
     
     private double[] best;
     private double minError;
+    private int nEval;
     
     /**
      * Get mutation coefficient.
@@ -158,6 +159,11 @@ public class FireflyOptimization implements IOptimization{
     public void setUniformMutationRatio(double delta){
         this.delta = delta;
     }
+
+    @Override
+    public int getNumberOfEvaluations() {
+        return nEval;
+    }
     
     @Override
     public double getError() {
@@ -216,6 +222,7 @@ public class FireflyOptimization implements IOptimization{
         
         double damp = alpha;
         minError = Double.MAX_VALUE;
+        nEval = 0;
         
         Random rand = new Random();
         
@@ -270,6 +277,7 @@ public class FireflyOptimization implements IOptimization{
                     }
 
                     double newfit = function.Compute(newsol);
+                    nEval++;
                     if(newfit <= newPop.get(i).fitness){
                         newPop.set(i, new Firefly(newsol, newfit));
                         if(newfit < minError){

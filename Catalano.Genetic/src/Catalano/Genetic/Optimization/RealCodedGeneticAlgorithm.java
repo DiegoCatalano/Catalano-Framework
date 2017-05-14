@@ -76,6 +76,12 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
     private double[] best;
     private double minError;
     private double maxError; //Used only in Roulette Wheel Selection
+    private int nEval;
+
+    @Override
+    public int getNumberOfEvaluations() {
+        return nEval;
+    }
     
     @Override
     public double getError() {
@@ -177,11 +183,14 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
                 c2 = new Chromosome(elem[1], function.Compute(elem[1]));
                 news.add(c1);
                 news.add(c2);
+                
+                nEval += 2;
             }
             
             for (int i = 0; i < popMU; i++) {
                 double[] elem = Mutation(lst.get(rand.nextInt(lst.size())).getValues(), mutationRate, boundConstraint);
                 news.add(new Chromosome(elem, function.Compute(elem)));
+                nEval++;
             }
             
             lst.addAll(news);

@@ -31,6 +31,7 @@ import java.util.List;
  * @author Diego Catalano
  */
 public interface IOptimization {
+    public int getNumberOfEvaluations();
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint);
     public double getError();
 }

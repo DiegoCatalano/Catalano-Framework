@@ -81,6 +81,7 @@ public class DifferentialEvolution implements IOptimization{
     
     private int population;
     private int generations;
+    private int nEval;
     
     private double f;
     private double f2;
@@ -92,6 +93,11 @@ public class DifferentialEvolution implements IOptimization{
     @Override
     public double getError(){
         return minError;
+    }
+
+    @Override
+    public int getNumberOfEvaluations() {
+        return nEval;
     }
 
     /**
@@ -244,6 +250,8 @@ public class DifferentialEvolution implements IOptimization{
     @Override
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint){
         
+        nEval = 0;
+        
         if(strategy == Strategy.RAND_1 || strategy == Strategy.RAND_2){
             return Rand(function, boundConstraint, strategy);
         }
@@ -320,6 +328,7 @@ public class DifferentialEvolution implements IOptimization{
                 }
 
                 double fTrial = function.Compute(trial);
+                nEval++;
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
                     fitness[p] = fTrial;
@@ -441,6 +450,7 @@ public class DifferentialEvolution implements IOptimization{
                 }
 
                 double fTrial = function.Compute(trial);
+                nEval++;
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
                     fitness[p] = fTrial;

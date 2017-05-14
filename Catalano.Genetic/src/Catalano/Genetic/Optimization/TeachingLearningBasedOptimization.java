@@ -65,6 +65,12 @@ public class TeachingLearningBasedOptimization implements IOptimization{
     
     private double minError;
     private double[] best;
+    private int nEval;
+
+    @Override
+    public int getNumberOfEvaluations() {
+        return nEval;
+    }
     
     @Override
     public double getError() {
@@ -92,6 +98,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
     public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
+        nEval = 0;
         
         Random rand = new Random();
         
@@ -136,6 +143,8 @@ public class TeachingLearningBasedOptimization implements IOptimization{
                 }
                 
                 double f = function.Compute(newsol);
+                nEval++;
+                
                 if(f < fitness[i]){
                     pop[i] = newsol;
                     fitness[i] = f;
@@ -165,6 +174,8 @@ public class TeachingLearningBasedOptimization implements IOptimization{
                 }
                 
                 double f = function.Compute(newsol);
+                nEval++;
+                
                 if(f < fitness[i]){
                     pop[i] = newsol;
                     fitness[i] = f;
