@@ -1,51 +1,11 @@
-* I'll try to release a new version in each 3 months.
+* I'll try to release a new version in each 6 months.
 
-Task								Status
-Add: Crop to work in both system coordinates.			Ready
-Add: Covariance overload for to create covariance matrix	Ready
-Add: FastGraphic to work in both system coordinates.
-New: Local Phase Quantization
-New: GIF Encoder						Working
-New: Extreme Machine Learning					Ready
-New: Self Quocient Image					Ready
-New: Grayscale To RGB						Ready
-New: Weberfaces							Ready
-New: Retina Model Normalization					Ready
-New: Local Adaptive Ternary Pattern				Ready
-New: Local Gradient Coding HD					Ready
-New: Local Gradient Coding					Ready
-New: Multi Scale Retinex					Ready
-New: Single Scale Retinex					Ready
-New: Retina Model						Ready
-New: Weber Binary Pattern					Ready
-New: Tan Triggs Normalization					Ready
-New: Differences Of Gaussian					Ready
-New: Spatial Pyramid Histogram					Ready
-New: Spatial Histogram						Ready
-New: Uniform Local Binary Pattern				Ready
-New: Multi-block Binary Pattern					Ready
-New: Gradient Binary Pattern					Ready
-New: Median Binary Pattern					Ready
-New: Improved Local Binary Pattern				Ready
-New: Catalano.Video						Ready
-New: Tsai Threshold						Ready
-New: Random Convolution						Ready
-New: EnsembleThreshold						Ready
-New: KMeans							Ready
-New: Perona-Malik Anisotropic Diffusion				Ready
-New: Histogram Adjust						Ready
-New: Shrink							Ready
-New: ChanVese Segmentation
-New: Hidden Markov Models
-New: MeanVarianceFeatureSelection				Ready
-New: MinimumMeanDistance					Ready
-New: Naive Bayes.
-New: Principal Component Analysis
-New: Dataset Regression.					Ready
-New: Regression Measure.					Ready
-New: Holdout Validation (Regression).				Ready
-New: Leave One Out Cross Validation (Regression).		Ready
-New: Cross Validation.
-New: KD-Tree.
-Add: upscale() in Image Pyramids.
-Optimize: Convolution (Access pixels directly).
+Neuro package
+
+Multi Layer Perceptron
+Dropout Multi Layer Perceptron
+Restricted Boltzmann Machine
+Deep Belief Nets
+Denoising Autoencoders
+Stacked Denoising Autoencoders
+Convolutional Neural Networks ?
