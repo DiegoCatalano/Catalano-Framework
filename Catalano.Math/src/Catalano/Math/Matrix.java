@@ -271,6 +271,237 @@ public final class Matrix {
     }
     
     /**
+     * Insert a column.
+     * Insert a column in the selected index.
+     * @param A Matrix.
+     * @param B Column.
+     * @param index Index.
+     */
+    public static double[][] InsertColumn(double[][] A, double[] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The column of the matrix must be the same size of the vector B.");
+        
+        double[][] mat = new double[A.length][A[0].length + 1];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            for (int j = 0; j <= A[0].length; j++) {
+                if(j != index){
+                    mat[i][j] = A[i][idx];
+                    idx++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < B.length; i++) {
+            mat[i][index] = B[i];
+        }
+        
+        return mat;
+    }
+    
+    /**
+     * Insert a column.
+     * Insert a column in the selected index.
+     * @param A Matrix.
+     * @param B Column.
+     * @param index Index.
+     */
+    public static int[][] InsertColumn(int[][] A, int[] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The column of the matrix must be the same size of the vector B.");
+        
+        int[][] mat = new int[A.length][A[0].length + 1];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            for (int j = 0; j <= A[0].length; j++) {
+                if(j != index){
+                    mat[i][j] = A[i][idx];
+                    idx++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < B.length; i++) {
+            mat[i][index] = B[i];
+        }
+        
+        return mat;
+    }
+    
+    /**
+     * Insert a column.
+     * Insert a column in the selected index.
+     * @param A Matrix.
+     * @param B Column.
+     * @param index Index.
+     */
+    public static float[][] InsertColumn(float[][] A, float[] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The column of the matrix must be the same size of the vector B.");
+        
+        float[][] mat = new float[A.length][A[0].length + 1];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            for (int j = 0; j <= A[0].length; j++) {
+                if(j != index){
+                    mat[i][j] = A[i][idx];
+                    idx++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < B.length; i++) {
+            mat[i][index] = B[i];
+        }
+        
+        return mat;
+    }
+    
+    /**
+     * Insert columns.
+     * Insert columns in the selected index.
+     * @param A Matrix.
+     * @param B Columns.
+     * @param index Index.
+     */
+    public static double[][] InsertColumns(double[][] A, double[][] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix must be the same size of the rows of B.");
+        
+        if(index > A[0].length)
+            throw new IllegalArgumentException("The index must be in the range [0..number of columns + 1]");
+        
+        double[][] mat = new double[A.length][A[0].length + B[0].length];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            int j;
+            for (j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                }
+                else{
+                    for (int k = 0; k < B[0].length; k++) {
+                        mat[i][j+k] = B[i][k];
+                    }
+                    
+                    idx += B[0].length;
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                    
+                }
+            }
+            
+            if(j == index){
+                for (int k = 0; k < B[0].length; k++) {
+                    mat[i][j+k] = B[i][k];
+                }
+            }
+            
+        }
+        
+        return mat;
+    }
+    
+    /**
+     * Insert columns.
+     * Insert columns in the selected index.
+     * @param A Matrix.
+     * @param B Columns.
+     * @param index Index.
+     */
+    public static int[][] InsertColumns(int[][] A, int[][] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix must be the same size of the rows of B.");
+        
+        if(index > A[0].length)
+            throw new IllegalArgumentException("The index must be in the range [0..number of columns + 1]");
+        
+        int[][] mat = new int[A.length][A[0].length + B[0].length];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            int j;
+            for (j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                }
+                else{
+                    for (int k = 0; k < B[0].length; k++) {
+                        mat[i][j+k] = B[i][k];
+                    }
+                    
+                    idx += B[0].length;
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                    
+                }
+            }
+            
+            if(j == index){
+                for (int k = 0; k < B[0].length; k++) {
+                    mat[i][j+k] = B[i][k];
+                }
+            }
+            
+        }
+        
+        return mat;
+    }
+    
+    /**
+     * Insert columns.
+     * Insert columns in the selected index.
+     * @param A Matrix.
+     * @param B Columns.
+     * @param index Index.
+     */
+    public static float[][] InsertColumns(float[][] A, float[][] B, int index){
+        
+        if(A.length != B.length)
+            throw new IllegalArgumentException("The rows of the matrix must be the same size of the rows of B.");
+        
+        if(index > A[0].length)
+            throw new IllegalArgumentException("The index must be in the range [0..number of columns + 1]");
+        
+        float[][] mat = new float[A.length][A[0].length + B[0].length];
+        for (int i = 0; i < A.length; i++) {
+            int idx = 0;
+            int j;
+            for (j = 0; j < A[0].length; j++) {
+                if(j != index){
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                }
+                else{
+                    for (int k = 0; k < B[0].length; k++) {
+                        mat[i][j+k] = B[i][k];
+                    }
+                    
+                    idx += B[0].length;
+                    mat[i][idx] = A[i][j];
+                    idx++;
+                    
+                }
+            }
+            
+            if(j == index){
+                for (int k = 0; k < B[0].length; k++) {
+                    mat[i][j+k] = B[i][k];
+                }
+            }
+            
+        }
+        
+        return mat;
+    }
+    
+    /**
      * Elementwise Log operation.
      * @param A Vector.
      * @return Log(Vector).

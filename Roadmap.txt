@@ -1,11 +1,15 @@
 * I'll try to release a new version in each 6 months.
 
-Neuro package
+Machine Learning
 
-Multi Layer Perceptron
-Dropout Multi Layer Perceptron
-Restricted Boltzmann Machine
-Deep Belief Nets
-Denoising Autoencoders
-Stacked Denoising Autoencoders
-Convolutional Neural Networks ?
+- One Hot Encoder
+
+Neuro
+
+- Multi Layer Perceptron
+- Dropout Multi Layer Perceptron
+- Restricted Boltzmann Machine
+- Deep Belief Nets
+- Denoising Autoencoders
+- Stacked Denoising Autoencoders
+- Convolutional Neural Networks ?

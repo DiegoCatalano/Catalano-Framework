@@ -297,8 +297,9 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
                                     idxAtt++;
                                 }
                                 else{
-                                    if(!map.containsKey(temp[j]));
+                                    if(map.containsKey(temp[j]) == false)
                                         map.put(temp[j], indexes[idxAtt]++);
+                                        
                                     idxAtt++;
                                     input[i-start][idx++] = map.get(temp[j]);
                                 }

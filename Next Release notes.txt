@@ -1,0 +1,11 @@
+Catalano Framework 1.6.2 road map
+-----------------------------------------
+
+* Catalano.MachineLearning
+
+- New: One Hot Encoder
+- Fixed: Categorical mapping in the Dataset Classification
+
+* Catalano.Math
+
+- Added: InsertColumn and InsertColumns in the Matrix.
