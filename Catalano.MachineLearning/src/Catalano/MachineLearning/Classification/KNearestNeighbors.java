@@ -22,6 +22,7 @@
 
 package Catalano.MachineLearning.Classification;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
@@ -166,19 +167,13 @@ public class KNearestNeighbors implements IClassifier, Serializable {
         if(k == 1) return output[Matrix.MinIndex(dist)];
         
         //Sort indexes based on score
-        int[] indexes = Matrix.Indices(0, dist.length);
-        List<Score> lst = new ArrayList<Score>(dist.length);
-        for (int i = 0; i < dist.length; i++) {
-            lst.add(new Score(dist[i], indexes[i]));
-        }
-        
-        Collections.sort(lst);
+        int[] indexes = ArraysUtil.Argsort(dist, true);
         
         //Compute vote majority
         int classes = Matrix.Max(output) + 1;
         int[] votes = new int[classes];
         for (int i = 0; i < k; i++) {
-            votes[output[lst.get(i).index]]++;
+            votes[output[indexes[i]]]++;
         }
         
         return Matrix.MaxIndex(votes);
@@ -191,21 +186,6 @@ public class KNearestNeighbors implements IClassifier, Serializable {
             return (IClassifier)super.clone();
         } catch (CloneNotSupportedException ex) {
             throw new IllegalArgumentException("Clone not supported: " + ex.getMessage());
-        }
-    }
-    
-    private class Score implements Comparable<Score> {
-        double score;
-        int index;
-
-        public Score(double score, int index) {
-            this.score = score;
-            this.index = index;
-        }
-
-        @Override
-        public int compareTo(Score o) {
-            return score < o.score ? -1 : score > o.score ? 1 : 0;
         }
     }
 }

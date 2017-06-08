@@ -1,7 +1,12 @@
 * I'll try to release a new version in each 6 months.
 
+Genetic
+
+- Grey Wolf Optimizer
+
 Machine Learning
 
+- Gravitational Clustering
 - One Hot Encoder
 
 Neuro

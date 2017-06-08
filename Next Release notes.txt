@@ -1,6 +1,10 @@
 Catalano Framework 1.6.2 road map
 -----------------------------------------
 
+* Catalano.Imaging
+
+- Reworked: Fast Variance, now is really fast.
+
 * Catalano.MachineLearning
 
 - New: One Hot Encoder

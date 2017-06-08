@@ -72,19 +72,21 @@ public class FastVariance implements IApplyInPlace{
             for (int x = 0; x < height; x++) {
                 for (int y = 0; y < width; y++) {
                     int n = 0;
-                    double mean = 0;
-                    double m2 = 0;
+                    double sum = 0;
+                    double sum_sq = 0;
                     for (int i = x - radius; i <= x + radius; i++) {
                         for (int j = y - radius; j <= y + radius; j++) {
                             if (i >= 0 && i < height && j >= 0 && j < width){
                                 n++;
-                                double delta = copy.getGray(i, j) - mean;
-                                mean += delta / n;
-                                m2 += delta * (copy.getGray(i, j) - mean);
+                                double val = copy.getGray(i, j);
+                                sum += val;
+                                sum_sq += val*val;
+                                
                             }
                         }
                     }
-                    double var = m2/(n - 1);
+                    double mean = sum / n;
+                    double var = sum_sq / n - mean * mean;
                     if (var < 0) var = 0;
                     if (var > 255) var = 255;
                     fastBitmap.setGray(x, y, (int)var);
@@ -97,30 +99,34 @@ public class FastVariance implements IApplyInPlace{
             for (int x = 0; x < height; x++) {
                 for (int y = 0; y < width; y++) {
                     int n = 0;
-                    double meanR = 0, meanG = 0, meanB = 0;
-                    double m2R = 0, m2G = 0, m2B = 0;
+                    double sumR = 0, sumG = 0, sumB = 0;
+                    double sq_sumR = 0, sq_sumG = 0, sq_sumB = 0;
                     for (int i = x - radius; i <= x + radius; i++) {
                         for (int j = y - radius; j <= y + radius; j++) {
                             if (i >= 0 && i < height && j >= 0 && j < width){
                                 n++;
-                                double deltaR = copy.getRed(i, j) - meanR;
-                                double deltaG = copy.getGreen(i, j) - meanG;
-                                double deltaB = copy.getBlue(i, j) - meanB;
+                                double r = copy.getRed(i, j);
+                                double g = copy.getGreen(i, j);
+                                double b = copy.getBlue(i, j);
                                 
-                                meanR += deltaR / n;
-                                meanG += deltaG / n;
-                                meanB += deltaB / n;
+                                sumR += r;
+                                sumG += g;
+                                sumB += b;
                                 
-                                m2R += deltaR * (copy.getRed(i, j) - meanR);
-                                m2G += deltaG * (copy.getGreen(i, j) - meanG);
-                                m2B += deltaB * (copy.getBlue(i, j) - meanB);
+                                sq_sumR += r*r;
+                                sq_sumG += g*g;
+                                sq_sumB += b*b;
                             }
                         }
                     }
                     
-                    double varR = m2R/(n - 1);
-                    double varG = m2G/(n - 1);
-                    double varB = m2B/(n - 1);
+                    double meanR = sumR / n;
+                    double meanG = sumG / n;
+                    double meanB = sumB / n;
+                    
+                    double varR = sq_sumR / n - meanR * meanR;
+                    double varG = sq_sumG / n - meanG * meanG;
+                    double varB = sq_sumB / n - meanB * meanB;
                     
                     if (varR < 0) varR = 0;
                     if (varG < 0) varG = 0;
