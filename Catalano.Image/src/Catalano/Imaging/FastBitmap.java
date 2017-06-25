@@ -32,15 +32,16 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.swing.ImageIcon;
+import org.w3c.dom.Element;
 
 /**
  * Class to handle image.
@@ -1359,6 +1360,44 @@ public class FastBitmap {
             final ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
             writer.setOutput(new FileImageOutputStream(new File(pathname)));
             writer.write(null, new IIOImage(bufferedImage, null, null), params);
+        } catch (IOException ex) {
+            //Logger.getLogger(FastBitmap.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Save FastBitmap as JPG.
+     * @param pathname Path name.
+     * @param quality Quality.
+     * @param xDpi X resolution DPI.
+     * @param yDpi Y resolution DPI.
+     */
+    public void saveAsJPG(String pathname, float quality, int xDpi, int yDpi){
+        try {
+            
+            final ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
+            
+            //Modify DPI
+            IIOMetadata imageMetaData = writer.getDefaultImageMetadata(new ImageTypeSpecifier(bufferedImage), null);
+            Element tree = (Element) imageMetaData.getAsTree("javax_imageio_jpeg_image_1.0");
+            Element jfif = (Element)tree.getElementsByTagName("app0JFIF").item(0);
+            jfif.setAttribute("Xdensity", Integer.toString(xDpi));
+            jfif.setAttribute("Ydensity", Integer.toString(yDpi));
+            jfif.setAttribute("resUnits", "1");
+            imageMetaData.setFromTree("javax_imageio_jpeg_image_1.0", tree);
+            
+            //Compression
+            JPEGImageWriteParam params = new JPEGImageWriteParam(null);
+            params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            params.setCompressionQuality(quality);
+            
+            //Write the image
+            //ImageOutputStream ios = ImageIO.createImageOutputStream(new FileOutputStream(pathname));
+            writer.setOutput(new FileImageOutputStream(new File(pathname)));
+            writer.write(imageMetaData, new IIOImage(bufferedImage, null, imageMetaData), params);
+            writer.dispose();
+            
         } catch (IOException ex) {
             //Logger.getLogger(FastBitmap.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
