@@ -270,7 +270,17 @@ public final class Matrix {
         return sum;
     }
     
+    /**
+     * Insert columns in the array.
+     * @param A Array.
+     * @param B Array.
+     * @param index Index.
+     * @return New array.
+     */
     public static double[] InsertColumns(double[] A, double[] B, int index){
+        
+        if(index >= A.length)
+            throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         double[] v = new double[A.length + B.length];
         
@@ -288,10 +298,21 @@ public final class Matrix {
                 v[idx++] = A[i];
             }
         }
+        
         return v;
     }
     
+    /**
+     * Insert columns in the array.
+     * @param A Array.
+     * @param B Array.
+     * @param index Index.
+     * @return New array.
+     */
     public static int[] InsertColumns(int[] A, int[] B, int index){
+        
+        if(index >= A.length)
+            throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         int[] v = new int[A.length + B.length];
         
@@ -312,7 +333,17 @@ public final class Matrix {
         return v;
     }
     
+    /**
+     * Insert columns in the array.
+     * @param A Array.
+     * @param B Array.
+     * @param index Index.
+     * @return New array.
+     */
     public static float[] InsertColumns(float[] A, float[] B, int index){
+        
+        if(index >= A.length)
+            throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         float[] v = new float[A.length + B.length];
         
@@ -333,7 +364,17 @@ public final class Matrix {
         return v;
     }
     
+    /**
+     * Insert columns in the array.
+     * @param A Array.
+     * @param B Array.
+     * @param index Index.
+     * @return New array.
+     */
     public static byte[] InsertColumns(byte[] A, byte[] B, int index){
+        
+        if(index >= A.length)
+            throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         byte[] v = new byte[A.length + B.length];
         

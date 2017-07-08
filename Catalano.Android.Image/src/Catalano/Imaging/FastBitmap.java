@@ -1055,10 +1055,36 @@ public class FastBitmap {
 
         double yUnits = yDpi / 0.0254D;
         int y = (int)yUnits;
+        
+        //Format x
+        String xTemp = Integer.toHexString(x);
+        
+        int diff = 8 - xTemp.length();
+        
+        String xHex = "";
+        if(diff > 0){
+            for (int i = 0; i < diff; i++) {
+                xHex += "0";
+            }
+        }
+        xHex += xTemp;
+        
+        //Format y
+        String yTemp = Integer.toHexString(y);
+        
+        diff = 8 - yTemp.length();
+        
+        String yHex = "";
+        if(diff > 0){
+            for (int i = 0; i < diff; i++) {
+                yHex += "0";
+            }
+        }
+        yHex += yTemp;
 
         //Create the chunk information
         //pHYs = 70 48 59 73 in hex
-        String chunk = "70485973" + "0000" + Integer.toHexString(x) + "0000" + Integer.toHexString(y) + "01";
+        String chunk = "70485973" + xHex + yHex + "01";
 
         //Calculate CRC32
         CRC32 crc32 = new CRC32();
