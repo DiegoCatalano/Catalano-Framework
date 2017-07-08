@@ -265,19 +265,10 @@ public class DistanceTransform {
         
         FastBitmap fb = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         
-        if (max > 255){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    fb.setGray(i, j, (int)Catalano.Math.Tools.Scale(0, max, 0, 255, image[i][j]));
-                }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                fb.setGray(i, j, (int)Catalano.Math.Tools.Scale(0, max, 0, 255, image[i][j]));
             }
-        }
-        else{
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++) {
-                        fb.setGray(i, j, (int)image[i][j]);
-                    }
-                }
         }
         
         return fb;

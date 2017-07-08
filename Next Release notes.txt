@@ -3,6 +3,7 @@ Catalano Framework 1.6.2 road map
 
 * Catalano.Imaging
 
+- New: Ultimate Eroded Points.
 - Reworked: Fast Variance, now is really fast.
 
 * Catalano.MachineLearning

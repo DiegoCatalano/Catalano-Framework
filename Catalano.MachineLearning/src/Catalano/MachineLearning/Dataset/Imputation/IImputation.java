@@ -20,15 +20,15 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Dataset.Filters;
+package Catalano.MachineLearning.Dataset.Imputation;
 
 import Catalano.MachineLearning.Dataset.IDataset;
 
 /**
- * Common interface to filter a dataset.
+ * Common interface to imputation filters.
  * @author Diego Catalano
  */
-public interface IDatasetFilter {
+public interface IImputation {
     
     /**
      * Apply filter.

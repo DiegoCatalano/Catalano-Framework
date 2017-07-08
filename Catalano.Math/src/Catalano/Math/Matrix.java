@@ -270,6 +270,90 @@ public final class Matrix {
         return sum;
     }
     
+    public static double[] InsertColumns(double[] A, double[] B, int index){
+        
+        double[] v = new double[A.length + B.length];
+        
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                v[idx] = A[i];
+                idx++;
+            }
+            else{
+                for (int j = 0; j < B.length; j++) {
+                    v[i+j] = B[j];
+                    idx++;
+                }
+                v[idx++] = A[i];
+            }
+        }
+        return v;
+    }
+    
+    public static int[] InsertColumns(int[] A, int[] B, int index){
+        
+        int[] v = new int[A.length + B.length];
+        
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                v[idx] = A[i];
+                idx++;
+            }
+            else{
+                for (int j = 0; j < B.length; j++) {
+                    v[i+j] = B[j];
+                    idx++;
+                }
+                v[idx++] = A[i];
+            }
+        }
+        return v;
+    }
+    
+    public static float[] InsertColumns(float[] A, float[] B, int index){
+        
+        float[] v = new float[A.length + B.length];
+        
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                v[idx] = A[i];
+                idx++;
+            }
+            else{
+                for (int j = 0; j < B.length; j++) {
+                    v[i+j] = B[j];
+                    idx++;
+                }
+                v[idx++] = A[i];
+            }
+        }
+        return v;
+    }
+    
+    public static byte[] InsertColumns(byte[] A, byte[] B, int index){
+        
+        byte[] v = new byte[A.length + B.length];
+        
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                v[idx] = A[i];
+                idx++;
+            }
+            else{
+                for (int j = 0; j < B.length; j++) {
+                    v[i+j] = B[j];
+                    idx++;
+                }
+                v[idx++] = A[i];
+            }
+        }
+        return v;
+    }
+    
     /**
      * Insert a column.
      * Insert a column in the selected index.

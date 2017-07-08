@@ -23,10 +23,13 @@
 
 package Catalano.Imaging.Filters;
 
+import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Tools.ImageStatistics;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Binary Watershed.
@@ -114,7 +117,7 @@ public class BinaryWatershed implements IApplyInPlace{
         
         FastBitmap back = new FastBitmap(width, height, FastBitmap.ColorSpace.Grayscale);
         
-        //Pegue as maxima
+        //Get all maximum points
         long[] maxPoints = getSortedMaxPoints(distance, distance1D, back, 0, dt.getMaximumDistance(), -808080.0);
         
         //Analise e marque as maxima em imagem de background
@@ -199,8 +202,10 @@ public class BinaryWatershed implements IApplyInPlace{
         
     }
     
-   private void analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, float tolerance, float maxSortingError) {
-        int width = back.getWidth();
+   private List<IntPoint> analyseAndMarkMaxima(float[] edmPixels, FastBitmap back, long[] maxPoints, float tolerance, float maxSortingError) {
+       
+       List<IntPoint> uep = new ArrayList<IntPoint>();
+       int width = back.getWidth();
         int height = back.getHeight();
         byte[] types =  (byte[])back.getGrayData();
         int nMax = maxPoints.length;
@@ -300,11 +305,13 @@ public class BinaryWatershed implements IApplyInPlace{
 					} // for listI
 					if (maxPossible) {
 						int offset = pList[nearestI];
+                                                uep.add(new IntPoint(offset / width, offset % width));
 						types[offset] |= (byte)32;
 					}
 				} //if !sortingError
 			} while (sortingError);				//redo if we have encountered a higher maximum: handle it now.
         } // for all maxima iMax
+        return uep;
     }
     
     private FastBitmap make8Bit(float[][] distance, FastBitmap back, float globalMax, double threshold){

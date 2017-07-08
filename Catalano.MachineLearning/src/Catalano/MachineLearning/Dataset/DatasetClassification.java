@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Dataset;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.MachineLearning.Dataset.Imputation.IImputation;
 import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
 import Catalano.MachineLearning.FeatureScaling.Normalization;
 import Catalano.MachineLearning.FeatureScaling.Standartization;
@@ -76,6 +77,15 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         return input;
     }
 
+    @Override
+    public void setInput(double[][] input, DecisionVariable[] variables) {
+        if(this.input[0].length != variables.length)
+            throw new IllegalArgumentException("The number of features and variables are not the same.");
+        
+        this.input = input;
+        this.attributes = variables;
+    }
+
     /**
      * Get the output data.
      * @return Output data.
@@ -107,16 +117,16 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
      */
     @Override
     public DecisionVariable[] getDecisionVariables() {
-        return Matrix.RemoveColumn(attributes, classIndex);
+        return attributes;//Matrix.RemoveColumn(attributes, classIndex);
     }
     
-    /**
-     * Get the decision variables including the output.
-     * @return Decision Variables.
-     */
-    public DecisionVariable[] getAllDecisionVariables(){
-        return attributes;
-    }
+//    /**
+//     * Get the decision variables including the output.
+//     * @return Decision Variables.
+//     */
+//    public DecisionVariable[] getAllDecisionVariables(){
+//        return attributes;
+//    }
     
     /**
      * Get the number of instances.
@@ -407,7 +417,8 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         DatasetClassification dataset = FromCSV(filepath, name, ignoreAttributeInfo, classIndex);
         
         this.name = dataset.getName();
-        this.attributes = dataset.getAllDecisionVariables();
+        //this.attributes = dataset.getAllDecisionVariables();
+        this.attributes = dataset.getDecisionVariables();
         this.continuous = dataset.getNumberOfContinuous();
         this.input = dataset.getInput();
         this.output = dataset.getOutput();
@@ -451,7 +462,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         this.numClasses = Matrix.Max(output) + 1;
         this.classIndex = classIndex;
         if(attributes == null){
-            attributes = new DecisionVariable[input[0].length + 1];
+            attributes = new DecisionVariable[input[0].length];
             for (int i = 0; i < attributes.length; i++) {
                 attributes[i] = new DecisionVariable("F" + i);
             }
@@ -483,6 +494,14 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         this.numClasses = numClasses;
         this.continuous = continuous;
         this.classIndex = classIndex;
+    }
+    
+    /**
+     * Perform imputation algorithms.
+     * @param filter Filter.
+     */
+    public void Imputation(IImputation filter){
+        filter.ApplyInPlace(this);
     }
     
     /**

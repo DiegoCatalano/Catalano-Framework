@@ -26,6 +26,13 @@ import Catalano.Imaging.Filters.Grayscale;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.zip.CRC32;
 
 /**
  * FastBitmap for manipulation of images.
@@ -956,6 +963,130 @@ public class FastBitmap {
             b.setPixels(pixels, 0, Math.max(strideX, strideY), 0, 0, b.getWidth(), b.getHeight());
         }
         return b;
+    }
+    
+    public void saveAsJPG(String pathname){
+        saveAsJPG(pathname, 100);
+    }
+    
+    public void saveAsJPG(String pathname, int quality){
+        this.b = toBitmap();
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(pathname);
+            b.compress(Bitmap.CompressFormat.JPEG, quality, out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void saveAsJPG(String pathname, int quality, int xDpi, int yDpi){
+        
+        this.b = toBitmap();
+        
+        //Get the entire file in bytes
+        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, quality, byteArray);
+        byte[] imageData = byteArray.toByteArray();
+
+        //Modify the metadata
+        imageData[13] = 1; //resUnit
+        imageData[14] = (byte) (xDpi >> 8);
+        imageData[15] = (byte) (xDpi & 0xFF);
+        imageData[16] = (byte) (yDpi >> 8);
+        imageData[17] = (byte) (yDpi & 0xFF);
+
+        //Write the file
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(new File(pathname));
+            fileOutputStream.write(imageData);
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void saveAsPNG(String pathname){
+        
+        this.b = toBitmap();
+        
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(pathname);
+            b.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void saveAsPNG(String pathname, int xDpi, int yDpi){
+        
+        this.b = toBitmap();
+        
+        //Get the entire file in bytes
+        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+        byte[] imageData = byteArray.toByteArray();
+
+        //Need conversion for the resUnit (dots per inch)
+        double xUnits = xDpi / 0.0254D;
+        int x = (int)xUnits;
+
+        double yUnits = yDpi / 0.0254D;
+        int y = (int)yUnits;
+
+        //Create the chunk information
+        //pHYs = 70 48 59 73 in hex
+        String chunk = "70485973" + "0000" + Integer.toHexString(x) + "0000" + Integer.toHexString(y) + "01";
+
+        //Calculate CRC32
+        CRC32 crc32 = new CRC32();
+        crc32.update(new BigInteger(chunk,16).toByteArray());
+        long info = crc32.getValue();
+        String code = Long.toHexString(info);
+
+        //Insert put information about png chunk layout
+        chunk += code + "000000";
+        chunk = "09" + chunk;
+
+        //The PNG compress in the bitmap, doesn't have physical information, so we need to add it
+        byte[] bytesChunk = new BigInteger(chunk,16).toByteArray();
+
+        //Modify the metadata
+        imageData = Catalano.Math.Matrix.InsertColumns(imageData, bytesChunk, 52);
+
+        //Write the file
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(new File(pathname));
+            fileOutputStream.write(imageData);
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     /**

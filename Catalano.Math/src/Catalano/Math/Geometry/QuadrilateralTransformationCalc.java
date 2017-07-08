@@ -26,6 +26,7 @@ package Catalano.Math.Geometry;
 
 import Catalano.Core.IntPoint;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Performs math operations for Quadrilateral Transformation.
@@ -80,7 +81,7 @@ public final class QuadrilateralTransformationCalc {
     }
     
     // Calculate matrix for unit square to quad mapping
-    private static double[][] MapSquareToQuad( ArrayList<IntPoint> quad ){
+    private static double[][] MapSquareToQuad( List<IntPoint> quad ){
         double[][] sq = new double[3][3];
         double px, py;
 
@@ -132,7 +133,7 @@ public final class QuadrilateralTransformationCalc {
     }
     
     // Calculate matrix for general quad to quad mapping
-    public static double[][] MapQuadToQuad( ArrayList<IntPoint> input, ArrayList<IntPoint> output ){
+    public static double[][] MapQuadToQuad( List<IntPoint> input, List<IntPoint> output ){
         double[][] squareToInpit = MapSquareToQuad( input );
         double[][] squareToOutput = MapSquareToQuad( output );
 

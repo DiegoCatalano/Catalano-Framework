@@ -8,7 +8,7 @@ package Catalano.MachineLearning.FeatureSelection;
 import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Classification.DecisionTrees.Learning.RandomForest;
 import Catalano.MachineLearning.Dataset.DatasetClassification;
-import Catalano.MachineLearning.Dataset.DecisionVariable;
+import java.util.Arrays;
 
 /**
  *
@@ -16,17 +16,10 @@ import Catalano.MachineLearning.Dataset.DecisionVariable;
  */
 public class RandomForestFeatureSelection implements ISupervisionedFeatureSelection{
     
-    private DecisionVariable[] dv;
     private double[] rank;
     private int[] features;
 
-    public RandomForestFeatureSelection() {
-        this(null);
-    }
-    
-    public RandomForestFeatureSelection(DecisionVariable[] attributes){
-        this.dv = attributes;
-    }
+    public RandomForestFeatureSelection() {}
 
     @Override
     public void Compute(DatasetClassification dataset) {
@@ -40,6 +33,7 @@ public class RandomForestFeatureSelection implements ISupervisionedFeatureSelect
         
         this.rank = rf.importance();
         this.features = ArraysUtil.Argsort(rank, false);
+        
     }
 
     @Override

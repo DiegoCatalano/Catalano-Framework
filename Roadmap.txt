@@ -1,5 +1,9 @@
 * I'll try to release a new version in each 6 months.
 
+Imaging
+
+- Ultimate Eroded Points
+
 Genetic
 
 - Grey Wolf Optimizer
@@ -8,6 +12,9 @@ Machine Learning
 
 - Gravitational Clustering
 - One Hot Encoder
+- KNN Imputation
+
+- Added: Support imputation algorithms in the Classification/Regression datasets
 
 Neuro
 

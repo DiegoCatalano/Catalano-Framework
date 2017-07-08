@@ -20,17 +20,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Dataset.Filters;
+package Catalano.MachineLearning.Dataset.Imputation;
 
 import Catalano.MachineLearning.Dataset.DecisionVariable;
 import Catalano.MachineLearning.Dataset.IDataset;
-import Catalano.MachineLearning.Dataset.StatisticsDataset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Fill missing values in the dataset.
+ * Support: Continuous values.
+ * 
  * @author Diego Catalano
  */
-public class FillMissingValues implements IDatasetFilter{
+public class FillMissingValues implements IImputation{
     
     public static enum Mode{
         
@@ -65,25 +69,36 @@ public class FillMissingValues implements IDatasetFilter{
     @Override
     public void ApplyInPlace(IDataset dataset){
         
-        StatisticsDataset[] stat = dataset.getStatistics();
         DecisionVariable[] dv = dataset.getDecisionVariables();
         
         double[][] input = (double[][])dataset.getInput();
-        for (int i = 0; i < dv.length; i++) {
-            if(dv[i].type == DecisionVariable.Type.Continuous){
-                if(stat[i].isMissingValues()){
-                    double value = 0;
-                    if(mode == Mode.Mean)
-                        value = stat[i].getMean();
-                    else if(mode == Mode.Median)
-                        value = stat[i].getMedian();
-                    for (int b = 0; b < input[0].length; b++) {
-                        for (int a = 0; a < input.length; a++) {
-                            if(input[a][b] == Double.NaN)
-                                input[a][b] = value;
+        for (int j = 0; j < dv.length; j++) {
+            if(dv[j].type == DecisionVariable.Type.Continuous){
+                
+                double value = 0;
+                if(mode == Mode.Mean){
+                    double max = 0;
+                    for (int i = 0; i < input.length; i++) {
+                        if(!Double.isNaN(input[i][j])){
+                            value += input[i][j];
+                            max++;
                         }
                     }
+                    value /= max;
                 }
+                else if(mode == Mode.Median){
+                    List<Double> elem = new ArrayList<Double>();
+                    for (int i = 0; i < input.length; i++) {
+                        if(!Double.isNaN(input[i][j]))
+                            elem.add(input[i][j]);
+                    }
+                    Collections.sort(elem);
+                    value = elem.get(elem.size()/2);
+                }
+                
+                for (int i = 0; i < input.length; i++)
+                    if(input[i][j] == Double.NaN) input[i][j] = value;
+                
             }
         }
     }

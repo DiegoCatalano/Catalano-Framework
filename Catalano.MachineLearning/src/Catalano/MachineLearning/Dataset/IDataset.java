@@ -52,6 +52,12 @@ public interface IDataset<T,U> extends Serializable{
     public T getInput();
     
     /**
+     * Set the input data.
+     * @param input Input.
+     */
+    public void setInput(T input, DecisionVariable[] variables);
+    
+    /**
      * Get the output data.
      * @return Output data.
      */
