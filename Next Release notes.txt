@@ -4,7 +4,9 @@ Catalano Framework 1.6.2 road map
 * Catalano.Imaging
 
 - New: Ultimate Eroded Points.
+- Added: DPI support when save the images in FastBitmap.
 - Reworked: Fast Variance, now is really fast.
+- Fixed: Shrink was slow and some images doesn't work.
 
 * Catalano.MachineLearning
 

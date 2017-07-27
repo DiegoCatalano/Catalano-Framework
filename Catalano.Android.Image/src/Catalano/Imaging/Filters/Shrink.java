@@ -32,78 +32,59 @@ import Catalano.Imaging.IApplyInPlace;
  * @author Diego Catalano
  */
 public class Shrink implements IApplyInPlace{
+    
+    private boolean isBlackObject = false;
 
     /**
      * Initializes a new instance of the Shrink class.
      */
     public Shrink() {}
+    
+    /**
+     * Initializes a new instance of the Shrink class.
+     * Only works in binary images.
+     * @param isBlackObject Object is black color.
+     */
+    public Shrink(boolean isBlackObject){
+        this.isBlackObject = isBlackObject;
+    }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if(fastBitmap.isGrayscale()){
+            
+            int gray = 255;
+            if(isBlackObject) gray = 0;
+            
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
             
-            int minHeight = 0;
+            int minHeight = height;
             int maxHeight = 0;
-            int minWidth = 0;
+            int minWidth = width;
             int maxWidth = 0;
             
-            boolean found = false;
-            
-            //Minimum height
+            int index = 0;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getGray(i*width+j) != 0){
-                        minHeight = i;
-                        found = true;
-                        break;
+                    if(fastBitmap.getGray(index++) == gray){
+                        if(i < minHeight)
+                            minHeight = i;
+                        if(i > maxHeight)
+                            maxHeight = i;
+                        if(j < minWidth)
+                            minWidth = j;
+                        if(j > maxWidth)
+                            maxWidth = j;
                     }
                 }
-                if (found) break;
             }
             
-            found = false;
-            
-            //Maximum height
-            for (int i = height - 1; i >= 0; i--) {
-                for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getGray(i*width+j) != 0){
-                        maxHeight = i;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
-            }
-            
-            found = false;
-            
-            //Minimum width
-            for (int j = 0; j < height; j++) {
-                for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getGray(i*width+j) != 0){
-                        minWidth = j;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
-            }
-            
-            found = false;
-            
-            //Maximum width
-            for (int j = width - 1; j >= 0; j--) {
-                for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getGray(i*width+j) != 0){
-                        maxWidth = j;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
+            // check
+            if ( ( minHeight == height ) && ( minWidth == width ) && ( maxHeight == 0 ) && ( maxWidth == 0 ) )
+            {
+                minHeight = minWidth = 0;
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
@@ -114,65 +95,26 @@ public class Shrink implements IApplyInPlace{
             int width = fastBitmap.getWidth();
             int height = fastBitmap.getHeight();
             
-            int minHeight = 0;
+            int minHeight = height;
             int maxHeight = 0;
-            int minWidth = 0;
+            int minWidth = width;
             int maxWidth = 0;
             
-            boolean found = false;
-            
-            //Minimum height
+            int index = 0;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
-                        minHeight = i;
-                        found = true;
-                        break;
+                    if(fastBitmap.getRed(index) != 0 && fastBitmap.getGreen(index) != 0 && fastBitmap.getBlue(index) != 0){
+                        if(i < minHeight)
+                            minHeight = i;
+                        if(i > maxHeight)
+                            maxHeight = i;
+                        if(j < minWidth)
+                            minWidth = j;
+                        if(j > maxWidth)
+                            maxWidth = j;
                     }
+                    index++;
                 }
-                if (found) break;
-            }
-            
-            found = false;
-            
-            //Maximum height
-            for (int i = height - 1; i >= 0; i--) {
-                for (int j = 0; j < width; j++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
-                        maxHeight = i;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
-            }
-            
-            found = false;
-            
-            //Minimum width
-            for (int j = 0; j < height; j++) {
-                for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
-                        minWidth = j;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
-            }
-            
-            found = false;
-            
-            //Maximum width
-            for (int j = width - 1; j >= 0; j--) {
-                for (int i = 0; i < width; i++) {
-                    if(fastBitmap.getRed(i*width+j) != 0 && fastBitmap.getGreen(i*width+j) != 0 && fastBitmap.getBlue(i*width+j) != 0){
-                        maxWidth = j;
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
