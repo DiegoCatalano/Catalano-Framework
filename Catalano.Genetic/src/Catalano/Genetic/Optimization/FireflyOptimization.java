@@ -218,7 +218,7 @@ public class FireflyOptimization implements IOptimization{
     }
 
     @Override
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         double damp = alpha;
         minError = Double.MAX_VALUE;

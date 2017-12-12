@@ -95,7 +95,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
     }
 
     @Override
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
         nEval = 0;

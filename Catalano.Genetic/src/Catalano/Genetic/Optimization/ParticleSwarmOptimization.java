@@ -48,8 +48,6 @@
 package Catalano.Genetic.Optimization;
 
 import Catalano.Core.DoubleRange;
-import Catalano.Genetic.Optimization.IObjectiveFunction;
-import Catalano.Genetic.Optimization.IOptimization;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -137,7 +135,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     }
 
     @Override
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         List<DoubleRange> velocity = new ArrayList(boundConstraint.size());
         for (int i = 0; i < boundConstraint.size(); i++) {
             double v = 0.2 * (boundConstraint.get(i).getMax() - boundConstraint.get(i).getMin());
@@ -155,7 +153,7 @@ public class ParticleSwarmOptimization implements IOptimization{
      * @param velocity Velocity.
      * @return Best parameters.
      */
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
         gBest = Double.MAX_VALUE;
         nEval = 0;
@@ -226,7 +224,7 @@ public class ParticleSwarmOptimization implements IOptimization{
         
     }
     
-    private void Initialize(int swarmSize, List<DoubleRange> location, IObjectiveFunction function, long seed) {
+    private void Initialize(int swarmSize, List<DoubleRange> location, ISingleObjectiveFunction function, long seed) {
         
         swarm = new ArrayList<Particle>(swarmSize);
         

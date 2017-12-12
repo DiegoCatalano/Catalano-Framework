@@ -32,6 +32,6 @@ import java.util.List;
  */
 public interface IOptimization {
     public int getNumberOfEvaluations();
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint);
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint);
     public double getError();
 }

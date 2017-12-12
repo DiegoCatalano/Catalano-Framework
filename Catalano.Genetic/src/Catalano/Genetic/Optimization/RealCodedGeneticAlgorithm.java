@@ -132,7 +132,7 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
     }
 
     @Override
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
          Random rand = new Random();
          

@@ -248,7 +248,7 @@ public class DifferentialEvolution implements IOptimization{
     }
     
     @Override
-    public double[] Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint){
+    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
         
         nEval = 0;
         
@@ -261,7 +261,7 @@ public class DifferentialEvolution implements IOptimization{
         
     }
     
-    private double[] Rand(IObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private double[] Rand(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         
         Random rand = new Random();
         
@@ -342,7 +342,7 @@ public class DifferentialEvolution implements IOptimization{
         return best;
     }
     
-    private double[] Best(IObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private double[] Best(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         Random rand = new Random();
         
         //Generate the population

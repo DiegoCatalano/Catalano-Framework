@@ -23,9 +23,9 @@
 package Catalano.Genetic.Optimization;
 
 /**
- * Common interface to objetive functions.
+ * Common interface to single objetive function.
  * @author Diego Catalano
  */
-public interface IObjectiveFunction {
+public interface ISingleObjectiveFunction {
     double Compute(double[] values);
 }
