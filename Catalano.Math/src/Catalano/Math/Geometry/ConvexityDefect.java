@@ -46,6 +46,7 @@ public class ConvexityDefect {
         this.point = point;
         this.start = start;
         this.end = end;
+        this.depth = depth;
     }
 
     /**

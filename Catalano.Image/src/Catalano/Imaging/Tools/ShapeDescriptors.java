@@ -302,7 +302,7 @@ public final class ShapeDescriptors {
         List<Blob> blobs = bd.ProcessImage(fastBitmap);
         
         for (Blob blob : blobs) {
-            ArrayList<IntPoint> lst = blob.getPoints();
+            List<IntPoint> lst = blob.getPoints();
             float max = 0;
             for (IntPoint p : lst) {
                 if(dist[p.x][p.y] > max){

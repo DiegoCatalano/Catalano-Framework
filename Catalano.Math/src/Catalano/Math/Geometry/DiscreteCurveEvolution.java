@@ -29,7 +29,7 @@ public class DiscreteCurveEvolution implements IShapeOptimizer{
     }
 
     @Override
-    public ArrayList<IntPoint> OptimizeShape(ArrayList<IntPoint> shape) {
+    public List<IntPoint> OptimizeShape(List<IntPoint> shape) {
         if (vertices > shape.size())
             throw new IllegalArgumentException("Number of points left must be higher than number of the shape.");
 

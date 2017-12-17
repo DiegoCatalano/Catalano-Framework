@@ -29,6 +29,7 @@ import Catalano.Core.DoubleRange;
 import Catalano.Core.IntPoint;
 import Catalano.Math.Tools;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * K-curvatures algorithm for local contour extrema detection.
@@ -63,7 +64,7 @@ public class KCurvature {
      * @param contour A list of integer points defining the contour.
      * @return Peaks. 
      */
-    public ArrayList<IntPoint> FindPeaks(ArrayList<IntPoint> contour){
+    public List<IntPoint> FindPeaks(List<IntPoint> contour){
         double[] map = new double[contour.size()];
         
         for (int i = 0; i < contour.size(); i++){
@@ -91,7 +92,7 @@ public class KCurvature {
             
         // Non-Minima Suppression
         int r = suppression;
-        ArrayList<IntPoint> peaks = new ArrayList<IntPoint>();
+        List<IntPoint> peaks = new ArrayList<IntPoint>();
         for (int i = 0; i < map.length; i++){
             double current = map[i];
             if (current == 0) continue;

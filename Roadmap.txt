@@ -4,10 +4,6 @@ Imaging
 
 - Ultimate Eroded Points
 
-Genetic
-
-- Grey Wolf Optimizer
-
 Machine Learning
 
 - Gravitational Clustering

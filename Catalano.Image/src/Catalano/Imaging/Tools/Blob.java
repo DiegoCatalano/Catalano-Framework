@@ -24,6 +24,7 @@ package Catalano.Imaging.Tools;
 import Catalano.Core.IntPoint;
 import Catalano.Imaging.Shapes.IntRectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Blob object.
@@ -113,7 +114,7 @@ public class Blob {
      * Get points.
      * @return List of points.
      */
-    public ArrayList<IntPoint> getPoints() {
+    public List<IntPoint> getPoints() {
         return points;
     }
 }

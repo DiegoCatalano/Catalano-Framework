@@ -25,7 +25,7 @@
 package Catalano.Math.Geometry;
 
 import Catalano.Core.IntPoint;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface for shape optimizing algorithms.
@@ -41,5 +41,5 @@ public interface IShapeOptimizer {
      * @param shape Shape to be optimized.
      * @return Returns final optimized shape, which may have reduced amount of points.
      */
-    ArrayList<IntPoint> OptimizeShape( ArrayList<IntPoint> shape );
+    List<IntPoint> OptimizeShape( List<IntPoint> shape );
 }

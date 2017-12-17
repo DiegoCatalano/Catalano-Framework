@@ -44,7 +44,7 @@ public class Line {
         }
         
         float d = end.x - start.x;
-        d = d == 0 ? Float.POSITIVE_INFINITY : d;
+        //d = d == 0 ? Float.POSITIVE_INFINITY : d;
         
         k = ( end.y - start.y ) / d;
         b = Float.isInfinite(k) ? start.x : start.y - k * start.x;
