@@ -23,7 +23,6 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.*;
-import Catalano.MachineLearning.Classification.Performance.IValidation;
 import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
@@ -160,9 +159,10 @@ public class HoldoutValidation implements IValidation, IRegressionValidation{
         
         double mae = RegressionMeasure.MeanAbsoluteError(actual, predicted);
         double mse = RegressionMeasure.MeanSquaredError(actual, predicted);
-        double rmse = RegressionMeasure.RootMeanSquaredError(actual, predicted);
+        double rmse = Math.sqrt(mse);
         double coef = RegressionMeasure.CoefficientOfDetermination(actual, predicted);
+        double mda = RegressionMeasure.MeanDirectionalAccuracy(actual, predicted);
         
-        return new RegressionMeasure(mae, mse, rmse, coef);
+        return new RegressionMeasure(mae, mse, rmse, coef, mda);
     }
 }

@@ -27,6 +27,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Math.Decompositions.LUDecomposition;
 import Catalano.Math.Decompositions.SingularValueDecomposition;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -3923,12 +3924,15 @@ public final class Matrix {
         int p;
         int c;
         
-        idx = index[0];
+        int[] copy = Arrays.copyOf(index, index.length);
+        Arrays.sort(copy);
+        
+        idx = copy[0];
         p = c = 0;
         for (int i = 0; i < A.length; i++) {
             if(i == idx){
                 if(p < index.length - 1)
-                    idx = index[++p];
+                    idx = copy[++p];
             }
             else{
                 for (int j = 0; j < A[0].length; j++) {
@@ -3947,20 +3951,24 @@ public final class Matrix {
      * @return Matrix.
      */
     public static double[][] RemoveRows(double[][] A, int[] index){
+        
         if(A.length - index.length <= 0)
             throw new IllegalArgumentException("The number of rows is less or equal zero.");
+        
+        int[] copy = Arrays.copyOf(index, index.length);
+        Arrays.sort(copy);
         
         double[][] B = new double[A.length - index.length][A[0].length];
         int idx;
         int p;
         int c;
         
-        idx = index[0];
+        idx = copy[0];
         p = c = 0;
         for (int i = 0; i < A.length; i++) {
             if(i == idx){
                 if(p < index.length - 1)
-                    idx = index[++p];
+                    idx = copy[++p];
             }
             else{
                 for (int j = 0; j < A[0].length; j++) {
@@ -3982,17 +3990,20 @@ public final class Matrix {
         if(A.length - index.length <= 0)
             throw new IllegalArgumentException("The number of rows is less or equal zero.");
         
+        int[] copy = Arrays.copyOf(index, index.length);
+        Arrays.sort(copy);
+        
         float[][] B = new float[A.length - index.length][A[0].length];
         int idx;
         int p;
         int c;
         
-        idx = index[0];
+        idx = copy[0];
         p = c = 0;
         for (int i = 0; i < A.length; i++) {
             if(i == idx){
                 if(p < index.length - 1)
-                    idx = index[++p];
+                    idx = copy[++p];
             }
             else{
                 for (int j = 0; j < A[0].length; j++) {

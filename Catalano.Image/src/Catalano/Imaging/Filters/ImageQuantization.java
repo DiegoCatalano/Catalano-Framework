@@ -43,41 +43,64 @@ public class ImageQuantization implements IApplyInPlace{
      * @param level 
      */
     public ImageQuantization(int level){
-        boolean isPower2 = Catalano.Math.Tools.isPowerOf2(level);
-        if (isPower2) {
-            this.level = Math.min(level, 256);
-        }
-        else{
-            int x = Catalano.Math.Tools.NextPowerOf2(level);
-            this.level = Math.min(x, 256);
-        }
+        this.level = Math.min(level, 256);
     }
 
     @Override
     public void applyInPlace(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()) {
-            int reduced = 256 / (level - 1);
-            int steps = 256 / reduced;
             
+            int maxG = 0;
             int size = fastBitmap.getSize();
             for (int i = 0; i < size; i++) {
-                int gray = fastBitmap.getGray(i);
-                int index = reduced;
-                for (int z = 0; z < steps; z++) {
-                    if((gray > z * reduced) && (gray <= index)) {
-                        fastBitmap.setGray(i, z * reduced);
-                    }
-                    index += reduced;
-                }
+                maxG = Math.max(maxG, fastBitmap.getGray(i));
             }
+            
+            int div = maxG / (level - 1);
+            for (int i = 0; i < size; i++) {
+                
+                int g = fastBitmap.getGray(i) / div * div;
+                g = g > 255 ? 255 : g;
+                g = g < 0 ? 0 : g;
+                
+                fastBitmap.setGray(i, g);
+            }
+            
         }
-        else{
-            try {
-                throw new IllegalArgumentException("ImageQuantization only works with grayscale images");
-            } catch (Exception e) {
-                e.printStackTrace();
+        else if(fastBitmap.isRGB()){
+            
+            int maxR, maxG, maxB;
+            maxR = maxG = maxB = 0;
+            int size = fastBitmap.getSize();
+            for (int i = 0; i < size; i++) {
+                maxR = Math.max(maxR, fastBitmap.getRed(i));
+                maxG = Math.max(maxG, fastBitmap.getRed(i));
+                maxB = Math.max(maxB, fastBitmap.getRed(i));
             }
+            
+            int divR = maxR / (level - 1);
+            int divG = maxG / (level - 1);
+            int divB = maxB / (level - 1);
+            for (int i = 0; i < size; i++) {
+                
+                int r = fastBitmap.getRed(i) / divR * divR;
+                int g = fastBitmap.getGreen(i) / divG * divG;
+                int b = fastBitmap.getBlue(i) / divB * divB;
+                
+                r = r > 255 ? 255 : r;
+                r = r < 0 ? 0 : r;
+                
+                g = g > 255 ? 255 : g;
+                g = g < 0 ? 0 : g;
+                
+                
+                b = b > 255 ? 255 : b;
+                b = b < 0 ? 0 : b;
+                
+                fastBitmap.setRGB(i, r, g, b);
+            }
+            
         }
     }
 }

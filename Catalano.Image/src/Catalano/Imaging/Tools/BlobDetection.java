@@ -265,10 +265,10 @@ public class BlobDetection {
             
             //Discover width, height and bounding box using Point Cloud
             ArrayList<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
-            int h = Math.abs(lst.get(1).x - lst.get(0).x);
-            int w = Math.abs(lst.get(1).y - lst.get(0).y);
+            int h = Math.abs(lst.get(0).x - lst.get(1).x);
+            int w = Math.abs(lst.get(0).y - lst.get(1).y);
             
-            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x-1, lst.get(0).y-1, w+2, h+2));
+            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x, lst.get(0).y, w, h));
             blobs.add(blob);
             size++;
             id++;

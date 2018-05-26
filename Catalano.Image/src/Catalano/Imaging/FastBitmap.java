@@ -398,6 +398,7 @@ public class FastBitmap {
      */
     public void toGrayscale(){
         new Grayscale().applyInPlace(this);
+        pixels = null;
     }
     
     /**

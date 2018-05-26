@@ -376,6 +376,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
             if(Character.isDigit(c) || c == '.' || c == '-' || c == 'E')
                 r += c;
         }
+        
         return r;
     }
     

@@ -271,9 +271,9 @@ public class DatasetRegression implements IDataset<double[][], double[]>{
 
                 //Build Output data from the class index.
                 output = new double[lines.size() - start];
-                for (int j = 1; j < lines.size(); j++) {
+                for (int j = 0; j < lines.size(); j++) {
                     String[] temp = lines.get(j).split(String.valueOf(","));
-                    output[j-1] = Double.valueOf(temp[classIndex]);
+                    output[j] = Double.valueOf(temp[classIndex]);
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -748,5 +748,10 @@ public class DatasetRegression implements IDataset<double[][], double[]>{
         } catch (IOException ex) {
             Logger.getLogger(DatasetRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void setInput(double[][] input, DecisionVariable[] variables) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

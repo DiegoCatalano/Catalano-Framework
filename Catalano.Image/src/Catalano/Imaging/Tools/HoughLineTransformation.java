@@ -29,6 +29,7 @@ import Catalano.Core.IntPoint;
 import Catalano.Imaging.FastBitmap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Hough line transfomation.
@@ -248,10 +249,10 @@ public class HoughLineTransformation {
         numPoints++;
     }
     
-    public ArrayList<HoughLine> getLines() {
+    public List<HoughLine> getLines() {
  
         // Initialise the vector of lines that we'll return 
-        ArrayList<HoughLine> lines = new ArrayList<HoughLine>(); 
+        List<HoughLine> lines = new ArrayList<HoughLine>(); 
  
         // Only proceed if the hough array is not empty 
         if (numPoints == 0) return lines;
@@ -268,7 +269,6 @@ public class HoughLineTransformation {
                 if (houghArray[t][r] > minIntensity && houghArray[t][r] < maxIntensity) { 
  
                     int peak = houghArray[t][r]; 
-                    
  
                     // Check that this peak is indeed the local maxima 
                     for (int dx = -radius; dx <= radius; dx++) {

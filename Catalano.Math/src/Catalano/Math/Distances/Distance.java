@@ -821,6 +821,22 @@ public final class Distance {
     }
     
     /**
+     * Gets the Symmetric Kullback-Leibler distance.
+     * This metric is valid only for real and positive P and Q.
+     * @param p P vector.
+     * @param q Q vector.
+     * @return The Symmetric Kullback Leibler distance between p and q.
+     */
+    public static double SymmetricKullbackLeibler(double[] p, double[] q){
+        double dist = 0;
+        for (int i = 0; i < p.length; i++) {
+            dist += (p[i] - q[i]) * (Math.log(p[i]) - Math.log(q[i]));
+        }
+        
+        return dist;
+    }
+    
+    /**
      * Gets the Taneja divergence.
      * @param p P vector.
      * @param q Q vector.

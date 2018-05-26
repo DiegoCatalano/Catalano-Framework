@@ -35,6 +35,7 @@ public class RegressionMeasure {
     private final double mse;
     private final double rmse;
     private final double r2;
+    private final double mda;
     
     public static double MeanAbsoluteError(double[] actual, double[] predicted){
         if(actual.length != predicted.length)
@@ -87,6 +88,26 @@ public class RegressionMeasure {
         sum /= actual.length;
         
         return Math.sqrt(sum);
+        //return Math.sqrt(sum) / (double)actual.length;
+    }
+    
+    public static double MeanDirectionalAccuracy(double[] actual, double[] predicted){
+        if(actual.length != predicted.length)
+            throw new IllegalArgumentException("The lenght of the vectors must be the same.");
+        
+        //Sum of correct directions
+        int sum = 0;
+        for (int i = 1; i < actual.length; i++) {
+            
+            double a = Math.signum(actual[i] - actual[i-1]);
+            double b = Math.signum(predicted[i] - predicted[i-1]);
+            
+            if(a == b) sum++;
+            
+        }
+        
+        return sum/(double)actual.length;
+        
     }
     
     public static double CoefficientOfDetermination(double[] actual, double[] predicted){
@@ -124,6 +145,14 @@ public class RegressionMeasure {
     public double getCoefficientOfDetermination(){
         return r2;
     }
+
+    /**
+     * Get the mean directional accuracy (MDA).
+     * @return Mean Directional Accuracy.
+     */
+    public double getMeanDirectionalAccuracy() {
+        return mda;
+    }
     
     /**
      * Initializes a new instance of the RegressionMeasure class.
@@ -132,10 +161,11 @@ public class RegressionMeasure {
      * @param rmse
      * @param r2 
      */
-    public RegressionMeasure(double mae, double mse, double rmse, double r2){
+    public RegressionMeasure(double mae, double mse, double rmse, double r2, double mda){
         this.mae = mae;
         this.mse = mse;
         this.rmse = rmse;
         this.r2 = r2;
+        this.mda = mda;
     }
 }

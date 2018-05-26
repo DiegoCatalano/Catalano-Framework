@@ -27,6 +27,7 @@ package Catalano.Math.Geometry;
 import Catalano.Core.IntPoint;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -47,9 +48,9 @@ public class GrahamConvexHull {
      * @param points Set of points to search convex hull for.
      * @return Set of points, which form a convex hull for the given points.
      */
-    public ArrayList<IntPoint> FindFull(ArrayList<IntPoint> points){
+    public List<IntPoint> FindHull(List<IntPoint> points){
         
-        ArrayList<PointToProcess> pointsToProcess = new ArrayList<PointToProcess>();
+        List<PointToProcess> pointsToProcess = new ArrayList<PointToProcess>();
         
         for (IntPoint p : points) {
             pointsToProcess.add(new PointToProcess(p));

@@ -21,8 +21,6 @@
 
 package Catalano.Imaging.Texture;
 
-import Catalano.Imaging.Tools.*;
-
 /**
  * Haralick's texture classification metrics.
  * @author Diego Catalano
@@ -32,7 +30,26 @@ public final class HaralickDescriptors {
     /**
      * Don't let anyone instantiate this class.
      */
-    private HaralickDescriptors(){};
+    public HaralickDescriptors(){};
+    
+    public double[] getFeatures(double[][] coocurrenceMatrix){
+        
+        double[] f = new double[11];
+        f[0] = HaralickDescriptors.ClusterProminence(coocurrenceMatrix);
+        f[1] = HaralickDescriptors.ClusterShade(coocurrenceMatrix);
+        f[2] = HaralickDescriptors.ClusterTendency(coocurrenceMatrix);
+        f[3] = HaralickDescriptors.Contrast(coocurrenceMatrix);
+        f[4] = HaralickDescriptors.Correlation(coocurrenceMatrix);
+        f[5] = HaralickDescriptors.Energy(coocurrenceMatrix);
+        f[6] = HaralickDescriptors.Entropy(coocurrenceMatrix);
+        f[7] = HaralickDescriptors.Inertia(coocurrenceMatrix);
+        f[8] = HaralickDescriptors.InverseDifference(coocurrenceMatrix);
+        f[9] = HaralickDescriptors.InverseDifferenceMoment(coocurrenceMatrix);
+        f[10] = HaralickDescriptors.TextureHomogeneity(coocurrenceMatrix);
+        
+        return f;
+        
+    }
     
     /**
      * Compute energy.
@@ -58,7 +75,7 @@ public final class HaralickDescriptors {
         double r = 0;
         for (int i = 0; i < coocurrenceMatrix.length; i++) {
             for (int j = 0; j < coocurrenceMatrix[0].length; j++) {
-                r += coocurrenceMatrix[i][j] * Catalano.Math.Tools.Log(coocurrenceMatrix[i][j], 2);
+                r += coocurrenceMatrix[i][j] * Catalano.Math.Tools.Log(coocurrenceMatrix[i][j] + 1, 2);
             }
         }
         return -r;
@@ -156,7 +173,7 @@ public final class HaralickDescriptors {
         double r = 0;
         for (int i = 0; i < coocurrenceMatrix.length; i++) {
             for (int j = 0; j < coocurrenceMatrix[0].length; j++) {
-                r += coocurrenceMatrix[i][j] / Math.abs(i - j);
+                r += coocurrenceMatrix[i][j] / (1 + Math.abs(i - j));
             }
         }
         return r;

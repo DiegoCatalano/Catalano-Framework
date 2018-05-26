@@ -81,7 +81,7 @@ public class FindContours {
      * Get all inner contours.
      * @return Inner contours.
      */
-    List<Contour> getAllInnerContours() {
+    public List<Contour> getAllInnerContours() {
         return innerContours;
     }
 
@@ -89,7 +89,7 @@ public class FindContours {
      * Get all outer contours.
      * @return Outer contours.
      */
-    List<Contour> getAllOuterContours() {
+    public List<Contour> getAllOuterContours() {
         return outerContours;
     }
 	

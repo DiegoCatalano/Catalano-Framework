@@ -26,6 +26,7 @@ package Catalano.Math.Geometry;
 
 import Catalano.Core.IntPoint;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Shape optimizer, which removes obtuse angles (close to flat) from a shape.
@@ -68,7 +69,7 @@ public class FlatAnglesOptimizer implements IShapeOptimizer{
     }
 
     @Override
-    public ArrayList<IntPoint> OptimizeShape(ArrayList<IntPoint> shape) {
+    public List<IntPoint> OptimizeShape(List<IntPoint> shape) {
             // optimized shape
             ArrayList<IntPoint> optimizedShape = new ArrayList<IntPoint>( );
 

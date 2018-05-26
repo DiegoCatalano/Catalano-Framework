@@ -57,29 +57,13 @@ public class GrayLevelCooccurrenceMatrix {
     
     private Degree degree;
     
-    private boolean autoGray = true;
+    private int levels = 8;
     
     private boolean normalize = true;
     
     private int numPairs = 0;
     
     private int distance = 1;
-
-    /**
-     * Verify Automatic gray.
-     * @return True if need to find maximum gray in current image, otherwise is set 255.
-     */
-    public boolean isAutoGray() {
-        return autoGray;
-    }
-
-    /**
-     * Set Automatic gray.
-     * @param autoGray True if need to find maximum gray in current image, otherwise is set 255.
-     */
-    public void setAutoGray(boolean autoGray) {
-        this.autoGray = autoGray;
-    }
 
     /**
      * Verify if te GLCM is normalized.
@@ -140,7 +124,9 @@ public class GrayLevelCooccurrenceMatrix {
     /**
      * Initialize a new instance of the GrayLevelCooccurrenceMatrix class.
      */
-    public GrayLevelCooccurrenceMatrix(){}
+    public GrayLevelCooccurrenceMatrix(){
+        this(1, Degree.Degree_0, 256, false);
+    }
     
     /**
      * Initialize a new instance of the GrayLevelCooccurrenceMatrix class.
@@ -177,13 +163,12 @@ public class GrayLevelCooccurrenceMatrix {
      * @param distance Specifies the scale at which the texture is analysed.
      * @param degree Indicates the direction where the coocurrence is found.
      * @param normalize Normalize GLCM. Divides each element per number of pairs.
-     * @param autoGray Determine the GLCM for 255 (false) or maximum gray found (true).
      */
-    public GrayLevelCooccurrenceMatrix(int distance, Degree degree, boolean normalize, boolean autoGray){
+    public GrayLevelCooccurrenceMatrix(int distance, Degree degree, int levels, boolean normalize){
         this.distance = distance;
         this.degree = degree;
+        this.levels = levels;
         this.normalize = normalize;
-        this.autoGray = autoGray;
     }
     
     /**
@@ -193,11 +178,13 @@ public class GrayLevelCooccurrenceMatrix {
      */
     public double[][] Compute(FastBitmap fastBitmap){
         
-        int maxGray = 255;
-        if (autoGray) maxGray = getMax(fastBitmap);
+        int maxGray = getMax(fastBitmap);
+        if(maxGray < levels) maxGray = levels;
+        int div = maxGray / (levels - 1);
+        
         this.numPairs = 0;
         
-        double[][] coocurrence = new double[maxGray + 1][maxGray + 1];
+        double[][] coocurrence = new double[levels][levels];
         
         int height = fastBitmap.getHeight();
         int width = fastBitmap.getWidth();
@@ -206,7 +193,13 @@ public class GrayLevelCooccurrenceMatrix {
             case Degree_0:
                 for (int i = 0; i < height; i++) {
                     for (int j = distance; j < width; j++) {
-                        coocurrence[fastBitmap.getGray(i, j - distance)][fastBitmap.getGray(i, j)]++;
+                        int g1 = fastBitmap.getGray(i, j - distance) / div;
+                        int g2 = fastBitmap.getGray(i, j) / div;
+                        
+                        if(g1 >= levels) g1 = levels - 1;
+                        if(g2 >= levels) g2 = levels - 1;
+                        
+                        coocurrence[g1][g2]++;
                         numPairs++;
                     }
                 }
@@ -214,7 +207,13 @@ public class GrayLevelCooccurrenceMatrix {
             case Degree_45:
                 for (int x = distance; x < height; x++) {
                     for (int y = 0; y < width - distance; y++) {
-                        coocurrence[fastBitmap.getGray(x, y)][fastBitmap.getGray(x - distance, y + distance)]++;
+                        int g1 = fastBitmap.getGray(x, y) / div;
+                        int g2 = fastBitmap.getGray(x - distance, y + distance) / div;
+                        
+                        if(g1 >= levels) g1 = levels - 1;
+                        if(g2 >= levels) g2 = levels - 1;
+                        
+                        coocurrence[g1][g2]++;
                         numPairs++;
                     }
                 }
@@ -222,7 +221,13 @@ public class GrayLevelCooccurrenceMatrix {
             case Degree_90:
                 for (int i = distance; i < height; i++) {
                     for (int j = 0; j < width; j++) {
-                        coocurrence[fastBitmap.getGray(i - distance, j)][fastBitmap.getGray(i, j)]++;
+                        int g1 = fastBitmap.getGray(i - distance, j) / div;
+                        int g2 = fastBitmap.getGray(i, j) / div;
+                        
+                        if(g1 >= levels) g1 = levels - 1;
+                        if(g2 >= levels) g2 = levels - 1;
+                        
+                        coocurrence[g1][g2]++;
                         numPairs++;
                     }
                 }
@@ -231,7 +236,13 @@ public class GrayLevelCooccurrenceMatrix {
                 for (int x = distance; x < height; x++) {
                     int steps = width - 1;
                     for (int y = 0; y < width - distance; y++) {
-                        coocurrence[fastBitmap.getGray(x, steps - y)][fastBitmap.getGray(x - distance, steps -distance - y)]++;
+                        int g1 = fastBitmap.getGray(x, steps - y) / div;
+                        int g2 = fastBitmap.getGray(x - distance, steps -distance - y) / div;
+                        
+                        if(g1 >= levels) g1 = levels - 1;
+                        if(g2 >= levels) g2 = levels - 1;
+                        
+                        coocurrence[g1][g2]++;
                         numPairs++;
                     }
                 }

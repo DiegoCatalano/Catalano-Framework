@@ -23,7 +23,6 @@
 package Catalano.MachineLearning.Performance;
 
 import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.Classification.Performance.IValidation;
 import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.MachineLearning.Regression.IRegression;
@@ -82,10 +81,10 @@ public class LeaveOneOutCrossValidation implements IValidation, IRegressionValid
         
         double mae = RegressionMeasure.MeanAbsoluteError(output, predicted);
         double mse = RegressionMeasure.MeanSquaredError(output, predicted);
-        double rmse = RegressionMeasure.RootMeanSquaredError(output, predicted);
+        double rmse = Math.sqrt(mse);
         double coef = RegressionMeasure.CoefficientOfDetermination(output, predicted);
+        double mda = RegressionMeasure.MeanDirectionalAccuracy(output, predicted);
         
-        
-        return new RegressionMeasure(mae, mse, rmse, coef);
+        return new RegressionMeasure(mae, mse, rmse, coef, mda);
     }
 }

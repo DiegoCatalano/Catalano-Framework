@@ -1,7 +1,7 @@
-// Catalano Machine Learning Library
+// Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -20,31 +20,24 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.MachineLearning.Performance;
-
-import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.Dataset.DatasetClassification;
+package Catalano.Math.Distances;
 
 /**
- * Interface common for classifier performance.
+ * Symmetric Kullback-Leibler distance.
+ * This metric is valid only for real and positive U and V.
+ * 
  * @author Diego Catalano
  */
-public interface IValidation {
-    
+public class SymmetricKullbackLeibler implements IDivergence<double[]>{
+
     /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param dataset Dataset.
-     * @return Correctly classified rate.
+     * Initialize a new instance of the SymmetricKullbackLeibler class.
      */
-    public double Run(IClassifier classifier, DatasetClassification dataset);
+    public SymmetricKullbackLeibler() {}
+
+    @Override
+    public double Compute(double[] u, double[] v) {
+        return Distance.SymmetricKullbackLeibler(u, v);
+    }
     
-    /**
-     * Compute validation.
-     * @param classifier Classifier.
-     * @param data Data.
-     * @param labels Labels.
-     * @return Correctly classified rate.
-     */
-    public double Run(IClassifier classifier, double[][] data, int[] labels);
 }

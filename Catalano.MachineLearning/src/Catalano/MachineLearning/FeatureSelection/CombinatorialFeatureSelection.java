@@ -23,7 +23,7 @@
 package Catalano.MachineLearning.FeatureSelection;
 
 import Catalano.MachineLearning.Classification.IClassifier;
-import Catalano.MachineLearning.Classification.Performance.IValidation;
+import Catalano.MachineLearning.Performance.IValidation;
 import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
