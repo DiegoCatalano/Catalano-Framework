@@ -23,6 +23,7 @@
 package Catalano.MachineLearning.Dataset;
 
 import Catalano.Core.ArraysUtil;
+import Catalano.MachineLearning.Codebook;
 import Catalano.MachineLearning.Dataset.Imputation.IImputation;
 import Catalano.MachineLearning.FeatureScaling.IFeatureScaling;
 import Catalano.MachineLearning.FeatureScaling.Normalization;
@@ -59,6 +60,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     private int continuous = 0;
     private int classIndex = -1;
     private IFeatureScaling normalization;
+    private Codebook codebook;
 
     /**
      * Get the name of the dataset.
@@ -178,6 +180,14 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
     }
     
     /**
+     * Get Codebook.
+     * @return Codebook.
+     */
+    public Codebook getCodebook(){
+        return codebook;
+    }
+    
+    /**
      * Read dataset from a CSV structure.
      * The last column of CSV is interpreted as output.
      * 
@@ -217,6 +227,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         int numClasses = 0;
         int continuous = 0;
         int start;
+        Codebook codebook = null;
         
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
@@ -334,6 +345,9 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
                         output[j-start] = map.get(s);
                     }
                 }
+                
+                //Create the codebook
+                codebook = new Codebook(map);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
@@ -341,8 +355,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
             Logger.getLogger(DatasetClassification.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        return new DatasetClassification(name, attributes, input, output, numClasses, continuous, classIndex);
+        return new DatasetClassification(name, attributes, input, output, numClasses, continuous, classIndex, codebook);
     }
     
     /**
@@ -425,6 +438,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         this.output = dataset.getOutput();
         this.numClasses = dataset.getNumberOfClasses();
         this.classIndex = dataset.getClassIndex();
+        this.codebook = dataset.getCodebook();
     }
     
     /**
@@ -495,6 +509,27 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         this.numClasses = numClasses;
         this.continuous = continuous;
         this.classIndex = classIndex;
+    }
+    
+   /**
+     * Initializes a new instance of the Dataset class.
+     * @param name Name of the dataset.
+     * @param attributes Decision variables.
+     * @param input Input data.
+     * @param output Output data.
+     * @param numClasses Number of classes.
+     * @param continuous Number of continuous type.
+     * @param codebook Codebook.
+     */
+    private DatasetClassification(String name, DecisionVariable[] attributes, double[][] input, int[] output, int numClasses, int continuous, int classIndex, Codebook codebook){
+        this.name = name;
+        this.attributes = attributes;
+        this.input = input;
+        this.output = output;
+        this.numClasses = numClasses;
+        this.continuous = continuous;
+        this.classIndex = classIndex;
+        this.codebook = codebook;
     }
     
     /**
