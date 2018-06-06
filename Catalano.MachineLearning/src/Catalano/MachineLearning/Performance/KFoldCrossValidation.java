@@ -35,6 +35,7 @@ public class KFoldCrossValidation implements IValidation{
     
     private int nFolds;
     private boolean shuffle;
+    private long seed;
     
     /**
      * Get number of the folds.
@@ -89,8 +90,19 @@ public class KFoldCrossValidation implements IValidation{
      * @param shuffle Shuffle the indexes.
      */
     public KFoldCrossValidation(int nFolds, boolean shuffle) {
+        this(nFolds, shuffle, -1);
+    }
+    
+    /**
+     * Initializes a new instance of the KFoldCrossValidation class.
+     * @param nFolds Number of folds.
+     * @param shuffle Shuffle the indexes.
+     * @param seed Random seed generator.
+     */
+    public KFoldCrossValidation(int nFolds, boolean shuffle, long seed){
         this.nFolds = nFolds;
         this.shuffle = shuffle;
+        this.seed = seed;
     }
 
     @Override
@@ -107,8 +119,12 @@ public class KFoldCrossValidation implements IValidation{
         int end = 0;
         
         int[] indexes = Matrix.Indices(0, labels.length);
-        if(shuffle)
+        if(shuffle && seed == 0){
             ArraysUtil.Shuffle(indexes);
+        }
+        else if(shuffle && seed != 0){
+            ArraysUtil.Shuffle(indexes, seed);
+        }    
         
         double mean = 0;
         for (int i = 0; i < nFolds; i++) {

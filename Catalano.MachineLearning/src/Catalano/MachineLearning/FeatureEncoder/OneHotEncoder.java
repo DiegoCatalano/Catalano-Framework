@@ -24,7 +24,7 @@ public class OneHotEncoder {
         this.keepDummyVariable = keepDummyVariable;
     }
     
-    public double[][] Process(double[][] input, int index){        
+    public double[][] Process(double[][] input, int index){
         
         int max = 0;
         for (int i = 0; i < input.length; i++) {
