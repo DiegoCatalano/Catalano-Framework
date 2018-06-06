@@ -27,6 +27,7 @@ import Catalano.MachineLearning.Dataset.DatasetClassification;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
 import Catalano.Math.Matrix;
+import Catalano.Math.Tools;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
 
@@ -97,7 +98,7 @@ public class RadiusNearestNeighbors implements IClassifier, Serializable {
      * Initializes a new instance of the RadiusNearestNeighbors class.
      */
     public RadiusNearestNeighbors(){
-        this(0.2);
+        this(0.05);
     }
     
     /**
@@ -105,7 +106,7 @@ public class RadiusNearestNeighbors implements IClassifier, Serializable {
      * @param radius Radius.
      */
     public RadiusNearestNeighbors(double radius){
-        this(1, new SquaredEuclideanDistance());
+        this(radius, new SquaredEuclideanDistance());
     }
     
     /**
@@ -150,24 +151,27 @@ public class RadiusNearestNeighbors implements IClassifier, Serializable {
         
         int sizeF = input.length;
         double[] dist = new double[sizeF];
-        double max = -1;
+        double max = -Double.MAX_VALUE;
+        double min = Double.MAX_VALUE;
         
         //Compute distance.
         if(useKernel){
             for (int i = 0; i < sizeF; i++){
                 dist[i] = this.kernel.Function(feature, input[i]);
                 max = Math.max(max, dist[i]);
+                min = Math.min(min, dist[i]);
             }
         }else{
             for (int i = 0; i < sizeF; i++){
                 dist[i] = this.divergence.Compute(feature, input[i]);
                 max = Math.max(max, dist[i]);
+                min = Math.min(min, dist[i]);
             }
         }
         
         //Normalize the distances ?
         for (int i = 0; i < dist.length; i++) {
-            dist[i] /= max;
+            dist[i] = Tools.Scale(min, max, 0, 1, dist[i]);
         }
         
         //Sort indexes based on score
