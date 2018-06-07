@@ -1,7 +1,7 @@
 // Catalano Machine Learning Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -26,73 +26,70 @@ import Catalano.Core.ArraysUtil;
 import Catalano.MachineLearning.Dataset.DatasetRegression;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Distances.SquaredEuclideanDistance;
-import Catalano.Math.Matrix;
+import Catalano.Math.Tools;
 import Catalano.Statistics.Kernels.IMercerKernel;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
- * K Nearest Neighbors for regression.
+ * Radius Nearest Neighbors for regression.
  * @author Diego Catalano
  */
-public class KNearestNeighbors implements IRegression, Serializable{
+public class RadiusNearestNeighbors implements IRegression, Serializable{
     
-    private int k = 3;
+    private double radius;
     private double[][] input;
     private double[] output;
     private IDivergence divergence;
     private IMercerKernel kernel;
 
     /**
-     * Get number of neighbors.
-     * @return Number of neighbors.
+     * Get radius.
+     * @return Radius.
      */
-    public int getK() {
-        return k;
+    public double getRadius() {
+        return radius;
     }
 
     /**
-     * Set number of neighbors.
-     * @param k Number of neighbors.
+     * Set radius.
+     * @param radius Radius.
      */
-    public void setK(int k) {
-        this.k = k;
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 
     /**
-     * Initializes a new instance of the KNearestNeighbors class.
+     * Initializes a new instance of the RadiusNearestNeighbors class.
      */
-    public KNearestNeighbors() {
-        this(3);
+    public RadiusNearestNeighbors() {
+        this(0.2);
     }
     
     /**
-     * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbors.
+     * Initializes a new instance of the RadiusNearestNeighbors class.
+     * @param radius Radius.
      */
-    public KNearestNeighbors(int k) {
-        this(k, new SquaredEuclideanDistance());
+    public RadiusNearestNeighbors(double radius) {
+        this(0.2, new SquaredEuclideanDistance());
     }
     
     /**
-     * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbors.
+     * Initializes a new instance of the RadiusNearestNeighbors class.
+     * @param radius Radius.
      * @param divergence Divergence.
      */
-    public KNearestNeighbors(int k, IDivergence divergence) {
-        this.k = k;
+    public RadiusNearestNeighbors(double radius, IDivergence divergence) {
+        this.radius = radius;
         this.divergence = divergence;
     }
     
     /**
-     * Initializes a new instance of the KNearestNeighbors class.
-     * @param k Number of neighbors.
+     * Initializes a new instance of the RadiusNearestNeighbors class.
+     * @param radius Radius.
      * @param kernel Kernel.
      */
-    public KNearestNeighbors(int k, IMercerKernel kernel) {
-        this.k = k;
+    public RadiusNearestNeighbors(double radius, IMercerKernel kernel) {
+        this.radius = radius;
         this.kernel = kernel;
     }
     
@@ -110,21 +107,33 @@ public class KNearestNeighbors implements IRegression, Serializable{
     @Override
     public double Predict(double[] feature){
         double[] dist = new double[input.length];
+        double max = -Double.MAX_VALUE;
+        double min = Double.MAX_VALUE;
         if(kernel == null)
             for (int i = 0; i < input.length; i++){
                 double[] temp = input[i];
                 //temp = Matrix.RemoveColumn(temp, temp.length - 1);
                 dist[i] = divergence.Compute(temp, feature);
+                max = Math.max(max, dist[i]);
+                min = Math.min(min, dist[i]);
             }
         else
             for (int i = 0; i < input.length; i++){
                 double[] temp = input[i];
                 //temp = Matrix.RemoveColumn(temp, temp.length - 1);
                 dist[i] = kernel.Function(temp, feature);
+                max = Math.max(max, dist[i]);
+                min = Math.min(min, dist[i]);
             }
+        
+        //Normalize the data ?
+        for (int i = 0; i < dist.length; i++) {
+            dist[i] = Tools.Scale(min, max, 0, 1, dist[i]);
+        }
         
         //Sort indexes based on score
         int[] indexes = ArraysUtil.Argsort(dist, true);
+        int k = Min(dist, indexes);
         
         double result = 0;
         for (int i = 0; i < k; i++) {
@@ -132,6 +141,17 @@ public class KNearestNeighbors implements IRegression, Serializable{
         }
         
         return result / (double)k;
+    }
+    
+    private int Min(double[] dist, int[] indexes){
+        
+        int e = 0;
+        for (int i = 0; i < indexes.length; i++) {
+            if(dist[indexes[i]] > radius) return e;
+            e++;
+        }
+        return e;
+        
     }
     
     @Override
