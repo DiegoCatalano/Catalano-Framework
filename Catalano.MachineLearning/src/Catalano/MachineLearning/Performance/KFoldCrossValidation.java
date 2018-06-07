@@ -113,7 +113,15 @@ public class KFoldCrossValidation implements IValidation{
     @Override
     public double Run(IClassifier classifier, double[][] data, int[] labels) {
         
-        int parts = labels.length / nFolds;
+        if(nFolds > data.length)
+            throw new IllegalArgumentException("The number of folds must be less or equal than number of samples.");
+        
+        int parts;
+        double p = (labels.length / (double)nFolds) - labels.length / nFolds;
+        if(p > 0.5)
+            parts = (labels.length / nFolds) + 1;
+        else
+            parts = (labels.length / nFolds);
         
         int start = 0;
         int end = 0;
