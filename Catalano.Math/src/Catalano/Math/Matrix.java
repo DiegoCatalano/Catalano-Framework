@@ -3797,6 +3797,31 @@ public final class Matrix {
     
     /**
      * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static boolean[] RemoveColumns(boolean[] A, int[] index){
+        if(A.length - index.length <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        boolean[] B = new boolean[A.length - index.length];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.length; j++)
+                if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
      * @param <T> Type.
      * @param A Vector.
      * @param index Array of index.

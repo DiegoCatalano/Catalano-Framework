@@ -43,14 +43,14 @@ public class Log implements IApplyInPlace{
     public void applyInPlace(FastBitmap fastBitmap) {
         
         // Scale log
-        double scale = 255 / Math.log(255);
+        double scale = 256 / Math.log(256);
         if (fastBitmap.isGrayscale()){
             byte[] pixels = fastBitmap.getGrayData();
             for (int i = 0; i < pixels.length; i++) {
-                double v = pixels[i] < 0 ? pixels[i] + 256 : pixels[i];
+                double v = pixels[i] & 0xFF;
                 
                 //Compute log
-                if (v != 0) v = Math.log(v) * scale;
+                v = Math.log(1+v) * scale;
 
                 // Clip value
                 if (v < 0) v = 0;
@@ -67,9 +67,9 @@ public class Log implements IApplyInPlace{
                 double b = pixelsRGB[i] & 0xff;
 
                 //Compute log
-                if (r != 0) r = Math.log(r) * scale;
-                if (g != 0) g = Math.log(g) * scale;
-                if (b != 0) b = Math.log(b) * scale;
+                r = Math.log(r+1) * scale;
+                g = Math.log(g+1) * scale;
+                b = Math.log(b+1) * scale;
 
                 //Clip value
                 if (r < 0) r = 0;

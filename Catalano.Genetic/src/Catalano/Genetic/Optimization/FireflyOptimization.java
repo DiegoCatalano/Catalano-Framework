@@ -302,8 +302,9 @@ public class FireflyOptimization implements IOptimization{
             
             //Truncate
             pop = pop.subList(0, population);
+            
+            damp = damp*alphaDamp;
         }
-        damp = damp*alphaDamp;
         
         return best;
         

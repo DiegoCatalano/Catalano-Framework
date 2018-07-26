@@ -50,7 +50,7 @@ public class Exp implements IApplyInPlace{
             byte[] pixels = fastBitmap.getGrayData();
             for (int i = 0; i < pixels.length; i++) {
                 
-                double v = pixels[i] < 0 ? pixels[i] + 256 : pixels[i];
+                double v = pixels[i] & 0xFF;
                 v = Approximation.Highprecision_Exp(v/scale);
 
                 // Clip value
