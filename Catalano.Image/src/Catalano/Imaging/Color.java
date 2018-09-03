@@ -121,6 +121,17 @@ public class Color {
     public int b = 0;
     
     /**
+     * Pack the rgb values into an int representation.
+     * @param red Red channel's component.
+     * @param green Green channel's component.
+     * @param blue Blue channel's component.
+     * @return Packed RGB.
+     */
+    public static int toPackedRGB(int red, int green, int blue){
+        return red << 16 | green << 8 | blue;
+    }
+    
+    /**
      * Count many colors has in the image.
      * @param fastBitmap Image to be procesed.
      * @return Number of colors.

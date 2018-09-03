@@ -84,7 +84,7 @@ public class Gaussian {
      * @return Function's value at point (x,y).
      */
     public double Function2D( double x, double y ){
-        return Math.exp(-(x*x + y*y) / (2 * sqrSigma));
+        return Math.exp(-(x*x + y*y) / (2 * sqrSigma)) / ( 2 * Math.PI * sqrSigma);
     }
     
     /**

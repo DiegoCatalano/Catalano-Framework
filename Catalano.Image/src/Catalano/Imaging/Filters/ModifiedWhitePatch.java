@@ -33,19 +33,65 @@ import Catalano.Imaging.IApplyInPlace;
  */
 public class ModifiedWhitePatch implements IApplyInPlace{
     
-    int threshold = 128;
+    private int redThreshold = 128;
+    private int greenThreshold = 128;
+    private int blueThreshold = 128;
+    
+    public void setThreshold(int threshold){
+        this.redThreshold = threshold;
+        this.greenThreshold = threshold;
+        this.blueThreshold = threshold;
+    }
+
+    public int getRedThreshold() {
+        return redThreshold;
+    }
+
+    public void setRedThreshold(int redThreshold) {
+        this.redThreshold = redThreshold;
+    }
+
+    public int getGreenThreshold() {
+        return greenThreshold;
+    }
+
+    public void setGreenThreshold(int greenThreshold) {
+        this.greenThreshold = greenThreshold;
+    }
+
+    public int getBlueThreshold() {
+        return blueThreshold;
+    }
+
+    public void setBlueThreshold(int blueThreshold) {
+        this.blueThreshold = blueThreshold;
+    }
 
     /**
      * Initialize a new instance of the ModifiedWhitePatch class.
      */
-    public ModifiedWhitePatch() {}
+    public ModifiedWhitePatch() {
+        this(128);
+    }
 
     /**
      * Initialize a new instance of the ModifiedWhitePatch class.
      * @param threshold Threshold.
      */
     public ModifiedWhitePatch(int threshold) {
-        this.threshold = threshold;
+        this(threshold, threshold, threshold);
+    }
+    
+    /**
+     * Initialize a new instance of the ModifiedWhitePatch class.
+     * @param redThreshold Red Threshold.
+     * @param greenThreshold Green Threshold.
+     * @param blueThreshold Blue Threshold.
+     */
+    public ModifiedWhitePatch(int redThreshold, int greenThreshold, int blueThreshold){
+        this.redThreshold = redThreshold;
+        this.greenThreshold = greenThreshold;
+        this.blueThreshold = blueThreshold;
     }
 
     @Override
@@ -58,17 +104,17 @@ public class ModifiedWhitePatch implements IApplyInPlace{
             double kr = 0, kg = 0, kb = 0;
             int tr = 0, tg = 0, tb = 0;
             for (int i = 0; i < size; i++) {
-                if (fastBitmap.getRed(i) > threshold){
+                if (fastBitmap.getRed(i) > redThreshold){
                     kr += fastBitmap.getRed(i);
                     tr++;
                 }
 
-                if (fastBitmap.getGreen(i) > threshold){
+                if (fastBitmap.getGreen(i) > greenThreshold){
                     kg += fastBitmap.getGreen(i);
                     tg++;
                 }
 
-                if (fastBitmap.getBlue(i) > threshold){
+                if (fastBitmap.getBlue(i) > blueThreshold){
                     kb += fastBitmap.getBlue(i);
                     tb++;
                 }

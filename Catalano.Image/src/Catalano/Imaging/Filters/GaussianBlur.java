@@ -94,7 +94,7 @@ public class GaussianBlur implements IApplyInPlace{
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
         int[][] k = CreateKernel();
-        Convolution c = new Convolution(k);
+        Convolution c = new Convolution(k, true);
         c.applyInPlace(fastBitmap);
     }
     

@@ -822,6 +822,34 @@ public class FastBitmap {
     }
     
     /**
+     * Get RGB color as an int representation.
+     * @param offset Offset.
+     * @return RGB.
+     */
+    public int getPackedRGB(int offset){
+        return pixels[offset];
+    }
+    
+    /**
+     * Get RGB color as an int representation.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @return RGB.
+     */
+    public int getPackedRGB(int x, int y){
+        return pixels[x*strideX+y*strideY];
+    }
+    
+    /**
+     * Get RGB color as an int representation.
+     * @param point Coordinate.
+     * @return RGB.
+     */
+    public int getPackedRGB(IntPoint point){
+        return pixels[point.x*strideX+point.y*strideY];
+    }
+    
+    /**
      * Return ARGB color.
      * @param x X axis coordinate.
      * @param y Y axis coordinate.
@@ -936,7 +964,35 @@ public class FastBitmap {
      * @param rgb RGB color.
      */
     public void setRGB(IntPoint point, int[] rgb){
-         pixels[point.x*getWidth()+point.y] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+         pixels[point.x*strideX+point.y*strideY] = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+    }
+    
+    /**
+     * Set RGB.
+     * @param offset Offset.
+     * @param color RGB as int representation.
+     */
+    public void setRGB(int offset, int color){
+        pixels[offset] = color;
+    }
+    
+    /**
+     * Set RGB.
+     * @param x X axis coordinate.
+     * @param y Y axis coordinate.
+     * @param color RGB as int representation.
+     */
+    public void setRGB(int x, int y, int color){
+        pixels[x*strideX+y*strideY] = color;
+    }
+    
+    /**
+     * Set RGB.
+     * @param point Point.
+     * @param color RGB as int representation.
+     */
+    public void setRGB(IntPoint point, int color){
+        pixels[point.x*strideX+point.y*strideY] = color;
     }
     
     /**
