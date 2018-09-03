@@ -25,6 +25,7 @@ import Catalano.Imaging.Color;
 
 /**
  * Convert between different color spaces supported.
+ * 
  * RGB -> IHS -> RGB
  * RGB -> CMYK -> RGB
  * RGB -> YIQ -> RGB
@@ -34,12 +35,14 @@ import Catalano.Imaging.Color;
  * RGB -> HSV -> RGB
  * RGB -> YCC -> RGB
  * RGB -> YCoCg -> RGB
+ * RGB -> YES -> RGB
  * RGB -> XYZ -> RGB
  * RGB -> HunterLAB -> RGB
  * RGB -> HLS -> RGB
  * RGB -> CIE-LAB -> RGB
  * XYZ -> HunterLAB -> XYZ
  * XYZ -> CIE-LAB -> XYZ
+ * 
  * @author Diego Catalano
  */
 public class ColorConverter {
@@ -88,6 +91,15 @@ public class ColorConverter {
     
     /**
      * RGB -> CMYK
+     * @param rgb RGB values.
+     * @return CMYK color space. Normalized.
+     */
+    public static double[] RGBtoCMYK(int[] rgb){
+        return RGBtoCMYK(rgb[0], rgb[1], rgb[2]);
+    }
+    
+    /**
+     * RGB -> CMYK
      * @param red Values in the range [0..255].
      * @param green Values in the range [0..255].
      * @param blue Values in the range [0..255].
@@ -115,6 +127,15 @@ public class ColorConverter {
     
     /**
      * CMYK -> RGB
+     * @param cmyk CMYK values.
+     * @return RGB color space.
+     */
+    public static int[] CMYKtoRGB(double[] cmyk){
+        return CMYKtoRGB(cmyk[0], cmyk[1], cmyk[2], cmyk[3]);
+    }
+    
+    /**
+     * CMYK -> RGB
      * @param c Cyan.
      * @param m Magenta.
      * @param y Yellow.
@@ -138,6 +159,15 @@ public class ColorConverter {
      */
     public static double[] RGBtoIHS(Color color){
         return RGBtoCMYK(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> IHS
+     * @param rgb RGB values.
+     * @return RGB color space.
+     */
+    public static double[] RGBtoIHS(int[] rgb){
+        return RGBtoIHS(rgb[0], rgb[1], rgb[2]);
     }
     
     /**
@@ -617,6 +647,73 @@ public class ColorConverter {
         yCoCg[2] = cg;
         
         return yCoCg;
+    }
+    
+    /**
+     * RGB -> YES.
+     * @param color Color.
+     * @return YES color space.
+     */
+    public static double[] RGBtoYES(Color color){
+        return RGBtoYES(color.r, color.g, color.b);
+    }
+    
+    /**
+     * RGB -> YES.
+     * @param rgb RGB values.
+     * @return YES color space.
+     */
+    public static double[] RGBtoYES(int[] rgb){
+        return RGBtoYES(rgb[0], rgb[1], rgb[2]);
+    }
+    
+    /**
+     * RGB -> YES.
+     * @param red Red coefficient. Values in the range [0..255].
+     * @param green Green coefficient. Values in the range [0..255].
+     * @param blue Blue coefficient. Values in the range [0..255].
+     * @return YES color space.
+     */
+    public static double[] RGBtoYES(int red, int green, int blue){
+        double[] yes = new double[3];
+        
+        double r = red / 255f;
+        double g = green / 255f;
+        double b = blue / 255f;
+        
+        yes[0] = r * 0.253 + g * 0.684 + b * 0.063;
+        yes[1] = r * 0.500 + g * -0.500;
+        yes[2] = r * 0.250 + g * 0.250 + b * -0.5;
+        
+        return yes;
+    }
+    
+    /**
+     * YES -> RGB
+     * @param yes YES color space.
+     * @return RGB color space.
+     */
+    public static int[] YEStoRGB(double[] yes){
+        return YEStoRGB(yes[0], yes[1], yes[2]);
+    }
+    
+    /**
+     * YES -> RGB
+     * @param y Luminance component. [0..1]
+     * @param e Chrominance factor. Difference of red and green channels. [-0.5..0.5]
+     * @param s Chrominance factor. Difference of yellow and blue. [-0.5..0.5]
+     * @return RGB color space.
+     */
+    public static int[] YEStoRGB(double y, double e, double s){
+        
+        int[] rgb = new int[3];
+        
+        rgb[0] = (int)((y + e * 1.431 + s * 0.126) * 255);
+        rgb[1] = (int)((y + e * -0.569 + s * 0.126) * 255);
+        rgb[2] = (int)((y + e * 0.431 + s * -1.874) * 255);
+        
+        return rgb;
+        
     }
     
     /**
