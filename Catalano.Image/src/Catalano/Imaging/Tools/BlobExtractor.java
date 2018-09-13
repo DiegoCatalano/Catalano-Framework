@@ -74,13 +74,15 @@ public class BlobExtractor {
      * @return New image that contains the reconstructed blob.
      */
     public FastBitmap Extract(FastBitmap fastBitmap, Blob blob){
-        int height = blob.getHeight();
-        int width = blob.getWidth();
         
         List<IntPoint> points = blob.getPoints();
         IntRectangle rect = blob.getBoundingBox();
         
         if(!keepOriginalImage){
+            
+            int height = blob.getHeight() + 1;
+            int width = blob.getWidth() + 1;
+            
             FastBitmap image = new FastBitmap(width, height, fastBitmap.getColorSpace());
             if(image.isGrayscale()){
                 for (IntPoint p : points) {
@@ -111,56 +113,56 @@ public class BlobExtractor {
         return image;
     }
     
-    /**
-     * Extract a blob in the image using bounding box.
-     * @param fastBitmap Reference image.
-     * @param blob Blob information.
-     * @return New image that contains the reconstructed blob.
-     */
-    public FastBitmap ExtractBox(FastBitmap fastBitmap, Blob blob){
-        
-        int height = blob.getHeight()-1;
-        int width = blob.getWidth()-1;
-        
-        IntRectangle rect = blob.getBoundingBox();
-        
-        if(!keepOriginalImage){
-            FastBitmap image = new FastBitmap(width, height, fastBitmap.getColorSpace());
-            if(image.isGrayscale()){
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++) {
-                        image.setGray(i, j, fastBitmap.getGray(rect.x + i + 1, rect.y + j + 1));
-                    }
-                }
-            }
-            else{
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++) {
-                        image.setRGB(i, j, fastBitmap.getRGB(rect.x + i + 1, rect.y + j + 1));
-                    }
-                }
-            }
-
-            return image;
-        }
-        
-        FastBitmap image = new FastBitmap(fastBitmap.getWidth(), fastBitmap.getHeight(), fastBitmap.getColorSpace());
-        
-        if(image.isGrayscale()){
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    image.setGray(rect.x+i, rect.y+j, fastBitmap.getGray(rect.x + i, rect.y + j));
-                }
-            }
-        }
-        else{
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    image.setRGB(rect.x+i, rect.y+j, fastBitmap.getRGB(rect.x + i, rect.y + j));
-                }
-            }
-        }
-        
-        return image;
-    }
+//    /**
+//     * Extract a blob in the image using bounding box.
+//     * @param fastBitmap Reference image.
+//     * @param blob Blob information.
+//     * @return New image that contains the reconstructed blob.
+//     */
+//    public FastBitmap ExtractBox(FastBitmap fastBitmap, Blob blob){
+//        
+//        int height = blob.getHeight()-1;
+//        int width = blob.getWidth()-1;
+//        
+//        IntRectangle rect = blob.getBoundingBox();
+//        
+//        if(!keepOriginalImage){
+//            FastBitmap image = new FastBitmap(width, height, fastBitmap.getColorSpace());
+//            if(image.isGrayscale()){
+//                for (int i = 0; i < height; i++) {
+//                    for (int j = 0; j < width; j++) {
+//                        image.setGray(i, j, fastBitmap.getGray(rect.x + i + 1, rect.y + j + 1));
+//                    }
+//                }
+//            }
+//            else{
+//                for (int i = 0; i < height; i++) {
+//                    for (int j = 0; j < width; j++) {
+//                        image.setRGB(i, j, fastBitmap.getRGB(rect.x + i + 1, rect.y + j + 1));
+//                    }
+//                }
+//            }
+//
+//            return image;
+//        }
+//        
+//        FastBitmap image = new FastBitmap(fastBitmap.getWidth(), fastBitmap.getHeight(), fastBitmap.getColorSpace());
+//        
+//        if(image.isGrayscale()){
+//            for (int i = 0; i < height; i++) {
+//                for (int j = 0; j < width; j++) {
+//                    image.setGray(rect.x+i, rect.y+j, fastBitmap.getGray(rect.x + i, rect.y + j));
+//                }
+//            }
+//        }
+//        else{
+//            for (int i = 0; i < height; i++) {
+//                for (int j = 0; j < width; j++) {
+//                    image.setRGB(rect.x+i, rect.y+j, fastBitmap.getRGB(rect.x + i, rect.y + j));
+//                }
+//            }
+//        }
+//        
+//        return image;
+//    }
 }

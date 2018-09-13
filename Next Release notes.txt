@@ -11,6 +11,7 @@ Catalano Framework 1.6.2 road map
 
 * Catalano.Genetic
 
+- New: Harmony Search Optimizer.
 - New: Grey Wolf Optimizer.
 
 * Catalano.MachineLearning
@@ -20,4 +21,6 @@ Catalano Framework 1.6.2 road map
 
 * Catalano.Math
 
+- New: Mixed Integer Linear Programming.
+- New: Linear Programming.
 - Added: InsertColumn and InsertColumns in the Matrix.

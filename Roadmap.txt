@@ -11,13 +11,3 @@ Machine Learning
 - KNN Imputation
 
 - Added: Support imputation algorithms in the Classification/Regression datasets
-
-Neuro
-
-- Multi Layer Perceptron
-- Dropout Multi Layer Perceptron
-- Restricted Boltzmann Machine
-- Deep Belief Nets
-- Denoising Autoencoders
-- Stacked Denoising Autoencoders
-- Convolutional Neural Networks ?

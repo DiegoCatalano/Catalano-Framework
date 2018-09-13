@@ -32,8 +32,7 @@ public class Stopwatch {
     /**
      * Initializes a new instance of the Stopwatch class.
      */
-    public Stopwatch() {
-    }
+    public Stopwatch() {}
     
     /**
      * Start meansuring elapsed time for an interval.
@@ -43,7 +42,7 @@ public class Stopwatch {
     }
     
     /**
-     * Stops meansuring elapsed time for an inverval.
+     * Stops measuring elapsed time for an inverval.
      */
     public void Stop(){
         t2 = System.currentTimeMillis();
