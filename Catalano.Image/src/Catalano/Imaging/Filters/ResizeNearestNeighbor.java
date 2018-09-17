@@ -26,6 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
@@ -36,7 +37,7 @@ import Catalano.Imaging.IApplyInPlace;
  * 
  * @author Diego Catalano
  */
-public class ResizeNearestNeighbor implements IApplyInPlace{
+public class ResizeNearestNeighbor implements IApply, IApplyInPlace{
     
     private int newWidth;
     private int newHeight;
@@ -94,8 +95,7 @@ public class ResizeNearestNeighbor implements IApplyInPlace{
     }
 
     @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
-        
+    public FastBitmap apply(FastBitmap fastBitmap) {
         FastBitmap dest = new FastBitmap(newWidth, newHeight, fastBitmap.getColorSpace());
         
         int width = fastBitmap.getWidth();
@@ -118,7 +118,7 @@ public class ResizeNearestNeighbor implements IApplyInPlace{
                 }
             }
 
-            fastBitmap.setImage(dest);
+            return dest;
         }
         else{
             for (int i = 0; i < newHeight; i++) {
@@ -137,7 +137,13 @@ public class ResizeNearestNeighbor implements IApplyInPlace{
                 }
             }
 
-            fastBitmap.setImage(dest);
+            return dest;
         }
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

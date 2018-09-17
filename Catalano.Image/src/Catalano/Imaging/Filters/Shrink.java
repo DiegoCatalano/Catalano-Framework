@@ -25,13 +25,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Shrink filter.
  * @author Diego Catalano
  */
-public class Shrink implements IApplyInPlace{
+public class Shrink implements IApply, IApplyInPlace{
     
     private boolean isBlackObject = false;
 
@@ -50,7 +51,7 @@ public class Shrink implements IApplyInPlace{
     }
 
     @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
+    public FastBitmap apply(FastBitmap fastBitmap) {
         
         if(fastBitmap.isGrayscale()){
             
@@ -88,7 +89,7 @@ public class Shrink implements IApplyInPlace{
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
-            crop.ApplyInPlace(fastBitmap);
+            return crop.apply(fastBitmap);
         }
         else if(fastBitmap.isRGB()){
             
@@ -118,7 +119,14 @@ public class Shrink implements IApplyInPlace{
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
-            crop.ApplyInPlace(fastBitmap);
+            return crop.apply(fastBitmap);
         }
+        return null;
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

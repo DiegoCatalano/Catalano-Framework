@@ -42,12 +42,36 @@ public class ClassifierPipeline implements Serializable{
     
     private Codebook codebook;
 
+    /**
+     * Get Classifier.
+     * @return Classifier.
+     */
     public IClassifier getClassifier() {
         return classifier;
     }
 
+    /**
+     * Get Feature scaling.
+     * @return Feature scaling.
+     */
     public IFeatureScaling getFeatureScale() {
         return featureScale;
+    }
+
+    /**
+     * Get Decision variables.
+     * @return Decision variables.
+     */
+    public DecisionVariable[] getVariables() {
+        return variables;
+    }
+
+    /**
+     * Get Codebook.
+     * @return Codebook.
+     */
+    public Codebook getCodebook() {
+        return codebook;
     }
     
     /**

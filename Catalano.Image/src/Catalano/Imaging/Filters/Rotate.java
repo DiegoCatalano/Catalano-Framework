@@ -23,13 +23,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Rotate image.
  * @author Diego Catalano
  */
-public class Rotate implements IApplyInPlace{
+public class Rotate implements IApply, IApplyInPlace{
     
     /**
      * Interpolation algorithm.
@@ -143,23 +144,23 @@ public class Rotate implements IApplyInPlace{
         this.keepSize = keepSize;
         this.algorithm = algorithm;
     }
+
+    @Override
+    public FastBitmap apply(FastBitmap fastBitmap) {
+        switch(algorithm){
+            case BILINEAR:
+                return new RotateBilinear(angle, keepSize).apply(fastBitmap);
+            case BICUBIC:
+                return new RotateBicubic(angle, keepSize).apply(fastBitmap);
+            default:
+                return new RotateNearestNeighbor(angle, keepSize).apply(fastBitmap);
+        }
+    }
+    
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        
-        switch(algorithm){
-            case BILINEAR:
-                new RotateBilinear(angle, keepSize).applyInPlace(fastBitmap);
-                break;
-            case BICUBIC:
-                new RotateBicubic(angle, keepSize).applyInPlace(fastBitmap);
-                break;
-            case NEAREST_NEIGHBOR:
-                new RotateNearestNeighbor(angle, keepSize).applyInPlace(fastBitmap);
-                break;
-            default:
-                new RotateNearestNeighbor(angle, keepSize).applyInPlace(fastBitmap);
-        }
-        
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

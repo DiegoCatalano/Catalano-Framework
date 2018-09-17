@@ -311,7 +311,7 @@ public class KMeans extends PartitionClustering<double[]> implements ICentroidCl
     /**
      * The implementation of Lloyd algorithm as a benchmark. The data may
      * contain missing values (i.e. Double.NaN).
-     * @param data the input data of which each row is a sample.
+     * @param input the input data of which each row is a sample.
      * @param k the number of clusters.
      * @param maxIteration the maximum number of iterations for each running.
      */

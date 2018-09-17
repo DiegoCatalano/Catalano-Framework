@@ -26,6 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
@@ -38,7 +39,7 @@ import Catalano.Imaging.IApplyInPlace;
  * 
  * @author Diego Catalano
  */
-public class RotateBilinear implements IApplyInPlace {
+public class RotateBilinear implements IApply, IApplyInPlace {
     
     private double angle;
     private boolean keepSize;
@@ -123,7 +124,7 @@ public class RotateBilinear implements IApplyInPlace {
     }
 
     @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
+    public FastBitmap apply(FastBitmap fastBitmap) {
         
         if (fastBitmap.isGrayscale()){
             
@@ -210,7 +211,7 @@ public class RotateBilinear implements IApplyInPlace {
                 ci++;
             }
             
-            fastBitmap.setImage(destinationData);
+            return destinationData;
             
         }
         else if (fastBitmap.isRGB()){
@@ -318,10 +319,15 @@ public class RotateBilinear implements IApplyInPlace {
                 }
                 ci++;
             }
-            
-            fastBitmap.setImage(destinationData);
+            return destinationData;
         }
-        
+        return null;
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
     
     private void CalculateNewSize(FastBitmap fastBitmap){

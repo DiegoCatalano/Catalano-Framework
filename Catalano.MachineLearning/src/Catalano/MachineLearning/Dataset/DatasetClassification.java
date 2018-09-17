@@ -122,14 +122,6 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
         return attributes;//Matrix.RemoveColumn(attributes, classIndex);
     }
     
-//    /**
-//     * Get the decision variables including the output.
-//     * @return Decision Variables.
-//     */
-//    public DecisionVariable[] getAllDecisionVariables(){
-//        return attributes;
-//    }
-    
     /**
      * Get the number of instances.
      * @return Number of instances.
@@ -175,7 +167,7 @@ public class DatasetClassification implements IDataset<double[][], int[]>{
      * Get normalization.
      * @return Normalization.
      */
-    public IFeatureScaling getNormalization() {
+    public IFeatureScaling getFeatureScaling() {
         return normalization;
     }
     

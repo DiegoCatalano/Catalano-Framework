@@ -21,6 +21,8 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
+import Catalano.Imaging.IApplyInPlace;
 import Catalano.Imaging.Shapes.IntRectangle;
 
 /**
@@ -32,7 +34,7 @@ import Catalano.Imaging.Shapes.IntRectangle;
  * 
  * @author Diego Catalano
  */
-public class Crop {
+public class Crop implements IApply, IApplyInPlace{
     
     private int x;
     private int y;
@@ -143,12 +145,9 @@ public class Crop {
         this.width = width;
         this.height = height;
     }
-    
-    /**
-     * Apply filter to a FastBitmap.
-     * @param fastBitmap FastBitmap
-     */
-    public void ApplyInPlace(FastBitmap fastBitmap){
+
+    @Override
+    public FastBitmap apply(FastBitmap fastBitmap) {
         
         if((this.x + height > fastBitmap.getHeight()) ||
                 this.y + width > fastBitmap.getWidth()){
@@ -196,8 +195,18 @@ public class Crop {
                         l.setBlue(c, r, fastBitmap.getBlue(r + this.y, c + this.x));
                     }
                 }
-                fastBitmap.setImage(l);
             }
         }
+        return l;
+    }
+    
+    /**
+     * Apply filter to a FastBitmap.
+     * @param fastBitmap FastBitmap
+     */
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap){
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

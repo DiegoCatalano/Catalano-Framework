@@ -125,7 +125,7 @@ public class SpatialHistogram {
         FastBitmap copy = new FastBitmap(fastBitmap);
         
         Crop crop = new Crop(x, y, width, height);
-        crop.ApplyInPlace(copy);
+        crop.applyInPlace(copy);
         
         return copy;
     }
