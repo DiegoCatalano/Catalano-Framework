@@ -243,7 +243,7 @@ public class CannyEdgeDetector implements IApplyInPlace{
             
             p = 0;
             
-            // STEP 3 - suppres non maximums
+            // STEP 3 - suppress non maximums
             for (int x = 1; x < height - 1; x++) {
                 for (int y = 1; y < width - 1; y++, p++) {
                     // get two adjacent pixels
