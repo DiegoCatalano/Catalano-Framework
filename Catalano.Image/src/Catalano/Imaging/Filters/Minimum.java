@@ -35,12 +35,12 @@ public class Minimum implements IApplyInPlace{
     private int radius = 1;
 
     /**
-     * Initialize a new instance of the Maximum class.
+     * Initialize a new instance of the Minimum class.
      */
     public Minimum() {}
     
     /**
-     * Initialize a new instance of the Maximum class.
+     * Initialize a new instance of the Minimum class.
      * @param radius Radius.
      */
     public Minimum(int radius){
