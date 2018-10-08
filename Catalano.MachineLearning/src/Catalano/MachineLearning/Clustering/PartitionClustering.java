@@ -24,6 +24,7 @@ package Catalano.MachineLearning.Clustering;
 import Catalano.Math.Distances.Distance;
 import Catalano.Math.Distances.IDivergence;
 import Catalano.Math.Tools;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -34,7 +35,7 @@ import java.util.Arrays;
  * 
  * @author Haifeng Li
  */
-public abstract class PartitionClustering <T> {
+public abstract class PartitionClustering <T> implements Serializable {
     /**
      * The number of clusters.
      */

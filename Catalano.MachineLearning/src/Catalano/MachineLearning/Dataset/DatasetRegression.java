@@ -271,9 +271,9 @@ public class DatasetRegression implements IDataset<double[][], double[]>{
 
                 //Build Output data from the class index.
                 output = new double[lines.size() - start];
-                for (int j = 0; j < lines.size(); j++) {
+                for (int j = start; j < lines.size(); j++) {
                     String[] temp = lines.get(j).split(String.valueOf(","));
-                    output[j] = Double.valueOf(temp[classIndex]);
+                    output[j-start] = Double.valueOf(temp[classIndex]);
                 }
             }
         } catch (FileNotFoundException ex) {

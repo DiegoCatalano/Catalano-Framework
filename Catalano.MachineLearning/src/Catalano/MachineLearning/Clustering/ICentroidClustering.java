@@ -22,12 +22,13 @@
 package Catalano.MachineLearning.Clustering;
 
 import Catalano.MachineLearning.Dataset.DatasetClassification;
+import java.io.Serializable;
 
 /**
  * Common interface for centroid based clustering algorithms.
  * @author Diego Catalano
  */
-public interface ICentroidClustering {
+public interface ICentroidClustering extends Serializable {
     
     /**
      * Compute the data.

@@ -354,7 +354,7 @@ public class Blend implements IApplyInPlace{
                         else{
                             temp = (255 - 2 * (255 - overlay.getRed(i)) * (255 - fastBitmap.getRed(i)) / 255);
                             temp = Math.min(255, temp);
-                            overlay.setRed(i, temp);
+                            fastBitmap.setRed(i, temp);
                         }
 
                         if(fastBitmap.getGreen(i) < 128){
