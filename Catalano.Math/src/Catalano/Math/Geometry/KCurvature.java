@@ -36,18 +36,58 @@ import java.util.List;
  * @author Diego Catalano
  */
 public class KCurvature {
-    /**
-     * Gets or sets the number K of previous and posterior points to consider when find local extremum points.
-     */
+    
     public int k;
-    /**
-     * Gets or sets the theta angle range (in degrees) used to define extremum points.
-     */
     public DoubleRange theta;
+    private int suppression;
+
     /**
-     * Gets or sets the suppression radius to use during non-minimum suppression. 
+     * Gets the number K of previous and posterior points to consider when find local extremum points.
+     * @return Number of previous and posterior points.
      */
-    public int suppression;
+    public int getK() {
+        return k;
+    }
+
+    /**
+     * Sets the number K of previous and posterior points to consider when find local extremum points.
+     * @param k Number of previous and posterior points.
+     */
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    /**
+     * Gets the theta angle range (in degrees) used to define extremum points.
+     * @return Theta angle.
+     */
+    public DoubleRange getTheta() {
+        return theta;
+    }
+
+    /**
+     * Sets the theta angle range (in degrees) used to define extremum points.
+     * @param theta Theta angle.
+     */
+    public void setTheta(DoubleRange theta) {
+        this.theta = theta;
+    }
+
+    /**
+     * Gets the suppression radius to use during non-minimum suppression. 
+     * @return Suppression radius.
+     */
+    public int getSuppression() {
+        return suppression;
+    }
+
+    /**
+     * Sets the suppression radius to use during non-minimum suppression. 
+     * @param suppression Suppression radius.
+     */
+    public void setSuppression(int suppression) {
+        this.suppression = suppression;
+    }
 
     /**
      * Initializes a new instance of the KCurvature class.
