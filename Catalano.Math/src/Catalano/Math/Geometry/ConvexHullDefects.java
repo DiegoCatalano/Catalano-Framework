@@ -26,6 +26,7 @@ package Catalano.Math.Geometry;
 
 import Catalano.Core.IntPoint;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Convex Hull Defects Extractor.
@@ -64,7 +65,7 @@ public class ConvexHullDefects {
      * @param convexHull The convex hull of the contour.
      * @return A list of ConvexityDefects containing each of the defects found considering the convex hull of the contour.
      */
-    public ArrayList<ConvexityDefect> FindDefects(ArrayList<IntPoint> contour, ArrayList<IntPoint> convexHull){
+    public List<ConvexityDefect> FindDefects(List<IntPoint> contour, List<IntPoint> convexHull){
         try {
             if (contour.size() < 4) throw new Exception("Point sequence size should have at least 4 points.");
             if (convexHull.size() < 3) throw new Exception("Convex hull must have at least 3 points.");
@@ -80,7 +81,7 @@ public class ConvexHullDefects {
             }
         }
         
-        ArrayList<ConvexityDefect> defects = new ArrayList<ConvexityDefect>();
+        List<ConvexityDefect> defects = new ArrayList<ConvexityDefect>();
         
         // For each two consecutive points in the convex hull
         for (int i = 0; i < indexes.length - 1; i++){
@@ -94,7 +95,7 @@ public class ConvexHullDefects {
         return defects;
     }
     
-    private ConvexityDefect ExtractDefect(ArrayList<IntPoint> contour, int startIndex, int endIndex){
+    private ConvexityDefect ExtractDefect(List<IntPoint> contour, int startIndex, int endIndex){
         
         IntPoint start = contour.get(startIndex);
         IntPoint end = contour.get(endIndex);
