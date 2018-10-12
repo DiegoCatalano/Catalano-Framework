@@ -25,6 +25,7 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Core.DoublePoint;
 import Catalano.Imaging.FastBitmap;
 
 /**
@@ -48,21 +49,23 @@ public class HuMoments {
     public double[] Compute(FastBitmap fastBitmap){
         
         double[] moments = new double[8];
+        
+        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
 
         double
-        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0),
-        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2),
-        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0),
-        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2),
-        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1),
-        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3),
-        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1);
+        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid),
+        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid),
+        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid),
+        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid),
+        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid),
+        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid),
+        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid);
         
         //First moment
         moments[0] = n20 + n02;
         
         //Second moment
-        moments[1] = Math.pow((n20 - 02), 2) + Math.pow(2 * n11, 2);
+        moments[1] = Math.pow((n20 - n02), 2) + 4 * Math.pow(n11, 2);
         
         //Third moment
         moments[2] = Math.pow(n30 - (3 * (n12)), 2)
@@ -108,22 +111,24 @@ public class HuMoments {
         n = Math.min(8, Math.max(1, n));
         
         double result = 0.0;
+        
+        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
 
         double
-        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0),
-        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2),
-        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0),
-        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2),
-        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1),
-        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3),
-        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1);
+        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid),
+        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid),
+        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid),
+        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid),
+        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid),
+        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid),
+        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid);
 
         switch (n) {
         case 1:
             result = n20 + n02;
             break;
         case 2:
-            result = Math.pow((n20 - 02), 2) + Math.pow(2 * n11, 2);
+            result = Math.pow((n20 - 02), 2) + 4 * Math.pow(n11, 2);
             break;
         case 3:
             result = Math.pow(n30 - (3 * (n12)), 2)

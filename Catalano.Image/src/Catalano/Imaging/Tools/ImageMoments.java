@@ -89,6 +89,28 @@ public final class ImageMoments {
     }
     
     /**
+     * Compute central moment.
+     * @param fastBitmap Image.
+     * @param p Order p.
+     * @param q Order q.
+     * @param centroid Centroid.
+     * @return Central moment.
+     */
+    public static double getCentralMoment(FastBitmap fastBitmap, int p, int q, DoublePoint centroid) {
+        
+        int width = fastBitmap.getWidth();
+        int height = fastBitmap.getHeight();
+        
+        double mc = 0;
+        for (int i = 0, k = height; i < k; i++) {
+            for (int j = 0, l = width; j < l; j++) {
+                mc += Math.pow((i - centroid.x), p) * Math.pow((j - centroid.y), q) * fastBitmap.getGray(i, j);
+            }
+        }
+        return mc;
+    }
+    
+    /**
      * Compute centroid components.
      * @param fastBitmap Image.
      * @return Centroid.
@@ -110,9 +132,9 @@ public final class ImageMoments {
      * @return Covariance.
      */
     public static double getCovarianceXY(FastBitmap fastBitmap, int p, int q) {
-            double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
-            double mc11 = ImageMoments.getCentralMoment(fastBitmap, 1, 1);
-            return mc11 / mc00;
+        double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
+        double mc11 = ImageMoments.getCentralMoment(fastBitmap, 1, 1);
+        return mc11 / mc00;
     }
 
     /**
@@ -123,9 +145,9 @@ public final class ImageMoments {
      * @return Variance X.
      */
     public static double getVarianceX(FastBitmap fastBitmap, int p, int q) {
-            double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
-            double mc20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
-            return mc20 / mc00;
+        double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
+        double mc20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
+        return mc20 / mc00;
     }
 
     /**
@@ -136,9 +158,9 @@ public final class ImageMoments {
      * @return Variace Y.
      */
     public static double getVarianceY(FastBitmap fastBitmap, int p, int q) {
-            double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
-            double mc02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
-            return mc02 / mc00;
+        double mc00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
+        double mc02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        return mc02 / mc00;
     }
     
     /**
@@ -147,9 +169,10 @@ public final class ImageMoments {
      * @return Orientation from the image.
      */
     public static double getOrientation(FastBitmap fastBitmap){
-        double cm11 = ImageMoments.getCentralMoment(fastBitmap, 1, 1);
-        double cm20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
-        double cm02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        DoublePoint centroid = getCentroid(fastBitmap);
+        double cm11 = ImageMoments.getCentralMoment(fastBitmap, 1, 1, centroid);
+        double cm20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0, centroid);
+        double cm02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2, centroid);
         
         return 0.5 * Math.atan((2 * cm11) / (cm20 - cm02));
     }
@@ -164,6 +187,24 @@ public final class ImageMoments {
         double u03 = ImageMoments.getCentralMoment(fastBitmap, 0, 3);
         double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
         double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
+        
+        double skx = u30 / Math.pow(u20, 1.5);
+        double sky = u03 / Math.pow(u02, 1.5);
+        
+        return new DoublePoint(skx, sky);
+    }
+    
+    /**
+     * Compute projection skewness.
+     * @param fastBitmap Image.
+     * @param centroid Centroid.
+     * @return Projection skewness.
+     */
+    public static DoublePoint getProjectionSkewness(FastBitmap fastBitmap, DoublePoint centroid){
+        double u30 = ImageMoments.getCentralMoment(fastBitmap, 3, 0, centroid);
+        double u03 = ImageMoments.getCentralMoment(fastBitmap, 0, 3, centroid);
+        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0, centroid);
+        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2, centroid);
         
         double skx = u30 / Math.pow(u20, 1.5);
         double sky = u03 / Math.pow(u02, 1.5);
@@ -189,6 +230,24 @@ public final class ImageMoments {
     }
     
     /**
+     * Compute projection kurtosis.
+     * @param fastBitmap Image.
+     * @param centroid Centroid.
+     * @return Projection kurtorsis.
+     */
+    public static DoublePoint getProjectionKurtosis(FastBitmap fastBitmap, DoublePoint centroid){
+        double u40 = ImageMoments.getCentralMoment(fastBitmap, 4, 0, centroid);
+        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0, centroid);
+        double u04 = ImageMoments.getCentralMoment(fastBitmap, 0, 4, centroid);
+        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2, centroid);
+        
+        double skx = (u40 / Math.pow(u20, 2)) - 3;
+        double sky = (u04 / Math.pow(u02, 2)) - 3;
+        
+        return new DoublePoint(skx, sky);
+    }
+    
+    /**
      * Normalized Central Moment.
      * @param fastBitmap Image.
      * @param p Order p.
@@ -196,10 +255,26 @@ public final class ImageMoments {
      * @return Normalized central moment.
      */
     public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q) {
-            double gama = ((p + q) / 2) + 1;
-            double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
-            double m00gama = Math.pow(mpq, gama);
-            return mpq / m00gama;
+        double gama = ((p + q) / 2) + 1;
+        double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
+        double m00gama = Math.pow(mpq, gama);
+        return mpq / m00gama;
+    }
+    
+    /**
+     * Normalized Central Moment.
+     * @param fastBitmap Image.
+     * @param p Order p.
+     * @param q Order q.
+     * @param centroid Centroid.
+     * @return Normalized central moment.
+     */
+    public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q, DoublePoint centroid) {
+        double gama = ((p + q) / 2) + 1;
+        double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q, centroid);
+        double m00gama = Math.pow(mpq, gama);
+        m00gama = m00gama == 0 ? 1 : m00gama;
+        return mpq / m00gama;
     }
     
     /**
