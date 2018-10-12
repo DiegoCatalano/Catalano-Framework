@@ -78,9 +78,8 @@ public class HuMoments {
         
         double[] moments = new double[8];
         
-        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
-        
         double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
+        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap, m00);
 
         double n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid, m00);
         double n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid, m00);
@@ -158,9 +157,8 @@ public class HuMoments {
         
         double result = 0.0;
         
-        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
-        
         double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
+        DoublePoint centroid = ImageMoments.getCentroid(fastBitmap, m00);
 
         double
         n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid, m00),

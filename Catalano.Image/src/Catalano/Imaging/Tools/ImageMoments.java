@@ -73,19 +73,8 @@ public final class ImageMoments {
      * @return Central moment.
      */
     public static double getCentralMoment(FastBitmap fastBitmap, int p, int q) {
-        
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        
         DoublePoint centroid = getCentroid(fastBitmap);
-        
-        double mc = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                mc += Math.pow((i - centroid.x), p) * Math.pow((j - centroid.y), q) * fastBitmap.getGray(i, j);
-            }
-        }
-        return mc;
+        return getCentralMoment(fastBitmap, p, q, centroid);
     }
     
     /**
@@ -117,6 +106,16 @@ public final class ImageMoments {
      */
     public static DoublePoint getCentroid(FastBitmap fastBitmap){
         double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
+        return getCentroid(fastBitmap, m00);
+    }
+    
+    /**
+     * Compute centroid components.
+     * @param fastBitmap Image.
+     * @param m00 M00.
+     * @return Centroid.
+     */
+    public static DoublePoint getCentroid(FastBitmap fastBitmap, double m00){
         double m10 = ImageMoments.getRawMoment(fastBitmap, 1, 0);
         double m01 = ImageMoments.getRawMoment(fastBitmap, 0, 1);
         double x0 = m10 / m00;
@@ -183,15 +182,8 @@ public final class ImageMoments {
      * @return Projection skewness.
      */
     public static DoublePoint getProjectionSkewness(FastBitmap fastBitmap){
-        double u30 = ImageMoments.getCentralMoment(fastBitmap, 3, 0);
-        double u03 = ImageMoments.getCentralMoment(fastBitmap, 0, 3);
-        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
-        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
-        
-        double skx = u30 / Math.pow(u20, 1.5);
-        double sky = u03 / Math.pow(u02, 1.5);
-        
-        return new DoublePoint(skx, sky);
+        DoublePoint centroid = getCentroid(fastBitmap);
+        return getProjectionSkewness(fastBitmap, centroid);
     }
     
     /**
@@ -218,15 +210,8 @@ public final class ImageMoments {
      * @return Projection kurtorsis.
      */
     public static DoublePoint getProjectionKurtosis(FastBitmap fastBitmap){
-        double u40 = ImageMoments.getCentralMoment(fastBitmap, 4, 0);
-        double u20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0);
-        double u04 = ImageMoments.getCentralMoment(fastBitmap, 0, 4);
-        double u02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2);
-        
-        double skx = (u40 / Math.pow(u20, 2)) - 3;
-        double sky = (u04 / Math.pow(u02, 2)) - 3;
-        
-        return new DoublePoint(skx, sky);
+        DoublePoint centroid = getCentroid(fastBitmap);
+        return getProjectionKurtosis(fastBitmap, centroid);
     }
     
     /**
@@ -255,12 +240,9 @@ public final class ImageMoments {
      * @return Normalized central moment.
      */
     public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q) {
-        double gama = ((p + q) / 2) + 1;
         double m00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
-        double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
-        double m00gama = Math.pow(m00, gama);
-        if(m00gama == 0) return 0;
-        return mpq / m00gama;
+        DoublePoint centroid = getCentroid(fastBitmap, m00);
+        return getNormalizedCentralMoment(fastBitmap, p, q, centroid, m00);
     }
     
     /**
