@@ -57,10 +57,10 @@ public final class ImageMoments {
         int height = fastBitmap.getHeight();
         
         double m = 0;
-        for (int i = 0, k = height; i < k; i++) {
-                for (int j = 0, l = width; j < l; j++) {
-                    m += Math.pow(i, p) * Math.pow(j, q) * fastBitmap.getGray(i, j);
-                }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                m += Math.pow(i, p) * Math.pow(j, q) * fastBitmap.getGray(i, j);
+            }
         }
         return m;
     }
@@ -80,10 +80,10 @@ public final class ImageMoments {
         DoublePoint centroid = getCentroid(fastBitmap);
         
         double mc = 0;
-        for (int i = 0, k = height; i < k; i++) {
-                for (int j = 0, l = width; j < l; j++) {
-                    mc += Math.pow((i - centroid.x), p) * Math.pow((j - centroid.y), q) * fastBitmap.getGray(i, j);
-                }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mc += Math.pow((i - centroid.x), p) * Math.pow((j - centroid.y), q) * fastBitmap.getGray(i, j);
+            }
         }
         return mc;
     }
@@ -102,8 +102,8 @@ public final class ImageMoments {
         int height = fastBitmap.getHeight();
         
         double mc = 0;
-        for (int i = 0, k = height; i < k; i++) {
-            for (int j = 0, l = width; j < l; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 mc += Math.pow((i - centroid.x), p) * Math.pow((j - centroid.y), q) * fastBitmap.getGray(i, j);
             }
         }
@@ -256,8 +256,10 @@ public final class ImageMoments {
      */
     public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q) {
         double gama = ((p + q) / 2) + 1;
+        double m00 = ImageMoments.getCentralMoment(fastBitmap, 0, 0);
         double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q);
-        double m00gama = Math.pow(mpq, gama);
+        double m00gama = Math.pow(m00, gama);
+        if(m00gama == 0) return 0;
         return mpq / m00gama;
     }
     
@@ -267,13 +269,14 @@ public final class ImageMoments {
      * @param p Order p.
      * @param q Order q.
      * @param centroid Centroid.
+     * @param m00 M00 moment value.
      * @return Normalized central moment.
      */
-    public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q, DoublePoint centroid) {
+    public static double getNormalizedCentralMoment(FastBitmap fastBitmap, int p, int q, DoublePoint centroid, double m00) {
         double gama = ((p + q) / 2) + 1;
         double mpq = ImageMoments.getCentralMoment(fastBitmap, p, q, centroid);
-        double m00gama = Math.pow(mpq, gama);
-        m00gama = m00gama == 0 ? 1 : m00gama;
+        double m00gama = Math.pow(m00, gama);
+        if(m00gama == 0) return 0;
         return mpq / m00gama;
     }
     

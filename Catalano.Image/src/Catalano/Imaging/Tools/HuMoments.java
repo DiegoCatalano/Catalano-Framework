@@ -36,10 +36,38 @@ import Catalano.Imaging.FastBitmap;
  */
 public class HuMoments {
     
+    private boolean normalize;
+
+    /**
+     * Check if the moments are normalized.
+     * @return Check if the moments are normalized.
+     */
+    public boolean isNormalize() {
+        return normalize;
+    }
+
+    /**
+     * Normalize the moments.
+     * @param normalize True if needs to normalize the moments, otherwise return false.
+     */
+    public void setNormalize(boolean normalize) {
+        this.normalize = normalize;
+    }
+    
     /**
      * Initialize a new instance of the HuMoments class.
      */
-    public HuMoments(){};
+    public HuMoments(){
+        this(false);
+    };
+
+    /**
+     * Initialize a new instance of the HuMoments class.
+     * @param normalize Normalize.
+     */
+    public HuMoments(boolean normalize) {
+        this.normalize = normalize;
+    }
     
     /**
      * Compute Hu moments.
@@ -51,21 +79,22 @@ public class HuMoments {
         double[] moments = new double[8];
         
         DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
+        
+        double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
 
-        double
-        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid),
-        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid),
-        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid),
-        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid),
-        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid),
-        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid),
-        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid);
+        double n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid, m00);
+        double n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid, m00);
+        double n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid, m00);
+        double n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid, m00);
+        double n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid, m00);
+        double n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid, m00);
+        double n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid, m00);
         
         //First moment
         moments[0] = n20 + n02;
         
         //Second moment
-        moments[1] = Math.pow((n20 - n02), 2) + 4 * Math.pow(n11, 2);
+        moments[1] = Math.pow(n20 - n02, 2) + (4 * Math.pow(n11, 2));
         
         //Third moment
         moments[2] = Math.pow(n30 - (3 * (n12)), 2)
@@ -95,6 +124,12 @@ public class HuMoments {
         moments[7] = n11 * (Math.pow((n30 + n12), 2) - Math.pow((n03 + n21), 2))
                          - (n20 - n02) * (n30 + n12) * (n03 + n21);
         
+        //Normalize
+        if(normalize){
+            for (int i = 0; i < moments.length; i++) {
+                moments[i] = Math.signum(moments[i]) * Math.log10(Math.abs(moments[i]));
+            }
+        }
         
         return moments;
     }
@@ -106,6 +141,17 @@ public class HuMoments {
      * @return Hu moment.
      */
     public static double getHuMoment (FastBitmap fastBitmap, int n) {
+        return getHuMoment(fastBitmap, n, false);
+    }
+    
+    /**
+     * Compute Hu moment.
+     * @param fastBitmap Image.
+     * @param n Invariant Moment. [1..8].
+     * @param normalize Normalize.
+     * @return Hu moment.
+     */
+    public static double getHuMoment(FastBitmap fastBitmap, int n, boolean normalize){
         
         //Ensures the values are in the range [1..8].
         n = Math.min(8, Math.max(1, n));
@@ -113,15 +159,17 @@ public class HuMoments {
         double result = 0.0;
         
         DoublePoint centroid = ImageMoments.getCentroid(fastBitmap);
+        
+        double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
 
         double
-        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid),
-        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid),
-        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid),
-        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid),
-        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid),
-        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid),
-        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid);
+        n20 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 0, centroid, m00),
+        n02 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 2, centroid, m00),
+        n30 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 3, 0, centroid, m00),
+        n12 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 2, centroid, m00),
+        n21 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 2, 1, centroid, m00),
+        n03 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 0, 3, centroid, m00),
+        n11 = ImageMoments.getNormalizedCentralMoment(fastBitmap, 1, 1, centroid, m00);
 
         switch (n) {
         case 1:
@@ -162,6 +210,9 @@ public class HuMoments {
         default:
             throw new IllegalArgumentException("Invalid number for Hu moment.");
         }
+        
+        //Normalize
+        if(normalize) result = Math.signum(result) * Math.log10(Math.abs(result));
         
         return result;
     }
