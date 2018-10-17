@@ -32,11 +32,21 @@ import Catalano.Imaging.FastBitmap;
  * @author Diego Catalano
  */
 public class MaitraMoments {
+    
+    private boolean normalize;
 
     /**
      * Initialize a new instance of the MaitraMoments class.
      */
     public MaitraMoments() {}
+
+    /**
+     * Initialize a new instance of the MaitraMoments class.
+     * @param normalize Normalize by log.
+     */
+    public MaitraMoments(boolean normalize) {
+        this.normalize = normalize;
+    }
     
     /**
      * Compute Maitra moments.
@@ -57,6 +67,13 @@ public class MaitraMoments {
         result[3] = Math.sqrt(m[4]) / m[3];
         result[4] = m[5] / (m[3] * m[0]);
         result[5] = m[6] / m[4];
+        
+        //Normalize by log
+        if(normalize){
+            for (int i = 0; i < result.length; i++) {
+                result[i] = Math.signum(result[i]) * Math.log10(Math.abs(result[i]) + 1);
+            }
+        }
         
         return result;
     }

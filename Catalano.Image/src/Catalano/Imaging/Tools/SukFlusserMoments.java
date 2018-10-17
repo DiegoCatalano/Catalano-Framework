@@ -25,8 +25,8 @@
 
 package Catalano.Imaging.Tools;
 
+import Catalano.Core.DoublePoint;
 import Catalano.Imaging.FastBitmap;
-import java.util.ArrayList;
 
 /**
  * Combined Blur and Affine Moment Invariants.
@@ -34,71 +34,88 @@ import java.util.ArrayList;
  * Link: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.85.7431&rep=rep1&type=pdf
  * @author Diego Catalano
  */
-public class FlusserSukMoments {
+public class SukFlusserMoments {
+    
+    private boolean normalize;
 
     /**
-     * Initialize a new instance of the FlusserSukMoments class.
+     * Check if the moments are normalized.
+     * @return True if the moments are normalized, otherwise false.
      */
-    public FlusserSukMoments() {}
+    public boolean isNormalize() {
+        return normalize;
+    }
+
+    /**
+     * Set if the moments needs to be normalized by log.
+     * @param normalize Normalize.
+     */
+    public void setNormalize(boolean normalize) {
+        this.normalize = normalize;
+    }
+
+    /**
+     * Initialize a new instance of the SukFlusserMoments class.
+     */
+    public SukFlusserMoments() {
+        this(false);
+    }
+
+    /**
+     * Initialize a new instance of the SukFlusserMoments class.
+     * @param normalize Normalize by log scale.
+     */
+    public SukFlusserMoments(boolean normalize) {
+        this.normalize = normalize;
+    }
     
     /**
      * Compute Blur and Affine moment invariants.
      * @param fastBitmap Image to be processed.
      * @return 6 Moments.
      */
-    public double[] Compute(FastBitmap fastBitmap){
+     public double[] Compute(FastBitmap fastBitmap){
         
         if(fastBitmap.isGrayscale()){
-            int width = fastBitmap.getWidth();
-            int height = fastBitmap.getHeight();
 
-            ArrayList<Integer> i = new ArrayList<Integer>();
-            ArrayList<Integer> j = new ArrayList<Integer>();
-            FindNonZero(fastBitmap, width, height, i, j);
-
-            double[] x = Convert(i);
-            double[] y = Convert(j);
-
-            double m00 = Sum(fastBitmap, width, height);
-
-            x = Normalize(x, fastBitmap, width, height, m00);
-            y = Normalize(y, fastBitmap, width, height, m00);
+            double m00 = ImageMoments.getRawMoment(fastBitmap, 0, 0);
+            DoublePoint centroid = ImageMoments.getCentroid(fastBitmap, m00);
 
             // Second order central moments
-            double m20 = CentralMoments(x, y, 2, 0, fastBitmap, width, height);
-            double m02 = CentralMoments(x, y, 0, 2, fastBitmap, width, height);
-            double m11 = CentralMoments(x, y, 1, 1, fastBitmap, width, height);
+            double m20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0, centroid);
+            double m02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2, centroid);
+            double m11 = ImageMoments.getCentralMoment(fastBitmap, 1, 1, centroid);
 
             // Third order central moments
-            double m30 = CentralMoments(x, y, 3, 0, fastBitmap, width, height);
-            double m03 = CentralMoments(x, y, 0, 3, fastBitmap, width, height);
-            double m21 = CentralMoments(x, y, 2, 1, fastBitmap, width, height);
-            double m12 = CentralMoments(x, y, 1, 2, fastBitmap, width, height);
+            double m30 = ImageMoments.getCentralMoment(fastBitmap, 3, 0, centroid);
+            double m03 = ImageMoments.getCentralMoment(fastBitmap, 0, 3, centroid);
+            double m21 = ImageMoments.getCentralMoment(fastBitmap, 2, 1, centroid);
+            double m12 = ImageMoments.getCentralMoment(fastBitmap, 1, 2, centroid);
 
             // Fouth order central moments
-            double m40 = CentralMoments(x, y, 4, 0, fastBitmap, width, height);
-            double m04 = CentralMoments(x, y, 0, 4, fastBitmap, width, height);
-            double m31 = CentralMoments(x, y, 3, 1, fastBitmap, width, height);
-            double m13 = CentralMoments(x, y, 1, 3, fastBitmap, width, height);
-            double m22 = CentralMoments(x, y, 2, 2, fastBitmap, width, height);
+            double m40 = ImageMoments.getCentralMoment(fastBitmap, 4, 0, centroid);
+            double m04 = ImageMoments.getCentralMoment(fastBitmap, 0, 4, centroid);
+            double m31 = ImageMoments.getCentralMoment(fastBitmap, 3, 1, centroid);
+            double m13 = ImageMoments.getCentralMoment(fastBitmap, 1, 3, centroid);
+            double m22 = ImageMoments.getCentralMoment(fastBitmap, 2, 2, centroid);
 
             // Fifth order central moments
-            double m50 = CentralMoments(x, y, 5, 0, fastBitmap, width, height);
-            double m05 = CentralMoments(x, y, 0, 5, fastBitmap, width, height);
-            double m41 = CentralMoments(x, y, 4, 1, fastBitmap, width, height);
-            double m14 = CentralMoments(x, y, 1, 4, fastBitmap, width, height);
-            double m32 = CentralMoments(x, y, 3, 2, fastBitmap, width, height);
-            double m23 = CentralMoments(x, y, 2, 3, fastBitmap, width, height);
+            double m50 = ImageMoments.getCentralMoment(fastBitmap, 5, 0, centroid);
+            double m05 = ImageMoments.getCentralMoment(fastBitmap, 0, 5, centroid);
+            double m41 = ImageMoments.getCentralMoment(fastBitmap, 4, 1, centroid);
+            double m14 = ImageMoments.getCentralMoment(fastBitmap, 1, 4, centroid);
+            double m32 = ImageMoments.getCentralMoment(fastBitmap, 3, 2, centroid);
+            double m23 = ImageMoments.getCentralMoment(fastBitmap, 2, 3, centroid);
 
             // Seventh order central moments
-            double m70 = CentralMoments(x, y, 7, 0, fastBitmap, width, height);
-            double m07 = CentralMoments(x, y, 0, 7, fastBitmap, width, height);
-            double m16 = CentralMoments(x, y, 1, 6, fastBitmap, width, height);
-            double m61 = CentralMoments(x, y, 6, 1, fastBitmap, width, height);
-            double m52 = CentralMoments(x, y, 5, 2, fastBitmap, width, height);
-            double m25 = CentralMoments(x, y, 2, 5, fastBitmap, width, height);
-            double m43 = CentralMoments(x, y, 4, 3, fastBitmap, width, height);
-            double m34 = CentralMoments(x, y, 3, 4, fastBitmap, width, height);
+            double m70 = ImageMoments.getCentralMoment(fastBitmap, 7, 0, centroid);
+            double m07 = ImageMoments.getCentralMoment(fastBitmap, 0, 7, centroid);
+            double m16 = ImageMoments.getCentralMoment(fastBitmap, 1, 6, centroid);
+            double m61 = ImageMoments.getCentralMoment(fastBitmap, 6, 1, centroid);
+            double m52 = ImageMoments.getCentralMoment(fastBitmap, 5, 2, centroid);
+            double m25 = ImageMoments.getCentralMoment(fastBitmap, 2, 5, centroid);
+            double m43 = ImageMoments.getCentralMoment(fastBitmap, 4, 3, centroid);
+            double m34 = ImageMoments.getCentralMoment(fastBitmap, 3, 4, centroid);
 
             // For blur invariance we recompute certain values
             m50 = m50 - (10*m30*m20/m00);
@@ -175,83 +192,18 @@ public class FlusserSukMoments {
             moments[3] = I4;
             moments[4] = I5;
             moments[5] = I6;
+            
+            //Normalize by log
+            if(normalize){
+                for (int i = 0; i < moments.length; i++) {
+                    moments[i] = Math.signum(moments[i]) * Math.log10(Math.abs(moments[i]) + 1);
+                }
+            }
 
             return moments;
         }
         else{
             throw new IllegalArgumentException("Suk Flusser Moments only works with grayscale images.");
         }
-        
-    }
-    
-    private void FindNonZero(FastBitmap fb, int width, int height, ArrayList<Integer> x, ArrayList<Integer> y){
-        
-        for (int j = 0; j < width; j++) {
-            for (int i = 0; i < height; i++) {
-                if(fb.getGray(i, j) > 0){
-                    x.add(i+1);
-                    y.add(j+1);
-                }
-            }
-        }
-    }
-    
-    private double[] Convert(ArrayList<Integer> lst){
-        
-        double[] val = new double[lst.size()];
-        for (int i = 0; i < lst.size(); i++) {
-            val[i] = lst.get(i);
-        }
-        return val;
-    }
-    
-    private double Sum(FastBitmap fb, int width, int height){
-        
-        double sum = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                sum += fb.getGray(i, j);
-            }
-        }
-        return sum;
-        
-    }
-    
-    private double[] Normalize(double[] val, FastBitmap fb, int width, int height, double m00){
-        
-        double sum = 0;
-        int k = 0;
-        for (int j = 0; j < width; j++) {
-            for (int i = 0; i < height; i++) {
-                if(fb.getGray(i, j) > 0){
-                    sum += val[k] * fb.getGray(i, j);
-                    k++;
-                }
-            }
-        }
-        
-        for (int i = 0; i < val.length; i++) {
-            val[i] -= sum/m00;
-        }
-        
-        return val;
-        
-    }
-    
-    private double CentralMoments(double[] x, double[] y, int p, int q, FastBitmap fb, int width, int height){
-        
-        double sum = 0;
-        int k = 0;
-        for (int j = 0; j < width; j++) {
-            for (int i = 0; i < height; i++) {
-                if(fb.getGray(i, j) > 0){
-                    int g = fb.getGray(i, j);
-                    sum += (Math.pow(x[k], p) * Math.pow(y[k], q) * fb.getGray(i, j));
-                    k++;
-                }
-            }
-        }
-        
-        return sum;
     }
 }

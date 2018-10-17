@@ -173,7 +173,7 @@ public final class ImageMoments {
         double cm20 = ImageMoments.getCentralMoment(fastBitmap, 2, 0, centroid);
         double cm02 = ImageMoments.getCentralMoment(fastBitmap, 0, 2, centroid);
         
-        return 0.5 * Math.atan((2 * cm11) / (cm20 - cm02));
+        return 0.5 * Math.atan2(cm20 - cm02, 2 * cm11);
     }
     
     /**
