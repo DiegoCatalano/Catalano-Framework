@@ -39,9 +39,7 @@ public class FlatAnglesOptimizer implements IShapeOptimizer{
      * Initializes a new instance of the <see cref="FlatAnglesOptimizer"/> class.
      * <para>Default value is set to <b>160</b>.
      */
-    public FlatAnglesOptimizer() {
-        
-    }
+    public FlatAnglesOptimizer() {}
     
     /**
      * Initializes a new instance of the <see cref="FlatAnglesOptimizer"/> class.
@@ -70,16 +68,15 @@ public class FlatAnglesOptimizer implements IShapeOptimizer{
 
     @Override
     public List<IntPoint> OptimizeShape(List<IntPoint> shape) {
+        
             // optimized shape
             ArrayList<IntPoint> optimizedShape = new ArrayList<IntPoint>( );
 
-            if ( shape.size() <= 3 )
-            {
+            if ( shape.size() <= 3 ){
                 // do nothing if shape has 3 points or less
                 optimizedShape.addAll(shape);
             }
-            else
-            {
+            else{
                 float angle = 0;
 
                 // add first 2 points to the new shape
@@ -97,8 +94,7 @@ public class FlatAnglesOptimizer implements IShapeOptimizer{
                         optimizedShape.get(pointsInOptimizedHull - 3), optimizedShape.get(pointsInOptimizedHull - 1) );
 
                     if ( ( angle > maxAngleToKeep ) &&
-                         ( ( pointsInOptimizedHull > 3 ) || ( i < n - 1 ) ) )
-                    {
+                         ( ( pointsInOptimizedHull > 3 ) || ( i < n - 1 ) ) ){
                         // remove the next to last point
                         optimizedShape.remove(pointsInOptimizedHull - 2);
                         pointsInOptimizedHull--;
@@ -110,25 +106,22 @@ public class FlatAnglesOptimizer implements IShapeOptimizer{
                     angle = GeometryTools.GetAngleBetweenVectors( optimizedShape.get(pointsInOptimizedHull - 1),
                         optimizedShape.get(pointsInOptimizedHull - 2), optimizedShape.get(0) );
 
-                    if ( angle > maxAngleToKeep )
-                    {
+                    if ( angle > maxAngleToKeep ){
                         optimizedShape.remove( pointsInOptimizedHull - 1 );
                         pointsInOptimizedHull--;
                     }
 
-                    if ( pointsInOptimizedHull > 3 )
-                    {
+                    if ( pointsInOptimizedHull > 3 ){
                         // check the first point
                         angle = GeometryTools.GetAngleBetweenVectors( optimizedShape.get(0),
                             optimizedShape.get(pointsInOptimizedHull - 1), optimizedShape.get(1) );
 
                         if ( angle > maxAngleToKeep )
-                        {
                             optimizedShape.remove( 0 );
-                        }
+                        
                     }
                 }
             }
-            return optimizedShape;
+        return optimizedShape;
     }
 }

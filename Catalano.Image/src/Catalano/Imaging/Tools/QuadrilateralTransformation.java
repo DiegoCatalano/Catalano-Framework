@@ -170,9 +170,21 @@ public class QuadrilateralTransformation implements IProcessImage{
         dstRect.add( new IntPoint( dstWidth - 1, 0 ) );
         dstRect.add( new IntPoint( dstWidth - 1, dstHeight - 1 ) );
         dstRect.add( new IntPoint( 0, dstHeight - 1 ) );
+        
+        if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+            for (IntPoint p : sourceQuadrilateral) {
+                p.Swap();
+            }
+        }
 
         // calculate tranformation matrix
         double[][] matrix = QuadrilateralTransformationCalc.MapQuadToQuad( dstRect, sourceQuadrilateral );
+        
+        if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+            for (IntPoint p : sourceQuadrilateral) {
+                p.Swap();
+            }
+        }
         
         if(!useInterpolation){
             if (fastBitmap.isRGB()){
