@@ -7,6 +7,7 @@ package Catalano.Math.Geometry;
 import Catalano.Core.FloatPoint;
 import Catalano.Core.IntPoint;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -34,9 +35,9 @@ public final class PointsCloud {
      * @param cloud Collection of points to get bounding rectangle for.
      * @return Bounding rectangle.
      */
-    public static ArrayList<IntPoint> GetBoundingRectangle( ArrayList<IntPoint> cloud){
+    public static List<IntPoint> GetBoundingRectangle( List<IntPoint> cloud){
         
-        ArrayList<IntPoint> bound = new ArrayList<IntPoint>();
+        List<IntPoint> bound = new ArrayList<IntPoint>();
         
         int minX = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
@@ -90,7 +91,7 @@ public final class PointsCloud {
         return new FloatPoint( xSum, ySum );
     }
     
-    public static FurthestPoint GetFurthestPoint( ArrayList<IntPoint> cloud, IntPoint referencePoint ){
+    public static FurthestPoint GetFurthestPoint( List<IntPoint> cloud, IntPoint referencePoint ){
         FurthestPoint furthestPoint = new FurthestPoint();
         float maxDistance = -1;
 
@@ -117,7 +118,7 @@ public final class PointsCloud {
         return furthestPoint;
     }
     
-    public static FurthestPoint[] GetFurthestPointsFromLine( ArrayList<IntPoint> cloud, IntPoint linePoint1, IntPoint linePoint2 ){
+    public static FurthestPoint[] GetFurthestPointsFromLine( List<IntPoint> cloud, IntPoint linePoint1, IntPoint linePoint2 ){
         
         FurthestPoint[] furthest = new FurthestPoint[2];
         furthest[0] = new FurthestPoint(linePoint1);
@@ -218,13 +219,13 @@ public final class PointsCloud {
         quadrilateralRelativeDistortionLimit = Math.max( 0.0f, Math.min( 0.25f, value ) );
     }
     
-    public static ArrayList<IntPoint> FindQuadrilateralCorners( ArrayList<IntPoint> cloud ) {
+    public static List<IntPoint> FindQuadrilateralCorners( List<IntPoint> cloud ) {
         // quadrilateral's corners
-        ArrayList<IntPoint> corners = new ArrayList<IntPoint>( );
+        List<IntPoint> corners = new ArrayList<IntPoint>( );
 
         // get bounding rectangle of the points list
         IntPoint minXY, maxXY;
-        ArrayList<IntPoint> bounds = PointsCloud.GetBoundingRectangle( cloud );
+        List<IntPoint> bounds = PointsCloud.GetBoundingRectangle( cloud );
         minXY = bounds.get(0);
         maxXY = bounds.get(1);
         // get cloud's size

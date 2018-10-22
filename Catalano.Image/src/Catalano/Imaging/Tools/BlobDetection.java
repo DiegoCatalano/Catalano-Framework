@@ -248,7 +248,7 @@ public class BlobDetection {
                     }
                     
                     //Discover width, height and bounding box using Point Cloud
-                    ArrayList<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
+                    List<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
                     int h = Math.abs(lst.get(0).x - lst.get(1).x);
                     int w = Math.abs(lst.get(0).y - lst.get(1).y);
                 
@@ -264,7 +264,7 @@ public class BlobDetection {
             }
             
             //Discover width, height and bounding box using Point Cloud
-            ArrayList<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
+            List<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
             int h = Math.abs(lst.get(0).x - lst.get(1).x);
             int w = Math.abs(lst.get(0).y - lst.get(1).y);
             
