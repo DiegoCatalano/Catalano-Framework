@@ -49,6 +49,17 @@ public class DyadicMap implements IChaoticFunction{
         }
         
         return 2*x - 1;
+    }
+    
+    @Override
+    public double[] Generate(double initialState, int iterations) {
+        double[] map = new double[iterations];
+        map[0] = initialState;
         
+        for (int i = 1; i < iterations; i++) {
+            map[i] = Generate(map[i - 1]);
+        }
+        
+        return map;
     }
 }

@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -22,41 +22,38 @@
 
 package Catalano.Math.Functions.Chaotic;
 
+import Catalano.Math.Tools;
+
 /**
- * Tent map.
+ * Iterative map.
  * @author Diego Catalano
  */
-public class TentMap implements IChaoticFunction{
-    
-    private double u;
-    private double threshold;
+public class IterativeMap implements IChaoticFunction{
 
+    private double a;
+    
     /**
-     * Initialize a new instance of the TentMap class.
+     * Initialize a new instance of the IterativeMap class.
      */
-    public TentMap() {
-        this(1.5, 0.5);
+    public IterativeMap() {
+        this(0.7);
     }
 
     /**
-     * Initialize a new instance of the TentMap class.
-     * @param u Parameter u.
-     * @param threshold Threshold.
+     * Initialize a new instance of the IterativeMap class.
+     * @param a Alfa.
      */
-    public TentMap(double u, double threshold) {
-        this.u = u;
-        this.threshold = threshold;
+    public IterativeMap(double a) {
+        this.a = a;
     }
 
     @Override
     public double Generate(double x) {
         
-        if(x < threshold)
-            return u*x;
-        
-        return u * (1 - x);
+        double r = Math.sin((a*Math.PI)/x);
+        return Tools.Scale(-1, 1, 0, 1, r);
     }
-    
+
     @Override
     public double[] Generate(double initialState, int iterations) {
         double[] map = new double[iterations];

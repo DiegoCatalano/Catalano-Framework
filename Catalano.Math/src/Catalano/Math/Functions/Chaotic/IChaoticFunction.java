@@ -34,4 +34,12 @@ public interface IChaoticFunction {
      * @return Value.
      */
     public double Generate(double x);
+    
+    /**
+     * Generate a map from the chaotic function.
+     * @param initialState Initial state (value).
+     * @param iterations Number of iterations.
+     * @return Chaotic map.
+     */
+    public double[] Generate(double initialState, int iterations);
 }

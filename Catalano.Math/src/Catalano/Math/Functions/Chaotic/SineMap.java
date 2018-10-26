@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -49,6 +49,18 @@ public class SineMap implements IChaoticFunction{
     public double Generate(double x) {
         
         return u * Math.sin(Math.PI * x);
+    }
+    
+    @Override
+    public double[] Generate(double initialState, int iterations) {
         
+        double[] map = new double[iterations];
+        map[0] = initialState;
+        
+        for (int i = 1; i < iterations; i++) {
+            map[i] = Generate(map[i - 1]);
+        }
+        
+        return map;
     }
 }

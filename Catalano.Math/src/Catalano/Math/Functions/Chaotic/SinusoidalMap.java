@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -23,40 +23,22 @@
 package Catalano.Math.Functions.Chaotic;
 
 /**
- * Tent map.
+ * Sinusoidal map.
  * @author Diego Catalano
  */
-public class TentMap implements IChaoticFunction{
-    
-    private double u;
-    private double threshold;
+public class SinusoidalMap implements IChaoticFunction{
 
     /**
-     * Initialize a new instance of the TentMap class.
+     * Initialize a new instance of the SinusoidalMap class.
      */
-    public TentMap() {
-        this(1.5, 0.5);
-    }
-
-    /**
-     * Initialize a new instance of the TentMap class.
-     * @param u Parameter u.
-     * @param threshold Threshold.
-     */
-    public TentMap(double u, double threshold) {
-        this.u = u;
-        this.threshold = threshold;
-    }
+    public SinusoidalMap() {}
 
     @Override
     public double Generate(double x) {
         
-        if(x < threshold)
-            return u*x;
-        
-        return u * (1 - x);
+        return 2.3*(x*x)*Math.sin(Math.PI*x);   
     }
-    
+
     @Override
     public double[] Generate(double initialState, int iterations) {
         double[] map = new double[iterations];

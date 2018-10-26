@@ -49,4 +49,16 @@ public class LogisticMap implements IChaoticFunction{
     public double Generate(double x) {
         return r * x * (1 - x);
     }
+    
+    @Override
+    public double[] Generate(double initialState, int iterations) {
+        double[] map = new double[iterations];
+        map[0] = initialState;
+        
+        for (int i = 1; i < iterations; i++) {
+            map[i] = Generate(map[i - 1]);
+        }
+        
+        return map;
+    }
 }

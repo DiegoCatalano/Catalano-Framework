@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -23,40 +23,34 @@
 package Catalano.Math.Functions.Chaotic;
 
 /**
- * Tent map.
+ * Singer map.
  * @author Diego Catalano
  */
-public class TentMap implements IChaoticFunction{
+public class SingerMap implements IChaoticFunction{
     
     private double u;
-    private double threshold;
 
     /**
-     * Initialize a new instance of the TentMap class.
+     * Initialize a new instance of the SingerMap class.
      */
-    public TentMap() {
-        this(1.5, 0.5);
+    public SingerMap() {
+        this(1.07);
     }
 
     /**
-     * Initialize a new instance of the TentMap class.
-     * @param u Parameter u.
-     * @param threshold Threshold.
+     * Initialize a new instance of the SingerMap class.
+     * @param u Coefficient.
      */
-    public TentMap(double u, double threshold) {
+    public SingerMap(double u) {
         this.u = u;
-        this.threshold = threshold;
     }
 
     @Override
     public double Generate(double x) {
         
-        if(x < threshold)
-            return u*x;
-        
-        return u * (1 - x);
+        return u*(7.86*x-23.31*(x*x)+28.75*(x*x*x)-13.302875*(x*x*x*x));
     }
-    
+
     @Override
     public double[] Generate(double initialState, int iterations) {
         double[] map = new double[iterations];
