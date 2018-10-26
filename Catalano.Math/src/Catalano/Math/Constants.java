@@ -73,6 +73,12 @@ public final class Constants {
     public final static double DoubleEpsilon2 = 4.94065645841247E-324;
     
     /**
+     * Double-PI.
+     * 2*PI
+     */
+    public final static double DoublePI = 6.283185307179586476925286766559;
+    
+    /**
      * Complementary Golden ratio.
      */
     public final static double ComplementaryGoldenRatio = 0.3819660112501051517954131;
