@@ -48,7 +48,7 @@ public class SingerMap implements IChaoticFunction{
     @Override
     public double Generate(double x) {
         
-        return u*(7.86*x-23.31*(x*x)+28.75*(x*x*x)-13.302875*(x*x*x*x));
+        return u*(7.86*x - 23.31*(x*x) - 28.75*(x*x*x) + 13.302875*(x*x*x*x));
     }
 
     @Override

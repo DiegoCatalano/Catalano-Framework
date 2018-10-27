@@ -1,7 +1,7 @@
 // Catalano Math Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -23,34 +23,44 @@
 package Catalano.Math.Functions.Chaotic;
 
 /**
- * Dyadic map.
+ * Piecewise map.
  * @author Diego Catalano
  */
-public class DyadicMap implements IChaoticFunction{
-    
-    private double threshold;
+public class PiecewiseMap implements IChaoticFunction{
 
+    private double p;
+    
     /**
-     * Initialize a new instance of the DyadicMap class.
+     * Initialize a new instance of the PiecewiseMap class.
      */
-    public DyadicMap() {
-        this(0.5);
+    public PiecewiseMap() {
+        this(0.4);
     }
 
-    public DyadicMap(double threshold) {
-        this.threshold = threshold;
-    }    
+    /**
+     * Initialize a new instance of the PiecewiseMap class.
+     * @param p Threshold.
+     */
+    public PiecewiseMap(double p) {
+        this.p = p;
+    }
 
     @Override
     public double Generate(double x) {
         
-        if(x < threshold){
-            return 2*x;
+        if(x >= 0 && x < p){
+            return x/p;
+        }
+        else if(x >= p && x < 0.5){
+            return (x-p)/(0.5-p);
+        }
+        else if(x >= 0.5 && x < 1-p){
+            return (1-p-x)/(0.5-p);
         }
         
-        return 2*x - 1;
+        return (1-x)/p;
     }
-    
+
     @Override
     public double[] Generate(double initialState, int iterations) {
         double[] map = new double[iterations];
