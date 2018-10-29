@@ -4,6 +4,9 @@
 // Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
+// Copyright © Seyedali Mirjalili, 2018
+// ali.mirjalili at gmail.com
+//
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public

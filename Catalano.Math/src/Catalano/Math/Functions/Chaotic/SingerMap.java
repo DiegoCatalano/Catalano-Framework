@@ -4,6 +4,8 @@
 // Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
+// Copyright © Seyedali Mirjalili, 2018
+// ali.mirjalili at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -48,7 +50,7 @@ public class SingerMap implements IChaoticFunction{
     @Override
     public double Generate(double x) {
         
-        return u*(7.86*x - 23.31*(x*x) - 28.75*(x*x*x) + 13.302875*(x*x*x*x));
+        return u*(7.86*x - 23.31*(x*x) + 28.75*(x*x*x) - 13.302875*(x*x*x*x));
     }
 
     @Override
