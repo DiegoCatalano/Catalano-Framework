@@ -22,11 +22,12 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.FastBitmap;
+import java.io.Serializable;
 
 /**
  * Common interface for custom aggregation of the descriptors.
  * @author Diego Catalano
  */
-public interface IAggregateVectors {
+public interface IAggregateVectors extends Serializable{
     double[] Compute(FastBitmap fastBitmap);
 }
