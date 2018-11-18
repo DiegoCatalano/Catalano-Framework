@@ -81,6 +81,10 @@ public class ColorConverter {
     public static double[] CIE10_F7 = {95.792f, 100f, 107.687f};
     public static double[] CIE10_F11 = {103.866f, 100f, 65.627f};
     
+    //Used in CIE-LAB conversions
+    private static double k = 903.2962962962963; //24389/27
+    private static double e = 0.0088564516790356; //216/24389
+    
     /**
      * RGB -> CMYK
      * @param color Color.
@@ -779,6 +783,7 @@ public class ColorConverter {
         else
             b /= 12.92D;
         
+        //Used for scale
         r *= 100;
         g *= 100;
         b *= 100;
@@ -804,6 +809,7 @@ public class ColorConverter {
     public static int[] XYZtoRGB(double x, double y, double z){
         int[] rgb = new int[3];
         
+        //Used for scale
         x /= 100;
         y /= 100;
         z /= 100;
@@ -813,23 +819,23 @@ public class ColorConverter {
         double b = 0.055648D * x - 0.204043D * y + 1.057311D * z;
         
         if ( r > 0.0031308 )
-            r = 1.055D * ( (double)Math.pow(r, 0.4166D) ) - 0.055D;
+            r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;
         else
             r = 12.92D * r;
         
         if ( g > 0.0031308 )
-            g = 1.055D * ( (double)Math.pow(g, 0.4166D) ) - 0.055D;
+            g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;
         else
             g = 12.92D * g;
         
         if ( b > 0.0031308 )
-            b = 1.055D * ( (double)Math.pow(b, 0.4166D) ) - 0.055D;
+            b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;
         else
             b = 12.92D * b;
         
-        r = r < 0 ? 0 : r;
-        g = g < 0 ? 0 : g;
-        b = b < 0 ? 0 : b;
+//        r = r < 0 ? 0 : r;
+//        g = g < 0 ? 0 : g;
+//        b = b < 0 ? 0 : b;
         
         rgb[0] = (int)Math.round(r * 255);
         rgb[1] = (int)Math.round(g * 255);
@@ -1089,8 +1095,50 @@ public class ColorConverter {
      * @return CIE L*c*h color space.
      */
     public static double[] RGBtoLCH(int red, int green, int blue){
-        double[] lab = RGBtoLAB(red, green, blue, CIE2_D65);
+        return RGBtoLCH(red, green, blue, CIE2_D65);
+    }
+    
+    /**
+     * RGB -> CIE L*c*h.
+     * @param red Red coefficient. Values in the range [0..255].
+     * @param green Green coefficient. Values in the range [0..255].
+     * @param blue Blue coefficient. Values in the range [0..255].
+     * @param tristimulus XYZ Tristimulus.
+     * @return L*c*h color space.
+     */
+    public static double[] RGBtoLCH(int red, int green, int blue, double[] tristimulus){
+        double[] lab = RGBtoLAB(red, green, blue, tristimulus);
         return LABtoLCH(lab[0], lab[1], lab[2]);
+    }
+    
+    /**
+     * CIE-L*A*B* to RGB.
+     * @param lab L*A*B* color space.
+     * @return RGB color space.
+     */
+    public static int[] LABtoRGB(double[] lab){
+        return LABtoRGB(lab[0], lab[1], lab[2], CIE2_D65);
+    }
+    
+    /**
+     * CIE-L*A*B* to RGB.
+     * @param lab L*A*B* color space.
+     * @param tristimulus XYZ Tristimulus.
+     * @return RGB color space.
+     */
+    public static int[] LABtoRGB(double[] lab, double[] tristimulus){
+        return LABtoRGB(lab[0], lab[1], lab[2], tristimulus);
+    }
+    
+    /**
+     * CIE-L*A*B* to RGB.
+     * @param l L coefficient.
+     * @param a a* coefficient.
+     * @param b b* coefficient.
+     * @return RGB color space.
+     */
+    public static int[] LABtoRGB(double l, double a, double b){
+        return LABtoRGB(l, a, b, CIE2_D65);
     }
     
     /**
@@ -1140,6 +1188,7 @@ public class ColorConverter {
     public static double[] XYZtoLAB(double x, double y, double z, double[] tristimulus){
         double[] lab = new double[3];
         
+        //Need divide tristimulus/100 if needs scale
         x /= tristimulus[0];
         y /= tristimulus[1];
         z /= tristimulus[2];
@@ -1147,24 +1196,17 @@ public class ColorConverter {
         if (x > 0.008856)
             x = (double)Math.pow(x,1/3D);
         else
-            x = (903.3 * x + 16) / 116;
-            //x = (7.787f * x) + ( 0.1379310344827586f );
+            x = 7.787036 * x + 0.1379310;
         
         if (y > 0.008856)
             y = (double)Math.pow(y,1/3D);
         else
-            y = (903.3 * y + 16) / 116;
-            //y = (7.787f * y) + ( 0.1379310344827586f );
+            y = 7.787036 * y + 0.1379310;
         
         if (z > 0.008856)
             z = (double)Math.pow(z,1/3D);
         else
-            z = (903.3 * z + 16) / 116;
-            //z = (7.787f * z) + ( 0.1379310344827586f );
-            
-//            lab[0] = x;
-//            lab[1] = y;
-//            lab[2] = z;
+            z = 7.787036 * z + 0.1379310;
         
         lab[0] = ( 116 * y ) - 16;
         lab[1] = 500 * ( x - y );
@@ -1185,27 +1227,28 @@ public class ColorConverter {
         double[] xyz = new double[3];
         
         double y = ( l + 16D ) / 116D;
-        double x = a / 500D + y;
-        double z = y - b / 200D;
-        
-        //Y
-        if ( Math.pow(y,3) > 0.008856 )
-            y = (double)Math.pow(y,3);
-        else
-            y = (double)(( y - 16 / 116 ) / 7.787);
+        double x = (a / 500D) + y;
+        double z = y - (b / 200D);
         
         //X
-        if ( Math.pow(x,3) > 0.008856 )
+        if ( Math.pow(x,3) > e )
             x = (double)Math.pow(x,3);
         else
-            x = (double)(( x - 16 / 116 ) / 7.787);
+            x = (double)(116 * x - 16) / k;
+        
+        //Y
+        if ( l > 8 )
+            y = Math.pow(((l + 16) / 116D),3);
+        else
+            y = l / k;
         
         // Z
-        if ( Math.pow(z,3) > 0.008856 )
+        if ( Math.pow(z,3) > e )
             z = (double)Math.pow(z,3);
         else
-            z = (double)(( z - 16 / 116 ) / 7.787);
+            z = (double)(116 * z - 16) / k;
         
+        //Need divide tristimulus/100 if needs scale
         xyz[0] = x * tristimulus[0];
         xyz[1] = y * tristimulus[1];
         xyz[2] = z * tristimulus[2];
