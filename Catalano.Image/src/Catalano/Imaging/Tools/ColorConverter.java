@@ -833,9 +833,13 @@ public class ColorConverter {
         else
             b = 12.92D * b;
         
-//        r = r < 0 ? 0 : r;
-//        g = g < 0 ? 0 : g;
-//        b = b < 0 ? 0 : b;
+        r = r < 0 ? 0 : r;
+        g = g < 0 ? 0 : g;
+        b = b < 0 ? 0 : b;
+        
+        r = r > 255 ? 255 : r;
+        g = g > 255 ? 255 : g;
+        b = b > 255 ? 255 : b;
         
         rgb[0] = (int)Math.round(r * 255);
         rgb[1] = (int)Math.round(g * 255);
@@ -1196,17 +1200,17 @@ public class ColorConverter {
         if (x > 0.008856)
             x = (double)Math.pow(x,1/3D);
         else
-            x = 7.787036 * x + 0.1379310;
+            x = 7.787036 * x + 0.1379310344827586;
         
         if (y > 0.008856)
             y = (double)Math.pow(y,1/3D);
         else
-            y = 7.787036 * y + 0.1379310;
+            y = 7.787036 * y + 0.1379310344827586;
         
         if (z > 0.008856)
             z = (double)Math.pow(z,1/3D);
         else
-            z = 7.787036 * z + 0.1379310;
+            z = 7.787036 * z + 0.1379310344827586;
         
         lab[0] = ( 116 * y ) - 16;
         lab[1] = 500 * ( x - y );
