@@ -55,32 +55,6 @@ public class ColorConverter {
     
     public static enum YCbCrColorSpace {ITU_BT_601,ITU_BT_709_HDTV};
     
-    // XYZ (Tristimulus) Reference values of a perfect reflecting diffuser
-    
-    //2o Observer (CIE 1931)
-    // X2, Y2, Z2
-    public static double[] CIE2_A = {109.850f, 100f, 35.585f}; //Incandescent
-    public static double[] CIE2_C = {98.074f, 100f, 118.232f};
-    public static double[] CIE2_D50 = {96.422f, 100f, 82.521f};
-    public static double[] CIE2_D55 = {95.682f, 100f, 92.149f};
-    public static double[] CIE2_D65 = {95.047f, 100f, 108.883f}; //Daylight
-    public static double[] CIE2_D75 = {94.972f, 100f, 122.638f};
-    public static double[] CIE2_F2 = {99.187f, 100f, 67.395f}; //Fluorescent
-    public static double[] CIE2_F7 = {95.044f, 100f, 108.755f};
-    public static double[] CIE2_F11 = {100.966f, 100f, 64.370f};
-    
-    //10o Observer (CIE 1964)
-    // X2, Y2, Z2
-    public static double[] CIE10_A = {111.144f, 100f, 35.200f}; //Incandescent
-    public static double[] CIE10_C = {97.285f, 100f, 116.145f};
-    public static double[] CIE10_D50 = {96.720f, 100f, 81.427f};
-    public static double[] CIE10_D55 = {95.799f, 100f, 90.926f};
-    public static double[] CIE10_D65 = {94.811f, 100f, 107.304f}; //Daylight
-    public static double[] CIE10_D75 = {94.416f, 100f, 120.641f};
-    public static double[] CIE10_F2 = {103.280f, 100f, 69.026f}; //Fluorescent
-    public static double[] CIE10_F7 = {95.792f, 100f, 107.687f};
-    public static double[] CIE10_F11 = {103.866f, 100f, 65.627f};
-    
     //Used in CIE-LAB conversions
     private static double k = 903.2962962962963; //24389/27
     private static double e = 0.0088564516790356; //216/24389
@@ -1083,7 +1057,7 @@ public class ColorConverter {
     }
     
     /**
-     * RGB -> CIE L*c*h.
+     * RGB -> CIE L*C*h.
      * @param color Color.
      * @return CIE-L*c*h color space.
      */
@@ -1092,18 +1066,18 @@ public class ColorConverter {
     }
     
     /**
-     * RGB -> CIE L*c*h.
+     * RGB -> CIE L*C*h.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
-     * @return CIE L*c*h color space.
+     * @return CIE L*C*h color space.
      */
     public static double[] RGBtoLCH(int red, int green, int blue){
-        return RGBtoLCH(red, green, blue, CIE2_D65);
+        return RGBtoLCH(red, green, blue, Illuminant.CIE2_D65);
     }
     
     /**
-     * RGB -> CIE L*c*h.
+     * RGB -> CIE L*C*h.
      * @param red Red coefficient. Values in the range [0..255].
      * @param green Green coefficient. Values in the range [0..255].
      * @param blue Blue coefficient. Values in the range [0..255].
@@ -1121,7 +1095,7 @@ public class ColorConverter {
      * @return RGB color space.
      */
     public static int[] LABtoRGB(double[] lab){
-        return LABtoRGB(lab[0], lab[1], lab[2], CIE2_D65);
+        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2_D65);
     }
     
     /**
@@ -1142,7 +1116,7 @@ public class ColorConverter {
      * @return RGB color space.
      */
     public static int[] LABtoRGB(double l, double a, double b){
-        return LABtoRGB(l, a, b, CIE2_D65);
+        return LABtoRGB(l, a, b, Illuminant.CIE2_D65);
     }
     
     /**
@@ -1286,7 +1260,7 @@ public class ColorConverter {
      */
     public static int[] LCHtoRGB(double l, double c, double h){
         double[] lab = LCHtoLAB(l, c, h);
-        return LABtoRGB(lab[0], lab[1], lab[2], CIE2_D65);
+        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2_D65);
     }
     
     /**
