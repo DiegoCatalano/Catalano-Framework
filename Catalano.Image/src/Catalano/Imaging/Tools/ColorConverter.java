@@ -1073,7 +1073,7 @@ public class ColorConverter {
      * @return CIE L*C*h color space.
      */
     public static double[] RGBtoLCH(int red, int green, int blue){
-        return RGBtoLCH(red, green, blue, Illuminant.CIE2_D65);
+        return RGBtoLCH(red, green, blue, Illuminant.CIE2.D65);
     }
     
     /**
@@ -1095,7 +1095,7 @@ public class ColorConverter {
      * @return RGB color space.
      */
     public static int[] LABtoRGB(double[] lab){
-        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2_D65);
+        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2.D65);
     }
     
     /**
@@ -1116,7 +1116,7 @@ public class ColorConverter {
      * @return RGB color space.
      */
     public static int[] LABtoRGB(double l, double a, double b){
-        return LABtoRGB(l, a, b, Illuminant.CIE2_D65);
+        return LABtoRGB(l, a, b, Illuminant.CIE2.D65);
     }
     
     /**
@@ -1260,7 +1260,7 @@ public class ColorConverter {
      */
     public static int[] LCHtoRGB(double l, double c, double h){
         double[] lab = LCHtoLAB(l, c, h);
-        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2_D65);
+        return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2.D65);
     }
     
     /**
