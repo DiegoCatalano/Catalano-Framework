@@ -836,11 +836,20 @@ public class ColorConverter {
      * @return XYZ color space.
      */
     public static double[] RGBtoXYZ(int red, int green, int blue){
+        return RGBtoXYZ(new int[]{red, green, blue});
+    }
+    
+    /**
+     * RGB -> XYZ.
+     * @param rgb sRGB color space.
+     * @return XYZ color space.
+     */
+    public static double[] RGBtoXYZ(int[] rgb){
         double[] xyz = new double[3];
         
-        double r = red / 255D;
-        double g = green / 255D;
-        double b = blue / 255D;
+        double r = rgb[0] / 255D;
+        double g = rgb[1] / 255D;
+        double b = rgb[2] / 255D;
         
         //R
         if ( r > 0.04045)
@@ -884,12 +893,21 @@ public class ColorConverter {
      * @return RGB color space.
      */
     public static int[] XYZtoRGB(double x, double y, double z){
+        return XYZtoRGB(new double[]{x,y,z});
+    }
+    
+    /**
+     * XYZ -> RGB
+     * @param xyz XYZ color space.
+     * @return sRGB color space.
+     */
+    public static int[] XYZtoRGB(double[] xyz){
         int[] rgb = new int[3];
         
         //Used for scale
-        x /= 100;
-        y /= 100;
-        z /= 100;
+        double x = xyz[0] / 100;
+        double y = xyz[1] / 100;
+        double z = xyz[2] / 100;
         
         double r = 3.240479D * x - 1.53715D * y - 0.498535D * z;
         double g = -0.969256D * x + 1.875991D * y + 0.041556D * z;
@@ -1250,6 +1268,55 @@ public class ColorConverter {
     }
     
     /**
+     * RGB -> LMS color space.
+     * CIECAM02 transformation matrix default.
+     * 
+     * @param red Red coefficient. Values in the range [0..255].
+     * @param green Green coefficient. Values in the range [0..255].
+     * @param blue Blue coefficient. Values in the range [0..255].
+     * @return LMS color space.
+     */
+    public static double[] RGBtoLMS(int red, int green, int blue){
+        return RGBtoLMS(new int[]{red, green, blue}, LMS.CAT02);
+    }
+    
+    /**
+     * RGB -> LMS color space.
+     * 
+     * @param red Red coefficient. Values in the range [0..255].
+     * @param green Green coefficient. Values in the range [0..255].
+     * @param blue Blue coefficient. Values in the range [0..255].
+     * @param matrix LMS matrix.
+     * @return LMS color space.
+     */
+    public static double[] RGBtoLMS(int red, int green, int blue, LMS matrix){
+        return RGBtoLMS(new int[]{red, green, blue}, matrix);
+    }
+    
+    /**
+     * RGB -> LMS color space.
+     * CIECAM02 transformation matrix default.
+     * 
+     * @param rgb sRGB color space.
+     * @return LMS color space.
+     */
+    public static double[] RGBtoLMS(int[] rgb){
+        return RGBtoLMS(rgb, LMS.CAT02);
+    }
+    
+    /**
+     * RGB -> LMS color space.
+     * 
+     * @param rgb sRGB color space.
+     * @param matrix LMS matrix.
+     * @return LMS color space.
+     */
+    public static double[] RGBtoLMS(int[] rgb, LMS matrix){
+        double[] xyz = RGBtoXYZ(rgb);
+        return XYZtoLMS(xyz, matrix);
+    }
+    
+    /**
      * CIE-L*A*B* to RGB.
      * @param lab L*A*B* color space.
      * @return RGB color space.
@@ -1313,7 +1380,48 @@ public class ColorConverter {
         return lch;
     }
     
+    /**
+     * LMS -> RGB.
+     * @param l Long wavelength.
+     * @param m Medium wavelength.
+     * @param s Short wavelength.
+     * @return sRGB color space.
+     */
+    public static int[] LMStoRGB(double l, double m, double s){
+        return LMStoRGB(new double[] {l,m,s}, LMS.CAT02);
+    }
     
+    /**
+     * LMS -> RGB.
+     * @param l Long wavelength.
+     * @param m Medium wavelength.
+     * @param s Short wavelength.
+     * @param matrix LMS transformation matrix.
+     * @return sRGB color space.
+     */
+    public static int[] LMStoRGB(double l, double m, double s, LMS matrix){
+        return LMStoRGB(new double[] {l,m,s}, matrix);
+    }
+    
+    /**
+     * LMS -> RGB.
+     * @param lms LMS color space.
+     * @return sRGB color space.
+     */
+    public static int[] LMStoRGB(double[] lms){
+        return LMStoRGB(lms, LMS.CAT02);
+    }
+    
+    /**
+     * LMS -> RGB.
+     * @param lms LMS color space.
+     * @param matrix LMS transformation matrix.
+     * @return sRGB color space.
+     */
+    public static int[] LMStoRGB(double[] lms, LMS matrix){
+        double[] xyz = LMStoXYZ(lms, matrix);
+        return XYZtoRGB(xyz);
+    }
     
     /**
      * XYZ -> CIE-LAB.
