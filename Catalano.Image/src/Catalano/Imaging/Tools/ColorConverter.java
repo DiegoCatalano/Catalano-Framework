@@ -27,24 +27,25 @@ import Catalano.Math.Matrix;
 /**
  * Convert between different color spaces supported.
  * 
- * RGB -> IHS -> RGB
+ * RGB -> CIE-L*A*B* -> RGB
+ * RGB -> CIE-L*c*h -> RGB
  * RGB -> CMYK -> RGB
- * RGB -> YIQ -> RGB
- * RGB -> YCbCr -> RGB
- * RGB -> YUV -> RGB
- * RGB -> RGChromaticity
+ * RGB -> IHS -> RGB
+ * RGB -> HLS -> RGB
+ * RGB -> HunterLAB -> RGB
  * RGB -> HSV -> RGB
+ * RGB -> RGChromaticity
+ * RGB -> XYZ -> RGB
+ * RGB -> YCbCr -> RGB
  * RGB -> YCC -> RGB
  * RGB -> YCoCg -> RGB
  * RGB -> YES -> RGB
- * RGB -> XYZ -> RGB
- * RGB -> HunterLAB -> RGB
- * RGB -> HLS -> RGB
- * RGB -> CIE-LAB -> RGB
- * RGB -> CIE-L*c*h -> RGB
+ * RGB -> YIQ -> RGB
+ * RGB -> YUV -> RGB
+ * XYZ -> CIE-L*A*B* -> XYZ
  * XYZ -> HunterLAB -> XYZ
- * XYZ -> CIE-LAB -> XYZ
  * XYZ -> LMS -> XYZ
+ * XYZ -> xyY -> XYZ
  * 
  * @author Diego Catalano
  */
@@ -944,6 +945,33 @@ public class ColorConverter {
     }
     
     /**
+     * XYZ to xyY color space.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @return xyY color space.
+     */
+    public static double[] XYZtoXyY(double x, double y, double z){
+        return XYZtoXyY(new double[]{x,y,z});
+    }
+    
+    /**
+     * XYZ to xyY color space.
+     * @param xyz XYZ color space.
+     * @return xyY color space.
+     */
+    public static double[] XYZtoXyY(double[] xyz){
+        double[] xyy = new double[3];
+        
+        double sum = xyz[0] + xyz[1] + xyz[2];
+        xyy[0] = xyz[0] / sum;
+        xyy[1] = xyz[1] / sum;
+        xyy[2] = xyz[1];
+        
+        return xyy;
+    }
+    
+    /**
      * XYZ -> HunterLAB
      * @param x X coefficient.
      * @param y Y coefficient.
@@ -1022,6 +1050,28 @@ public class ColorConverter {
                 return Matrix.Multiply(xyz, cat02_f);
         }
         
+    }
+    
+    /**
+     * xyY to XYZ.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param Y Z coordinate.
+     * @return XYZ color space.
+     */
+    public static double[] XYYtoXYZ(double x, double y, double Y){
+        return XYYtoXYZ(new double[]{x,y,Y});
+    }
+    
+    /**
+     * xyY to XYZ.
+     * @param xyY color space..
+     * @return XYZ color space.
+     */
+    public static double[] XYYtoXYZ(double[] xyY){
+        double x = (xyY[0] * xyY[2]) / xyY[1];
+        double z = ((1D - xyY[0] - xyY[1]) * xyY[2]) / xyY[1];
+        return new double[] {x, xyY[2], z};
     }
     
     /**
