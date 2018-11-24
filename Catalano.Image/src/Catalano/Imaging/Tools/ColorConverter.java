@@ -22,6 +22,7 @@
 package Catalano.Imaging.Tools;
 
 import Catalano.Imaging.Color;
+import Catalano.Math.Matrix;
 
 /**
  * Convert between different color spaces supported.
@@ -43,21 +44,123 @@ import Catalano.Imaging.Color;
  * RGB -> CIE-L*c*h -> RGB
  * XYZ -> HunterLAB -> XYZ
  * XYZ -> CIE-LAB -> XYZ
+ * XYZ -> LMS -> XYZ
  * 
  * @author Diego Catalano
  */
 public class ColorConverter {
-
+    
+    //HPE forward
+    private static final double[][] hpe_f = new double[][]{
+        {0.38971, 0.68898,-0.07868},
+        {-0.22981, 1.18340, 0.04641},
+        {0.00000, 0.00000, 1.00000}
+    };
+    
+    //HPE backward
+    private static final double[][] hpe_b = new double[][]{
+        {1.91020, -1.11212, 0.20191},
+        {0.37095, 0.62905, -0.00001},
+        {0.00000, 0.00000, 1.00000}
+    };
+    
+    //Bradford forward
+    private static final double[][] bradford_f = new double[][]{
+        {0.8951000,0.2664000,-0.1614000},
+        {-0.7502000,1.7135000,0.0367000},
+        {0.0389000,-0.0685000,1.0296000}
+    };
+    
+    //Bradford backward
+    private static final double[][] bradford_b = new double[][]{
+        {0.9869929,-0.1470543,0.1599627},
+        {0.4323053,0.5183603,0.0492912},
+        {-0.0085287,0.0400428,0.9684867}
+    };
+    
+    //VonKries forward
+    private static final double[][] vonkries_f = new double[][]{
+        {0.4002, 0.7076, -0.0808},
+        {-0.2263, 1.1653, 0.0457},
+        {0, 0, 0.9182}
+    };
+    
+    //VonKries backward
+    private static final double[][] vonkries_b = new double[][]{
+        {1.86007, -1.12948, 0.21990},
+        {0.36122, 0.63880, -0.00001},
+        {0.00000, 0.00000, 1.08909}
+    };
+    
+    //CAT97 forward
+    private static final double[][] cat97_f = new double[][]{
+        {0.8562, 0.3372, -0.1934},
+        {-0.8360, 1.8327, 0.0033},
+        {0.0357, -0.00469, 1.0112}
+    };
+    
+    //CAT97 backward
+    private static final double[][] cat97_b = new double[][]{
+        {0.9838112, -0.1805292, 0.1887508},
+        {0.4488317, 0.4632779, 0.0843307},
+        {-0.0326513, 0.0085222, 0.9826514}
+    };
+    
+    //CAT02 forward
+    private static final double[][] cat02_f = new double[][]{
+        {0.7328, 0.4296, -0.1624},
+        {-0.7036, 1.6975, 0.0061},
+        {0.0030, 0.0136, 0.9834}
+    };
+    
+    //CAT02 backward
+    private static final double[][] cat02_b = new double[][]{
+        {1.0961238, -0.2788690, 0.1827452},
+        {0.4543690, 0.4735332, 0.0720978},
+        {-0.0096276, -0.0056980, 1.0153256}
+    };
+    
     /**
-     * Don't let anyone instantiate this class.
+     * LMS Transformation matrix.
      */
-    private ColorConverter() {}
+    public static enum LMS{
+        
+        /**
+         * Hunt-Pointer-Estevez.
+         */
+        HPE,
+        
+        /**
+         * Bradford.
+         */
+        Bradford,
+        
+        /**
+         * Von Kries.
+         */
+        VonKries,
+        
+        /**
+         * CIECAM97s.
+         */
+        CAT97,
+        
+        /**
+         * CIECAM02.
+         */
+        CAT02
+    }
     
     public static enum YCbCrColorSpace {ITU_BT_601,ITU_BT_709_HDTV};
     
     //Used in CIE-LAB conversions
     private static double k = 903.2962962962963; //24389/27
     private static double e = 0.0088564516790356; //216/24389
+
+    /**
+     * Don't let anyone instantiate this class.
+     */
+    private ColorConverter() {}
     
     /**
      * RGB -> CMYK
@@ -847,6 +950,63 @@ public class ColorConverter {
     }
     
     /**
+     * XYZ -> LMS
+     * CIECAM02 transformation matrix default.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @return LMS color space.
+     */
+    public static double[] XYZtoLMS(double x, double y, double z){
+        return XYZtoLMS(new double[]{x,y,z}, LMS.CAT02);
+    }
+    
+    /**
+     * XYZ -> LMS
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @param z Z coordinate.
+     * @param matrix LMS transformation matrix.
+     * @return LMS color space.
+     */
+    public static double[] XYZtoLMS(double x, double y, double z, LMS matrix){
+        return XYZtoLMS(new double[] {x,y,z}, matrix);
+    }
+    
+    /**
+     * XYZ -> LMS
+     * CIECAM02 transformation matrix default.
+     * @param xyz XYZ Color space.
+     * @return LMS color space.
+     */
+    public static double[] XYZtoLMS(double[] xyz){
+        return XYZtoLMS(xyz, LMS.CAT02);
+    }
+    
+    /**
+     * XYZ -> LMS
+     * @param xyz XYZ color space.
+     * @param matrix LMS transformation matrix.
+     * @return LMS color space.
+     */
+    public static double[] XYZtoLMS(double[] xyz, LMS matrix){
+        
+        switch(matrix){
+            case HPE:
+                return Matrix.Multiply(xyz, hpe_f);
+            case Bradford:
+                return Matrix.Multiply(xyz, bradford_f);
+            case VonKries:
+                return Matrix.Multiply(xyz, vonkries_f);
+            case CAT97:
+                return Matrix.Multiply(xyz, cat97_f);
+            default:
+                return Matrix.Multiply(xyz, cat02_f);
+        }
+        
+    }
+    
+    /**
      * HunterLAB -> XYZ
      * @param l L coefficient.
      * @param a A coefficient.
@@ -1261,6 +1421,39 @@ public class ColorConverter {
     public static int[] LCHtoRGB(double l, double c, double h){
         double[] lab = LCHtoLAB(l, c, h);
         return LABtoRGB(lab[0], lab[1], lab[2], Illuminant.CIE2.D65);
+    }
+    
+    /**
+     * LMS -> XYZ
+     * @param l Long wavelengths.
+     * @param m Medium wavelengths.
+     * @param s Short wavelengths.
+     * @param matrix Transformation matrix.
+     * @return XYZ color space.
+     */
+    public static double[] LMStoXYZ(double l, double m, double s, LMS matrix){
+        return LMStoXYZ(new double[] {l,m,s}, matrix);
+    }
+    
+    /**
+     * LMS -> XYZ
+     * @param lms LMS color space.
+     * @param matrix Transformation matrix.
+     * @return XYZ color space.
+     */
+    public static double[] LMStoXYZ(double[] lms, LMS matrix){
+        switch(matrix){
+            case HPE:
+                return Matrix.Multiply(lms, hpe_b);
+            case Bradford:
+                return Matrix.Multiply(lms, bradford_b);
+            case VonKries:
+                return Matrix.Multiply(lms, vonkries_b);
+            case CAT97:
+                return Matrix.Multiply(lms, cat97_b);
+            default:
+                return Matrix.Multiply(lms, cat02_b);
+        }
     }
     
     /**

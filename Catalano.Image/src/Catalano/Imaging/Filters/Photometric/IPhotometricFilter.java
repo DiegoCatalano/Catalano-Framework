@@ -6,11 +6,13 @@
 package Catalano.Imaging.Filters.Photometric;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApplyInPlace;
 
 /**
  *
  * @author Diego Catalano
  */
-public interface IPhotometricFilter {
+public interface IPhotometricFilter extends IApplyInPlace{
+    @Override
     public void applyInPlace(FastBitmap fastBitmap);
 }
