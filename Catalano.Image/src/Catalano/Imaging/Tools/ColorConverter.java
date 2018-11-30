@@ -1259,6 +1259,15 @@ public class ColorConverter {
         return v1;
     }
     
+    public static double[] RGBtoLAB(int[] rgb){
+        return RGBtoLAB(rgb, Illuminant.CIE2.D65);
+    }
+    
+    public static double[] RGBtoLAB(int[] rgb, double[] tristimulus){
+        double[] xyz = RGBtoXYZ(rgb);
+        return XYZtoLAB(xyz, tristimulus);
+    }
+    
     /**
      * RGB -> CIE-LAB.
      * @param color Color.
@@ -1267,6 +1276,19 @@ public class ColorConverter {
      */
     public static double[] RGBtoLAB(Color color, double[] tristimulus){
         return RGBtoLAB(color.r, color.g, color.b, tristimulus);
+    }
+    
+    /**
+     * RGB -> CIE-LAB.
+     * Default: CIE 2o D65 Tristimulus.
+     * 
+     * @param red Red coefficient. Values in the range [0..255].
+     * @param green Green coefficient. Values in the range [0..255].
+     * @param blue Blue coefficient. Values in the range [0..255].
+     * @return CIE-L*A*B* color space.
+     */
+    public static double[] RGBtoLAB(int red, int green, int blue){
+        return RGBtoLAB(red, green, blue, Illuminant.CIE2.D65);
     }
     
     /**
@@ -1410,7 +1432,16 @@ public class ColorConverter {
     }
     
     /**
-     * CIE-LAB -> L*c*h
+     * CIE-L*A*B* -> L*C*h
+     * @param lab CIE-L*A*B* color space.
+     * @return L*C*h color space.
+     */
+    public static double[] LABtoLCH(double[] lab){
+        return LABtoLCH(lab[0], lab[1], lab[2]);
+    }
+    
+    /**
+     * CIE-L*A*B* -> L*c*h
      * @param l L coefficient.
      * @param a A coefficient.
      * @param b B coefficient.
@@ -1471,6 +1502,14 @@ public class ColorConverter {
     public static int[] LMStoRGB(double[] lms, LMS matrix){
         double[] xyz = LMStoXYZ(lms, matrix);
         return XYZtoRGB(xyz);
+    }
+    
+    public static double[] XYZtoLAB(double[] xyz){
+        return XYZtoLAB(xyz, Illuminant.CIE2.D65);
+    }
+    
+    public static double[] XYZtoLAB(double[] xyz, double[] tristimulus){
+        return XYZtoLAB(xyz[0], xyz[1], xyz[2], tristimulus);
     }
     
     /**

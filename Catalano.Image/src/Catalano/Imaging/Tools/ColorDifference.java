@@ -21,8 +21,6 @@
 
 package Catalano.Imaging.Tools;
 
-import Catalano.Math.Tools;
-
 /**
  * Calculate color differences.
  * All of them refers to the CIE-L*ab color space.
@@ -42,7 +40,7 @@ public class ColorDifference {
      * @param cieLab2 CIE-LAB color space.
      * @return Distance.
      */
-    public static double DeltaC(float[] cieLab1, float[] cieLab2){
+    public static double DeltaC(double[] cieLab1, double[] cieLab2){
         double part1 = Math.sqrt(Math.pow(cieLab2[1], 2) + Math.pow(cieLab2[2], 2));
         double part2 = Math.sqrt(Math.pow(cieLab1[1], 2) + Math.pow(cieLab1[2], 2));
         
@@ -56,7 +54,7 @@ public class ColorDifference {
      * @param cieLab2 CIE-LAB color space.
      * @return Distance.
      */
-    public static double DeltaH(float[] cieLab1, float[] cieLab2){
+    public static double DeltaH(double[] cieLab1, double[] cieLab2){
         double xDE = DeltaC(cieLab1, cieLab2);
         
         double part1 = Math.pow((cieLab2[1] - cieLab1[1]),2);
@@ -73,7 +71,7 @@ public class ColorDifference {
      * @param cieLab2 CIE-LAB color space.
      * @return Distance.
      */
-    public static double DeltaE(float[] cieLab1, float[] cieLab2){
+    public static double DeltaE(double[] cieLab1, double[] cieLab2){
         double result = Math.sqrt(
                 Math.pow(cieLab1[0] - cieLab2[0],2) +
                 Math.pow(cieLab1[1] - cieLab2[1],2) +
@@ -91,7 +89,7 @@ public class ColorDifference {
      * @param wheightC Wheight C.
      * @return Distance.
      */
-    public static double DeltaCMC(float[] cieLab1, float[] cieLab2, float wheightL, float wheightC){
+    public static double DeltaCMC(double[] cieLab1, double[] cieLab2, double wheightL, double wheightC){
         
         double xc1 = Math.sqrt(cieLab1[1]*cieLab1[1] + cieLab1[2]*cieLab1[2]);
         double xc2 = Math.sqrt(cieLab2[1]*cieLab2[1] + cieLab2[2]*cieLab2[2]);
@@ -123,7 +121,7 @@ public class ColorDifference {
         
     }
     
-    private static double CieLab2Hue(float a, float b){
+    private static double CieLab2Hue(double a, double b){
         
         if (a >= 0 && b == 0) return 0;
         if (a < 0 && b == 0) return 180;

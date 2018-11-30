@@ -1350,6 +1350,19 @@ public class FastBitmap {
     }
     
     /**
+     * Clamp values. [0,255]
+     * @param value Value.
+     * @return Clamped value.
+     */
+    public int clampValues(int value){
+        if(value < 0)
+            return 0;
+        else if(value > 255)
+            return 255;
+        return value;
+    }
+    
+    /**
      * Clamp values.
      * @param value Value.
      * @param min Minimum value.
