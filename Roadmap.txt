@@ -2,12 +2,10 @@
 
 Imaging
 
-- Ultimate Eroded Points
+- RGB -> LMS -> RGB (Bradford, VonKries, etc...)
+- Color Correction
+- Color Calibration Matrix
 
-Machine Learning
+Genetic
 
-- Gravitational Clustering
-- One Hot Encoder
-- KNN Imputation
-
-- Added: Support imputation algorithms in the Classification/Regression datasets
+- Real Coded Simulated Annealing

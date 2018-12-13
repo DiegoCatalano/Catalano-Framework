@@ -123,7 +123,7 @@ public class FourierTransform {
                 for (int j = 0; j < width; j++) {
                     //Compute log for perceptual scaling and +1 since log(0) is undefined.
                     mag[i][j] = Math.log(data[i][j].getMagnitude() + 1);
-                    
+                                       
                     if(mag[i][j] < min) min = mag[i][j];
                     if(mag[i][j] > max) max = mag[i][j];
                 }

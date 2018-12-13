@@ -273,7 +273,7 @@ public class FireflyOptimization implements IOptimization{
                         Firefly a = pop.get(i);
                         Firefly b = pop.get(j);
                         newsol[k] = a.location[k] + beta * rand.nextDouble() * (b.location[k] - a.location[k]) + damp * e[k];
-                        newsol[k] = Tools.Clamp(newsol[k], boundConstraint.get(j));
+                        newsol[k] = Tools.Clamp(newsol[k], boundConstraint.get(k));
                     }
 
                     double newfit = function.Compute(newsol);

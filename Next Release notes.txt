@@ -3,14 +3,27 @@ Catalano Framework 1.6.2 road map
 
 * Catalano.Imaging
 
+- New: Color Card.
+- New: Hit-And-Miss Transform.
 - New: Find Contours.
 - New: Ultimate Eroded Points.
+- Added: Clamp values in Fast Bitmap.
+- Added: DPI support when save the images in FastBitmap.
+- Added: RGB -> LMS -> RGB color space.
+- Added: RGB -> xyY -> RGB color space.
 - Added: DPI support when save the images in FastBitmap.
 - Reworked: Fast Variance, now is really fast.
+- Fixed: Hu Moments with NaN and some mistake in the equation.
 - Fixed: Shrink was slow and some images doesn't work.
+- Fixed: CIE Delta-E in Color Difference.
+- Fixed: RGB -> LAB -> RGB conversion.
 
 * Catalano.Genetic
 
+- New: Differential Evolution.
+- New: Particle Swarm Optimization.
+- New: Firefly Optimization.
+- New: Teaching Learning Based Optimization.
 - New: Harmony Search Optimizer.
 - New: Grey Wolf Optimizer.
 
