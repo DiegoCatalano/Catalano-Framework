@@ -71,6 +71,9 @@ public class Dilatation implements IApplyInPlace{
         if (fastBitmap.isGrayscale()){
             if (kernel == null)
                 createKernel(radius);
+
+            int radiusI = (kernel.length - 1) / 2;
+            int radiusJ = (kernel[0].length - 1) / 2;
             
             FastBitmap copy = new FastBitmap(fastBitmap);
             for (int i = 0; i < height; i++) {
@@ -78,9 +81,9 @@ public class Dilatation implements IApplyInPlace{
                     
                     int X = 0,Y;
                     int max = 0;
-                    for (int x = i - radius; x < i + radius + 1; x++) {
+                    for (int x = i - radiusI; x < i + radiusI + 1; x++) {
                         Y = 0;
-                        for (int y = j - radius; y < j + radius + 1; y++) {
+                        for (int y = j - radiusJ; y < j + radiusJ + 1; y++) {
                             
                             if (x >= 0 && x < height && y >= 0 && y < width){
                                 int val = copy.getGray(x, y) + kernel[X][Y];
@@ -103,15 +106,18 @@ public class Dilatation implements IApplyInPlace{
             if (kernel == null)
                 createKernel(radius);
             
+            int radiusI = (kernel.length - 1) / 2;
+            int radiusJ = (kernel[0].length - 1) / 2;
+            
             FastBitmap copy = new FastBitmap(fastBitmap);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     
                     int X = 0,Y;
                     int maxR = 0, maxG = 0, maxB = 0;
-                    for (int x = i - radius; x < i + radius + 1; x++) {
+                    for (int x = i - radiusI; x < i + radiusI + 1; x++) {
                         Y = 0;
-                        for (int y = j - radius; y < j + radius + 1; y++) {
+                        for (int y = j - radiusJ; y < j + radiusJ + 1; y++) {
                             
                             if (x >= 0 && x < height && y >= 0 && y < width){
                                 int valR = copy.getRed(x, y) + kernel[X][Y];

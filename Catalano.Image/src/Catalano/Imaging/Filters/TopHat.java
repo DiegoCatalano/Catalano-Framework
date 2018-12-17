@@ -76,7 +76,7 @@ public class TopHat implements IApplyInPlace{
         
         FastBitmap l = new FastBitmap(fastBitmap);
         
-        BinaryOpening open = new BinaryOpening(radius);
+        Opening open = new Opening(radius);
         open.applyInPlace(l);
         
         Subtract sub = new Subtract(l);
@@ -87,7 +87,7 @@ public class TopHat implements IApplyInPlace{
 
         FastBitmap l = new FastBitmap(fastBitmap);
         
-        BinaryOpening open = new BinaryOpening(se);
+        Opening open = new Opening(se);
         open.applyInPlace(l);
         
         Subtract sub = new Subtract(l);

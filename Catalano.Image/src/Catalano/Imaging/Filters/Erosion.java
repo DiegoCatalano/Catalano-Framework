@@ -74,15 +74,19 @@ public class Erosion implements IApplyInPlace{
             
             int min;
             FastBitmap copy = new FastBitmap(fastBitmap);
+            
+            int radiusI = (kernel.length - 1) / 2;
+            int radiusJ = (kernel[0].length - 1) / 2;
+            
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     
                     int X = 0;
                     int Y;
                     min = 255;
-                    for (int x = i - radius; x < i + radius + 1; x++) {
+                    for (int x = i - radiusI; x < i + radiusI + 1; x++) {
                         Y = 0;
-                        for (int y = j - radius; y < j + radius + 1; y++) {
+                        for (int y = j - radiusJ; y < j + radiusJ + 1; y++) {
                             if (x >= 0 && x < height && y >= 0 && y < width){
                                 int val = copy.getGray(x, y) - kernel[X][Y];
                                 if (val < min)
@@ -101,6 +105,9 @@ public class Erosion implements IApplyInPlace{
             if (kernel == null)
                 createKernel(radius);
             
+            int radiusI = (kernel.length - 1) / 2;
+            int radiusJ = (kernel[0].length - 1) / 2;
+            
             int minR, minG, minB;
             FastBitmap copy = new FastBitmap(fastBitmap);
             for (int i = 0; i < height; i++) {
@@ -109,9 +116,9 @@ public class Erosion implements IApplyInPlace{
                     int X = 0,Y;
                     minR = minG = minB = 255;
                     int valR, valG, valB;
-                    for (int x = i - radius; x < i + radius + 1; x++) {
+                    for (int x = i - radiusI; x < i + radiusI + 1; x++) {
                         Y = 0;
-                        for (int y = j - radius; y < j + radius + 1; y++) {
+                        for (int y = j - radiusJ; y < j + radiusJ + 1; y++) {
                             
                             if (x >= 0 && x < height && y >= 0 && y < width){
                                 valR = copy.getRed(x, y) - kernel[X][Y];
