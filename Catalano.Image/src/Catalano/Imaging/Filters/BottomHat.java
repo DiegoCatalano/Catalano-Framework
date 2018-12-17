@@ -80,7 +80,7 @@ public class BottomHat implements IApplyInPlace{
         
         FastBitmap l = new FastBitmap(fastBitmap);
         
-        BinaryClosing close = new BinaryClosing(radius);
+        Closing close = new Closing(radius);
         close.applyInPlace(l);
         
         Subtract sub = new Subtract(fastBitmap);
@@ -93,7 +93,7 @@ public class BottomHat implements IApplyInPlace{
 
         FastBitmap l = new FastBitmap(fastBitmap);
         
-        BinaryClosing close = new BinaryClosing(se);
+        Closing close = new Closing(se);
         close.applyInPlace(l);
         
         Subtract sub = new Subtract(l);
