@@ -302,7 +302,7 @@ public final class DescriptiveStatistics {
      */
     public static double Kurtosis(double[] values){
         double mean = Mean(values);
-        double std = StandartDeviation(values);
+        double std = StandartDeviation(values, mean);
         return Kurtosis(values, mean, std);
     }
     
@@ -317,7 +317,7 @@ public final class DescriptiveStatistics {
     public static double Skewness(double[] values, double mean, double stdDeviation){
         double n = values.length;
         
-        double part1 = n / (n - 1) * (n - 2);
+        double part1 = n / ((n - 1) * (n - 2));
         
         double part2 = 0;
         for (int i = 0; i < values.length; i++) {
@@ -335,7 +335,7 @@ public final class DescriptiveStatistics {
      */
     public static double Skewness(double[] values){
         double mean = Mean(values);
-        double std = StandartDeviation(values);
+        double std = StandartDeviation(values, mean);
         return Skewness(values, mean, std);
     }
     

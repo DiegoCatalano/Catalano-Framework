@@ -63,7 +63,7 @@ import java.util.Random;
  */
 public class RealCodedGeneticAlgorithm implements IOptimization{
     
-    public static enum Selection {Random, RoulleteWheelSelection};
+    public static enum Selection {Random, RoulleteWheelSelection, Elite};
     private Selection selection;
     
     private int population;
@@ -168,11 +168,18 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
             for (int i = 0; i < popCO/2; i++) {
                 
                 //Selection
-                int[] index;
-                if(selection == Selection.Random)
-                    index = RandomSelection(lst);
-                else
-                    index = RoulleteWheelSelection(lst, beta, maxError);
+                int[] index = null;
+                switch(selection){
+                    case Random:
+                        index = RandomSelection(lst);
+                    break;
+                    case RoulleteWheelSelection:
+                        index = RoulleteWheelSelection(lst, beta, maxError);
+                    break;
+                    case Elite:
+                        index = EliteSelection();
+                    break;
+                }
 
                 Chromosome c1 = lst.get(index[0]);
                 Chromosome c2 = lst.get(index[1]);
@@ -204,6 +211,17 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
         }
         
         return best;
+        
+    }
+    
+    /**
+     * Elite selection algorithm.
+     * @param lst List of chromosomes.
+     * @return Index of the selected chromosome.
+     */
+    private int[] EliteSelection(){
+        
+        return new int[] {0,1};
         
     }
     
