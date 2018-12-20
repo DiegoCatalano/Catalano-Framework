@@ -23,6 +23,7 @@
 package Catalano.Math.Optimization;
 
 import Catalano.Math.Matrix;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -218,6 +219,7 @@ public class LinearProgramming {
         if(objective == Objective.Minimize)
             solution = -solution;
         
+        r = Arrays.copyOf(r, function.length);
         return status;
         
     }
