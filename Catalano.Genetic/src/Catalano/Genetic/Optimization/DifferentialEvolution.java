@@ -35,6 +35,8 @@ import java.util.List;
  * Differential evolution (DE) is a method that optimizes a problem by iteratively trying to
  * improve a candidate solution with regard to a given measure of quality.
  * 
+ * //Exponential crossover: http://metahack.org/PPSN2014-Tanabe-Fukunaga.pdf
+ * 
  * @author Diego Catalano
  */
 public class DifferentialEvolution implements IOptimization{
@@ -47,37 +49,57 @@ public class DifferentialEvolution implements IOptimization{
         /**
          * vi = xr1 + f1 * (xr2 - xr3)
          */
-        RAND_1, 
+        RAND_1_BIN, 
         
         /**
          * vi = xr1 + f1 * (xr2 - xr3 + xr4 - xr5)
          */
-        RAND_2, 
+        RAND_2_BIN, 
+        
+        /**
+         * RAND/1/Exp
+         */
+        RAND_1_EXP, 
+        
+        /**
+         * RAND/2/Exp
+         */
+        RAND_2_EXP, 
         
         /**
          * vi = xb1 + f1 * (xr2 - xr3)
          */
-        BEST_1, 
+        BEST_1_BIN, 
         
         /**
          * vi = xb1 + f1 * (xr2 - xr3 + xr4 - xr5)
          */
-        BEST_2, 
+        BEST_2_BIN, 
+        
+        /**
+         * vi = xb1 + f1 * (xr2 - xr3)
+         */
+        BEST_1_EXP, 
+        
+        /**
+         * vi = xb1 + f1 * (xr2 - xr3 + xr4 - xr5)
+         */
+        BEST_2_EXP, 
         
         /**
          * vi = xr1 + f1 * (xr2 - xr3) + f2 * (xb - xr1)
          */
-        RAND_TO_BEST, 
+        RAND_TO_BEST_BIN, 
         
         /**
          * vi = xi + f1 * (xr2 - xr3) + f2 * (xb - xi)
          */
-        CURRENT_TO_BEST,
+        CURRENT_TO_BEST_BIN,
     
         /**
          * vi = xi + f1 * (xr2 - xr3) + f2 * (xr1 - xi)
          */
-        CURRENT_TO_RAND};
+        CURRENT_TO_RAND_BIN};
     
     private int population;
     private int generations;
@@ -214,7 +236,7 @@ public class DifferentialEvolution implements IOptimization{
      * @param prob Crossover probability.
      */
     public DifferentialEvolution(int population, int generations, double f, float prob) {
-        this(population, generations, f, prob, Strategy.RAND_1);
+        this(population, generations, f, prob, Strategy.RAND_1_BIN);
     }
     
     /**
@@ -252,7 +274,7 @@ public class DifferentialEvolution implements IOptimization{
         
         nEval = 0;
         
-        if(strategy == Strategy.RAND_1 || strategy == Strategy.RAND_2){
+        if(strategy == Strategy.RAND_1_BIN || strategy == Strategy.RAND_2_BIN || strategy == Strategy.RAND_1_EXP || strategy == Strategy.RAND_2_EXP){
             return Rand(function, boundConstraint, strategy);
         }
         else{
@@ -283,20 +305,18 @@ public class DifferentialEvolution implements IOptimization{
         //Best of the all solution
         double[] best = new double[pop[0].length];
         minError = fitness[0];
-        
+
+        int[] idx = Matrix.Indices(0, pop.length);        
         for (int g = 0; g < generations; g++) {
             for (int p = 0; p < pop.length; p++) {
                 
-                int var = rand.nextInt(pop[0].length + 1);
+                int var = rand.nextInt(pop[0].length);
                 
                 double[] trial = new double[pop[0].length];
 
-                int[] idx;
                 switch(strategy){
-                    case RAND_1:
-                        idx = Matrix.Indices(0, pop.length);
+                    case RAND_1_BIN:
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 3);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = pop[idx[0]][i] + f * (pop[idx[1]][i] - pop[idx[2]][i]);
@@ -306,10 +326,8 @@ public class DifferentialEvolution implements IOptimization{
                             }
                         }
                     break;
-                    case RAND_2:{
-                        idx = Matrix.Indices(0, pop.length);
+                    case RAND_2_BIN:{
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 5);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = pop[idx[0]][i] + f * (pop[idx[1]][i] - pop[idx[2]][i] + pop[idx[3]][i] - pop[idx[4]][i]);
@@ -318,6 +336,40 @@ public class DifferentialEvolution implements IOptimization{
                                 trial[i] = pop[p][i];
                             }
                         }
+                    }
+                    case RAND_1_EXP:{
+                        ArraysUtil.Shuffle(idx);
+                        int l = 0;
+                        
+                        //Mutation vector
+                        double[] mv = Arrays.copyOf(pop[p], pop[0].length);
+                        for (int i = 0; i < trial.length; i++) {
+                            mv[i] = pop[idx[0]][i] + f * (pop[idx[1]][i] - pop[idx[2]][i]);
+                        }
+                        
+                        trial = Arrays.copyOf(pop[p], pop[0].length);
+                        do {
+                            trial[var] = mv[var];
+                            l++;
+                            var = (var + 1) % pop[0].length;
+                        } while (rand.nextDouble() <= prob && l < pop[0].length);
+                    }
+                    case RAND_2_EXP:{
+                        ArraysUtil.Shuffle(idx);
+                        int l = 0;
+                        
+                        //Mutation vector
+                        double[] mv = Arrays.copyOf(pop[p], pop[0].length);
+                        for (int i = 0; i < trial.length; i++) {
+                            mv[i] = pop[idx[0]][i] + f * (pop[idx[1]][i] - pop[idx[2]][i] + pop[idx[3]][i] - pop[idx[4]][i]);
+                        }
+                        
+                        trial = Arrays.copyOf(pop[p], pop[0].length);
+                        do {
+                            trial[var] = mv[var];
+                            l++;
+                            var = (var + 1) % pop[0].length;
+                        } while (rand.nextDouble() <= prob && l < pop[0].length);
                     }
                 }
                 
@@ -339,6 +391,7 @@ public class DifferentialEvolution implements IOptimization{
                 }
             }
         }
+        
         return best;
     }
     
@@ -367,6 +420,7 @@ public class DifferentialEvolution implements IOptimization{
             }
         }
         
+        int[] idx = Matrix.Indices(0, pop.length);
         for (int g = 0; g < generations; g++) {
             for (int p = 0; p < pop.length; p++) {
                 
@@ -374,12 +428,9 @@ public class DifferentialEvolution implements IOptimization{
 
                 double[] trial = new double[pop[0].length];
 
-                int[] idx;
                 switch(strategy){
-                    case BEST_1:
-                        idx = Matrix.Indices(0, pop.length);
+                    case BEST_1_BIN:
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 2);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = best[i] + f * (pop[idx[0]][i] - pop[idx[1]][i]);
@@ -389,10 +440,8 @@ public class DifferentialEvolution implements IOptimization{
                             }
                         }
                     break;
-                    case BEST_2:{
-                        idx = Matrix.Indices(0, pop.length);
+                    case BEST_2_BIN:{
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 4);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = best[i] + f * (pop[idx[0]][i] - pop[idx[1]][i] + pop[idx[2]][i] - pop[idx[3]][i]);
@@ -402,10 +451,42 @@ public class DifferentialEvolution implements IOptimization{
                             }
                         }
                     }
-                    case RAND_TO_BEST:{
-                        idx = Matrix.Indices(0, pop.length);
+                    case BEST_1_EXP:{
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 4);
+                        int l = 0;
+                        
+                        //Mutation vector
+                        double[] mv = Arrays.copyOf(pop[p], pop[0].length);
+                        for (int i = 0; i < trial.length; i++) {
+                            mv[i] = best[i] + f * (pop[idx[0]][i] - pop[idx[1]][i]);
+                        }
+                        
+                        trial = Arrays.copyOf(pop[p], pop[0].length);
+                        do {
+                            trial[var] = mv[var];
+                            l++;
+                            var = (var + 1) % pop[0].length;
+                        } while (rand.nextDouble() <= prob && l < pop[0].length);
+                    }
+                    case BEST_2_EXP:{
+                        ArraysUtil.Shuffle(idx);
+                        int l = 0;
+                        
+                        //Mutation vector
+                        double[] mv = Arrays.copyOf(pop[p], pop[0].length);
+                        for (int i = 0; i < trial.length; i++) {
+                            mv[i] = best[i] + f * (pop[idx[0]][i] - pop[idx[1]][i] + pop[idx[2]][i] - pop[idx[3]][i]);
+                        }
+                        
+                        trial = Arrays.copyOf(pop[p], pop[0].length);
+                        do {
+                            trial[var] = mv[var];
+                            l++;
+                            var = (var + 1) % pop[0].length;
+                        } while (rand.nextDouble() <= prob && l < pop[0].length);
+                    }
+                    case RAND_TO_BEST_BIN:{
+                        ArraysUtil.Shuffle(idx);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = pop[idx[1]][i] + f * (pop[idx[2]][i] - pop[idx[3]][i]) + f2 * (best[i] - pop[idx[0]][i]);
@@ -415,10 +496,8 @@ public class DifferentialEvolution implements IOptimization{
                             }
                         }
                     }
-                    case CURRENT_TO_BEST:{
-                        idx = Matrix.Indices(0, pop.length);
+                    case CURRENT_TO_BEST_BIN:{
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 2);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = pop[p][i] + f * (pop[idx[0]][i] - pop[idx[1]][i]) + f2 * (best[i] - pop[p][i]);
@@ -428,10 +507,8 @@ public class DifferentialEvolution implements IOptimization{
                             }
                         }
                     }
-                    case CURRENT_TO_RAND:{
-                        idx = Matrix.Indices(0, pop.length);
+                    case CURRENT_TO_RAND_BIN:{
                         ArraysUtil.Shuffle(idx);
-                        idx = Arrays.copyOf(idx, 3);
                         for (int i = 0; i < trial.length; i++) {
                             if(rand.nextDouble() <= prob || i == var){
                                 trial[i] = pop[p][i] + f * (pop[idx[1]][i] - pop[idx[2]][i]) + f2 * (pop[idx[0]][i] - pop[p][i]);
@@ -461,6 +538,7 @@ public class DifferentialEvolution implements IOptimization{
                 }
             }
         }
+        
         return best;
     }
 }
