@@ -78,7 +78,7 @@ public class FireflyOptimization implements IOptimization{
     
     private double[] best;
     private double minError;
-    private int nEval;
+    private long nEval;
     
     /**
      * Get mutation coefficient.
@@ -161,7 +161,7 @@ public class FireflyOptimization implements IOptimization{
     }
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
     

@@ -62,7 +62,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private int swarmSize;
     private int iterations;
     private long seed;
-    private int nEval;
+    private long nEval;
     
     private double gBest;
     private double[] gBestLocation;
@@ -76,7 +76,7 @@ public class ParticleSwarmOptimization implements IOptimization{
     private List<Particle> swarm;
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
     

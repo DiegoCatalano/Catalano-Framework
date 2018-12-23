@@ -44,7 +44,7 @@ public class GreyWolfOptimizer implements IOptimization{
     
     private int population;
     private int generations;
-    private int eval;
+    private long eval;
     
     private double[] alpha;
     private double[] beta;
@@ -57,7 +57,7 @@ public class GreyWolfOptimizer implements IOptimization{
     private double minError;
     
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return eval;
     }
     

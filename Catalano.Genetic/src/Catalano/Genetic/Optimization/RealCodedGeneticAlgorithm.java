@@ -76,10 +76,10 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
     private double[] best;
     private double minError;
     private double maxError; //Used only in Roulette Wheel Selection
-    private int nEval;
+    private long nEval;
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
     

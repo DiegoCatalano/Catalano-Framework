@@ -103,7 +103,7 @@ public class DifferentialEvolution implements IOptimization{
     
     private int population;
     private int generations;
-    private int nEval;
+    private long nEval;
     
     private double f;
     private double f2;
@@ -118,7 +118,7 @@ public class DifferentialEvolution implements IOptimization{
     }
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
 

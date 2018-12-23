@@ -71,7 +71,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
     private double mu;
     private double sigma;
     
-    private int nEval;
+    private long nEval;
     private double minError;
     private double[] best;
 
@@ -270,7 +270,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
     }
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
 
@@ -301,6 +301,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
                 minError = f;
                 best = Arrays.copyOf(pop[i], pop[0].length);
             }
+            nEval++;
         }
         
         //Initialize temp
@@ -326,6 +327,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
                         newPop[index] = Mutate(pop[k], mu, sigmaRange, boundConstraint, rand);
                         newFitness[index] = function.Compute(newPop[index]);
                         index++;
+                        nEval++;
                     }
                 }
                 

@@ -73,7 +73,7 @@ public class HarmonySearch implements IOptimization{
     
     private double[] best;
     private double minError;
-    private int eval;
+    private long eval;
 
     /**
      * Get number of population.
@@ -268,10 +268,9 @@ public class HarmonySearch implements IOptimization{
         this.fw = fw;
         this.dampFactor = dampFactor;
     }
-    
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return eval;
     }
 

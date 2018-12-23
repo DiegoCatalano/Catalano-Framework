@@ -65,10 +65,10 @@ public class TeachingLearningBasedOptimization implements IOptimization{
     
     private double minError;
     private double[] best;
-    private int nEval;
+    private long nEval;
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return nEval;
     }
     
@@ -185,6 +185,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
                     }
                 }
             }
+            //System.out.println(minError);
         }
         return best;
     }

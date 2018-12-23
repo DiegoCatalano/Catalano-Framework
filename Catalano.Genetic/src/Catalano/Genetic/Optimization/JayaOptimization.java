@@ -43,7 +43,7 @@ public class JayaOptimization implements IOptimization{
     private int population;
     private int iterations;
     
-    private int evals;
+    private long evals;
     private double minError;
     private double[] best;
     
@@ -65,7 +65,7 @@ public class JayaOptimization implements IOptimization{
     }
 
     @Override
-    public int getNumberOfEvaluations() {
+    public long getNumberOfEvaluations() {
         return evals;
     }
 
