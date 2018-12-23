@@ -206,7 +206,7 @@ public class DifferentialEvolution implements IOptimization{
      * Initializes a new instance of the DifferentialEvolution class.
      */
     public DifferentialEvolution(){
-        this(100,100);
+        this(100,1000);
     }
     
     /**
