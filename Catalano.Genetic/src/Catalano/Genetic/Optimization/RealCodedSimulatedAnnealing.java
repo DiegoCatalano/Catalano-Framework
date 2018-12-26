@@ -59,10 +59,7 @@ import java.util.Random;
  * Simulated Annealing for Continuous space domain.
  * @author Diego Catalano
  */
-public class RealCodedSimulatedAnnealing implements IOptimization{
-    
-    private int population;
-    private int iterations;
+public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimization implements IOptimization{
     
     private int maxSub;
     private double t0;
@@ -259,8 +256,8 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
      * @param sigma Mutation range.
      */
     public RealCodedSimulatedAnnealing(int population, int iterations, int maxSub, double t0, double alpha, int move, double mu, double sigma) {
-        this.population = population;
-        this.iterations = iterations;
+        this.populationSize = population;
+        this.generations = iterations;
         this.maxSub = maxSub;
         this.t0 = t0;
         this.alpha = alpha;
@@ -282,8 +279,8 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
         
         Random rand = new Random();
         
-        double[][] pop = new double[population][boundConstraint.size()];
-        double[] fitness = new double[population];
+        double[][] pop = new double[populationSize][boundConstraint.size()];
+        double[] fitness = new double[populationSize];
         
         //Initialize the solutions
         for (int i = 0; i < pop.length; i++) {
@@ -294,7 +291,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
         }
         
         //Compute fitness
-        for (int i = 0; i < population; i++) {
+        for (int i = 0; i < populationSize; i++) {
             double f = function.Compute(pop[i]);
             fitness[i] = f;
             if(f < minError){
@@ -306,7 +303,7 @@ public class RealCodedSimulatedAnnealing implements IOptimization{
         
         //Initialize temp
         double t = t0;
-        for (int i = 0; i < iterations; i++) {
+        for (int i = 0; i < generations; i++) {
             
             double[][] newPop = new double[pop.length * move][pop[0].length];
             double[] newFitness = new double[newPop.length];

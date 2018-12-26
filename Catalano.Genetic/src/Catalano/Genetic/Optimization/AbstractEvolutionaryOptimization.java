@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2018
 // diego.catalano at live.com
 //
 //
@@ -22,33 +22,44 @@
 
 package Catalano.Genetic.Optimization;
 
-import Catalano.Core.DoubleRange;
-import java.util.List;
-
 /**
- * Common interface to optimization problems.
- * 
+ * Abstract class for evolutionary algorithms.
  * @author Diego Catalano
  */
-public interface IOptimization {
+public abstract class AbstractEvolutionaryOptimization implements IOptimization{
+    
+    protected int populationSize;
+    protected int generations;
     
     /**
-     * Number of evaluations.
-     * @return Number of evaluations.
+     * Get population size.
+     * @return Population size.
      */
-    public long getNumberOfEvaluations();
+    public int getPopulationSize(){
+        return populationSize;
+    }
     
     /**
-     * Get error.
-     * @return Error.
+     * Set population size.
+     * @param populationSize Population size.
      */
-    public double getError();
+    public void setPopulationSize(int populationSize){
+        this.populationSize = populationSize;
+    }
     
     /**
-     * Compute the algorithm.
-     * @param function Function to be optimized.
-     * @param boundConstraint Constraints.
-     * @return Optimized values.
+     * Get number of generations.
+     * @return Number of generations.
      */
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint);
+    public int getGenerations(){
+        return generations;
+    }
+    
+    /**
+     * Set number of generations
+     * @param generations Generations.
+     */
+    public void setGenerations(int generations){
+        this.generations = generations;
+    }
 }

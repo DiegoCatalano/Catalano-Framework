@@ -64,10 +64,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class FireflyOptimization implements IOptimization{
-    
-    private int population;
-    private int generations;
+public class FireflyOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
     private double alpha = 0.2;
     private double beta0 = 2;
@@ -209,7 +206,7 @@ public class FireflyOptimization implements IOptimization{
      * @param delta Uniform Mutation Range Base Value.
      */
     public FireflyOptimization(int population, int generations, double alpha, double beta0, double gamma, double alphaDamp, double delta){
-        this.population = population;
+        this.populationSize = population;
         this.generations = generations;
         this.beta0 = beta0;
         this.gamma = gamma;
@@ -227,9 +224,9 @@ public class FireflyOptimization implements IOptimization{
         Random rand = new Random();
         
         //Create initial population
-        List<Firefly> pop = new ArrayList<Firefly>(population);
+        List<Firefly> pop = new ArrayList<Firefly>(populationSize);
         
-        for (int i = 0; i < population; i++) {
+        for (int i = 0; i < populationSize; i++) {
             
             double[] loc = Matrix.UniformRandom(boundConstraint);
             double fit = function.Compute(loc);
@@ -255,14 +252,14 @@ public class FireflyOptimization implements IOptimization{
         for (int g = 0; g < generations; g++) {
             
             //Initialize a new population
-            List<Firefly> newPop = new ArrayList<Firefly>(population);
-            for (int i = 0; i < population; i++) {
+            List<Firefly> newPop = new ArrayList<Firefly>(populationSize);
+            for (int i = 0; i < populationSize; i++) {
                 newPop.add(new Firefly(null, Double.MAX_VALUE));
             }
             
             //Compute
-            for (int i = 0; i < population; i++) {
-                for (int j = 0; j < population; j++) {
+            for (int i = 0; i < populationSize; i++) {
+                for (int j = 0; j < populationSize; j++) {
                     double rij = Matrix.Norm2(Matrix.Subtract(pop.get(i).location, pop.get(j).location)) / dmax;
                     double beta = beta0 * Math.exp(-gamma * (rij*rij));
                     double[] e = Matrix.Multiply(Matrix.UniformRandom(-1, 1, boundConstraint.size()), delta);
@@ -301,7 +298,7 @@ public class FireflyOptimization implements IOptimization{
             });
             
             //Truncate
-            pop = pop.subList(0, population);
+            pop = pop.subList(0, populationSize);
             
             damp = damp*alphaDamp;
         }

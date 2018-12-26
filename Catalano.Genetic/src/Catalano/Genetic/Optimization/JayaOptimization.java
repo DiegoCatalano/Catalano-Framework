@@ -38,10 +38,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class JayaOptimization implements IOptimization{
-
-    private int population;
-    private int iterations;
+public class JayaOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
     private long evals;
     private double minError;
@@ -60,8 +57,8 @@ public class JayaOptimization implements IOptimization{
      * @param iterations Number of iterations.
      */
     public JayaOptimization(int population, int iterations) {
-        this.population = population;
-        this.iterations = iterations;
+        this.populationSize = population;
+        this.generations = iterations;
     }
 
     @Override
@@ -77,8 +74,8 @@ public class JayaOptimization implements IOptimization{
         
         Random rand = new Random();
         
-        double[][] pop = new double[population][boundConstraint.size()];
-        double[] fitness = new double[population];
+        double[][] pop = new double[populationSize][boundConstraint.size()];
+        double[] fitness = new double[populationSize];
         
         //Initialize the solutions
         for (int i = 0; i < pop.length; i++) {
@@ -89,7 +86,7 @@ public class JayaOptimization implements IOptimization{
         }
         
         //Compute fitness
-        for (int i = 0; i < population; i++) {
+        for (int i = 0; i < populationSize; i++) {
             double f = function.Compute(pop[i]);
             evals++;
             fitness[i] = f;
@@ -100,7 +97,7 @@ public class JayaOptimization implements IOptimization{
         }
         
         //Jaya algorithm
-        for (int it = 0; it < iterations; it++) {
+        for (int it = 0; it < generations; it++) {
             
             //Worst solution
             double[] worst = pop[Matrix.MaxIndex(fitness)];

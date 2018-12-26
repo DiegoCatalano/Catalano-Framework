@@ -39,7 +39,7 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class DifferentialEvolution implements IOptimization{
+public class DifferentialEvolution extends AbstractEvolutionaryOptimization{    
     
     /**
      * Strategy of algorihtm.
@@ -101,8 +101,6 @@ public class DifferentialEvolution implements IOptimization{
          */
         CURRENT_TO_RAND_BIN};
     
-    private int population;
-    private int generations;
     private long nEval;
     
     private double f;
@@ -120,38 +118,6 @@ public class DifferentialEvolution implements IOptimization{
     @Override
     public long getNumberOfEvaluations() {
         return nEval;
-    }
-
-    /**
-     * Get number of population.
-     * @return Population.
-     */
-    public int getPopulation() {
-        return population;
-    }
-
-    /**
-     * Set number of population.
-     * @param population Population.
-     */
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    /**
-     * Get number of generations.
-     * @return Generations.
-     */
-    public int getGenerations() {
-        return generations;
-    }
-
-    /**
-     * Set number of generations.
-     * @param generations Generations.
-     */
-    public void setGenerations(int generations) {
-        this.generations = generations;
     }
 
     /**
@@ -261,7 +227,7 @@ public class DifferentialEvolution implements IOptimization{
      * @param f2 Mutation factor 2 (RAND_TO_BEST and CURRENT_) only.
      */
     public DifferentialEvolution(int population, int generations, double f, float prob, Strategy strategy, double f2) {
-        this.population = population;
+        this.populationSize = population;
         this.generations = generations;
         this.f = f;
         this.prob = prob;
@@ -288,7 +254,7 @@ public class DifferentialEvolution implements IOptimization{
         Random rand = new Random();
         
         //Generate the population
-        double[][] pop = new double[population][boundConstraint.size()];
+        double[][] pop = new double[populationSize][boundConstraint.size()];
         for (int i = 0; i < pop.length; i++) {
             for (int j = 0; j < pop[0].length; j++) {
                 DoubleRange range = boundConstraint.get(j);
@@ -399,7 +365,7 @@ public class DifferentialEvolution implements IOptimization{
         Random rand = new Random();
         
         //Generate the population
-        double[][] pop = new double[population][boundConstraint.size()];
+        double[][] pop = new double[populationSize][boundConstraint.size()];
         for (int i = 0; i < pop.length; i++) {
             for (int j = 0; j < pop[0].length; j++) {
                 DoubleRange range = boundConstraint.get(j);

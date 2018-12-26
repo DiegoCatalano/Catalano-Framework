@@ -54,13 +54,10 @@ import java.util.Random;
 
 /**
  * Particle Swarm Optimization (PSO).
- * Need implements news weight (w). http://www.ijmlc.org/vol5/535-C037.pdf
  * @author Diego Catalano
  */
-public class ParticleSwarmOptimization implements IOptimization{
+public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
-    private int swarmSize;
-    private int iterations;
     private long seed;
     private long nEval;
     
@@ -80,10 +77,7 @@ public class ParticleSwarmOptimization implements IOptimization{
         return nEval;
     }
     
-    /**
-     * Get minimum error of the function.
-     * @return Minimum error found by PSO.
-     */
+    @Override
     public double getError(){
         return gBest;
     }
@@ -126,8 +120,8 @@ public class ParticleSwarmOptimization implements IOptimization{
      * @param seed Random seed.
      */
     public ParticleSwarmOptimization(int swarm, int iterations, double c1, double c2, double w, long seed){
-        this.swarmSize = swarm;
-        this.iterations = iterations;
+        this.populationSize = swarm;
+        this.generations = iterations;
         this.C1 = c1;
         this.C2 = c2;
         this.w = w;
@@ -160,12 +154,12 @@ public class ParticleSwarmOptimization implements IOptimization{
         double wf = w;
 
         //Initialize the particles
-        Initialize(swarmSize, boundConstraint, function, seed);
+        Initialize(populationSize, boundConstraint, function, seed);
         
-        for (int i = 0; i < iterations; i++) {
+        for (int i = 0; i < generations; i++) {
             
             //For each swarm
-            for (int j = 0; j < swarmSize; j++) {
+            for (int j = 0; j < populationSize; j++) {
 
                 Particle p = swarm.get(j);
 

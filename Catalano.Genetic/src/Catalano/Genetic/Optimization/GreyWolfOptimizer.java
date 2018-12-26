@@ -40,10 +40,8 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class GreyWolfOptimizer implements IOptimization{
+public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implements IOptimization{
     
-    private int population;
-    private int generations;
     private long eval;
     
     private double[] alpha;
@@ -65,6 +63,7 @@ public class GreyWolfOptimizer implements IOptimization{
     public double getError() {
         return minError;
     }
+    
 
     /**
      * Initializes a new instance of the GreyWolfOptimizer class.
@@ -77,7 +76,7 @@ public class GreyWolfOptimizer implements IOptimization{
      * @param generations Number of generations.
      */
     public GreyWolfOptimizer(int population, int generations) {
-        this.population = population;
+        this.populationSize = population;
         this.generations = generations;
     }
 
@@ -100,7 +99,7 @@ public class GreyWolfOptimizer implements IOptimization{
         alphaScore = betaScore = deltaScore = Double.MAX_VALUE;
         
         //Initialize the population
-        double[][] pop = InitializePopulation(population, boundConstraint);
+        double[][] pop = InitializePopulation(populationSize, boundConstraint);
         
         //Best solution
         double[] best = new double[pop[0].length];

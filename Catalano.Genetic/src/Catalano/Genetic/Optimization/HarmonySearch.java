@@ -60,11 +60,9 @@ import java.util.Random;
  * Harmony Search.
  * @author Diego Catalano
  */
-public class HarmonySearch implements IOptimization{
+public class HarmonySearch extends AbstractEvolutionaryOptimization implements IOptimization{
     
     //Parameters
-    private int population;
-    private int generations;
     private int newHarmonies;
     private double hmcr;
     private double pitch;
@@ -74,38 +72,6 @@ public class HarmonySearch implements IOptimization{
     private double[] best;
     private double minError;
     private long eval;
-
-    /**
-     * Get number of population.
-     * @return Number of population.
-     */
-    public int getPopulation() {
-        return population;
-    }
-
-    /**
-     * Set number of population.
-     * @param population Number of population.
-     */
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    /**
-     * Get number of generations.
-     * @return Number of generations.
-     */
-    public int getGenerations() {
-        return generations;
-    }
-
-    /**
-     * Set number of generations.
-     * @param generations Number of generations.
-     */
-    public void setGenerations(int generations) {
-        this.generations = generations;
-    }
 
     /**
      * Get number of new harmonies.
@@ -260,7 +226,7 @@ public class HarmonySearch implements IOptimization{
      * @param dampFactor Damp factor ratio;
      */
     public HarmonySearch(int population, int generations, int newHarmonies, double hmcr, double pitch, double fw, double dampFactor) {
-        this.population = population;
+        this.populationSize = population;
         this.generations = generations;
         this.newHarmonies = newHarmonies;
         this.hmcr = hmcr;
@@ -283,8 +249,8 @@ public class HarmonySearch implements IOptimization{
         Random rand = new Random();
         
         //Initialize the population
-        List<Harmony> pop = new ArrayList<Harmony>(population);
-        for (int i = 0; i < population; i++) {
+        List<Harmony> pop = new ArrayList<Harmony>(populationSize);
+        for (int i = 0; i < populationSize; i++) {
             double[] values = Matrix.UniformRandom(boundConstraint);
             double fitness = function.Compute(values);
             
@@ -343,7 +309,7 @@ public class HarmonySearch implements IOptimization{
             Collections.sort(pop);
             
             //Truncate
-            pop = pop.subList(0, population);
+            pop = pop.subList(0, populationSize);
             
             //Damp fret width
             for (int i = 0; i < fretWidth.length; i++) {

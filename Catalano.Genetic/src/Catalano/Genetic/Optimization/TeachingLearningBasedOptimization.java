@@ -58,10 +58,7 @@ import java.util.Random;
  * Teaching-Learning-Based Optimization (TLBO).
  * @author Diego Catalano
  */
-public class TeachingLearningBasedOptimization implements IOptimization{
-    
-    private int population;
-    private int iterations;
+public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
     private double minError;
     private double[] best;
@@ -90,8 +87,8 @@ public class TeachingLearningBasedOptimization implements IOptimization{
      * @param iterations Iterations.
      */
     public TeachingLearningBasedOptimization(int population, int iterations) {
-        this.population = population;
-        this.iterations = iterations;
+        this.populationSize = population;
+        this.generations = iterations;
     }
 
     @Override
@@ -102,8 +99,8 @@ public class TeachingLearningBasedOptimization implements IOptimization{
         
         Random rand = new Random();
         
-        double[][] pop = new double[population][boundConstraint.size()];
-        double[] fitness = new double[population];
+        double[][] pop = new double[populationSize][boundConstraint.size()];
+        double[] fitness = new double[populationSize];
         
         //Initialize the solutions
         for (int i = 0; i < pop.length; i++) {
@@ -114,7 +111,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
         }
         
         //Compute fitness
-        for (int i = 0; i < population; i++) {
+        for (int i = 0; i < populationSize; i++) {
             double f = function.Compute(pop[i]);
             fitness[i] = f;
             if(f < minError){
@@ -124,7 +121,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
         }
         
         //TLBO algorithm
-        for (int it = 0; it < iterations; it++) {
+        for (int it = 0; it < generations; it++) {
             
             //Calculate mean
             double[] mean = Catalano.Statistics.Tools.Mean(pop);
@@ -133,7 +130,7 @@ public class TeachingLearningBasedOptimization implements IOptimization{
             double[] teacher = Arrays.copyOf(pop[Matrix.MinIndex(fitness)], best.length);
             
             //Teacher phase
-            for (int i = 0; i < population; i++) {
+            for (int i = 0; i < populationSize; i++) {
                 double tf = rand.nextInt(2)+1;
                 
                 double[] newsol = new double[best.length];
@@ -156,11 +153,11 @@ public class TeachingLearningBasedOptimization implements IOptimization{
             }
             
             //Learner phase
-            for (int i = 0; i < population; i++) {
+            for (int i = 0; i < populationSize; i++) {
                 
-                int[] a = Matrix.Indices(0, population);
+                int[] a = Matrix.Indices(0, populationSize);
                 a = Matrix.RemoveColumn(a, i);
-                int pos = a[rand.nextInt(population-1)];
+                int pos = a[rand.nextInt(populationSize - 1)];
                 
                 double[] step = Matrix.Subtract(pop[i], pop[pos]);
                 if(fitness[pos] < fitness[i]){
@@ -185,7 +182,6 @@ public class TeachingLearningBasedOptimization implements IOptimization{
                     }
                 }
             }
-            //System.out.println(minError);
         }
         return best;
     }

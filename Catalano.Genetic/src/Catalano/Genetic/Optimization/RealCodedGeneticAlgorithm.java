@@ -61,13 +61,11 @@ import java.util.Random;
  * Real Coded Genetic Algorithm.
  * @author Diego Catalano
  */
-public class RealCodedGeneticAlgorithm implements IOptimization{
+public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization implements IOptimization{
     
     public static enum Selection {Random, RoulleteWheelSelection, Elite};
     private Selection selection;
     
-    private int population;
-    private int generations;
     private float crossoverPercentage;
     private float mutationPercentage;
     private double mutationRate = 0.1;
@@ -124,7 +122,7 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
      * @param selection Selection method.
      */
     public RealCodedGeneticAlgorithm(int population, int generations, float crossoverPercentage, float mutationPercentage, Selection selection) {
-        this.population = population;
+        this.populationSize = population;
         this.generations = generations;
         this.crossoverPercentage = crossoverPercentage;
         this.mutationPercentage = mutationPercentage;
@@ -136,12 +134,12 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
         
          Random rand = new Random();
          
-         int popCO = 2*(int)(population*crossoverPercentage)/2;
-         int popMU = (int)(population*mutationPercentage);
+         int popCO = 2*(int)(populationSize * crossoverPercentage)/2;
+         int popMU = (int)(populationSize * mutationPercentage);
         
         //Generate the population
-        List<Chromosome> lst = new ArrayList<Chromosome>(population+popCO*2+popMU);
-        for (int i = 0; i < population; i++) {
+        List<Chromosome> lst = new ArrayList<Chromosome>(populationSize + popCO * 2 + popMU);
+        for (int i = 0; i < populationSize; i++) {
             double[] values = new double[boundConstraint.size()];
             for (int j = 0; j < values.length; j++) {
                 DoubleRange range = boundConstraint.get(j);
@@ -206,7 +204,7 @@ public class RealCodedGeneticAlgorithm implements IOptimization{
             best = Arrays.copyOf(lst.get(0).getValues(), boundConstraint.size());
             minError = lst.get(0).fitness;
             
-            lst = lst.subList(0, population);
+            lst = lst.subList(0, populationSize);
             
         }
         
