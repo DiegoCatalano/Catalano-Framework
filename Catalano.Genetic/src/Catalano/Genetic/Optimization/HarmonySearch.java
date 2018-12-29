@@ -249,14 +249,7 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
         Random rand = new Random();
         
         //Initialize the population
-        List<Harmony> pop = new ArrayList<Harmony>(populationSize);
-        for (int i = 0; i < populationSize; i++) {
-            double[] values = Matrix.UniformRandom(boundConstraint);
-            double fitness = function.Compute(values);
-            
-            pop.add(new Harmony(values, fitness));
-            eval++;
-        }
+        List<Individual> pop = Individual.CreatePopulation(populationSize, boundConstraint, function);
         
         //Sort population by your fitness
         Collections.sort(pop);
@@ -272,10 +265,10 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
         for (int g = 0; g < generations; g++) {
             
             //Initialize new pop
-            List<Harmony> newPop = new ArrayList<Harmony>(newHarmonies);
+            List<Individual> newPop = new ArrayList<Individual>(newHarmonies);
             for (int i = 0; i < newHarmonies; i++) {
                 double[] values = Matrix.UniformRandom(boundConstraint);
-                newPop.add(new Harmony(values));
+                newPop.add(new Individual(values));
             }
             
             for (int i = 0; i < newHarmonies; i++) {
@@ -284,21 +277,21 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
                     //Harmony memory
                     if(rand.nextDouble() <= hmcr){
                         int randPos = rand.nextInt(pop.size());
-                        newPop.get(i).location[j] = pop.get(randPos).location[j];
+                        newPop.get(i).getLocation()[j] = pop.get(randPos).getLocation()[j];
                     }
                     
                     //Pitch adjustment
-                    double v = newPop.get(i).location[j];
+                    double v = newPop.get(i).getLocation()[j];
                     if(rand.nextDouble() <= pitch){
                         v += rand.nextGaussian() * fretWidth[j];
                     }
                     
                     //Clamp value
-                    newPop.get(i).location[j] = Tools.Clamp(v, boundConstraint.get(j));
+                    newPop.get(i).getLocation()[j] = Tools.Clamp(v, boundConstraint.get(j));
                 }
                 
                 //Compute fitness
-                newPop.get(i).fitness = function.Compute(newPop.get(i).location);
+                newPop.get(i).setFitness(function.Compute(newPop.get(i).getLocation()));
                 eval++;
             }
             
@@ -317,11 +310,10 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
             }
             
             //Update global values
-            best = Arrays.copyOf(pop.get(0).location, boundConstraint.size());
-            minError = pop.get(0).fitness;
+            best = Arrays.copyOf(pop.get(0).getLocation(), boundConstraint.size());
+            minError = pop.get(0).getFitness();
             
         }
-        
         
         return best;
         
@@ -330,27 +322,6 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
     @Override
     public double getError() {
         return minError;
-    }
-    
-    class Harmony implements Comparable<Harmony>{
-        
-        public double[] location;
-        public double fitness;
-        
-        public Harmony(double[] location){
-            this(location, Double.MAX_VALUE);
-        }
-
-        public Harmony(double[] location, double fitness) {
-            this.location = location;
-            this.fitness = fitness;
-        }
-
-        @Override
-        public int compareTo(Harmony o) {
-            return Double.compare(fitness, o.fitness);
-        }
-        
     }
     
 }

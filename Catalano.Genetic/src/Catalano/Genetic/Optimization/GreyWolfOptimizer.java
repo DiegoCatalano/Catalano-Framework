@@ -63,7 +63,6 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
     public double getError() {
         return minError;
     }
-    
 
     /**
      * Initializes a new instance of the GreyWolfOptimizer class.

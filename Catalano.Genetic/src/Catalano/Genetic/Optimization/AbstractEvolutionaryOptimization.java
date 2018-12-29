@@ -62,4 +62,5 @@ public abstract class AbstractEvolutionaryOptimization implements IOptimization{
     public void setGenerations(int generations){
         this.generations = generations;
     }
+    
 }

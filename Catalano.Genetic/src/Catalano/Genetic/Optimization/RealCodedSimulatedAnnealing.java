@@ -278,28 +278,21 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
         nEval = 0;
         
         Random rand = new Random();
-        
+
+        //Generate the individuals
         double[][] pop = new double[populationSize][boundConstraint.size()];
-        double[] fitness = new double[populationSize];
-        
-        //Initialize the solutions
         for (int i = 0; i < pop.length; i++) {
             for (int j = 0; j < pop[0].length; j++) {
                 DoubleRange range = boundConstraint.get(j);
                 pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
             }
         }
-        
+
         //Compute fitness
-        for (int i = 0; i < populationSize; i++) {
-            double f = function.Compute(pop[i]);
-            fitness[i] = f;
-            if(f < minError){
-                minError = f;
-                best = Arrays.copyOf(pop[i], pop[0].length);
-            }
-            nEval++;
-        }
+        double[] fitness = new double[pop.length];
+        for (int i = 0; i < fitness.length; i++)
+            fitness[i] = function.Compute(pop[i]);
+
         
         //Initialize temp
         double t = t0;

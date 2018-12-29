@@ -138,54 +138,55 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
          int popMU = (int)(populationSize * mutationPercentage);
         
         //Generate the population
-        List<Chromosome> lst = new ArrayList<Chromosome>(populationSize + popCO * 2 + popMU);
-        for (int i = 0; i < populationSize; i++) {
+        List<Individual> population = new ArrayList<Individual>(populationSize + popCO * 2 + popMU);
+        for (int i = 0; i < population.size(); i++) {
             double[] values = new double[boundConstraint.size()];
             for (int j = 0; j < values.length; j++) {
                 DoubleRange range = boundConstraint.get(j);
                 values[j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
             }
-            
-            Chromosome c = new Chromosome(values, function.Compute(values));
-            lst.add(c);
+
+            Individual c = new Individual(values, function.Compute(values));
+            population.add(c);
         }
         
+        
         //Sort
-        Collections.sort(lst);
+        Collections.sort(population);
         
         //Best of the all solution
-        best = Arrays.copyOf(lst.get(0).getValues(), boundConstraint.size());
-        minError = lst.get(0).getFitness();
-        maxError = lst.get(lst.size()-1).getFitness();
+        best = Arrays.copyOf(population.get(0).getLocation(), boundConstraint.size());
+        minError = population.get(0).getFitness();
+        maxError = population.get(population.size()-1).getFitness();
         
         //For each generation
         for (int g = 0; g < generations; g++) {
             
             //Crossover
-            List<Chromosome> news = new ArrayList<Chromosome>(popCO + popMU);
+            List<Individual> news = new ArrayList<Individual>(popCO + popMU);
             for (int i = 0; i < popCO/2; i++) {
                 
                 //Selection
                 int[] index = null;
                 switch(selection){
                     case Random:
-                        index = RandomSelection(lst);
+                        index = RandomSelection(population);
                     break;
                     case RoulleteWheelSelection:
-                        index = RoulleteWheelSelection(lst, beta, maxError);
+                        index = RoulleteWheelSelection(population, beta, maxError);
                     break;
                     case Elite:
                         index = EliteSelection();
                     break;
                 }
 
-                Chromosome c1 = lst.get(index[0]);
-                Chromosome c2 = lst.get(index[1]);
+                Individual c1 = population.get(index[0]);
+                Individual c2 = population.get(index[1]);
                 
-                double[][] elem = Crossover(c1.getValues(), c2.getValues(), 0.4, boundConstraint);
+                double[][] elem = Crossover(c1.getLocation(), c2.getLocation(), 0.4, boundConstraint);
 
-                c1 = new Chromosome(elem[0], function.Compute(elem[0]));
-                c2 = new Chromosome(elem[1], function.Compute(elem[1]));
+                c1 = new Individual(elem[0], function.Compute(elem[0]));
+                c2 = new Individual(elem[1], function.Compute(elem[1]));
                 news.add(c1);
                 news.add(c2);
                 
@@ -193,18 +194,18 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
             }
             
             for (int i = 0; i < popMU; i++) {
-                double[] elem = Mutation(lst.get(rand.nextInt(lst.size())).getValues(), mutationRate, boundConstraint);
-                news.add(new Chromosome(elem, function.Compute(elem)));
+                double[] elem = Mutation(population.get(rand.nextInt(population.size())).getLocation(), mutationRate, boundConstraint);
+                news.add(new Individual(elem, function.Compute(elem)));
                 nEval++;
             }
             
-            lst.addAll(news);
-            Collections.sort(lst);
+            population.addAll(news);
+            Collections.sort(population);
             
-            best = Arrays.copyOf(lst.get(0).getValues(), boundConstraint.size());
-            minError = lst.get(0).fitness;
+            best = Arrays.copyOf(population.get(0).getLocation(), boundConstraint.size());
+            minError = population.get(0).getFitness();
             
-            lst = lst.subList(0, populationSize);
+            population = population.subList(0, populationSize);
             
         }
         
@@ -228,7 +229,7 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
      * @param lst List of chromosomes.
      * @return Index of the selected chromosome.
      */
-    private int[] RandomSelection(List<Chromosome> lst){
+    private int[] RandomSelection(List<Individual> lst){
         
         Random rand = new Random();
         
@@ -246,14 +247,14 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
      * @param worstError Worst error.
      * @return Index of the selected chromosome.
      */
-    private int[] RoulleteWheelSelection(List<Chromosome> lst, double beta, double worstError){
+    private int[] RoulleteWheelSelection(List<Individual> lst, double beta, double worstError){
         
         Random rand = new Random();
         double[] fitness = new double[lst.size()];
         
         double sum = 0;
         for (int i = 0; i < fitness.length; i++) {
-            double v = Math.exp(-beta * lst.get(i).fitness / worstError);
+            double v = Math.exp(-beta * lst.get(i).getFitness() / worstError);
             fitness[i] = v;
             sum += v;
         }
@@ -333,39 +334,5 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
         
         return y;
         
-    }
-
-    class Chromosome implements Comparable{
-        
-        private double[] values;
-        private double fitness;
-
-        public double[] getValues() {
-            return values;
-        }
-
-        public void setValues(double[] values) {
-            this.values = values;
-        }
-
-        public double getFitness() {
-            return fitness;
-        }
-
-        public void setFitness(double fitness) {
-            this.fitness = fitness;
-        }
-
-        public Chromosome(double[] values, double fitness) {
-            this.values = values;
-            this.fitness = fitness;
-        }
-
-        @Override
-        public int compareTo(Object o) {
-            Chromosome c = (Chromosome)o;
-            return Double.compare(fitness, c.fitness);
-        }
-    }
-    
+    }   
 }

@@ -35,7 +35,6 @@ import java.util.List;
  * Differential evolution (DE) is a method that optimizes a problem by iteratively trying to
  * improve a candidate solution with regard to a given measure of quality.
  * 
- * //Exponential crossover: http://metahack.org/PPSN2014-Tanabe-Fukunaga.pdf
  * 
  * @author Diego Catalano
  */
@@ -239,6 +238,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
         
         nEval = 0;
+        minError = Double.MAX_VALUE;
         
         if(strategy == Strategy.RAND_1_BIN || strategy == Strategy.RAND_2_BIN || strategy == Strategy.RAND_1_EXP || strategy == Strategy.RAND_2_EXP){
             return Rand(function, boundConstraint, strategy);
@@ -261,16 +261,16 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
             }
         }
-        
+
         //Compute fitness
         double[] fitness = new double[pop.length];
         for (int i = 0; i < fitness.length; i++) {
             fitness[i] = function.Compute(pop[i]);
         }
         
+        
         //Best of the all solution
-        double[] best = new double[pop[0].length];
-        minError = fitness[0];
+        double[] best = null;
 
         int[] idx = Matrix.Indices(0, pop.length);        
         for (int g = 0; g < generations; g++) {
@@ -362,8 +362,10 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
     }
     
     private double[] Best(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
-        Random rand = new Random();
         
+        Random rand = new Random();
+        double[] best = null;
+
         //Generate the population
         double[][] pop = new double[populationSize][boundConstraint.size()];
         for (int i = 0; i < pop.length; i++) {
@@ -372,18 +374,11 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
             }
         }
-        
-        double[] best = new double[pop[0].length];
-        minError = Double.MAX_VALUE;
-        
+
         //Compute fitness
         double[] fitness = new double[pop.length];
         for (int i = 0; i < fitness.length; i++) {
             fitness[i] = function.Compute(pop[i]);
-            if(fitness[i] < minError){
-                minError = fitness[i];
-                best = pop[i];
-            }
         }
         
         int[] idx = Matrix.Indices(0, pop.length);

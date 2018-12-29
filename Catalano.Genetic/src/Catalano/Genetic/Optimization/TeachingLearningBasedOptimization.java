@@ -98,27 +98,20 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
         nEval = 0;
         
         Random rand = new Random();
-        
+
+        //Generate the individuals
         double[][] pop = new double[populationSize][boundConstraint.size()];
-        double[] fitness = new double[populationSize];
-        
-        //Initialize the solutions
         for (int i = 0; i < pop.length; i++) {
             for (int j = 0; j < pop[0].length; j++) {
                 DoubleRange range = boundConstraint.get(j);
                 pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
             }
         }
-        
+
         //Compute fitness
-        for (int i = 0; i < populationSize; i++) {
-            double f = function.Compute(pop[i]);
-            fitness[i] = f;
-            if(f < minError){
-                minError = f;
-                best = Arrays.copyOf(pop[i], pop[0].length);
-            }
-        }
+        double[] fitness = new double[pop.length];
+        for (int i = 0; i < fitness.length; i++)
+            fitness[i] = function.Compute(pop[i]);
         
         //TLBO algorithm
         for (int it = 0; it < generations; it++) {
@@ -127,13 +120,13 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
             double[] mean = Catalano.Statistics.Tools.Mean(pop);
             
             //Select teacher
-            double[] teacher = Arrays.copyOf(pop[Matrix.MinIndex(fitness)], best.length);
+            double[] teacher = Arrays.copyOf(pop[Matrix.MinIndex(fitness)], pop[0].length);
             
             //Teacher phase
             for (int i = 0; i < populationSize; i++) {
                 double tf = rand.nextInt(2)+1;
                 
-                double[] newsol = new double[best.length];
+                double[] newsol = new double[pop[0].length];
                 for (int j = 0; j < newsol.length; j++) {
                     newsol[j] = pop[i][j] + rand.nextDouble() * (teacher[j] - tf * mean[j]);
                     newsol[j] = Tools.Clamp(newsol[j], boundConstraint.get(j));
@@ -164,7 +157,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
                     step = Matrix.Multiply(step, -1);
                 }
                 
-                double[] newsol = new double[best.length];
+                double[] newsol = new double[pop[0].length];
                 for (int j = 0; j < newsol.length; j++) {
                     newsol[j] = pop[i][j] + rand.nextDouble() * step[j];
                     newsol[j] = Tools.Clamp(newsol[j], boundConstraint.get(j));
@@ -183,6 +176,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
                 }
             }
         }
+        
         return best;
     }
 }

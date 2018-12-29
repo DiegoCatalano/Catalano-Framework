@@ -52,7 +52,7 @@ import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -223,20 +223,8 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
         
         Random rand = new Random();
         
-        //Create initial population
-        List<Firefly> pop = new ArrayList<Firefly>(populationSize);
-        
-        for (int i = 0; i < populationSize; i++) {
-            
-            double[] loc = Matrix.UniformRandom(boundConstraint);
-            double fit = function.Compute(loc);
-            pop.add(new Firefly(loc, fit));
-            
-            if(fit < minError){
-                minError = fit;
-                best = Arrays.copyOf(pop.get(i).location, boundConstraint.size());
-            }
-        }
+        //Generate population
+        List<Individual> pop = Individual.CreatePopulation(populationSize, boundConstraint, function);
         
         //Calculate dmax
         double[] min = new double[boundConstraint.size()];
@@ -252,34 +240,34 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
         for (int g = 0; g < generations; g++) {
             
             //Initialize a new population
-            List<Firefly> newPop = new ArrayList<Firefly>(populationSize);
+            List<Individual> newPop = new ArrayList<Individual>(populationSize);
             for (int i = 0; i < populationSize; i++) {
-                newPop.add(new Firefly(null, Double.MAX_VALUE));
+                newPop.add(new Individual(null, Double.MAX_VALUE));
             }
             
             //Compute
             for (int i = 0; i < populationSize; i++) {
                 for (int j = 0; j < populationSize; j++) {
-                    double rij = Matrix.Norm2(Matrix.Subtract(pop.get(i).location, pop.get(j).location)) / dmax;
+                    double rij = Matrix.Norm2(Matrix.Subtract(pop.get(i).getLocation(), pop.get(j).getLocation())) / dmax;
                     double beta = beta0 * Math.exp(-gamma * (rij*rij));
                     double[] e = Matrix.Multiply(Matrix.UniformRandom(-1, 1, boundConstraint.size()), delta);
 
                     //New solution
                     double[] newsol = new double[boundConstraint.size()];
                     for (int k = 0; k < newsol.length; k++) {
-                        Firefly a = pop.get(i);
-                        Firefly b = pop.get(j);
-                        newsol[k] = a.location[k] + beta * rand.nextDouble() * (b.location[k] - a.location[k]) + damp * e[k];
+                        Individual a = pop.get(i);
+                        Individual b = pop.get(j);
+                        newsol[k] = a.getLocation()[k] + beta * rand.nextDouble() * (b.getLocation()[k] - a.getLocation()[k]) + damp * e[k];
                         newsol[k] = Tools.Clamp(newsol[k], boundConstraint.get(k));
                     }
 
                     double newfit = function.Compute(newsol);
                     nEval++;
-                    if(newfit <= newPop.get(i).fitness){
-                        newPop.set(i, new Firefly(newsol, newfit));
+                    if(newfit <= newPop.get(i).getFitness()){
+                        newPop.set(i, new Individual(newsol, newfit));
                         if(newfit < minError){
                             minError = newfit;
-                            best = Arrays.copyOf(newPop.get(i).location, boundConstraint.size());
+                            best = Arrays.copyOf(newPop.get(i).getLocation(), boundConstraint.size());
                         }
                     }
                 }
@@ -289,13 +277,7 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
             pop.addAll(newPop);
             
             //Sort
-            pop.sort(new Comparator<Firefly>() {
-
-                @Override
-                public int compare(Firefly o1, Firefly o2) {
-                    return Double.compare(o1.fitness, o2.fitness);
-                }
-            });
+            Collections.sort(pop);
             
             //Truncate
             pop = pop.subList(0, populationSize);
@@ -304,22 +286,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
         }
         
         return best;
-        
-    }
-    
-    class Firefly{
-        
-        public double[] location;
-        public double fitness;
-        
-        public Firefly(double[] location){
-            this(location, Double.MAX_VALUE);
-        }
-
-        public Firefly(double[] location, double fitness) {
-            this.location = location;
-            this.fitness = fitness;
-        }
         
     }
 }
