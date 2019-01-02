@@ -28,6 +28,7 @@ import Catalano.Math.Random.Random;
 import Catalano.Core.DoubleRange;
 import Catalano.Core.FloatRange;
 import Catalano.Core.IntRange;
+import Catalano.Math.Functions.Gamma;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -379,6 +380,26 @@ public final class Tools {
      */
     public static synchronized double RandomNextDouble() {
         return random.nextDouble();
+    }
+    
+    /**
+     * Generate a random number from laplacian distribution.
+     * @return Random number from laplacian distribution.
+     */
+    public static synchronized double RandomLaplacian(){
+        return RandomLaplacian(0, 1);
+    }
+        
+    /**
+     * Generate a random number from laplacian distribution.
+     * @param mean Mean.
+     * @param std Standard deviation.
+     * @return Random number from laplacian distribution.
+     */
+    public static synchronized double RandomLaplacian(double mean, double std){
+        double u = random.nextDouble() - 0.5;
+        double sigma = std / Constants.Sqrt2;
+        return mean - sigma * Math.signum(u) * Math.log(1 - 2 * Math.abs(u));
     }
     
     /**

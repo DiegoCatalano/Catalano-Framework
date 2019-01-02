@@ -22,6 +22,7 @@
 
 package Catalano.Genetic.Optimization;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
@@ -85,8 +86,14 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
 
         //Compute fitness
         double[] fitness = new double[pop.length];
-        for (int i = 0; i < fitness.length; i++)
+        for (int i = 0; i < fitness.length; i++){
             fitness[i] = function.Compute(pop[i]);
+            if(fitness[i] < minError){
+                minError = fitness[i];
+                best = Arrays.copyOf(pop[i], pop[0].length);
+            }
+        }
+        
         
         //Jaya algorithm
         for (int it = 0; it < generations; it++) {
