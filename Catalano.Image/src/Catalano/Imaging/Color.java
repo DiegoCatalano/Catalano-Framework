@@ -206,6 +206,19 @@ public class Color {
     }
     
     /**
+     * Initialize a new instance of the Color class.
+     * @param hex Hex color representation.
+     */
+    public Color(String hex){
+        
+        String t = hex.substring(5, 7);
+        r = Integer.parseInt(hex.substring(1, 3), 16);
+        g = Integer.parseInt(hex.substring(3, 5), 16);
+        b = Integer.parseInt(hex.substring(5, 7), 16);
+        
+    }
+    
+    /**
      * Compare two colors.
      * @param c1 First color.
      * @param c2 Second color.
@@ -219,6 +232,25 @@ public class Color {
         
         return false;
             
+    }
+    
+    /**
+     * Convert RGB to Hex representation.
+     * @param red Red component.
+     * @param green Green component.
+     * @param blue Blue component.
+     * @return Hex color representation.
+     */
+    public static String toHex(int red, int green, int blue){
+        return String.format("#%02x%02x%02x", red, green, blue);
+    }
+    
+    /**
+     * Convert RGB to Hex representation.
+     * @return Hex color representation.
+     */
+    public String toHex(){
+        return String.format("#%02x%02x%02x", r, g, b);
     }
     
 }

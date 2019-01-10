@@ -138,8 +138,9 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
          int popMU = (int)(populationSize * mutationPercentage);
         
         //Generate the population
-        List<Individual> population = new ArrayList<Individual>(populationSize + popCO * 2 + popMU);
-        for (int i = 0; i < population.size(); i++) {
+        int pSize = populationSize + popCO * 2 + popMU;
+        List<Individual> population = new ArrayList<Individual>(pSize);
+        for (int i = 0; i < pSize; i++) {
             double[] values = new double[boundConstraint.size()];
             for (int j = 0; j < values.length; j++) {
                 DoubleRange range = boundConstraint.get(j);

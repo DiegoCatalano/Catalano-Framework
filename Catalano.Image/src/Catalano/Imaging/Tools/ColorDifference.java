@@ -68,18 +68,35 @@ public class ColorDifference {
     }
     
     /**
-     * Delta-E
-     * Calculate "distance" between two colors.
+     * Delta E.
      * @param cieLab1 CIE-L*A*B* color space.
      * @param cieLab2 CIE-L*A*B* color space.
      * @return Distance.
      */
     public static double DeltaE(double[] cieLab1, double[] cieLab2){
-        return DeltaE(cieLab1[0], cieLab1[1], cieLab1[2], cieLab2[0], cieLab2[1], cieLab2[2]);
+        
+        double sum = 0;
+        for (int i = 0; i < cieLab1.length; i++) {
+            sum += Math.pow(cieLab1[i] - cieLab2[i], 2);
+        }
+        
+        return Math.sqrt(sum);
+        
     }
     
     /**
-     * Delta-E
+     * CIE DE 2000.
+     * Calculate "distance" between two colors.
+     * @param cieLab1 CIE-L*A*B* color space.
+     * @param cieLab2 CIE-L*A*B* color space.
+     * @return Distance.
+     */
+    public static double CIEDE2000(double[] cieLab1, double[] cieLab2){
+        return CIEDE2000(cieLab1[0], cieLab1[1], cieLab1[2], cieLab2[0], cieLab2[1], cieLab2[2]);
+    }
+    
+    /**
+     * CIE DE 2000.
      * Calculate "distance" between two colors.
      * @param l1 L* component.
      * @param a1 A* component.
@@ -89,7 +106,7 @@ public class ColorDifference {
      * @param b2 B* component.
      * @return Distance between the two colors.
      */
-    public static double DeltaE(double l1, double a1, double b1, double l2, double a2, double b2){
+    public static double CIEDE2000(double l1, double a1, double b1, double l2, double a2, double b2){
         
         double C1 =  Math.sqrt(a1*a1 + b1*b1);
         double C2 =  Math.sqrt(a2*a2 + b2*b2);
