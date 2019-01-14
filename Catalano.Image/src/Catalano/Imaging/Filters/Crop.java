@@ -163,8 +163,6 @@ public class Crop implements IApply, IApplyInPlace{
                         l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
                     }
                 }
-
-                fastBitmap.setImage(l);    
             }
             else{
                 for (int r = 0; r < height; r++) {
@@ -172,8 +170,6 @@ public class Crop implements IApply, IApplyInPlace{
                         l.setGray(c, r, fastBitmap.getGray(r + this.y, c + this.x));
                     }
                 }
-
-                fastBitmap.setImage(l);   
             }
         }
         else{
@@ -185,7 +181,6 @@ public class Crop implements IApply, IApplyInPlace{
                         l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
                     }
                 }
-                fastBitmap.setImage(l);
             }
             else{
                 for (int r = 0; r < height; r++) {
