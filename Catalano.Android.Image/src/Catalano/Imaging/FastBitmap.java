@@ -715,9 +715,7 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int offset, int value){
-        int g = pixels[offset] >> 8 & 0xFF;
-        int b = pixels[offset] & 0xFF;
-        pixels[offset] =  255 << 24 | value << 16 | g << 8 | b;
+        pixels[offset] = pixels[offset] & 0xff00ffff | value << 16;
     }
 
     /**
@@ -727,9 +725,7 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int x, int y, int value){
-        int g = pixels[x * strideX + y * strideY] >> 8 & 0xFF;
-        int b = pixels[x * strideX + y * strideY] & 0xFF;
-        pixels[x * strideX + y * strideY] =  255 << 24 | value << 16 | g << 8 | b;
+        pixels[x * strideX + y * strideY] = pixels[x * strideX + y * strideY] & 0xff00ffff | value << 16;
     }
     
     /**
@@ -775,9 +771,7 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int offset, int value){
-        int r = pixels[offset] >> 16 & 0xFF;
-        int b = pixels[offset] & 0xFF;
-        pixels[offset] =  255 << 24 | r << 16 | value << 8 | b;
+        pixels[offset] = pixels[offset] & 0xffff00ff | value << 8;
     }
 
     /**
@@ -787,9 +781,7 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int x, int y, int value){
-        int r = pixels[x * strideX + y * strideY] >> 16 & 0xFF;
-        int b = pixels[x * strideX + y * strideY] & 0xFF;
-        pixels[x * strideX + y * strideY] = 255 << 24 | r << 16 | value << 8 | b;
+        pixels[x * strideX + y * strideY] = pixels[x * strideX + y * strideY] & 0xffff00ff | value << 8;
     }
     
     /**
@@ -835,9 +827,7 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int offset, int value){
-        int r = pixels[offset] >> 16 & 0xFF;
-        int g = pixels[offset] >> 8 & 0xFF;
-        pixels[offset] =  255 << 24 | r << 16 | g << 8 | value;
+        pixels[offset] = pixels[offset] & 0xffffff00 | value;
     }
 
     /**
@@ -847,9 +837,7 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int x, int y, int value){
-        int r = pixels[x * strideX + y * strideY] >> 16 & 0xFF;
-        int g = pixels[x * strideX + y * strideY] >> 8 & 0xFF;
-        pixels[x * strideX + y * strideY] = 255 << 24 | r << 16 | g << 8 | value;
+        pixels[x * strideX + y * strideY] = pixels[x * strideX + y * strideY] & 0xffffff00 | value;
     }
     
     /**

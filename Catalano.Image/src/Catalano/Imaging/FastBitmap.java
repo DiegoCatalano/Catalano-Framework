@@ -1139,11 +1139,7 @@ public class FastBitmap {
      * @param value Alpha channel's value.
      */
     public void setAlpha(int offset, int value){
-        int r,g,b;
-        r = pixels[offset] >> 16 & 0xFF;
-        g = pixels[offset] >> 8 & 0xFF;
-        b = pixels[offset] & 0xFF;
-        pixels[offset] = value << 24 | r << 16 | g << 8 | b;
+        pixels[offset] = pixels[offset] & 0x00ffffff | value << 24;
     }
     
     /**
@@ -1153,11 +1149,7 @@ public class FastBitmap {
      * @param value Alpha channel's value.
      */
     public void setAlpha(int x, int y, int value){
-        int r,g,b;
-        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
-        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
-        b = pixels[x*strideX+y*strideY] & 0xFF;
-        pixels[x*strideX+y*strideY] = value << 24 | r << 16 | g << 8 | b;
+        pixels[x*strideX+y*strideY] = pixels[x*strideX+y*strideY] & 0x00ffffff | value << 24;
     }
     
     /**
@@ -1193,11 +1185,7 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int offset, int value){
-        int a,g,b;
-        a = pixels[offset] >> 24 & 0xFF;
-        g = pixels[offset] >> 8 & 0xFF;
-        b = pixels[offset] & 0xFF;
-        pixels[offset] = a << 24 | value << 16 | g << 8 | b;
+        pixels[offset] = pixels[offset] & 0xff00ffff | value << 16;
     }
     
     /**
@@ -1207,11 +1195,7 @@ public class FastBitmap {
      * @param value Red channel's value.
      */
     public void setRed(int x, int y, int value){
-        int a,g,b;
-        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
-        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
-        b = pixels[x*strideX+y*strideY] & 0xFF;
-        pixels[x*strideX+y*strideY] = a << 24 | value << 16 | g << 8 | b;
+        pixels[x*strideX+y*strideY] = pixels[x*strideX+y*strideY] & 0xff00ffff | value << 16;
     }
     
     /**
@@ -1256,11 +1240,7 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int offset, int value){
-        int a,r,b;
-        a = pixels[offset] >> 24 & 0xFF;
-        r = pixels[offset] >> 16 & 0xFF;
-        b = pixels[offset] & 0xFF;
-        pixels[offset] = a << 24 | r << 16 | value << 8 | b;
+        pixels[offset] = pixels[offset] & 0xffff00ff | value << 8;
     }
     
     /**
@@ -1270,11 +1250,7 @@ public class FastBitmap {
      * @param value Green channel's value.
      */
     public void setGreen(int x, int y, int value){
-        int a,r,b;
-        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
-        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
-        b = pixels[x*strideX+y*strideY] & 0xFF;
-        pixels[x*strideX+y*strideY] = a << 24 | r << 16 | value << 8 | b;
+        pixels[x*strideX+y*strideY] = pixels[x*strideX+y*strideY] & 0xffff00ff | value << 8;
     }
     
     /**
@@ -1319,11 +1295,7 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int offset, int value){
-        int a,r,g;
-        a = pixels[offset] >> 24 & 0xFF;
-        r = pixels[offset] >> 16 & 0xFF;
-        g = pixels[offset] >> 8 & 0xFF;
-        pixels[offset] = a << 24 | r << 16 | g << 8 | value;
+        pixels[offset] = pixels[offset] & 0xffffff00 | value;
     }
     
     /**
@@ -1333,11 +1305,7 @@ public class FastBitmap {
      * @param value Blue channel's value.
      */
     public void setBlue(int x, int y, int value){
-        int a,r,g;
-        a = pixels[x*strideX+y*strideY] >> 24 & 0xFF;
-        r = pixels[x*strideX+y*strideY] >> 16 & 0xFF;
-        g = pixels[x*strideX+y*strideY] >> 8 & 0xFF;
-        pixels[x*strideX+y*strideY] = a << 24 | r << 16 | g << 8 | value;
+        pixels[x*strideX+y*strideY] = pixels[x*strideX+y*strideY] & 0xffffff00 | value;
     }
     
     /**
