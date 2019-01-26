@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -26,10 +26,16 @@ import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Binary Closing operator from Mathematical Morphology.
- * <br /> Applied to binary image, the filter may be used connect or fill objects. Since dilatation is used first, it may connect/fill object areas. Then erosion restores objects. But since dilatation may connect something before, erosion may not remove after that because of the formed connection.
+ * <p> Applied to binary image, the filter may be used connect or fill objects. Since dilatation is used first, it may connect/fill object areas. Then erosion restores objects. But since dilatation may connect something before, erosion may not remove after that because of the formed connection.</p>
+ * 
+ * <p><b>Properties:</b>
+ * <li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.</p>
+ * 
  * @author Diego Catalano
  */
 public class BinaryClosing implements IApplyInPlace{
+    
     private int[][] kernel;
     private int radius = 0;
 
@@ -59,11 +65,16 @@ public class BinaryClosing implements IApplyInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Closing only works in grayscale images.");
         }
     }
     

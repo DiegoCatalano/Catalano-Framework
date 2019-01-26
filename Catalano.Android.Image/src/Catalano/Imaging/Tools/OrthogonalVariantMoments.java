@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016

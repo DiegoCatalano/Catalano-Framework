@@ -88,7 +88,7 @@ public class Shrink implements IApplyInPlace{
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
-            crop.ApplyInPlace(fastBitmap);
+            crop.applyInPlace(fastBitmap);
         }
         else if(fastBitmap.isRGB()){
             
@@ -118,7 +118,7 @@ public class Shrink implements IApplyInPlace{
             }
             
             Crop crop = new Crop(minHeight, minWidth, maxWidth-minWidth+1, maxHeight-minHeight+1);
-            crop.ApplyInPlace(fastBitmap);
+            crop.applyInPlace(fastBitmap);
         }
     }
 }

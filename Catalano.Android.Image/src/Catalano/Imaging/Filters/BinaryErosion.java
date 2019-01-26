@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -29,7 +29,8 @@ import Catalano.Imaging.IApplyInPlace;
  * The filter assigns minimum value of surrounding pixels to each pixel of the result image. Surrounding pixels, which should be processed, are specified by structuring element: 1 - to process the neighbor, 0 - to skip it.
  * The filter especially useful for binary image processing, where it removes pixels, which are not surrounded by specified amount of neighbors. It gives ability to remove noisy pixels (stand-alone pixels) or shrink objects.
  * 
- * The filter accepts 8 bpp grayscale images for processing.
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */
@@ -41,15 +42,7 @@ public class BinaryErosion implements IApplyInPlace{
      * Initialize a new instance of the Binary Erosion class with radius = 1.
      */
     public BinaryErosion() {
-        this.radius = 1;
-    }
-    
-    /**
-     * Initialize a new instance of the Binary Erosion class with structuring element.
-     * @param se Structuring element.
-     */
-    public BinaryErosion(int[][] se) {
-        this.kernel = se;
+        this(1);
     }
 
     /**
@@ -62,27 +55,40 @@ public class BinaryErosion implements IApplyInPlace{
     }
     
     /**
+     * Initialize a new instance of the Binary Erosion class with structuring element.
+     * @param se Structuring element.
+     */
+    public BinaryErosion(int[][] se) {
+        this.kernel = se;
+    }
+    
+    /**
      * Apply filter to an image.
      * @param fastBitmap FastBitmap
      */
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Erosion only works in grayscale images.");
         }
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int radius){
         
         FastBitmap copy = new FastBitmap(fastBitmap);
-        
+
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         int l;
-        
+
         int Xline,Yline;
         int lines = CalcLines(radius);
         for (int x = 0; x < height; x++) {
@@ -100,26 +106,26 @@ public class BinaryErosion implements IApplyInPlace{
                     }
                 }
             }
-        }
+        }        
     }
     
     private void ApplyInPlace(FastBitmap fastBitmap, int[][] kernel){
         
         FastBitmap copy = new FastBitmap(fastBitmap);
-        
+
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
         int l;
-        
+
         int Xline,Yline;
         int lines = CalcLines(kernel);
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 l = copy.getGray(x, y);
                 if (l == 0) {
-                    for (int i = 0; i < kernel[0].length; i++) {
+                    for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i-lines);
-                        for (int j = 0; j < kernel.length; j++) {
+                        for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j-lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
                                 if (kernel[i][j] == 1) {

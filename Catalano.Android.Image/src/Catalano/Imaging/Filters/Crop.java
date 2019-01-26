@@ -21,6 +21,9 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
+import Catalano.Imaging.IApplyInPlace;
+import Catalano.Imaging.Shapes.IntRectangle;
 
 /**
  * Crop an image.
@@ -31,7 +34,7 @@ import Catalano.Imaging.FastBitmap;
  * 
  * @author Diego Catalano
  */
-public class Crop {
+public class Crop implements IApply, IApplyInPlace{
     
     private int x;
     private int y;
@@ -123,6 +126,14 @@ public class Crop {
     
     /**
      * Initialize a new instance of the Crop class.
+     * @param rectangle Rectangle.
+     */
+    public Crop(IntRectangle rectangle){
+        this(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    }
+    
+    /**
+     * Initialize a new instance of the Crop class.
      * @param x start x position.
      * @param y start y position.
      * @param width new width.
@@ -134,12 +145,9 @@ public class Crop {
         this.width = width;
         this.height = height;
     }
-    
-    /**
-     * Apply filter to a FastBitmap.
-     * @param fastBitmap FastBitmap
-     */
-    public void ApplyInPlace(FastBitmap fastBitmap){
+
+    @Override
+    public FastBitmap apply(FastBitmap fastBitmap) {
         
         if((this.x + height > fastBitmap.getHeight()) ||
                 this.y + width > fastBitmap.getWidth()){
@@ -155,8 +163,6 @@ public class Crop {
                         l.setGray(r, c, fastBitmap.getGray(r + this.x, c + this.y));
                     }
                 }
-
-                fastBitmap.setImage(l);    
             }
             else{
                 for (int r = 0; r < height; r++) {
@@ -164,8 +170,6 @@ public class Crop {
                         l.setGray(c, r, fastBitmap.getGray(r + this.y, c + this.x));
                     }
                 }
-
-                fastBitmap.setImage(l);   
             }
         }
         else{
@@ -177,7 +181,6 @@ public class Crop {
                         l.setBlue(r, c, fastBitmap.getBlue(r + this.x, c + this.y));
                     }
                 }
-                fastBitmap.setImage(l);
             }
             else{
                 for (int r = 0; r < height; r++) {
@@ -187,8 +190,18 @@ public class Crop {
                         l.setBlue(c, r, fastBitmap.getBlue(r + this.y, c + this.x));
                     }
                 }
-                fastBitmap.setImage(l);
             }
         }
+        return l;
+    }
+    
+    /**
+     * Apply filter to a FastBitmap.
+     * @param fastBitmap FastBitmap
+     */
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap){
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -239,38 +239,6 @@ public class BlobDetection {
             break;
         }
         
-//        while (examList.size() > 0) {
-//            IntPoint p = examList.removeLast();
-//            _r = copy.getRed(p.x, p.y);
-//            _g = copy.getGreen(p.x, p.y);
-//            _b = copy.getBlue(p.x, p.y);
-//            int _RGB = _r << 16 | _g << 8 | _b;
-//            
-//            if (_RGB == iRGB) {
-//                x = p.x;
-//                y = p.y;
-//                
-//                copy.setRGB(x, y, r, g, b);
-//                blobArea++;
-//                blobPoints.add(new IntPoint(x, y));
-//                xc += p.x;
-//                yc += p.y;
-//                
-//                if (x-1 > 0) {
-//                    examList.addFirst(new IntPoint(x-1,y));        // check west neighbor
-//                }
-//                if (x+1 < height) {
-//                    examList.addFirst(new IntPoint(x+1,y));        // check east neighbor
-//                }
-//                if (y-1 > 0) {
-//                    examList.addFirst(new IntPoint(x,y-1));        // check north neighbor
-//                }
-//                if (y+1 < width) {
-//                    examList.addFirst(new IntPoint(x,y+1));        // check south neighbor
-//                }
-//            }
-//        }
-        
         if (filterBlob == true) {
             if ((blobArea > minArea ) && (blobArea < maxArea)) {
                     
@@ -297,10 +265,10 @@ public class BlobDetection {
             
             //Discover width, height and bounding box using Point Cloud
             List<IntPoint> lst = PointsCloud.GetBoundingRectangle(blobPoints);
-            int h = Math.abs(lst.get(1).x - lst.get(0).x);
-            int w = Math.abs(lst.get(1).y - lst.get(0).y);
+            int h = Math.abs(lst.get(0).x - lst.get(1).x);
+            int w = Math.abs(lst.get(0).y - lst.get(1).y);
             
-            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x-1, lst.get(0).y-1, w+2, h+2));
+            blob = new Blob(id, blobArea, new IntPoint(xc/blobArea, yc/blobArea),blobPoints, new IntRectangle(lst.get(0).x, lst.get(0).y, w, h));
             blobs.add(blob);
             size++;
             id++;

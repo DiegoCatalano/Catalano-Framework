@@ -217,7 +217,7 @@ public class YCbCrFiltering implements IApplyInPlace{
                 int b = fastBitmap.getBlue(i);
 
                 // convert to YCbCr
-                float[] ycbcr = ColorConverter.RGBtoYCbCr(r, g, b, ColorConverter.YCbCrColorSpace.ITU_BT_601);
+                double[] ycbcr = ColorConverter.RGBtoYCbCr(r, g, b, ColorConverter.YCbCrColorSpace.ITU_BT_601);
 
                 // check YCbCr values
                 if (

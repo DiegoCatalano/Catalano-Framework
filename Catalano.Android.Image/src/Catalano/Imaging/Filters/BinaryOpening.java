@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -26,10 +26,15 @@ import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Binary Opening operator from Mathematical Morphology.
- * <br /> Applied to binary image, the filter may be used for removing small object keeping big objects unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big objects, which were not removed by erosion.
+ * <p> Applied to binary image, the filter may be used for removing small object keeping big objects unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big objects, which were not removed by erosion.</p>
+ * 
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
+ * 
  * @author Diego Catalano
  */
 public class BinaryOpening implements IApplyInPlace{
+    
     private int[][] kernel;
     private int radius = 0;
 
@@ -59,11 +64,16 @@ public class BinaryOpening implements IApplyInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Opening only works in grayscale images.");
         }
     }
     

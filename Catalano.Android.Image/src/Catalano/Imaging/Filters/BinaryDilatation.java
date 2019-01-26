@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -29,11 +29,13 @@ import Catalano.Imaging.IApplyInPlace;
  * The filter assigns maximum value of surrounding pixels to each pixel of the result image. Surrounding pixels, which should be processed, are specified by structuring element: 1 - to process the neighbor, 0 - to skip it.
  * The filter especially useful for binary image processing, where it allows to grow separate objects or join objects.
  * 
- * The filter accepts 8 bpp grayscale images for processing.
+ * <p><li>Supported types: Grayscale.
+ * <br><li>Coordinate System: Matrix.
  * 
  * @author Diego Catalano
  */
 public class BinaryDilatation implements IApplyInPlace{
+    
     private int[][] kernel;
     private int radius = 0;
 
@@ -63,11 +65,16 @@ public class BinaryDilatation implements IApplyInPlace{
     
     @Override
     public void applyInPlace(FastBitmap fastBitmap){
-        if (radius != 0) {
-            ApplyInPlace(fastBitmap, radius);
+        if(fastBitmap.isGrayscale()){
+            if (radius != 0) {
+                ApplyInPlace(fastBitmap, radius);
+            }
+            else{
+                ApplyInPlace(fastBitmap, kernel);
+            }
         }
         else{
-            ApplyInPlace(fastBitmap, kernel);
+            throw new IllegalArgumentException("Binary Dilatation only works in grayscale images.");
         }
     }
     
@@ -113,9 +120,9 @@ public class BinaryDilatation implements IApplyInPlace{
             for (int y = 0; y < width; y++) {
                 l = copy.getGray(x, y);
                 if (l == 255) {
-                    for (int i = 0; i < kernel[0].length; i++) {
+                    for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i-lines);
-                        for (int j = 0; j < kernel.length; j++) {
+                        for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j-lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
                                 if (kernel[i][j] == 1) {

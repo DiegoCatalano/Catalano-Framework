@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -26,6 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
@@ -38,7 +39,7 @@ import Catalano.Imaging.IApplyInPlace;
  * 
  * @author Diego Catalano
  */
-public class RotateNearestNeighbor implements IApplyInPlace {
+public class RotateNearestNeighbor implements IApply, IApplyInPlace {
     
     private double angle;
     private boolean keepSize;
@@ -95,6 +96,7 @@ public class RotateNearestNeighbor implements IApplyInPlace {
         this.fillBlue = blue;
     }
     
+    
     /**
      * Set Fill color.
      * @param gray Gray channel's value.
@@ -123,8 +125,7 @@ public class RotateNearestNeighbor implements IApplyInPlace {
     }
 
     @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
-        
+    public FastBitmap apply(FastBitmap fastBitmap) {
         if (fastBitmap.isGrayscale()){
             
             int width = fastBitmap.getWidth();
@@ -173,8 +174,8 @@ public class RotateNearestNeighbor implements IApplyInPlace {
                 ci++;
             }
             
-            fastBitmap.setImage(destinationData);
-            //destinationData.recycle();
+            return destinationData;
+            
         }
         else if (fastBitmap.isRGB()){
             int width = fastBitmap.getWidth();
@@ -227,9 +228,18 @@ public class RotateNearestNeighbor implements IApplyInPlace {
                 ci++;
             }
             
-            fastBitmap.setImage(destinationData);
-            //destinationData.recycle();
+            return destinationData;
+            
         }
+        
+        return null;
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
+        
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
         
     }
     

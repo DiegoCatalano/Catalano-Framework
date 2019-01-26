@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -26,6 +26,7 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
@@ -36,7 +37,7 @@ import Catalano.Imaging.IApplyInPlace;
  * 
  * @author Diego Catalano
  */
-public class ResizeBilinear implements IApplyInPlace{
+public class ResizeBilinear implements IApply, IApplyInPlace{
     
     private int newWidth;
     private int newHeight;
@@ -94,7 +95,7 @@ public class ResizeBilinear implements IApplyInPlace{
     }
 
     @Override
-    public void applyInPlace(FastBitmap fastBitmap) {
+    public FastBitmap apply(FastBitmap fastBitmap) {
         
         FastBitmap dest = new FastBitmap(newWidth, newHeight, fastBitmap.getColorSpace());
         
@@ -149,8 +150,7 @@ public class ResizeBilinear implements IApplyInPlace{
                     dest.setGray(i, j, g);
                 }
             }
-            fastBitmap.setImage(dest);
-            //dest.recycle();
+            return dest;
         }
         else{
             int width = fastBitmap.getWidth();
@@ -224,8 +224,13 @@ public class ResizeBilinear implements IApplyInPlace{
                     dest.setRGB(i, j, r, g, b);
                 }
             }
-            fastBitmap.setImage(dest);
-            //dest.recycle();
+            return dest;
         }
+    }
+
+    @Override
+    public void applyInPlace(FastBitmap fastBitmap) {
+        FastBitmap temp = apply(fastBitmap);
+        fastBitmap.setImage(temp);
     }
 }

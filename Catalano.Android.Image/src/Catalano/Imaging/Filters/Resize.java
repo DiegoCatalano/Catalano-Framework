@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -22,13 +22,14 @@
 package Catalano.Imaging.Filters;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.IApply;
 import Catalano.Imaging.IApplyInPlace;
 
 /**
  * Resize image using interpolation algorithms.
  * @author Diego Catalano
  */
-public class Resize implements IApplyInPlace{
+public class Resize implements IApply, IApplyInPlace{
     
     
     /**
@@ -114,6 +115,21 @@ public class Resize implements IApplyInPlace{
     public void setNewSize(int newWidth, int newHeight){
         this.newWidth = newWidth;
         this.newHeight = newHeight;
+    }
+
+    @Override
+    public FastBitmap apply(FastBitmap fastBitmap) {
+        switch(algorithm){
+            case BILINEAR:
+                ResizeBilinear rBilinear = new ResizeBilinear(newWidth, newHeight);
+                return rBilinear.apply(fastBitmap);
+            case BICUBIC:
+                ResizeBicubic rBicubic = new ResizeBicubic(newWidth, newHeight);
+                return rBicubic.apply(fastBitmap);
+            default:
+                ResizeNearestNeighbor rNearest = new ResizeNearestNeighbor(newWidth, newHeight);
+                return rNearest.apply(fastBitmap);
+        }
     }
     
     @Override
