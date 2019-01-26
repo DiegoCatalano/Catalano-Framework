@@ -1,92 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Catalano.Android.Image" default="help">
-
-    <!-- The local.properties file is created and updated by the 'android' tool.
-         It contains the path to the SDK. It should *NOT* be checked into
-         Version Control Systems. -->
-    <property file="local.properties" />
-
-    <!-- The ant.properties file can be created by you. It is only edited by the
-         'android' tool to add properties to it.
-         This is the place to change some Ant specific build properties.
-         Here are some properties you may want to change/update:
-
-         source.dir
-             The name of the source directory. Default is 'src'.
-         out.dir
-             The name of the output directory. Default is 'bin'.
-
-         For other overridable properties, look at the beginning of the rules
-         files in the SDK, at tools/ant/build.xml
-
-         Properties related to the SDK location or the project target should
-         be updated using the 'android' tool with the 'update' action.
-
-         This file is an integral part of the build system for your
-         application and should be checked into Version Control Systems.
-
-         -->
-    <property file="ant.properties" />
-
-    <!-- if sdk.dir was not set from one of the property file, then
-         get it from the ANDROID_HOME env var.
-         This must be done before we load project.properties since
-         the proguard config can use sdk.dir -->
-    <property environment="env" />
-    <condition property="sdk.dir" value="${env.ANDROID_HOME}">
-        <isset property="env.ANDROID_HOME" />
-    </condition>
-
-    <!-- The project.properties file is created and updated by the 'android'
-         tool, as well as ADT.
-
-         This contains project specific properties such as project target, and library
-         dependencies. Lower level build properties are stored in ant.properties
-         (or in .classpath for Eclipse projects).
-
-         This file is an integral part of the build system for your
-         application and should be checked into Version Control Systems. -->
-    <loadproperties srcFile="project.properties" />
-
-    <!-- quick check on sdk.dir -->
-    <fail
-            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
-            unless="sdk.dir"
-    />
-
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="Catalano.Android.Image" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Catalano.Android.Image.</description>
+    <import file="nbproject/build-impl.xml"/>
     <!--
-        Import per project custom build rules if present at the root of the project.
-        This is the place to put custom intermediary targets such as:
-            -pre-build
-            -pre-compile
-            -post-compile (This is typically used for code obfuscation.
-                           Compiled code location: ${out.classes.absolute.dir}
-                           If this is not done in place, override ${out.dex.input.absolute.dir})
-            -post-package
-            -post-build
-            -pre-clean
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar:                  JAR building
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="Catalano.Android.Image-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
     -->
-    <import file="custom_rules.xml" optional="true" />
-
-    <!-- Import the actual build file.
-
-         To customize existing targets, there are two options:
-         - Customize only one target:
-             - copy/paste the target into this file, *before* the
-               <import> task.
-             - customize it to your needs.
-         - Customize the whole content of build.xml
-             - copy/paste the content of the rules files (minus the top node)
-               into this file, replacing the <import> task.
-             - customize to your needs.
-
-         ***********************
-         ****** IMPORTANT ******
-         ***********************
-         In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
-         in order to avoid having your file be overridden by tools such as "android update project"
-    -->
-    <!-- version-tag: 1 -->
-    <import file="${sdk.dir}/tools/ant/build.xml" />
-
 </project>
