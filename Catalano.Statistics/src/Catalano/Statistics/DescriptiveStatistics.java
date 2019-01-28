@@ -21,6 +21,7 @@
 
 package Catalano.Statistics;
 
+import Catalano.Core.ArraysUtil;
 import java.util.Arrays;
 /**
  * Descriptive statistics are used to describe the basic features of the data in a study.
@@ -106,8 +107,9 @@ public final class DescriptiveStatistics {
     public static double Median(double[] values){
         if(values.length == 1)
             return values[0];
-        Arrays.sort(values);
-        return values[(values.length+1) / 2];
+        
+        int[] index = ArraysUtil.Argsort(values, true);
+        return values[index[(values.length+1) / 2]];
     }
     
     /**
@@ -122,17 +124,18 @@ public final class DescriptiveStatistics {
      * @return Mode.
      */
     public static double Mode(double[] values){
-        Arrays.sort(values);
-        double v = values[0];
+        //Sort values
+        int[] ord = ArraysUtil.Argsort(values, true);
+        double v = values[ord[0]];
         int index = 0, x = 0, rep = 0;
         for (int i = 1; i < values.length; i++) {
-            if (values[i] == v) {
+            if (values[ord[i]] == v) {
                 x++;
                 if (x > rep) {
                     rep = x;
                     index = i;
                 }
-                v = values[i];
+                v = values[ord[i]];
                 x = 0;
             }
             else{
@@ -140,7 +143,7 @@ public final class DescriptiveStatistics {
                     rep = x;
                     index = i;
                 }
-                v = values[i];
+                v = values[ord[i]];
                 x = 0;
             }
         }
@@ -154,11 +157,9 @@ public final class DescriptiveStatistics {
      */
     public static double Minimum(double[] values){
         double min = Double.MAX_VALUE;
-        for (int i = 0; i < values.length; i++) {
-            if (min > values[i]) {
+        for (int i = 0; i < values.length; i++)
+            if (min > values[i])
                 min = values[i];
-            }
-        }
         
         return min;
     }
@@ -170,11 +171,9 @@ public final class DescriptiveStatistics {
      */
     public static double Maximum(double[] values){
         double max = Double.MIN_VALUE;
-        for (int i = 0; i < values.length; i++) {
-            if (max < values[i]) {
+        for (int i = 0; i < values.length; i++)
+            if (max < values[i])
                 max = values[i];
-            }
-        }
         
         return max;
     }
