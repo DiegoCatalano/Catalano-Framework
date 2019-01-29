@@ -101,7 +101,7 @@ public class Maximum implements IApplyInPlace{
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j-radius);
                             if ((Xline >= 0) && (Xline < height) && (Yline >=0) && (Yline < width)) {
-                                maxR = Math.max(maxG,copy.getRed(Xline, Yline));
+                                maxR = Math.max(maxR,copy.getRed(Xline, Yline));
                                 maxG = Math.max(maxG,copy.getGreen(Xline, Yline));
                                 maxB = Math.max(maxB,copy.getBlue(Xline, Yline));
                             }
