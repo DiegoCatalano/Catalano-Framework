@@ -938,6 +938,57 @@ public final class Matrix {
     }
     
     /**
+     * Returns iterated differences.
+     * @param A Vector.
+     * @param differences Differences.
+     * @return Differences.
+     */
+    public static double[] Diff(double[] A, int differences){
+        
+        double[] result = new double[A.length - differences];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = A[i+differences] - A[i];
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Returns iterated differences.
+     * @param A Vector.
+     * @param differences Differences.
+     * @return Differences.
+     */
+    public static int[] Diff(int[] A, int differences){
+        
+        int[] result = new int[A.length - differences];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = A[i+differences] - A[i];
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Returns iterated differences.
+     * @param A Vector.
+     * @param differences Differences.
+     * @return Differences.
+     */
+    public static float[] Diff(float[] A, int differences){
+        
+        float[] result = new float[A.length - differences];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = A[i+differences] - A[i];
+        }
+        
+        return result;
+        
+    }
+    
+    /**
      * Divides a matrix with a scalar value.
      * @param A Matrix.
      * @param scalar Scalar value.
@@ -3808,6 +3859,84 @@ public final class Matrix {
             boolean has = false;
             for (int j = 0; j < index.length; j++)
                 if(index[j] == i) has = true;
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static double[] RemoveColumns(double[] A, List<Integer> index){
+        if(A.length - index.size() <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        double[] B = new double[A.length - index.size()];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.size(); j++)
+                if(index.get(j) == i) has = true;
+            
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static int[] RemoveColumns(int[] A, List<Integer> index){
+        if(A.length - index.size() <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        int[] B = new int[A.length - index.size()];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.size(); j++)
+                if(index.get(j) == i) has = true;
+            
+            if(!has){
+                B[idx] = A[i];
+                idx++;
+            }
+        }
+        
+        return B;
+    }
+    
+    /**
+     * Remove columns from the vector.
+     * @param A Vector.
+     * @param index Array of index.
+     * @return Vector.
+     */
+    public static float[] RemoveColumns(float[] A, List<Integer> index){
+        if(A.length - index.size() <= 0)
+            throw new IllegalArgumentException("The number of columns is less or equal zero.");
+        
+        float[] B = new float[A.length - index.size()];
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            boolean has = false;
+            for (int j = 0; j < index.size(); j++)
+                if(index.get(j) == i) has = true;
+            
             if(!has){
                 B[idx] = A[i];
                 idx++;
