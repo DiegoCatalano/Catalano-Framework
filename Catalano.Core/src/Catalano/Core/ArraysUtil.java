@@ -425,6 +425,22 @@ public class ArraysUtil {
     }
     
     /**
+     * List of floats to array.
+     * @param ints List of floats.
+     * @return Array float.
+     */
+    public static float[] toFloat(List<Float> ints){
+        
+        float[] n = new float[ints.size()];
+        for (int i = 0; i < n.length; i++) {
+            n[i] = ints.get(i);
+        }
+        
+        return n;
+        
+    }
+    
+    /**
      * 1-D Double array to integer array.
      * @param array Double array.
      * @return Integer array.
@@ -450,6 +466,22 @@ public class ArraysUtil {
             }
         }
         return n;
+    }
+    
+    /**
+     * List of integer to array.
+     * @param ints List of integers.
+     * @return Array int.
+     */
+    public static int[] toInt(List<Integer> ints){
+        
+        int[] n = new int[ints.size()];
+        for (int i = 0; i < n.length; i++) {
+            n[i] = ints.get(i);
+        }
+        
+        return n;
+        
     }
     
     /**
@@ -534,5 +566,21 @@ public class ArraysUtil {
             }
         }
         return n;
+    }
+    
+    /**
+     * List of doubles to array.
+     * @param ints List of doubles.
+     * @return Array double.
+     */
+    public static double[] toDouble(List<Double> ints){
+        
+        double[] n = new double[ints.size()];
+        for (int i = 0; i < n.length; i++) {
+            n[i] = ints.get(i);
+        }
+        
+        return n;
+        
     }
 }
