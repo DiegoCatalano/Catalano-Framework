@@ -46,7 +46,7 @@ public interface IActivationFunction {
     double Derivative(double x);
     /**
      * Calculates function derivative.
-     * @param y Function output value - the value, which was obtained with the help of Function method.
+     * @param x Function output value - the value, which was obtained with the help of Function method.
      * @return Function derivative, <i>f'(x)</i>.
      */
     double Derivative2(double x);

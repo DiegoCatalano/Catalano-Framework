@@ -1,4 +1,4 @@
-// Catalano Android Imaging Library
+// Catalano Imaging Library
 // The Catalano Framework
 //
 // Copyright © Diego Catalano, 2012-2016
@@ -29,6 +29,7 @@ import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.IProcessImage;
 import Catalano.Math.Geometry.QuadrilateralTransformationCalc;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Performs quadrilateral transformation of an area in a given source image.
@@ -44,7 +45,7 @@ public class QuadrilateralTransformation implements IProcessImage{
     private boolean useInterpolation = true;
     private int newWidth;
     private int newHeight;
-    private ArrayList<IntPoint> sourceQuadrilateral;
+    private List<IntPoint> sourceQuadrilateral;
 
     /**
      * Is Automatic calculation of destination image.
@@ -67,7 +68,7 @@ public class QuadrilateralTransformation implements IProcessImage{
      * Get Quadrilateral's corners in source image.
      * @return Quadrilateral's corners.
      */
-    public ArrayList<IntPoint> getSourceQuadrilateral() {
+    public List<IntPoint> getSourceQuadrilateral() {
         return sourceQuadrilateral;
     }
 
@@ -75,7 +76,7 @@ public class QuadrilateralTransformation implements IProcessImage{
      * Set Quadrilateral's corners in source image.
      * @param sourceQuadrilateral Quadrilateral's corners.
      */
-    public void setSourceQuadrilateral(ArrayList<IntPoint> sourceQuadrilateral) {
+    public void setSourceQuadrilateral(List<IntPoint> sourceQuadrilateral) {
         this.sourceQuadrilateral = sourceQuadrilateral;
         if (automaticSizeCalculaton) CalculateDestinationSize();
     }
@@ -134,7 +135,7 @@ public class QuadrilateralTransformation implements IProcessImage{
      * Initializes a new instance of the QuadrilateralTransformation class.
      * @param sourceQuadrilateral Quadrilateral's corners.
      */
-    public QuadrilateralTransformation(ArrayList<IntPoint> sourceQuadrilateral){
+    public QuadrilateralTransformation(List<IntPoint> sourceQuadrilateral){
         this.automaticSizeCalculaton = true;
         this.sourceQuadrilateral = sourceQuadrilateral;
         CalculateDestinationSize();
@@ -146,7 +147,7 @@ public class QuadrilateralTransformation implements IProcessImage{
      * @param newWidth New width.
      * @param newHeight New height.
      */
-    public QuadrilateralTransformation(ArrayList<IntPoint> sourceQuadrilateral, int newWidth, int newHeight){
+    public QuadrilateralTransformation(List<IntPoint> sourceQuadrilateral, int newWidth, int newHeight){
         this.automaticSizeCalculaton = false;
         this.sourceQuadrilateral = sourceQuadrilateral;
         this.newWidth  = newWidth;
@@ -169,9 +170,21 @@ public class QuadrilateralTransformation implements IProcessImage{
         dstRect.add( new IntPoint( dstWidth - 1, 0 ) );
         dstRect.add( new IntPoint( dstWidth - 1, dstHeight - 1 ) );
         dstRect.add( new IntPoint( 0, dstHeight - 1 ) );
+        
+        if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+            for (IntPoint p : sourceQuadrilateral) {
+                p.Swap();
+            }
+        }
 
         // calculate tranformation matrix
         double[][] matrix = QuadrilateralTransformationCalc.MapQuadToQuad( dstRect, sourceQuadrilateral );
+        
+        if(fastBitmap.getCoordinateSystem() == FastBitmap.CoordinateSystem.Matrix){
+            for (IntPoint p : sourceQuadrilateral) {
+                p.Swap();
+            }
+        }
         
         if(!useInterpolation){
             if (fastBitmap.isRGB()){

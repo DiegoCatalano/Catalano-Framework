@@ -34,10 +34,10 @@ public class BipolarSigmoidFunction implements IActivationFunction {
     
     /**
      * Get Sigmoid's alpha value.
-     * <para>The value determines steepness of the function. Increasing value of
+     * The value determines steepness of the function. Increasing value of
      * this property changes sigmoid to look more like a threshold function. Decreasing
      * value of this property makes sigmoid to be very smooth (slowly growing from its
-     * minimum value to its maximum value).</para>
+     * minimum value to its maximum value).
      * @return Alpha value.
      */
     public double getAlpha() {
@@ -46,10 +46,10 @@ public class BipolarSigmoidFunction implements IActivationFunction {
 
     /**
      * Set Sigmoid's alpha value.
-     * <para>The value determines steepness of the function. Increasing value of
+     * The value determines steepness of the function. Increasing value of
      * this property changes sigmoid to look more like a threshold function. Decreasing
      * value of this property makes sigmoid to be very smooth (slowly growing from its
-     * minimum value to its maximum value).</para>
+     * minimum value to its maximum value).
      * @param alpha Alpha value.
      */
     public void setAlpha(double alpha) {
