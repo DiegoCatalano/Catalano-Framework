@@ -33,6 +33,82 @@ public class Tools {
     private Tools() {}
     
     /**
+     * Alpha Trimmed Mean
+     * @param values Values.
+     * @param alpha Percentage [0..1]
+     * @return Alpha trimmed mean.
+     */
+    public static double AlphaTrimmedMean(double[] values, float alpha){
+        
+        int lower = (int)(values.length * alpha);
+        int upper = values.length - lower;
+        
+        double sum = 0;
+        for (int i = lower; i < upper; i++)
+            sum += values[i];
+        
+        
+        return sum / (upper - lower);
+        
+    }
+    
+    /**
+     * Alpha Trimmed Mean
+     * @param values Values.
+     * @param n Number of elements.
+     * @return Alpha trimmed mean.
+     */
+    public static double AlphaTrimmedMean(double[] values, int n){
+        
+        int upper = values.length - n;
+        
+        double sum = 0;
+        for (int i = n; i < upper; i++)
+            sum += values[i];
+        
+        return sum / (upper - n);
+        
+    }
+    
+    /**
+     * Alpha Trimmed Mean
+     * @param values Values.
+     * @param alpha Percentage [0..1]
+     * @return Alpha trimmed mean.
+     */
+    public static double AlphaTrimmedMean(int[] values, float alpha){
+        
+        int lower = (int)(values.length * alpha);
+        int upper = values.length - lower;
+        
+        double sum = 0;
+        for (int i = lower; i < upper; i++) {
+            sum += values[i];
+        }
+        
+        return sum / (upper - lower);
+        
+    }
+    
+    /**
+     * Alpha Trimmed Mean
+     * @param values Values.
+     * @param n Number of elements.
+     * @return Alpha trimmed mean.
+     */
+    public static double AlphaTrimmedMean(int[] values, int n){
+        
+        int upper = values.length - n;
+        
+        double sum = 0;
+        for (int i = n; i < upper; i++)
+            sum += values[i];
+        
+        return sum / (upper - n);
+        
+    }
+    
+    /**
      * Coefficient of variation.
      * @param x Vector.
      * @return Coefficient of variation.
