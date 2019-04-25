@@ -67,7 +67,9 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
     /**
      * Initializes a new instance of the GreyWolfOptimizer class.
      */
-    public GreyWolfOptimizer() {}
+    public GreyWolfOptimizer() {
+        this(25, 1000);
+    }
 
     /**
      * Initializes a new instance of the GreyWolfOptimizer class.

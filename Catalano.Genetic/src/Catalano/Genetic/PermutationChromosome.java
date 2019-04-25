@@ -9,8 +9,6 @@ package Catalano.Genetic;
 import Catalano.Core.ArraysUtil;
 import Catalano.Math.Matrix;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

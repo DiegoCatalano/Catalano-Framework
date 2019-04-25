@@ -6,7 +6,6 @@
 
 package Catalano.Genetic.Crossover;
 
-import Catalano.Genetic.BinaryChromosome;
 import Catalano.Genetic.IChromosome;
 import java.util.ArrayList;
 import java.util.List;

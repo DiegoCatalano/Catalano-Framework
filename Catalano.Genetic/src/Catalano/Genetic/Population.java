@@ -23,9 +23,10 @@ import java.util.Random;
 public class Population {
     
     private int population;
-    private IFitness function;
     private float crossoverRate;
     private float mutationRate;
+    
+    private IFitness function;
     private List<IChromosome> list;
     
     private ISelection selection;
@@ -36,6 +37,10 @@ public class Population {
     private IChromosome best;
     private double minError;
 
+    /**
+     * Get best chromosome.
+     * @return Best chromosome.
+     */
     public IChromosome getBest() {
         return best;
     }
@@ -47,6 +52,30 @@ public class Population {
     public void setAutoShuffle(boolean autoShuffle) {
         this.autoShuffle = autoShuffle;
     }
+    
+    /**
+     * Set selection method.
+     * @param selection Selection method.
+     */
+    public void setSelection(ISelection selection){
+        this.selection = selection;
+    }
+    
+    /**
+     * Set crossover method.
+     * @param crossover Crossover method.
+     */
+    public void setCrossover(ICrossover crossover){
+        this.crossover = crossover;
+    }
+    
+    /**
+     * Set mutation method.
+     * @param mutation Mutation method.
+     */
+    public void setMutation(IMutation mutation){
+        this.mutation = mutation;
+    }
 
     public Population(IChromosome base, int population, IFitness function, float crossoverRate, float mutationRate) {
         this.population = population;
@@ -56,6 +85,12 @@ public class Population {
         Generate(base);
     }
     
+    /**
+     * Set all operators in the population.
+     * @param selection Selection method.
+     * @param crossover Crossover method.
+     * @param mutation Mutation method.
+     */
     public void setOperators(ISelection selection, ICrossover crossover, IMutation mutation){
         this.selection = selection;
         this.crossover = crossover;
@@ -82,6 +117,9 @@ public class Population {
         }
     }
     
+    /**
+     * Run a epoch (Generation).
+     */
     public void RunEpoch(){
         
         Random rand = new Random();

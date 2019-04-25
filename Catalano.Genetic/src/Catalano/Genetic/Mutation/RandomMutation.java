@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class RandomMutation implements IMutation<IChromosome> {
     
-    private List<IMutation> operators;
+    private final List<IMutation> operators;
 
     public RandomMutation(List<IMutation> operators) {
         this.operators = operators;

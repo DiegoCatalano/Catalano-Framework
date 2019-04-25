@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class RandomCrossover implements ICrossover<IChromosome>{
     
-    private List<ICrossover> operators;
+    private final List<ICrossover> operators;
 
     public RandomCrossover(List<ICrossover> operators) {
         this.operators = operators;
