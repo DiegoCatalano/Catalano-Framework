@@ -69,5 +69,19 @@ public class IntegerChromosome extends ChromosomeBase{
     public int getLength() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        
+        String str = "";
+        for (int i = 0; i < size; i++) {
+            str += String.valueOf(values[i]);
+        }
+        
+        return str;
+        
+    }
+    
+    
     
 }

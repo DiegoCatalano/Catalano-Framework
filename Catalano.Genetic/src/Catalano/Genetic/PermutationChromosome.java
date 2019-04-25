@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author Diego
+ * @author Diego Catalano
  */
 public class PermutationChromosome extends ChromosomeBase {
     
@@ -59,5 +59,15 @@ public class PermutationChromosome extends ChromosomeBase {
     public IChromosome Clone() {
         return new PermutationChromosome(Arrays.copyOf(data, data.length));
     }
-    
+
+    @Override
+    public String toString() {
+        
+        String str = "";
+        for (int i = 0; i < data.length; i++) {
+            str += String.valueOf(data[i]);
+        }
+        
+        return str;
+    }
 }
