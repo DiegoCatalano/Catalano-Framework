@@ -22,7 +22,7 @@
 
 package Catalano.Genetic.Selection;
 
-import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
 import java.util.List;
 
 /**

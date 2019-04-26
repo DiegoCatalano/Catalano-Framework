@@ -7,7 +7,7 @@
 package Catalano.Genetic.Selection;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
 import Catalano.Math.Matrix;
 import java.util.List;
 

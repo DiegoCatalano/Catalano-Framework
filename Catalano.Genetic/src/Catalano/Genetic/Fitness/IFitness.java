@@ -22,7 +22,7 @@
 
 package Catalano.Genetic.Fitness;
 
-import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
 
 /**
  *

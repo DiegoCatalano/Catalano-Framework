@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Catalano.Genetic;
+package Catalano.Genetic.Chromosome;
 
 import java.math.BigInteger;
 import java.util.Random;

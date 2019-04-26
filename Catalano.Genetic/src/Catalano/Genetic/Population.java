@@ -6,6 +6,7 @@
 
 package Catalano.Genetic;
 
+import Catalano.Genetic.Chromosome.IChromosome;
 import Catalano.Genetic.Crossover.ICrossover;
 import Catalano.Genetic.Fitness.IFitness;
 import Catalano.Genetic.Mutation.IMutation;

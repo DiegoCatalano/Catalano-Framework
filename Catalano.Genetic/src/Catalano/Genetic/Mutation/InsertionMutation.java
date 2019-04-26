@@ -6,7 +6,7 @@
 
 package Catalano.Genetic.Mutation;
 
-import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

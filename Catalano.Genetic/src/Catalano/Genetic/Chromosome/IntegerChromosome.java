@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Catalano.Genetic;
+package Catalano.Genetic.Chromosome;
 
 import java.util.Random;
 
@@ -13,8 +13,8 @@ import java.util.Random;
  */
 public class IntegerChromosome extends ChromosomeBase{
     
-    private int size;
-    private int maxValue;
+    private final int size;
+    private final int maxValue;
     
     private int[] values;
 
@@ -81,7 +81,5 @@ public class IntegerChromosome extends ChromosomeBase{
         return str;
         
     }
-    
-    
     
 }

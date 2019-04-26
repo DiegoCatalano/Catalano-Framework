@@ -23,7 +23,7 @@
 package Catalano.Genetic.Selection;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.Genetic.IChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;

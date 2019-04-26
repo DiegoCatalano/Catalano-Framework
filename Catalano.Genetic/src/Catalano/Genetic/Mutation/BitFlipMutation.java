@@ -22,7 +22,7 @@
 
 package Catalano.Genetic.Mutation;
 
-import Catalano.Genetic.BinaryChromosome;
+import Catalano.Genetic.Chromosome.BinaryChromosome;
 import java.util.Random;
 
 /**

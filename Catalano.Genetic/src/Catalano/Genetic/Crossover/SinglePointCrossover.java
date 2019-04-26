@@ -6,9 +6,9 @@
 
 package Catalano.Genetic.Crossover;
 
-import Catalano.Genetic.BinaryChromosome;
-import Catalano.Genetic.IChromosome;
-import Catalano.Genetic.PermutationChromosome;
+import Catalano.Genetic.Chromosome.BinaryChromosome;
+import Catalano.Genetic.Chromosome.IChromosome;
+import Catalano.Genetic.Chromosome.PermutationChromosome;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
