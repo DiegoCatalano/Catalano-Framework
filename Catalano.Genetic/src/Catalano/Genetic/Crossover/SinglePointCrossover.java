@@ -6,7 +6,6 @@
 
 package Catalano.Genetic.Crossover;
 
-import Catalano.Genetic.Chromosome.BinaryChromosome;
 import Catalano.Genetic.Chromosome.IChromosome;
 import Catalano.Genetic.Chromosome.PermutationChromosome;
 import java.util.ArrayList;
@@ -25,33 +24,73 @@ public class SinglePointCrossover implements ICrossover<IChromosome> {
     @Override
     public List<IChromosome> Compute(IChromosome chromosome1, IChromosome chromosome2) {
         
-        if(chromosome1 instanceof BinaryChromosome){
-            return ComputeBC((BinaryChromosome)chromosome1,(BinaryChromosome)chromosome2);
+        if(chromosome1 instanceof PermutationChromosome){
+            return ComputePC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
         }
-        return ComputePC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
+        
+        return ComputeGeneric(chromosome1, chromosome2);
         
     }
     
-    private List<IChromosome> ComputeBC(BinaryChromosome chromosome1, BinaryChromosome chromosome2) {
+    private List<IChromosome> ComputeGeneric(IChromosome chromosome1, IChromosome chromosome2) {
         
         Random rand = new Random();
         
         //Cut point
         int cut = rand.nextInt(chromosome1.getLength());
         
-        String a = chromosome1.toBinary();
-        String b = chromosome2.toBinary();
+        int length = chromosome1.getLength();
         
-        String newA = a.substring(0,cut) + b.substring(cut, a.length());
-        String newB = b.substring(0,cut) + a.substring(cut, a.length());
+        IChromosome c1 = chromosome1.Clone();
+        IChromosome c2 = chromosome1.Clone();
+        
+        //First chromosome
+        for (int i = 0; i < cut; i++) {
+            c1.setGene(i, chromosome1.getGene(i));
+        }
+        
+        for (int i = cut; i < length; i++) {
+            c1.setGene(i, chromosome2.getGene(i));
+        }
+        
+        //Second chromosome
+        int index = 0;
+        for (int i = cut; i < length; i++) {
+            c2.setGene(index++, chromosome1.getGene(i));
+        }
+        
+        for (int i = 0; i < cut; i++) {
+            c2.setGene(index++, chromosome2.getGene(i));
+        }
         
         List<IChromosome> lst = new ArrayList<IChromosome>(2);
-        lst.add(new BinaryChromosome(a.length(), newA));
-        lst.add(new BinaryChromosome(b.length(), newB));
+        lst.add(c1);
+        lst.add(c2);
         
         return lst;
         
     }
+    
+//    private List<IChromosome> ComputeBC(BinaryChromosome chromosome1, BinaryChromosome chromosome2) {
+//        
+//        Random rand = new Random();
+//        
+//        //Cut point
+//        int cut = rand.nextInt(chromosome1.getLength());
+//        
+//        String a = chromosome1.toBinary();
+//        String b = chromosome2.toBinary();
+//        
+//        String newA = a.substring(0,cut) + b.substring(cut, a.length());
+//        String newB = b.substring(0,cut) + a.substring(cut, a.length());
+//        
+//        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+//        lst.add(new BinaryChromosome(a.length(), newA));
+//        lst.add(new BinaryChromosome(b.length(), newB));
+//        
+//        return lst;
+//        
+//    }
     
     private List<IChromosome> ComputePC(PermutationChromosome chromosome1, PermutationChromosome chromosome2) {
         
