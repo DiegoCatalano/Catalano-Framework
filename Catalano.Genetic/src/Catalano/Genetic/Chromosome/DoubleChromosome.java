@@ -15,10 +15,30 @@ import java.util.Random;
 public class DoubleChromosome extends ChromosomeBase{
     
     private final int size;
-    private final double minValue;
-    private final double maxValue;
+    private double minValue;
+    private double maxValue;
     
     private double[] values;
+
+    public double getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(double minValue) {
+        this.minValue = minValue;
+    }
+
+    public double getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public double[] getValues() {
+        return values;
+    }
 
     public DoubleChromosome(int size, double minValue, double maxValue) {
         this.size = size;
@@ -34,7 +54,7 @@ public class DoubleChromosome extends ChromosomeBase{
 
     @Override
     public void setGene(int index, Object gene) {
-        values[index] = (Integer)gene;
+        values[index] = (Double)gene;
     }
 
     @Override
