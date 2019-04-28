@@ -5,6 +5,7 @@
  */
 package Catalano.Genetic.Crossover;
 
+import Catalano.Genetic.Chromosome.BinaryChromosome;
 import Catalano.Genetic.Chromosome.IChromosome;
 import Catalano.Genetic.Chromosome.IntegerChromosome;
 import Catalano.Genetic.Chromosome.PermutationChromosome;
@@ -24,10 +25,10 @@ public class OrderCrossover implements ICrossover<IChromosome>{
     @Override
     public List<IChromosome> Compute(IChromosome chromosome1, IChromosome chromosome2) {
 
-        if(chromosome1 instanceof PermutationChromosome || chromosome1 instanceof IntegerChromosome){
-            return ComputeIC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
-        } else {
+        if(chromosome1 instanceof BinaryChromosome){
             throw new IllegalArgumentException("Support only Permutation and Integer chromosomes");
+        } else {
+            return ComputeIC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
         }
         
     }

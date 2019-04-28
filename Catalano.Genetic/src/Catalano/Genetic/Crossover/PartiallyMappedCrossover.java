@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Partial Match Crossover (PMX)
+ * Partially Mapped Crossover (PMX).
  * @author Diego Catalano
  */
-public class PartialMatchCrossover implements ICrossover<IChromosome>{
+public class PartiallyMappedCrossover implements ICrossover<IChromosome>{
 
-    public PartialMatchCrossover() {}
+    public PartiallyMappedCrossover() {}
 
     @Override
     public List<IChromosome> Compute(IChromosome chromosome1, IChromosome chromosome2) {
