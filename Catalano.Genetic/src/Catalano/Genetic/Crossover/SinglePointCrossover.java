@@ -42,7 +42,7 @@ public class SinglePointCrossover implements ICrossover<IChromosome> {
         int length = chromosome1.getLength();
         
         IChromosome c1 = chromosome1.Clone();
-        IChromosome c2 = chromosome1.Clone();
+        IChromosome c2 = chromosome2.Clone();
         
         //First chromosome
         for (int i = 0; i < cut; i++) {

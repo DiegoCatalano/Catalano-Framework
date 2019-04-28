@@ -30,7 +30,6 @@ public class TwoPointCrossover implements ICrossover<IChromosome> {
         
         Random rand = new Random();
         
-        
         int length = chromosome1.getLength();
         
         //Cut points
@@ -38,7 +37,7 @@ public class TwoPointCrossover implements ICrossover<IChromosome> {
         Arrays.sort(cuts, 0, cuts.length);
         
         IChromosome c1 = chromosome1.Clone();
-        IChromosome c2 = chromosome1.Clone();
+        IChromosome c2 = chromosome2.Clone();
         
         //Operations of change
         for (int i = 0; i < cuts[0]; i++) {

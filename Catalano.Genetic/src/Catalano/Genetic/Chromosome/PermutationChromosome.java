@@ -33,6 +33,10 @@ public class PermutationChromosome extends ChromosomeBase {
         this.data[index] = (Integer)gene;
     }
 
+    public int[] getData() {
+        return data;
+    }
+
     public PermutationChromosome(int lenght) {
         this.data = Matrix.Indices(0, lenght);
         ArraysUtil.Shuffle(data);
