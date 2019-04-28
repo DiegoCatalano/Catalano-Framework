@@ -43,15 +43,15 @@ public class RouletteWheelSelection implements ISelection{
     }
 
     @Override
-    public int[] Compute(List<IChromosome> chromossomes) {
+    public int[] Compute(List<IChromosome> chromosomes) {
         
         //Scale fitness [0..1]
         int[] index = new int[2];
-        double[] fitness = new double[chromossomes.size()];
+        double[] fitness = new double[chromosomes.size()];
         
         double max = 0;
         for (int i = 0; i < fitness.length; i++) {
-            fitness[i] = chromossomes.get(i).getFitness();
+            fitness[i] = chromosomes.get(i).getFitness();
             max = Math.max(max, fitness[i]);
         }
         

@@ -47,21 +47,32 @@ public class SinglePointCrossover implements ICrossover<IChromosome> {
         //First chromosome
         for (int i = 0; i < cut; i++) {
             c1.setGene(i, chromosome1.getGene(i));
+            c2.setGene(i, chromosome2.getGene(i));
         }
         
         for (int i = cut; i < length; i++) {
             c1.setGene(i, chromosome2.getGene(i));
+            c2.setGene(i, chromosome1.getGene(i));
         }
-        
-        //Second chromosome
-        int index = 0;
-        for (int i = cut; i < length; i++) {
-            c2.setGene(index++, chromosome1.getGene(i));
-        }
-        
-        for (int i = 0; i < cut; i++) {
-            c2.setGene(index++, chromosome2.getGene(i));
-        }
+
+//        //First chromosome
+//        for (int i = 0; i < cut; i++) {
+//            c1.setGene(i, chromosome1.getGene(i));
+//        }
+//        
+//        for (int i = cut; i < length; i++) {
+//            c1.setGene(i, chromosome2.getGene(i));
+//        }
+//        
+//        //Second chromosome
+//        int index = 0;
+//        for (int i = cut; i < length; i++) {
+//            c2.setGene(index++, chromosome1.getGene(i));
+//        }
+//        
+//        for (int i = 0; i < cut; i++) {
+//            c2.setGene(index++, chromosome2.getGene(i));
+//        }
         
         List<IChromosome> lst = new ArrayList<IChromosome>(2);
         lst.add(c1);
@@ -70,27 +81,6 @@ public class SinglePointCrossover implements ICrossover<IChromosome> {
         return lst;
         
     }
-    
-//    private List<IChromosome> ComputeBC(BinaryChromosome chromosome1, BinaryChromosome chromosome2) {
-//        
-//        Random rand = new Random();
-//        
-//        //Cut point
-//        int cut = rand.nextInt(chromosome1.getLength());
-//        
-//        String a = chromosome1.toBinary();
-//        String b = chromosome2.toBinary();
-//        
-//        String newA = a.substring(0,cut) + b.substring(cut, a.length());
-//        String newB = b.substring(0,cut) + a.substring(cut, a.length());
-//        
-//        List<IChromosome> lst = new ArrayList<IChromosome>(2);
-//        lst.add(new BinaryChromosome(a.length(), newA));
-//        lst.add(new BinaryChromosome(b.length(), newB));
-//        
-//        return lst;
-//        
-//    }
     
     private List<IChromosome> ComputePC(PermutationChromosome chromosome1, PermutationChromosome chromosome2) {
         
