@@ -26,6 +26,7 @@
 package Catalano.Genetic.Optimization;
 
 import Catalano.Core.DoubleRange;
+import Catalano.Math.Matrix;
 import java.util.List;
 import java.util.Random;
 
@@ -188,13 +189,8 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
         
         double[][] pop = new double[population][boundConstraint.size()];
         
-        Random rand = new Random();
-        
         for (int i = 0; i < pop.length; i++) {
-            for (int j = 0; j < pop[0].length; j++) {
-                DoubleRange range = boundConstraint.get(j);
-                pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
-            }
+            pop[i] = Matrix.UniformRandom(boundConstraint);
         }
         
         return pop;

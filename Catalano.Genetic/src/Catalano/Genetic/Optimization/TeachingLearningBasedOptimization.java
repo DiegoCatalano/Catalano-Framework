@@ -102,10 +102,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
         //Generate the individuals
         double[][] pop = new double[populationSize][boundConstraint.size()];
         for (int i = 0; i < pop.length; i++) {
-            for (int j = 0; j < pop[0].length; j++) {
-                DoubleRange range = boundConstraint.get(j);
-                pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
-            }
+            pop[i] = Matrix.UniformRandom(boundConstraint);
         }
 
         //Compute fitness

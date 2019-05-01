@@ -22,7 +22,6 @@
 
 package Catalano.Genetic.Optimization;
 
-import Catalano.Core.ArraysUtil;
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import Catalano.Math.Tools;
@@ -78,10 +77,7 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
         //Generate the individuals
         double[][] pop = new double[populationSize][boundConstraint.size()];
         for (int i = 0; i < pop.length; i++) {
-            for (int j = 0; j < pop[0].length; j++) {
-                DoubleRange range = boundConstraint.get(j);
-                pop[i][j] = range.getMin() + rand.nextDouble() * (range.getMax() - range.getMin());
-            }
+            pop[i] = Matrix.UniformRandom(boundConstraint);
         }
 
         //Compute fitness
