@@ -25,8 +25,8 @@ package Catalano.Genetic.Crossover;
 import java.util.List;
 
 /**
- *
- * @author Diego
+ * Common interface to crossover operations.
+ * @author Diego Catalano
  */
 public interface ICrossover<T> {
     List<T> Compute(T chromosome1, T chromosome2);

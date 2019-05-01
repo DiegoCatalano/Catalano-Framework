@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2019
 // diego.catalano at live.com
 //
 //
@@ -23,9 +23,16 @@
 package Catalano.Genetic.Mutation;
 
 /**
- *
- * @author Diego
+ * Common interface to mutation operators.
+ * @author Diego Catalano
+ * @param <T> Chromosome
  */
 public interface IMutation<T> {
+    
+    /**
+     * Compute the mutation operator.
+     * @param chromossome Chromosome.
+     * @return Mutate chromosome.
+     */
     T Compute(T chromossome);
 }

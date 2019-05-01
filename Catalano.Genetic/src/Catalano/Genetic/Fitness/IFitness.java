@@ -25,8 +25,8 @@ package Catalano.Genetic.Fitness;
 import Catalano.Genetic.Chromosome.IChromosome;
 
 /**
- *
- * @author Diego
+ * Fitness evaluation for chromosomes.
+ * @author Diego Catalano
  */
 public interface IFitness {
     double Evaluate(IChromosome chromossome);
