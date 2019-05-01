@@ -22,39 +22,29 @@
 
 package Catalano.Genetic.Mutation;
 
-import Catalano.Genetic.Chromosome.BinaryChromosome;
+import Catalano.Genetic.Chromosome.IntegerChromosome;
 import java.util.Random;
 
 /**
- * Bit Flip Mutation.
+ * Random Resetting Mutation.
  * @author Diego Catalano
  */
-public class BitFlipMutation implements IMutation<BinaryChromosome>{
+public class RandomResettingMutation implements IMutation<IntegerChromosome>{
 
     /**
-     * Initializes a new instance of the BitFlipMutation class.
+     * Initializes a new instance of the RandomResettingMutation class.
      */
-    public BitFlipMutation() {}
+    public RandomResettingMutation() {}
 
     @Override
-    public BinaryChromosome Compute(BinaryChromosome chromosome) {
+    public IntegerChromosome Compute(IntegerChromosome chromosome) {
         Random r = new Random();
         int pos = r.nextInt(chromosome.getLength());
         
-        String bin = chromosome.toBinary();
-        String newBin = "";
-        for (int i = 0; i < bin.length(); i++) {
-            char v = bin.charAt(i);
-            if(i == pos){
-                if(v == '0') newBin += "1";
-                if(v == '1') newBin += "0";
-            }
-            else{
-                newBin += v;
-            }
-        }
+        IntegerChromosome c1 = (IntegerChromosome)chromosome.Clone();
+        c1.setGene(pos, r.nextInt(c1.getMaxValue()));
         
-        return new BinaryChromosome(chromosome.getLength(), newBin);
+        return c1;
     }
     
 }
