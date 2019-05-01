@@ -3520,6 +3520,19 @@ public final class Matrix {
     }
     
     /**
+     * Create a random permutation.
+     * @param n Number of elements.
+     * @return Random permutation.
+     */
+    public static int[] RandomPermutation(int n){
+        
+        int[] indexes = Indices(0, n);
+        ArraysUtil.Shuffle(indexes);
+        return indexes;
+        
+    }
+    
+    /**
      * Calculate the rank of the matrix.
      * @param A matrix.
      * @return Rank of the matrix.

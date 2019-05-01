@@ -8,6 +8,7 @@ package Catalano.Genetic.Crossover;
 
 import Catalano.Genetic.Chromosome.IChromosome;
 import Catalano.Genetic.Chromosome.PermutationChromosome;
+import Catalano.Math.Matrix;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,11 +50,8 @@ public class MultiPointCrossover implements ICrossover<IChromosome> {
         int length = chromosome1.getLength();
         
         //Cut points
-        int[] cuts = new int[n];
-        for (int i = 0; i < cuts.length; i++) {
-            cuts[i] = rand.nextInt(length);
-        }
-        
+        int[] indexes = Matrix.RandomPermutation(length);
+        int[] cuts = Arrays.copyOf(indexes, n);
         Arrays.sort(cuts, 0, cuts.length);
         
         IChromosome c1 = chromosome1.Clone();
