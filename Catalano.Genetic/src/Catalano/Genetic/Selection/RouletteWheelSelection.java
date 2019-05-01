@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2019
 // diego.catalano at live.com
 //
 //
@@ -29,15 +29,22 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *
- * @author Diego
+ * Roulette Wheel Selection.
+ * @author Diego Catalano
  */
 public class RouletteWheelSelection implements ISelection{
     
     private long seed;
 
+    /**
+     * Initializes a new instance of the RouletteWheelSelection class.
+     */
     public RouletteWheelSelection() {}
 
+    /**
+     * Initializes a new instance of the RouletteWheelSelection class.
+     * @param seed Random seed.
+     */
     public RouletteWheelSelection(long seed) {
         this.seed = seed;
     }

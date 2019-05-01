@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2019
 // diego.catalano at live.com
 //
 //
@@ -26,9 +26,15 @@ import Catalano.Genetic.Chromosome.IChromosome;
 import java.util.List;
 
 /**
- *
- * @author Diego
+ * Common interface to selection operator.
+ * @author Diego Catalano
  */
 public interface ISelection {
+    
+    /**
+     * Selection operator.
+     * @param chromosomes Chromosomes.
+     * @return Selected chromosomes.
+     */
     int[] Compute(List<IChromosome> chromosomes);
 }

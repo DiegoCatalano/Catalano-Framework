@@ -27,6 +27,9 @@ import java.util.Random;
 
 /**
  * Random Resetting Mutation.
+ * 
+ * Support: Integer Chromosome.
+ * 
  * @author Diego Catalano
  */
 public class RandomResettingMutation implements IMutation<IntegerChromosome>{

@@ -27,6 +27,9 @@ import java.util.Random;
 
 /**
  * Bit Flip Mutation.
+ * 
+ * Support: Binary Chromosome.
+ * 
  * @author Diego Catalano
  */
 public class BitFlipMutation implements IMutation<BinaryChromosome>{

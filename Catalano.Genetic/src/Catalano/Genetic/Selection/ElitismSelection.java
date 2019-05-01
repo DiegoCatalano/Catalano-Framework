@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2016
+// Copyright © Diego Catalano, 2012-2019
 // diego.catalano at live.com
 //
 //
@@ -28,11 +28,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
- * @author Diego
+ * Elitism Selection.
+ * @author Diego Catalano
  */
 public class ElitismSelection implements ISelection, IRealCodedSelection{
 
+    /**
+     * Initializes a new instance of the ElitismSelection class.
+     */
     public ElitismSelection() {}
 
     @Override
