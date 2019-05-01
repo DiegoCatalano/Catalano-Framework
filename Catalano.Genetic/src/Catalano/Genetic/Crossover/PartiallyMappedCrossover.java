@@ -39,8 +39,8 @@ public class PartiallyMappedCrossover implements ICrossover<IChromosome>{
         int index = 0;
         for (int i = 0; i < length; i++) {
             if(i < cuts[0] || i > cuts[1]){
-                v1[index] = (Integer)chromosome1.getGene(i);
-                v2[index] = (Integer)chromosome2.getGene(i);
+                v1[index] = chromosome1.getGene(i);
+                v2[index] = chromosome2.getGene(i);
                 index++;
             }
         }
