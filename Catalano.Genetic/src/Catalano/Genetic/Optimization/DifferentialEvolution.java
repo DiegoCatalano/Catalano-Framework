@@ -100,8 +100,6 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
          */
         CURRENT_TO_RAND_BIN};
     
-    private long nEval;
-    
     private double f;
     private double f2;
     private float prob;
@@ -116,7 +114,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
 
     @Override
     public long getNumberOfEvaluations() {
-        return nEval;
+        return nEvals;
     }
 
     /**
@@ -237,7 +235,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
     @Override
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
         
-        nEval = 0;
+        nEvals = 0;
         minError = Double.MAX_VALUE;
         
         if(strategy == Strategy.RAND_1_BIN || strategy == Strategy.RAND_2_BIN || strategy == Strategy.RAND_1_EXP || strategy == Strategy.RAND_2_EXP){
@@ -343,7 +341,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 }
 
                 double fTrial = function.Compute(trial);
-                nEval++;
+                nEvals++;
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
                     fitness[p] = fTrial;
@@ -482,7 +480,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 }
 
                 double fTrial = function.Compute(trial);
-                nEval++;
+                nEvals++;
                 if(fTrial < fitness[p]){
                     pop[p] = trial;
                     fitness[p] = fTrial;

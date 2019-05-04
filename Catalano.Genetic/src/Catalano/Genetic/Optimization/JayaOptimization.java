@@ -40,7 +40,6 @@ import java.util.Random;
  */
 public class JayaOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
-    private long evals;
     private double minError;
     private double[] best;
     
@@ -62,15 +61,10 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
     }
 
     @Override
-    public long getNumberOfEvaluations() {
-        return evals;
-    }
-
-    @Override
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
-        evals = 0;
+        nEvals = 0;
         
         Random rand = new Random();
         
@@ -110,7 +104,7 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
                 }
                 
                 double f = function.Compute(newSolution);
-                evals++;
+                nEvals++;
                 
                 if(f < fitness[i]){
                     pop[i] = newSolution;

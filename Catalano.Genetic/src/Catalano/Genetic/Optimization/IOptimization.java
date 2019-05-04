@@ -33,12 +33,6 @@ import java.util.List;
 public interface IOptimization {
     
     /**
-     * Number of evaluations.
-     * @return Number of evaluations.
-     */
-    public long getNumberOfEvaluations();
-    
-    /**
      * Get error.
      * @return Error.
      */

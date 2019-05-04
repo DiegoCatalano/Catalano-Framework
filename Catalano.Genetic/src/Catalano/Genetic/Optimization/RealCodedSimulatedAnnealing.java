@@ -68,7 +68,6 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
     private double mu;
     private double sigma;
     
-    private long nEval;
     private double minError;
     private double[] best;
 
@@ -267,15 +266,10 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
     }
 
     @Override
-    public long getNumberOfEvaluations() {
-        return nEval;
-    }
-
-    @Override
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
-        nEval = 0;
+        nEvals = 0;
         
         Random rand = new Random();
 
@@ -314,7 +308,7 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
                         newPop[index] = Mutate(pop[k], mu, sigmaRange, boundConstraint, rand);
                         newFitness[index] = function.Compute(newPop[index]);
                         index++;
-                        nEval++;
+                        nEvals++;
                     }
                 }
                 

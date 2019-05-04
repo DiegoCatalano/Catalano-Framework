@@ -43,8 +43,6 @@ import java.util.Random;
  */
 public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implements IOptimization{
     
-    private long eval;
-    
     private double[] alpha;
     private double[] beta;
     private double[] delta;
@@ -54,11 +52,6 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
     private double deltaScore;
     
     private double minError;
-    
-    @Override
-    public long getNumberOfEvaluations() {
-        return eval;
-    }
     
     @Override
     public double getError() {
@@ -91,7 +84,7 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
 
         //Reset error
         minError = Double.MAX_VALUE;
-        eval = 0;
+        nEvals = 0;
         
         //Initialize the variables;
         alpha = new double[boundConstraint.size()];
@@ -113,7 +106,7 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
             for (int i = 0; i < pop.length; i++) {
                 
                 double fitness = function.Compute(pop[i]);
-                eval++;
+                nEvals++;
                 
                 if(fitness < alphaScore){
                     alphaScore = fitness;

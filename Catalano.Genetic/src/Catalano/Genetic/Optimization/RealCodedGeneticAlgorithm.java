@@ -74,12 +74,6 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
     private double[] best;
     private double minError;
     private double maxError; //Used only in Roulette Wheel Selection
-    private long nEval;
-
-    @Override
-    public long getNumberOfEvaluations() {
-        return nEval;
-    }
     
     @Override
     public double getError() {
@@ -191,13 +185,13 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
                 news.add(c1);
                 news.add(c2);
                 
-                nEval += 2;
+                nEvals += 2;
             }
             
             for (int i = 0; i < popMU; i++) {
                 double[] elem = Mutation(population.get(rand.nextInt(population.size())).getLocation(), mutationRate, boundConstraint);
                 news.add(new Individual(elem, function.Compute(elem)));
-                nEval++;
+                nEvals++;
             }
             
             population.addAll(news);

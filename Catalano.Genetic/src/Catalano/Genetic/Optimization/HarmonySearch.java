@@ -71,7 +71,6 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
     
     private double[] best;
     private double minError;
-    private long eval;
 
     /**
      * Get number of new harmonies.
@@ -236,15 +235,10 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
     }
 
     @Override
-    public long getNumberOfEvaluations() {
-        return eval;
-    }
-
-    @Override
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         //Reset parameters
-        eval = 0;
+        nEvals = 0;
         
         Random rand = new Random();
         
@@ -292,7 +286,7 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
                 
                 //Compute fitness
                 newPop.get(i).setFitness(function.Compute(newPop.get(i).getLocation()));
-                eval++;
+                nEvals++;
             }
             
             //Merge harmonies

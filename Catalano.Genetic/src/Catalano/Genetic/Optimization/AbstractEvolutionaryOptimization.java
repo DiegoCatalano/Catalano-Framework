@@ -30,6 +30,7 @@ public abstract class AbstractEvolutionaryOptimization implements IOptimization{
     
     protected int populationSize;
     protected int generations;
+    protected long nEvals;
     
     /**
      * Get population size.
@@ -61,6 +62,14 @@ public abstract class AbstractEvolutionaryOptimization implements IOptimization{
      */
     public void setGenerations(int generations){
         this.generations = generations;
+    }
+
+    /**
+     * Get number of evaluations.
+     * @return Number of evaluations.
+     */
+    public long getNumberOfEvaluations() {
+        return nEvals;
     }
     
 }

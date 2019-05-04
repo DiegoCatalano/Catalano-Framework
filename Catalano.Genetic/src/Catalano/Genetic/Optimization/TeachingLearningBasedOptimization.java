@@ -62,12 +62,6 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
     
     private double minError;
     private double[] best;
-    private long nEval;
-
-    @Override
-    public long getNumberOfEvaluations() {
-        return nEval;
-    }
     
     @Override
     public double getError() {
@@ -95,7 +89,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
-        nEval = 0;
+        nEvals = 0;
         
         Random rand = new Random();
 
@@ -130,7 +124,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
                 }
                 
                 double f = function.Compute(newsol);
-                nEval++;
+                nEvals++;
                 
                 if(f < fitness[i]){
                     pop[i] = newsol;
@@ -161,7 +155,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
                 }
                 
                 double f = function.Compute(newsol);
-                nEval++;
+                nEvals++;
                 
                 if(f < fitness[i]){
                     pop[i] = newsol;

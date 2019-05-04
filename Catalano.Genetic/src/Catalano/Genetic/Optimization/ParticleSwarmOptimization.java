@@ -59,7 +59,6 @@ import java.util.Random;
 public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
     
     private long seed;
-    private long nEval;
     
     private double gBest;
     private double[] gBestLocation;
@@ -71,11 +70,6 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
     private Random random = new Random();
     
     private List<Particle> swarm;
-
-    @Override
-    public long getNumberOfEvaluations() {
-        return nEval;
-    }
     
     @Override
     public double getError(){
@@ -150,7 +144,7 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
     public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
         gBest = Double.MAX_VALUE;
-        nEval = 0;
+        nEvals = 0;
         double wf = w;
 
         //Initialize the particles
@@ -192,7 +186,7 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
                 p.setLocation(newLocation);
                 
                 p.setFitness(function.Compute(newLocation));
-                nEval++;
+                nEvals++;
                 
                 if(p.getFitness() < p.getBestFitness()){
                     p.setBestLocation(p.getLocation());

@@ -75,7 +75,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
     
     private double[] best;
     private double minError;
-    private long nEval;
     
     /**
      * Get mutation coefficient.
@@ -156,11 +155,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
     public void setUniformMutationRatio(double delta){
         this.delta = delta;
     }
-
-    @Override
-    public long getNumberOfEvaluations() {
-        return nEval;
-    }
     
     @Override
     public double getError() {
@@ -219,7 +213,7 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
         
         double damp = alpha;
         minError = Double.MAX_VALUE;
-        nEval = 0;
+        nEvals = 0;
         
         Random rand = new Random();
         
@@ -262,7 +256,7 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
                     }
 
                     double newfit = function.Compute(newsol);
-                    nEval++;
+                    nEvals++;
                     if(newfit <= newPop.get(i).getFitness()){
                         newPop.set(i, new Individual(newsol, newfit));
                         if(newfit < minError){
