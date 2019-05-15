@@ -22,15 +22,21 @@
 
 package Catalano.Evolutionary.Metaheuristics;
 
+import Catalano.Core.DoubleRange;
+import java.util.List;
+
 /**
  * Abstract class for evolutionary algorithms.
  * @author Diego Catalano
  */
-public abstract class AbstractEvolutionaryOptimization implements IOptimization{
+public abstract class BaseEvolutionaryOptimization {
     
     protected int populationSize;
     protected int generations;
     protected long nEvals;
+    
+    protected double minError = Double.MAX_VALUE;
+    protected double best[];
     
     /**
      * Get population size.
@@ -71,5 +77,28 @@ public abstract class AbstractEvolutionaryOptimization implements IOptimization{
     public long getNumberOfEvaluations() {
         return nEvals;
     }
+
+    /**
+     * Get the error.
+     * @return Error.
+     */
+    public double getError() {
+        return minError;
+    }
+
+    /**
+     * Get best solution.
+     * @return Best solution.
+     */
+    public double[] getBest() {
+        return best;
+    }
+    
+    /**
+     * Compute the algorithm.
+     * @param function Function.
+     * @param boundConstraints Bounds constraints.
+     */
+    public abstract void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraints);
     
 }

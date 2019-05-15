@@ -64,7 +64,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class FireflyOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
+public class FireflyOptimization extends BaseEvolutionaryOptimization {
     
     private double alpha = 0.2;
     private double beta0 = 2;
@@ -72,9 +72,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
     private double alphaDamp = 0.98;
     private double delta = 0.05;
     private double dmax;
-    
-    private double[] best;
-    private double minError;
     
     /**
      * Get mutation coefficient.
@@ -155,11 +152,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
     public void setUniformMutationRatio(double delta){
         this.delta = delta;
     }
-    
-    @Override
-    public double getError() {
-        return minError;
-    }
 
     /**
      * Initializes a new instance of the FireflyOptimization class.
@@ -209,7 +201,7 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         double damp = alpha;
         minError = Double.MAX_VALUE;
@@ -278,8 +270,6 @@ public class FireflyOptimization extends AbstractEvolutionaryOptimization implem
             
             damp = damp*alphaDamp;
         }
-        
-        return best;
         
     }
 }

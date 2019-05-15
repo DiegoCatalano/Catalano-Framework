@@ -38,10 +38,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class JayaOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
-    
-    private double minError;
-    private double[] best;
+public class JayaOptimization extends BaseEvolutionaryOptimization {
     
     /**
      * Initializes a new instance of the JayaOptimization class.
@@ -61,7 +58,7 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
         nEvals = 0;
@@ -117,7 +114,6 @@ public class JayaOptimization extends AbstractEvolutionaryOptimization implement
             }
         }
         
-        return best;
     }
 
     @Override

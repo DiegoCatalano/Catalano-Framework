@@ -61,7 +61,7 @@ import java.util.Random;
  * Real Coded Genetic Algorithm.
  * @author Diego Catalano
  */
-public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization implements IOptimization{
+public class RealCodedGeneticAlgorithm extends BaseEvolutionaryOptimization {
     
     public static enum Selection {Random, RoulleteWheelSelection, Elite};
     private Selection selection;
@@ -71,14 +71,7 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
     private double mutationRate = 0.1;
     private double beta = 8;
     
-    private double[] best;
-    private double minError;
     private double maxError; //Used only in Roulette Wheel Selection
-    
-    @Override
-    public double getError() {
-        return minError;
-    }
 
     /**
      * Initializes a new instance of the RealCodedGeneticAlgorithm class.
@@ -124,7 +117,7 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
          Random rand = new Random();
          
@@ -203,8 +196,6 @@ public class RealCodedGeneticAlgorithm extends AbstractEvolutionaryOptimization 
             population = population.subList(0, populationSize);
             
         }
-        
-        return best;
         
     }
     

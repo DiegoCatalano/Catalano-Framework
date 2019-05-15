@@ -41,7 +41,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implements IOptimization{
+public class GreyWolfOptimizer extends BaseEvolutionaryOptimization {
     
     private double[] alpha;
     private double[] beta;
@@ -50,13 +50,6 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
     private double alphaScore;
     private double betaScore;
     private double deltaScore;
-    
-    private double minError;
-    
-    @Override
-    public double getError() {
-        return minError;
-    }
 
     /**
      * Initializes a new instance of the GreyWolfOptimizer class.
@@ -76,7 +69,7 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         Random rand = new Random();
         
@@ -96,8 +89,6 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
         //Initialize the population
         double[][] pop = InitializePopulation(populationSize, boundConstraint);
         
-        //Best solution
-        double[] best = new double[pop[0].length];
         
         //GWO start here
         for (int g = 0; g < generations; g++) {
@@ -173,8 +164,6 @@ public class GreyWolfOptimizer extends AbstractEvolutionaryOptimization implemen
             iter++;
             
         }
-        
-        return best;
         
     }
     

@@ -58,15 +58,8 @@ import java.util.Random;
  * Teaching-Learning-Based Optimization (TLBO).
  * @author Diego Catalano
  */
-public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
+public class TeachingLearningBasedOptimization extends BaseEvolutionaryOptimization {
     
-    private double minError;
-    private double[] best;
-    
-    @Override
-    public double getError() {
-        return minError;
-    }
 
     /**
      * Initializes a new instance of the TeachingLearningBasedOptimization class.
@@ -86,7 +79,7 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
         nEvals = 0;
@@ -167,7 +160,5 @@ public class TeachingLearningBasedOptimization extends AbstractEvolutionaryOptim
                 }
             }
         }
-        
-        return best;
     }
 }

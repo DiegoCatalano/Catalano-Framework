@@ -59,7 +59,7 @@ import java.util.Random;
  * Simulated Annealing for Continuous space domain.
  * @author Diego Catalano
  */
-public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimization implements IOptimization{
+public class RealCodedSimulatedAnnealing extends BaseEvolutionaryOptimization {
     
     private int maxSub;
     private double t0;
@@ -67,9 +67,6 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
     private int move;
     private double mu;
     private double sigma;
-    
-    private double minError;
-    private double[] best;
 
     /**
      * Get maximum sub iterations.
@@ -266,7 +263,7 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         minError = Double.MAX_VALUE;
         nEvals = 0;
@@ -341,8 +338,6 @@ public class RealCodedSimulatedAnnealing extends AbstractEvolutionaryOptimizatio
 
             sigma *= 0.98;
         }
-        
-        return best;
         
     }
     

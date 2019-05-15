@@ -60,7 +60,7 @@ import java.util.Random;
  * Harmony Search.
  * @author Diego Catalano
  */
-public class HarmonySearch extends AbstractEvolutionaryOptimization implements IOptimization{
+public class HarmonySearch extends BaseEvolutionaryOptimization {
     
     //Parameters
     private int newHarmonies;
@@ -68,9 +68,6 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
     private double pitch;
     private double fw;
     private double dampFactor;
-    
-    private double[] best;
-    private double minError;
 
     /**
      * Get number of new harmonies.
@@ -235,9 +232,10 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         //Reset parameters
+        minError = Double.MAX_VALUE;
         nEvals = 0;
         
         Random rand = new Random();
@@ -308,8 +306,6 @@ public class HarmonySearch extends AbstractEvolutionaryOptimization implements I
             minError = pop.get(0).getFitness();
             
         }
-        
-        return best;
         
     }
 

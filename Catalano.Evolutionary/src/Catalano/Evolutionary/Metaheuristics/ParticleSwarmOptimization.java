@@ -56,12 +56,9 @@ import java.util.Random;
  * Particle Swarm Optimization (PSO).
  * @author Diego Catalano
  */
-public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization implements IOptimization{
+public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
     
     private long seed;
-    
-    private double gBest;
-    private double[] gBestLocation;
     
     private double w;
     private double C1;
@@ -70,11 +67,6 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
     private Random random = new Random();
     
     private List<Particle> swarm;
-    
-    @Override
-    public double getError(){
-        return gBest;
-    }
 
     /**
      * Initializes a new instance of the ParticleSwarmOptimization class.
@@ -123,14 +115,14 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
     }
 
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
         List<DoubleRange> velocity = new ArrayList(boundConstraint.size());
         for (int i = 0; i < boundConstraint.size(); i++) {
             double v = 0.2 * (boundConstraint.get(i).getMax() - boundConstraint.get(i).getMin());
             velocity.add(new DoubleRange(-v, v));
         }
         
-        return Compute(function, boundConstraint, velocity);
+        Compute(function, boundConstraint, velocity);
         
     }
     
@@ -141,9 +133,9 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
      * @param velocity Velocity.
      * @return Best parameters.
      */
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
-        gBest = Double.MAX_VALUE;
+        minError = Double.MAX_VALUE;
         nEvals = 0;
         double wf = w;
 
@@ -162,7 +154,7 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
                 for (int k = 0; k < newVelocity.length; k++) {
                     newVelocity[k] = (wf * p.getVelocity()[k]) + 
                                         (random.nextDouble() * C1) * (p.getBestLocation()[k] - p.getLocation()[k]) +
-                                        (random.nextDouble() * C2) * (gBestLocation[k] - p.getLocation()[k]);
+                                        (random.nextDouble() * C2) * (best[k] - p.getLocation()[k]);
                 }
                 
                 //Fix constraint
@@ -192,9 +184,9 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
                     p.setBestLocation(p.getLocation());
                     p.setBestFitness(p.getFitness());
                     
-                    if(p.getBestFitness() < gBest){
-                        gBestLocation = p.getBestLocation();
-                        gBest = p.getBestFitness();
+                    if(p.getBestFitness() < minError){
+                        best = p.getBestLocation();
+                        minError = p.getBestFitness();
                     }
                 }
                 
@@ -207,8 +199,6 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
             wf *= 0.99;
             
         }
-        
-        return gBestLocation;
         
     }
     
@@ -239,9 +229,9 @@ public class ParticleSwarmOptimization extends AbstractEvolutionaryOptimization 
             p.setFitness(function.Compute(loc));
             p.setBestFitness(p.getFitness());
             
-            if(p.getFitness() < gBest){
-                gBest = p.getFitness();
-                gBestLocation = p.getLocation();
+            if(p.getFitness() < minError){
+                minError = p.getFitness();
+                best = p.getLocation();
             }
 
             swarm.add(p);

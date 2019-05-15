@@ -38,7 +38,7 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class DifferentialEvolution extends AbstractEvolutionaryOptimization{    
+public class DifferentialEvolution extends BaseEvolutionaryOptimization{    
     
     /**
      * Strategy of algorihtm.
@@ -104,18 +104,7 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
     private double f2;
     private float prob;
     
-    private double minError;
     private Strategy strategy;
-    
-    @Override
-    public double getError(){
-        return minError;
-    }
-
-    @Override
-    public long getNumberOfEvaluations() {
-        return nEvals;
-    }
 
     /**
      * Get mutation factor.
@@ -233,21 +222,21 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
     }
     
     @Override
-    public double[] Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
+    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
         
         nEvals = 0;
         minError = Double.MAX_VALUE;
         
         if(strategy == Strategy.RAND_1_BIN || strategy == Strategy.RAND_2_BIN || strategy == Strategy.RAND_1_EXP || strategy == Strategy.RAND_2_EXP){
-            return Rand(function, boundConstraint, strategy);
+            Rand(function, boundConstraint, strategy);
         }
         else{
-            return Best(function, boundConstraint, strategy);
+            Best(function, boundConstraint, strategy);
         }
         
     }
     
-    private double[] Rand(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private void Rand(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         
         Random rand = new Random();
         
@@ -352,11 +341,9 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 }
             }
         }
-        
-        return best;
     }
     
-    private double[] Best(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private void Best(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         
         Random rand = new Random();
         double[] best = null;
@@ -491,7 +478,5 @@ public class DifferentialEvolution extends AbstractEvolutionaryOptimization{
                 }
             }
         }
-        
-        return best;
     }
 }
