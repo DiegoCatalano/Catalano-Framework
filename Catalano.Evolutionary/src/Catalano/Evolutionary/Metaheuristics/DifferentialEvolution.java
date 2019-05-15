@@ -340,6 +340,10 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                     }
                 }
             }
+            
+            if(listener != null)
+                listener.onIteration(g+1, minError, 0);
+            
         }
     }
     
@@ -477,6 +481,10 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                     }
                 }
             }
+            
+            if(listener != null)
+                listener.onIteration(g+1, minError, 0);
+            
         }
     }
 }

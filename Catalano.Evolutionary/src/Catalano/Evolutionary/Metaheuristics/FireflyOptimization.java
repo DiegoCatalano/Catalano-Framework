@@ -269,6 +269,9 @@ public class FireflyOptimization extends BaseEvolutionaryOptimization {
             pop = pop.subList(0, populationSize);
             
             damp = damp*alphaDamp;
+            
+            if(listener != null)
+                listener.onIteration(g+1, minError, 0);
         }
         
     }

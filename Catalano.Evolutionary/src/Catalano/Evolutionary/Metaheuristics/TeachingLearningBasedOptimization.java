@@ -60,7 +60,6 @@ import java.util.Random;
  */
 public class TeachingLearningBasedOptimization extends BaseEvolutionaryOptimization {
     
-
     /**
      * Initializes a new instance of the TeachingLearningBasedOptimization class.
      */
@@ -159,6 +158,9 @@ public class TeachingLearningBasedOptimization extends BaseEvolutionaryOptimizat
                     }
                 }
             }
+            
+            if(listener != null)
+                listener.onIteration(it+1, minError, 0);
         }
     }
 }

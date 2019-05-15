@@ -337,6 +337,9 @@ public class RealCodedSimulatedAnnealing extends BaseEvolutionaryOptimization {
             t *= alpha;
 
             sigma *= 0.98;
+            
+            if(listener != null)
+                listener.onIteration(i+1, minError, 0);
         }
         
     }

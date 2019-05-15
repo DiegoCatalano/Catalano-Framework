@@ -195,6 +195,9 @@ public class RealCodedGeneticAlgorithm extends BaseEvolutionaryOptimization {
             
             population = population.subList(0, populationSize);
             
+            if(listener != null)
+                listener.onIteration(g+1, minError, 0);
+            
         }
         
     }

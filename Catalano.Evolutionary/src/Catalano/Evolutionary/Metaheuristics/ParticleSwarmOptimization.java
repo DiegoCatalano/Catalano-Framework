@@ -198,6 +198,9 @@ public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
             //Dumping factor
             wf *= 0.99;
             
+            if(listener != null)
+                listener.onIteration(i+1, minError, 0);
+            
         }
         
     }

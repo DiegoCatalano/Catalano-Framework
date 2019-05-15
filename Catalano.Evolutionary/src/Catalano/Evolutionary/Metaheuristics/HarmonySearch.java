@@ -305,6 +305,9 @@ public class HarmonySearch extends BaseEvolutionaryOptimization {
             best = Arrays.copyOf(pop.get(0).getLocation(), boundConstraint.size());
             minError = pop.get(0).getFitness();
             
+            if(listener != null)
+                listener.onIteration(g+1, minError, 0);
+            
         }
         
     }

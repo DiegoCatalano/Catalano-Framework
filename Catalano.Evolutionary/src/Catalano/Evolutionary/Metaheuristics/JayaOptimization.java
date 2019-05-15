@@ -112,6 +112,10 @@ public class JayaOptimization extends BaseEvolutionaryOptimization {
                     best = Arrays.copyOf(newSolution, pop[0].length);
                 }
             }
+            
+            if(listener != null)
+                listener.onIteration(it+1, minError, 0);
+            
         }
         
     }

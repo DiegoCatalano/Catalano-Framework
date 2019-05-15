@@ -34,9 +34,12 @@ public abstract class BaseEvolutionaryOptimization {
     protected int populationSize;
     protected int generations;
     protected long nEvals;
+    protected double tol;
     
     protected double minError = Double.MAX_VALUE;
     protected double best[];
+    
+    protected IEvoIterationListener listener;
     
     /**
      * Get population size.
@@ -79,6 +82,22 @@ public abstract class BaseEvolutionaryOptimization {
     }
 
     /**
+     * Get tolerance.
+     * @return Tolerance.
+     */
+    public double getTolerance() {
+        return tol;
+    }
+
+    /**
+     * Set tolerance.
+     * @param tol Tolerance.
+     */
+    public void setTolerance(double tol) {
+        this.tol = tol;
+    }
+
+    /**
      * Get the error.
      * @return Error.
      */
@@ -92,6 +111,14 @@ public abstract class BaseEvolutionaryOptimization {
      */
     public double[] getBest() {
         return best;
+    }
+    
+    /**
+     * Set Iteration listener.
+     * @param listener Listener
+     */
+    public void setOnIteratorListener(IEvoIterationListener listener){
+        this.listener = listener;
     }
     
     /**
