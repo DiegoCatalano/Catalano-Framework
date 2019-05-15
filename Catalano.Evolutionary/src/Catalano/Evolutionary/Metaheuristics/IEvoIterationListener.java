@@ -32,8 +32,7 @@ public interface IEvoIterationListener {
      * Some useful information.
      * @param iteration Iteration.
      * @param error Error.
-     * @param convergence Convergence.
      */
-    void onIteration(int iteration, double error, double convergence);
+    void onIteration(int iteration, double error);
     
 }

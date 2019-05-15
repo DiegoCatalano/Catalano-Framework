@@ -199,7 +199,7 @@ public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
             wf *= 0.99;
             
             if(listener != null)
-                listener.onIteration(i+1, minError, 0);
+                listener.onIteration(i+1, minError);
             
         }
         

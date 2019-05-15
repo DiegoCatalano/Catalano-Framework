@@ -271,7 +271,7 @@ public class FireflyOptimization extends BaseEvolutionaryOptimization {
             damp = damp*alphaDamp;
             
             if(listener != null)
-                listener.onIteration(g+1, minError, 0);
+                listener.onIteration(g+1, minError);
         }
         
     }

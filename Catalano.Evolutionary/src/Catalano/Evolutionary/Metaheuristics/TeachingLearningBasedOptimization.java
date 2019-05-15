@@ -160,7 +160,7 @@ public class TeachingLearningBasedOptimization extends BaseEvolutionaryOptimizat
             }
             
             if(listener != null)
-                listener.onIteration(it+1, minError, 0);
+                listener.onIteration(it+1, minError);
         }
     }
 }

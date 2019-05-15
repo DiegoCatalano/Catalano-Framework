@@ -306,7 +306,7 @@ public class HarmonySearch extends BaseEvolutionaryOptimization {
             minError = pop.get(0).getFitness();
             
             if(listener != null)
-                listener.onIteration(g+1, minError, 0);
+                listener.onIteration(g+1, minError);
             
         }
         
