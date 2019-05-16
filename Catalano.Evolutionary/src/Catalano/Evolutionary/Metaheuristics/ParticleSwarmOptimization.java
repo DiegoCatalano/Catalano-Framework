@@ -115,7 +115,7 @@ public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
     }
 
     @Override
-    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
         List<DoubleRange> velocity = new ArrayList(boundConstraint.size());
         for (int i = 0; i < boundConstraint.size(); i++) {
             double v = 0.2 * (boundConstraint.get(i).getMax() - boundConstraint.get(i).getMin());
@@ -133,7 +133,7 @@ public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
      * @param velocity Velocity.
      * @return Best parameters.
      */
-    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
+    public void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint, List<DoubleRange> velocity){
         
         minError = Double.MAX_VALUE;
         nEvals = 0;
@@ -205,7 +205,7 @@ public class ParticleSwarmOptimization extends BaseEvolutionaryOptimization {
         
     }
     
-    private void Initialize(int swarmSize, List<DoubleRange> location, ISingleObjectiveFunction function, long seed) {
+    private void Initialize(int swarmSize, List<DoubleRange> location, IObjectiveFunction function, long seed) {
         
         swarm = new ArrayList<Particle>(swarmSize);
         

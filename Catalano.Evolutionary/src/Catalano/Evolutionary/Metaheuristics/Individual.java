@@ -35,7 +35,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     private double[] location;
     private double fitness;
     
-    public static List<Individual> CreatePopulation(int populationSize, List<DoubleRange> boundConstraints, ISingleObjectiveFunction function){
+    public static List<Individual> CreatePopulation(int populationSize, List<DoubleRange> boundConstraints, IObjectiveFunction function){
         
         List<Individual> population = new ArrayList<Individual>(populationSize);
         for (int i = 0; i < populationSize; i++) {

@@ -69,7 +69,7 @@ public class GreyWolfOptimizer extends BaseEvolutionaryOptimization {
     }
 
     @Override
-    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         Random rand = new Random();
         

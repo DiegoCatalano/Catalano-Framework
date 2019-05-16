@@ -201,7 +201,7 @@ public class FireflyOptimization extends BaseEvolutionaryOptimization {
     }
 
     @Override
-    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint) {
+    public void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint) {
         
         double damp = alpha;
         minError = Double.MAX_VALUE;

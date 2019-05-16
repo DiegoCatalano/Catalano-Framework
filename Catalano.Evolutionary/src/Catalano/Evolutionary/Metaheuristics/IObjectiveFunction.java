@@ -26,6 +26,6 @@ package Catalano.Evolutionary.Metaheuristics;
  * Common interface to single objetive function.
  * @author Diego Catalano
  */
-public interface ISingleObjectiveFunction {
+public interface IObjectiveFunction {
     double Compute(double[] values);
 }

@@ -222,7 +222,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
     }
     
     @Override
-    public void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint){
+    public void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraint){
         
         nEvals = 0;
         minError = Double.MAX_VALUE;
@@ -236,7 +236,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
         
     }
     
-    private void Rand(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private void Rand(IObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         
         Random rand = new Random();
         
@@ -250,11 +250,11 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
         double[] fitness = new double[pop.length];
         for (int i = 0; i < fitness.length; i++) {
             fitness[i] = function.Compute(pop[i]);
+            if(fitness[i] < minError){
+                minError = fitness[i];
+                best = pop[i];
+            }
         }
-        
-        
-        //Best of the all solution
-        double[] best = null;
 
         int[] idx = Matrix.Indices(0, pop.length);        
         for (int g = 0; g < generations; g++) {
@@ -347,10 +347,9 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
         }
     }
     
-    private void Best(ISingleObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
+    private void Best(IObjectiveFunction function, List<DoubleRange> boundConstraint, Strategy strategy){
         
         Random rand = new Random();
-        double[] best = null;
 
         //Generate the population
         double[][] pop = new double[populationSize][boundConstraint.size()];
@@ -362,6 +361,10 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
         double[] fitness = new double[pop.length];
         for (int i = 0; i < fitness.length; i++) {
             fitness[i] = function.Compute(pop[i]);
+            if(fitness[i] < minError){
+                minError = fitness[i];
+                best = pop[i];
+            }
         }
         
         int[] idx = Matrix.Indices(0, pop.length);

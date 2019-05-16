@@ -126,6 +126,6 @@ public abstract class BaseEvolutionaryOptimization {
      * @param function Function.
      * @param boundConstraints Bounds constraints.
      */
-    public abstract void Compute(ISingleObjectiveFunction function, List<DoubleRange> boundConstraints);
+    public abstract void Compute(IObjectiveFunction function, List<DoubleRange> boundConstraints);
     
 }
