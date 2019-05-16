@@ -397,6 +397,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                                 trial[i] = pop[p][i];
                             }
                         }
+                    break;
                     }
                     case BEST_1_EXP:{
                         ArraysUtil.Shuffle(idx);
@@ -414,6 +415,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                             l++;
                             var = (var + 1) % pop[0].length;
                         } while (rand.nextDouble() <= prob && l < pop[0].length);
+                    break;
                     }
                     case BEST_2_EXP:{
                         ArraysUtil.Shuffle(idx);
@@ -431,6 +433,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                             l++;
                             var = (var + 1) % pop[0].length;
                         } while (rand.nextDouble() <= prob && l < pop[0].length);
+                    break;
                     }
                     case RAND_TO_BEST_BIN:{
                         ArraysUtil.Shuffle(idx);
@@ -442,6 +445,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                                 trial[i] = pop[p][i];
                             }
                         }
+                    break;
                     }
                     case CURRENT_TO_BEST_BIN:{
                         ArraysUtil.Shuffle(idx);
@@ -453,6 +457,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                                 trial[i] = pop[p][i];
                             }
                         }
+                    break;
                     }
                     case CURRENT_TO_RAND_BIN:{
                         ArraysUtil.Shuffle(idx);
@@ -464,6 +469,7 @@ public class DifferentialEvolution extends BaseEvolutionaryOptimization{
                                 trial[i] = pop[p][i];
                             }
                         }
+                    break;
                     }
                 }
                 
