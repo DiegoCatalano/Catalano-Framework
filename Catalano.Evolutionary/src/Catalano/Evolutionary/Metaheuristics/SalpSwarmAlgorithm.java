@@ -23,6 +23,7 @@
 package Catalano.Evolutionary.Metaheuristics;
 
 import Catalano.Core.DoubleRange;
+import Catalano.Math.Tools;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,7 @@ public class SalpSwarmAlgorithm extends BaseEvolutionaryOptimization{
      * Initializes a new instance of the SalpSwarmAlgorithm class.
      */
     public SalpSwarmAlgorithm() {
-        this(25,1000);
+        this(30,1000);
     }
     
     /**
@@ -74,6 +75,8 @@ public class SalpSwarmAlgorithm extends BaseEvolutionaryOptimization{
         minError = pop.get(0).getFitness();
         best = Arrays.copyOf(pop.get(0).getLocation(), boundConstraints.size());
         
+        Collections.shuffle(pop);
+        
         //Main algorithm
         for (int g = 0; g < generations; g++) {
             
@@ -85,20 +88,31 @@ public class SalpSwarmAlgorithm extends BaseEvolutionaryOptimization{
                     for (int j = 0; j < boundConstraints.size(); j++) {
                         DoubleRange range = boundConstraints.get(j);
                         if(rand.nextDouble() < 0.5)
-                            pop.get(i).getLocation()[j] = best[j] + c1 * (range.getMax() - range.getMin()) * rand.nextDouble() + range.getMin();
+                            pop.get(i).getLocation()[j] = best[j] + c1 * ((range.getMax() - range.getMin()) * rand.nextDouble() + range.getMin());
                         else
-                            pop.get(i).getLocation()[j] = best[j] - c1 * (range.getMax() - range.getMin()) * rand.nextDouble() + range.getMin();
+                            pop.get(i).getLocation()[j] = best[j] - c1 * ((range.getMax() - range.getMin()) * rand.nextDouble() + range.getMin());
                     }
                 }
-                else{
-                    //TODO
+                else if (i > (pop.size()/2) && i < pop.size()){
+                    double[] salp1 = pop.get(i-1).getLocation();
+                    double[] salp2 = pop.get(i).getLocation();
+                    
+                    for (int j = 0; j < salp2.length; j++)
+                        salp2[j] = (salp2[j] + salp1[j]) / 2;
+                    
                 }
             }
+            
+            //Clamp values
+            for (int i = 0; i < pop.size(); i++)
+                Tools.Clamp(pop.get(i).getLocation(), boundConstraints);
+            
             
             //Calculate fitness
             for (int i = 0; i < pop.size(); i++) {
                 double f = function.Compute(pop.get(i).getLocation());
                 pop.get(i).setFitness(f);
+                nEvals++;
                 if(f < minError){
                     minError = f;
                     best = Arrays.copyOf(pop.get(i).getLocation(), boundConstraints.size());
@@ -109,7 +123,5 @@ public class SalpSwarmAlgorithm extends BaseEvolutionaryOptimization{
             if(listener != null) listener.onIteration(g+1, minError);
             
         }
-        
     }
-    
 }

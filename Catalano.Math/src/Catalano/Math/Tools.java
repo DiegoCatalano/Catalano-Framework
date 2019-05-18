@@ -31,6 +31,7 @@ import Catalano.Core.IntRange;
 import Catalano.Math.Functions.Gamma;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Set of mathematical tools.
@@ -182,6 +183,43 @@ public final class Tools {
         if(x > max)
             return max;
         return x;
+    }
+    
+    /**
+     * Clamp values.
+     * @param values Values.
+     * @param ranges List of ranges.
+     */
+    public static void Clamp(double[] values, List<DoubleRange> ranges){
+        for (int i = 0; i < values.length; i++) {
+            DoubleRange range = ranges.get(i);
+            values[i] = values[i] < range.getMin() ? range.getMin() : values[i];
+            values[i] = values[i] > range.getMax() ? range.getMax() : values[i];
+        }
+    }
+    
+    /**
+     * Clamp values.
+     * @param values Values.
+     * @param range Range.
+     */
+    public static void Clamp(double[] values, DoubleRange range){
+        Clamp(values, range.getMin(), range.getMax());
+    }
+    
+    /**
+     * Clamp values.
+     * @param values Values.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     */
+    public static void Clamp(double[] values, double min, double max){
+        
+        for (int i = 0; i < values.length; i++) {
+            values[i] = values[i] < min ? min : values[i];
+            values[i] = values[i] > max ? max : values[i];
+        }
+        
     }
     
     /**
