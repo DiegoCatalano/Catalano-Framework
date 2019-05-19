@@ -22,9 +22,12 @@
 
 package Catalano.Evolutionary.Genetic.Crossover;
 
+import Catalano.Core.ArraysUtil;
 import Catalano.Evolutionary.Genetic.Chromosome.BinaryChromosome;
 import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import Catalano.Evolutionary.Genetic.Chromosome.PermutationChromosome;
+import Catalano.Math.Matrix;
+import Catalano.Math.Tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +40,7 @@ import java.util.Random;
  * 
  * @author Diego Catalano
  */
-public class OrderCrossover implements ICrossover<IChromosome>{
+public class OrderCrossover implements ICrossover<PermutationChromosome>{
 
     /**
      * Initializes a new instance of the OrderCrossover class.
@@ -45,17 +48,8 @@ public class OrderCrossover implements ICrossover<IChromosome>{
     public OrderCrossover() {}
 
     @Override
-    public List<IChromosome> Compute(IChromosome chromosome1, IChromosome chromosome2) {
+    public List<PermutationChromosome> Compute(PermutationChromosome chromosome1, PermutationChromosome chromosome2) {
 
-        if(chromosome1 instanceof BinaryChromosome){
-            throw new IllegalArgumentException("Support only Permutation and Integer chromosomes");
-        } else {
-            return ComputeIC((PermutationChromosome)chromosome1,(PermutationChromosome)chromosome2);
-        }
-        
-    }
-    
-    private List<IChromosome> ComputeIC(IChromosome chromosome1, IChromosome chromosome2){
         Random rand = new Random();
         
         int length = chromosome1.getLength();
@@ -64,38 +58,75 @@ public class OrderCrossover implements ICrossover<IChromosome>{
         int[] cuts = {rand.nextInt(length), rand.nextInt(length)};
         Arrays.sort(cuts, 0, cuts.length);
         
-        IChromosome c1 = chromosome1.Clone();
-        IChromosome c2 = chromosome2.Clone();
+        int[] c1 = Matrix.CreateMatrix1D(length, -1);
+        int[] c2 = Matrix.CreateMatrix1D(length, -1);
         
-        int[] v1 = new int[length - (cuts[1] - cuts[0]) - 1];
-        int[] v2 = new int[length - (cuts[1] - cuts[0]) - 1];
+        int idx;
+        int[] order;
         
-        int index = 0;
+        //Offspring 1: Swath of consecutive genes
         for (int i = 0; i < length; i++) {
-            if(i < cuts[0] || i > cuts[1]){
-                v1[index] = (Integer)chromosome1.getGene(i);
-                v2[index] = (Integer)chromosome2.getGene(i);
-                index++;
+            int e = (Integer)chromosome1.getGene(i);
+            if(i >= cuts[0] && i <= cuts[1]){
+                c1[i] = e;
             }
         }
         
-        Arrays.sort(v1);
-        Arrays.sort(v2);
-        
-        index = 0;
+        //Offspring 1: Copy elements from second parent
+        idx = 0;
+        order = empty(c1);
         for (int i = 0; i < length; i++) {
-            if(i < cuts[0] || i > cuts[1]){
-                c1.setGene(i, v1[index]);
-                c2.setGene(i, v2[index]);
-                index++;
+            int e = (Integer)chromosome2.getGene(i);
+            if(ArraysUtil.Contains(c1, e) == false){
+                c1[order[idx++]] = e;
             }
         }
         
-        List<IChromosome> lst = new ArrayList<IChromosome>(2);
-        lst.add(c1);
-        lst.add(c2);
+        //Offspring 2: Swath of consecutive genes
+        for (int i = 0; i < length; i++) {
+            int e = (Integer)chromosome2.getGene(i);
+            if(i >= cuts[0] && i <= cuts[1]){
+                c2[i] = e;
+            }
+        }
+        
+        //Offspring 2: Copy elements from second parent
+        idx = 0;
+        order = empty(c2);
+        for (int i = 0; i < length; i++) {
+            int e = (Integer)chromosome1.getGene(i);
+            if(ArraysUtil.Contains(c2, e) == false){
+                c2[order[idx++]] = e;
+            }
+        }
+        
+        int suma = Tools.Sum(c1);
+        int sumb = Tools.Sum(c2);
+        
+        if(suma != 120 || sumb != 120){
+            int stop = 0;
+        }
+        
+        List<PermutationChromosome> lst = new ArrayList<>(2);
+        lst.add(new PermutationChromosome(c1));
+        lst.add(new PermutationChromosome(c2));
         
         return lst;
+        
+    }
+    
+    private int[] empty(final int[] array) {
+        int c = 0;
+        for (int i = 0; i < array.length; i++)
+            if(array[i] == -1) c++;
+        
+        
+        int[] order = new int[c];
+        int idx = 0;
+        for (int i = 0; i < array.length; i++)
+            if(array[i] == -1) order[idx++] = i;
+
+        return order;
     }
     
 }

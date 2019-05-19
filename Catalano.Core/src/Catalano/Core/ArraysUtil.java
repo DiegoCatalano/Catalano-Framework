@@ -111,6 +111,14 @@ public class ArraysUtil {
         return asArray(indexes);
     }
     
+    public static boolean Contains(int[] array, int element){
+        for (int i = 0; i < array.length; i++) {
+            if(array[i] == element)
+                return true;
+        }
+        return false;
+    }
+    
     /**
      * Concatenate the arrays.
      * @param array First array.
