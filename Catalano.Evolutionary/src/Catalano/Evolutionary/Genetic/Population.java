@@ -163,7 +163,8 @@ public class Population {
         }
         
         //Mutation
-        for (int i = 0; i < list.size(); i++) {
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
             if(rand.nextFloat() < mutationRate){
                 IChromosome c = (IChromosome)mutation.Compute(list.get(i));
                 c.Evaluate(function);

@@ -100,13 +100,6 @@ public class OrderCrossover implements ICrossover<PermutationChromosome>{
             }
         }
         
-        int suma = Tools.Sum(c1);
-        int sumb = Tools.Sum(c2);
-        
-        if(suma != 120 || sumb != 120){
-            int stop = 0;
-        }
-        
         List<PermutationChromosome> lst = new ArrayList<>(2);
         lst.add(new PermutationChromosome(c1));
         lst.add(new PermutationChromosome(c2));
