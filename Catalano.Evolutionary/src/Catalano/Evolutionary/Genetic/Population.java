@@ -122,7 +122,7 @@ public class Population {
     }
     
     private void Generate(IChromosome chromossome){
-        list = new ArrayList<IChromosome>(population);
+        list = new ArrayList<>(population);
         
         chromossome.Evaluate(function);
         minError = chromossome.getFitness();

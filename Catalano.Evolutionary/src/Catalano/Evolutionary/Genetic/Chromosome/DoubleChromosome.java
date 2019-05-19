@@ -23,6 +23,7 @@
 package Catalano.Evolutionary.Genetic.Chromosome;
 
 import Catalano.Math.Tools;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -59,6 +60,19 @@ public class DoubleChromosome extends ChromosomeBase{
      */
     public double[] getValues() {
         return values;
+    }
+    
+    /**
+     * Initializes a new instance of the DoubleChromosome class.
+     * @param values Values.
+     * @param minValue Minimum value.
+     * @param maxValue Maximum value.
+     */
+    public DoubleChromosome(double[] values, double minValue, double maxValue){
+        this.size = values.length;
+        this.values = values;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
 
     /**
@@ -103,12 +117,9 @@ public class DoubleChromosome extends ChromosomeBase{
 
     @Override
     public IChromosome Clone() {
-        try{
-            return (DoubleChromosome)super.clone();
-        }
-        catch(CloneNotSupportedException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        DoubleChromosome c = new DoubleChromosome(Arrays.copyOf(values, values.length), minValue, maxValue);
+        c.fitness = this.fitness;
+        return c;
     }
 
     @Override

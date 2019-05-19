@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Salp Swarm Algorithm (SSA). Need to finish this algorithm.
+ * Salp Swarm Algorithm (SSA).
  * 
  * Need a describe.
  * 

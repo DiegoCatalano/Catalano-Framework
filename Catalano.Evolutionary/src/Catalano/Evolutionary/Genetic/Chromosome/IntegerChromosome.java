@@ -22,6 +22,7 @@
 
 package Catalano.Evolutionary.Genetic.Chromosome;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -41,6 +42,17 @@ public class IntegerChromosome extends ChromosomeBase{
      */
     public int getMaxValue() {
         return maxValue;
+    }
+    
+    /**
+     * Initializes a new instance of the IntegerChromosome class.
+     * @param values Values.
+     * @param maxValue Maximum value.
+     */
+    public IntegerChromosome(int[] values, int maxValue){
+        this.size = values.length;
+        this.values = values;
+        this.maxValue = maxValue;
     }
 
     /**
@@ -83,12 +95,9 @@ public class IntegerChromosome extends ChromosomeBase{
 
     @Override
     public IChromosome Clone() {
-        try{
-            return (IntegerChromosome)super.clone();
-        }
-        catch(CloneNotSupportedException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        IntegerChromosome c = new IntegerChromosome(Arrays.copyOf(values, values.length), maxValue);
+        c.fitness = this.fitness;
+        return c;
     }
 
     @Override

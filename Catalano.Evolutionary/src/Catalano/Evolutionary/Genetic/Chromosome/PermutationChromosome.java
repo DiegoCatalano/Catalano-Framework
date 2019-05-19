@@ -89,16 +89,21 @@ public class PermutationChromosome extends ChromosomeBase {
 
     @Override
     public IChromosome Clone() {
-        return new PermutationChromosome(Arrays.copyOf(data, data.length));
+        
+        PermutationChromosome pc = new PermutationChromosome(Arrays.copyOf(data, data.length));
+        pc.fitness = this.fitness;
+        return pc;
+        
     }
 
     @Override
     public String toString() {
         
         String str = "";
-        for (int i = 0; i < data.length; i++) {
-            str += String.valueOf(data[i]);
+        for (int i = 0; i < data.length - 1; i++) {
+            str += String.valueOf(data[i]) + " ";
         }
+        str += String.valueOf(data[data.length - 1]);
         
         return str;
     }
