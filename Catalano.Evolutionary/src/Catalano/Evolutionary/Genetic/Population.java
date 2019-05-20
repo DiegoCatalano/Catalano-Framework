@@ -48,10 +48,41 @@ public class Population {
     private ISelection selection;
     private ICrossover crossover;
     private IMutation mutation;
-    private boolean autoShuffle = false;
     
     private IChromosome best;
     private double minError;
+
+    /**
+     * Get crossover rate.
+     * @return Crossover rate.
+     */
+    public float getCrossoverRate() {
+        return crossoverRate;
+    }
+
+    /**
+     * Set crossover rate.
+     * @param crossoverRate Crossover rate.
+     */
+    public void setCrossoverRate(float crossoverRate) {
+        this.crossoverRate = crossoverRate;
+    }
+
+    /**
+     * Get mutation rate.
+     * @return Mutation rate.
+     */
+    public float getMutationRate() {
+        return mutationRate;
+    }
+
+    /**
+     * Set mutation rate.
+     * @param mutationRate Mutation rate.
+     */
+    public void setMutationRate(float mutationRate) {
+        this.mutationRate = mutationRate;
+    }
 
     /**
      * Get best chromosome.
@@ -59,14 +90,6 @@ public class Population {
      */
     public IChromosome getBest() {
         return best;
-    }
-
-    public boolean isAutoShuffle() {
-        return autoShuffle;
-    }
-
-    public void setAutoShuffle(boolean autoShuffle) {
-        this.autoShuffle = autoShuffle;
     }
     
     /**
@@ -180,10 +203,7 @@ public class Population {
         }
         
         //Sort the chromossomes
-        if(autoShuffle)
-            Collections.shuffle(list);
-        else
-            Sort();
+        Sort();
         
         //Get the new population
         list = list.subList(0, population);
