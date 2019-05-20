@@ -23,11 +23,8 @@
 package Catalano.Evolutionary.Genetic.Crossover;
 
 import Catalano.Core.ArraysUtil;
-import Catalano.Evolutionary.Genetic.Chromosome.BinaryChromosome;
-import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import Catalano.Evolutionary.Genetic.Chromosome.PermutationChromosome;
 import Catalano.Math.Matrix;
-import Catalano.Math.Tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

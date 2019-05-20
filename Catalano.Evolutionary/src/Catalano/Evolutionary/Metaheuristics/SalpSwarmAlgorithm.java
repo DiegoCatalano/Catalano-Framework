@@ -32,10 +32,10 @@ import java.util.Random;
 /**
  * Salp Swarm Algorithm (SSA).
  * 
- * Need a describe.
+ * The main inspiration of SSA is the swarming behaviour of salps when navigating and foraging in oceans.
  * 
  * References:
- * Mirjalili, Seyedali, et al.
+ * S. Mirjalili, A.H. Gandomi, S.Z. Mirjalili, S. Saremi, H. Faris, S.M. Mirjalili.
  * "Salp Swarm Algorithm: A bio-inspired optimizer for engineering design problems." Advances in Engineering Software 114 (2017): 163-191.
  * 
  * @author Diego Catalano
