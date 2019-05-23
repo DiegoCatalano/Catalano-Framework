@@ -23,7 +23,8 @@
 package Catalano.Evolutionary.Genetic.Mutation;
 
 import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
-import java.util.Random;
+import Catalano.Math.Matrix;
+import java.util.Arrays;
 
 /**
  * Simple Inversion Mutation.
@@ -42,17 +43,17 @@ public class SimpleInversionMutation implements IMutation<IChromosome>{
     @Override
     public IChromosome Compute(IChromosome chromossome) {
         
-        Random rand = new Random();
-        
         IChromosome c = chromossome.Clone();
         
-        int lenght = c.getLength();
+        int length = c.getLength();
         
-        int size = rand.nextInt(lenght - 1) + 2;
-        int pos = rand.nextInt(lenght-size);
+        int[] index = Matrix.RandomPermutation(length);
+        index = Arrays.copyOfRange(index, 0, 2);
+        Arrays.sort(index);
         
-        for (int i = 0; i < size; i++)
-            c.setGene(pos+i,chromossome.getGene(pos+size-i-1));
+        int it = 0;
+        for (int i = index[0]; i <= index[1]; i++)
+            c.setGene(i, chromossome.getGene(index[1] - it++));
         
         return c;
         

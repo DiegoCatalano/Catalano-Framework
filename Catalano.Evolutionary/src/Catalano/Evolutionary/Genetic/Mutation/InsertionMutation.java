@@ -54,7 +54,7 @@ public class InsertionMutation implements IMutation<IChromosome>{
         //Random choose one position to insert
         int posIn = rand.nextInt(chromossome.getLength() - 1);
         
-        List<Object> genes = new ArrayList<Object>(chromossome.getLength() - 1);
+        List<Object> genes = new ArrayList<>(chromossome.getLength() - 1);
         for (int i = 0; i < chromossome.getLength(); i++)
             if(i != pos) genes.add(chromossome.getGene(i));
         

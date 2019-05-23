@@ -328,7 +328,7 @@ public class ArraysUtil {
      * Shuffle an array.
      * @param array Array.
      */
-    public static void Shuflle(float[] array){
+    public static void Shuffle(float[] array){
         Shuffle(array, 0);
     }
     
