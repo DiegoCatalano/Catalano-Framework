@@ -27,7 +27,6 @@ import Catalano.Evolutionary.Genetic.Crossover.ICrossover;
 import Catalano.Evolutionary.Genetic.Mutation.IMutation;
 import Catalano.Evolutionary.Genetic.Selection.ISelection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -179,8 +178,9 @@ public class Population {
                 int[] index = selection.Compute(list);
                 
                 List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
-                elem.get(0).Evaluate(function);
-                elem.get(1).Evaluate(function);
+                for (IChromosome c : elem) {
+                    c.Evaluate(function);
+                }
                 list.addAll(elem);
             }
         }
