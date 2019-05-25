@@ -23,17 +23,19 @@
 package Catalano.Evolutionary.Genetic.Mutation;
 
 import Catalano.Evolutionary.Genetic.Chromosome.DoubleChromosome;
+import Catalano.Evolutionary.Genetic.Chromosome.FloatChromosome;
+import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import Catalano.Math.Tools;
 import java.util.Random;
 
 /**
  * Multiplier Mutation.
  * 
- * Support: Double chromosome.
+ * Support: Double/Float chromosome.
  * 
  * @author Diego Catalano
  */
-public class MultiplierMutation implements IMutation<DoubleChromosome>{
+public class MultiplierMutation implements IMutation<IChromosome>{
     
     private float balancer;
 
@@ -69,8 +71,18 @@ public class MultiplierMutation implements IMutation<DoubleChromosome>{
     }
 
     @Override
-    public DoubleChromosome Compute(DoubleChromosome chromossome) {
+    public IChromosome Compute(IChromosome chromossome) {
         
+        if(chromossome instanceof FloatChromosome){
+            return Compute((FloatChromosome)chromossome);
+        } else if (chromossome instanceof DoubleChromosome){
+            return Compute((DoubleChromosome)chromossome);
+        } else{
+            throw new IllegalArgumentException("Multiplier mutation only works with Double/Float chromosomes.");
+        }
+    }
+    
+    private IChromosome Compute(DoubleChromosome chromossome){
         Random rand = new Random();
         
         DoubleChromosome c = (DoubleChromosome)chromossome.Clone();
@@ -83,6 +95,27 @@ public class MultiplierMutation implements IMutation<DoubleChromosome>{
             c.setGene(gene, value);
         } else{
             double value = (Double)chromossome.getGene(gene) + rand.nextDouble();
+            value = Tools.Clamp(value, chromossome.getMinValue(), chromossome.getMaxValue());
+
+            c.setGene(gene, value);
+        }
+
+        return c;
+    }
+    
+    private IChromosome Compute(FloatChromosome chromossome){
+        Random rand = new Random();
+        
+        FloatChromosome c = (FloatChromosome)chromossome.Clone();
+        
+        int gene = rand.nextInt(c.getLength());
+        if(rand.nextDouble() < balancer){
+            float value = (Float)chromossome.getGene(gene) * rand.nextFloat();
+            value = Tools.Clamp(value, chromossome.getMinValue(), chromossome.getMaxValue());
+
+            c.setGene(gene, value);
+        } else{
+            float value = (Float)chromossome.getGene(gene) + rand.nextFloat();
             value = Tools.Clamp(value, chromossome.getMinValue(), chromossome.getMaxValue());
 
             c.setGene(gene, value);
