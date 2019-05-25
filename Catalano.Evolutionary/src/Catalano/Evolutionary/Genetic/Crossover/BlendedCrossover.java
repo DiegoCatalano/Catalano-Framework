@@ -89,7 +89,7 @@ public class BlendedCrossover implements ICrossover<DoubleChromosome>{
             
         }
         
-        List<DoubleChromosome> lst = new ArrayList<DoubleChromosome>(2);
+        List<DoubleChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         
