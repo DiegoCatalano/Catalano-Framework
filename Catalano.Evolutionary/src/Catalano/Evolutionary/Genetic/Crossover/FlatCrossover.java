@@ -58,7 +58,7 @@ public class FlatCrossover implements ICrossover<DoubleChromosome>{
             c2.setGene(i, rand.nextDouble(min, max));
         }
         
-        List<DoubleChromosome> lst = new ArrayList<DoubleChromosome>(2);
+        List<DoubleChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         
