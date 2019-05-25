@@ -29,7 +29,7 @@ import java.util.Arrays;
 /**
  * Simple Inversion Mutation.
  * 
- * Support: Binary/Permutation/Integer/Double Chromosome.
+ * Support: Binary/Permutation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */

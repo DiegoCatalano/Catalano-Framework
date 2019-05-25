@@ -498,8 +498,22 @@ public final class Tools {
      * @return Result.
      */
     public static double Scale(double fromMin, double fromMax, double toMin, double toMax, double x){
-            if (fromMax - fromMin == 0) return 0;
-            return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
+        if (fromMax - fromMin == 0) return 0;
+        return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
+    }
+    
+    /**
+     * Converts the value x (which is measured in the scale 'from') to another value measured in the scale 'to'.
+     * @param fromMin Scale min from.
+     * @param fromMax Scale max from.
+     * @param toMin Scale min to.
+     * @param toMax Scale max to.
+     * @param x Value.
+     * @return Result.
+     */
+    public static float Scale(float fromMin, float fromMax, float toMin, float toMax, float x){
+        if (fromMax - fromMin == 0) return 0;
+        return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
     }
     
     /**

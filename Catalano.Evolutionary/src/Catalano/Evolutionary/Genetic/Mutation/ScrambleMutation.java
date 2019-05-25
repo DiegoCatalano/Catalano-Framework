@@ -29,7 +29,7 @@ import java.util.Random;
 /**
  * Scramble Mutation.
  * 
- * Support: Binary/Permuation/Integer/Double Chromosome.
+ * Support: Binary/Permuation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */

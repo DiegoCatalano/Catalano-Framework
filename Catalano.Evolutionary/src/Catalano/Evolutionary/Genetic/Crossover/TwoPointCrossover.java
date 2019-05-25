@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Two Point Crossover.
  * 
- * Support: Binary/Integer/Double Chromosome.
+ * Support: Binary/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */
@@ -76,7 +76,7 @@ public class TwoPointCrossover implements ICrossover<IChromosome> {
             c2.setGene(i, chromosome2.getGene(i));
         }
         
-        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        List<IChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         

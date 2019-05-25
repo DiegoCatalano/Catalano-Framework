@@ -32,12 +32,15 @@ import java.util.Random;
 /**
  * Single Point Crossover.
  * 
- * Support: Binary/Permutation/Integer/Double Chromosome.
+ * Support: Binary/Permutation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */
 public class SinglePointCrossover implements ICrossover<IChromosome> {
 
+    /**
+     * Initialize a new instance of the SinglePointCrossover class.
+     */
     public SinglePointCrossover() {}
 
     @Override
@@ -74,7 +77,7 @@ public class SinglePointCrossover implements ICrossover<IChromosome> {
             c2.setGene(i, chromosome1.getGene(i));
         }
         
-        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        List<IChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         

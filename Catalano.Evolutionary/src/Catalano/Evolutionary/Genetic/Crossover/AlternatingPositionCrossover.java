@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Alternating Position Crossover (AP).
  * 
- * Support: Binary/Integer/Double Chromosome.
+ * Support: Binary/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */

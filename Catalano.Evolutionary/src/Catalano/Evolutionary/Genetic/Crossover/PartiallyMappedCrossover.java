@@ -31,7 +31,7 @@ import java.util.Random;
 /**
  * Partially Mapped Crossover (PMX).
  * 
- * Support: Binary/Permutation/Integer/Double Chromosome.
+ * Support: Binary/Permutation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */
@@ -77,7 +77,7 @@ public class PartiallyMappedCrossover implements ICrossover<IChromosome>{
             }
         }
         
-        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        List<IChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         

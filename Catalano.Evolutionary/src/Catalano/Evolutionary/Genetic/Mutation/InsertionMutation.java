@@ -30,7 +30,7 @@ import java.util.Random;
 /**
  * Insertion Mutation.
  * 
- * Support: Binary/Permuation/Integer/Double Chromosome.
+ * Support: Binary/Permuation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */

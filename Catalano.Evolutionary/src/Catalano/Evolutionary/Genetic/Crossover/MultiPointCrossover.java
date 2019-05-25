@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Multi Point Crossover.
  * 
- * Support: Binary/Integer/Double Chromosome.
+ * Support: Binary/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */
@@ -106,7 +106,7 @@ public class MultiPointCrossover implements ICrossover<IChromosome> {
             start = cuts[c];
         }
         
-        List<IChromosome> lst = new ArrayList<IChromosome>(2);
+        List<IChromosome> lst = new ArrayList<>(2);
         lst.add(c1);
         lst.add(c2);
         
