@@ -397,6 +397,37 @@ public final class Matrix {
     }
     
     /**
+     * Insert columns in the array.
+     * @param A Array.
+     * @param B Array.
+     * @param index Index.
+     * @return New array.
+     */
+    public static Object[] InsertColumns(Object[] A, Object[] B, int index){
+        
+        if(index >= A.length)
+            throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
+        
+        Object[] v = new Object[A.length + B.length];
+        
+        int idx = 0;
+        for (int i = 0; i < A.length; i++) {
+            if(i != index){
+                v[idx] = A[i];
+                idx++;
+            }
+            else{
+                for (int j = 0; j < B.length; j++) {
+                    v[i+j] = B[j];
+                    idx++;
+                }
+                v[idx++] = A[i];
+            }
+        }
+        return v;
+    }
+    
+    /**
      * Insert a column.
      * Insert a column in the selected index.
      * @param A Matrix.
