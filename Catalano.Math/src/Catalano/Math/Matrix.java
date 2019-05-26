@@ -280,7 +280,7 @@ public final class Matrix {
      */
     public static double[] InsertColumns(double[] A, double[] B, int index){
         
-        if(index >= A.length)
+        if(index > A.length)
             throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         double[] v = new double[A.length + B.length];
@@ -320,7 +320,7 @@ public final class Matrix {
      */
     public static int[] InsertColumns(int[] A, int[] B, int index){
         
-        if(index >= A.length)
+        if(index > A.length)
             throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         int[] v = new int[A.length + B.length];
@@ -360,7 +360,7 @@ public final class Matrix {
      */
     public static float[] InsertColumns(float[] A, float[] B, int index){
         
-        if(index >= A.length)
+        if(index > A.length)
             throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         float[] v = new float[A.length + B.length];
@@ -400,7 +400,7 @@ public final class Matrix {
      */
     public static byte[] InsertColumns(byte[] A, byte[] B, int index){
         
-        if(index >= A.length)
+        if(index > A.length)
             throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         byte[] v = new byte[A.length + B.length];
