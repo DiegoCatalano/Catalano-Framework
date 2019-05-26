@@ -50,7 +50,7 @@ public class DisplacementMutation implements IMutation<IChromosome>{
         
         int lenght = c.getLength();
         
-        int[] order = {rand.nextInt(lenght-1), rand.nextInt(lenght-1)};
+        int[] order = {2,6};//{rand.nextInt(lenght-1), rand.nextInt(lenght-1)};
         Arrays.sort(order);
         
         int idx;
@@ -71,7 +71,7 @@ public class DisplacementMutation implements IMutation<IChromosome>{
         }
         
         //Insert the elements
-        idx = rand.nextInt(elem2.length);
+        idx = rand.nextInt(elem2.length + 1);
         elem = Matrix.InsertColumns(elem2, elem, idx);
         
         for (int i = 0; i < elem.length; i++) {

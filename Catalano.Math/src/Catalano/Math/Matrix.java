@@ -300,6 +300,14 @@ public final class Matrix {
             }
         }
         
+        //Special case when index its the same of the length of the vector,
+        //in this case we just concatenate.
+        if(index == A.length){
+            for (int j = 0; j < B.length; j++) {
+                v[A.length + j] = B[j];
+            }
+        }
+        
         return v;
     }
     
@@ -331,6 +339,15 @@ public final class Matrix {
                 v[idx++] = A[i];
             }
         }
+        
+        //Special case when index its the same of the length of the vector,
+        //in this case we just concatenate.
+        if(index == A.length){
+            for (int j = 0; j < B.length; j++) {
+                v[A.length + j] = B[j];
+            }
+        }
+        
         return v;
     }
     
@@ -362,6 +379,15 @@ public final class Matrix {
                 v[idx++] = A[i];
             }
         }
+        
+        //Special case when index its the same of the length of the vector,
+        //in this case we just concatenate.
+        if(index == A.length){
+            for (int j = 0; j < B.length; j++) {
+                v[A.length + j] = B[j];
+            }
+        }
+        
         return v;
     }
     
@@ -393,6 +419,15 @@ public final class Matrix {
                 v[idx++] = A[i];
             }
         }
+        
+        //Special case when index its the same of the length of the vector,
+        //in this case we just concatenate.
+        if(index == A.length){
+            for (int j = 0; j < B.length; j++) {
+                v[A.length + j] = B[j];
+            }
+        }
+        
         return v;
     }
     
@@ -405,7 +440,7 @@ public final class Matrix {
      */
     public static Object[] InsertColumns(Object[] A, Object[] B, int index){
         
-        if(index >= A.length)
+        if(index > A.length)
             throw new IllegalArgumentException("The index must be at least a valid index inside the array A.");
         
         Object[] v = new Object[A.length + B.length];
@@ -424,6 +459,15 @@ public final class Matrix {
                 v[idx++] = A[i];
             }
         }
+        
+        //Special case when index its the same of the length of the vector,
+        //in this case we just concatenate.
+        if(index == A.length){
+            for (int j = 0; j < B.length; j++) {
+                v[A.length + j] = B[j];
+            }
+        }
+        
         return v;
     }
     
