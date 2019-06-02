@@ -24,6 +24,7 @@ package Catalano.Evolutionary.Metaheuristics;
 import Catalano.Core.DoubleRange;
 import Catalano.Math.Matrix;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     
     public static List<Individual> CreatePopulation(int populationSize, List<DoubleRange> boundConstraints, IObjectiveFunction function){
         
-        List<Individual> population = new ArrayList<Individual>(populationSize);
+        List<Individual> population = new ArrayList<>(populationSize);
         for (int i = 0; i < populationSize; i++) {
             double[] location = Matrix.UniformRandom(boundConstraints);
             double fitness = function.Compute(location);
@@ -50,7 +51,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     
     public static List<Individual> CreatePopulation(double[][] population, double[] fitness){
         
-        List<Individual> pop = new ArrayList<Individual>(population.length);
+        List<Individual> pop = new ArrayList<>(population.length);
         for (int i = 0; i < population.length; i++) {
             pop.add(new Individual(population[i], fitness[i]));
         }
@@ -66,6 +67,15 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public double[] getLocation() {
         return location;
     }
+    
+    /**
+     * Get location in the space.
+     * @param index Index.
+     * @return Value.
+     */
+    public double getLocation(int index){
+        return location[index];
+    }
 
     /**
      * Set location in the space.
@@ -73,6 +83,15 @@ public class Individual implements Comparable<Individual>, Cloneable {
      */
     public void setLocation(double[] location) {
         this.location = location;
+    }
+    
+    /**
+     * Set location in the space.
+     * @param index Index.
+     * @param location Location.
+     */
+    public void setLocation(int index, double location){
+        this.location[index] = location;
     }
 
     /**
@@ -115,14 +134,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     }
     
     public Individual getClone(){
-        try {
-            // call clone in Object.
-            return (Individual) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
+        return new Individual(Arrays.copyOf(location, location.length), fitness);
     }
     
 }

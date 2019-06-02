@@ -2833,6 +2833,21 @@ public final class Matrix {
     }
     
     /**
+     * Generate linearly spaced vector.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @param points Points.
+     * @return Array.
+     */
+    public static double[] Linspace(double min, double max, int points){
+        double[] v = new double[points];  
+        for (int i = 0; i < points; i++){  
+            v[i] = min + i * (max - min) / (points - 1);  
+        }  
+        return v;
+    }
+    
+    /**
      * Get the maximum value from array.
      * @param matrix Array.
      * @return Maximum value.
