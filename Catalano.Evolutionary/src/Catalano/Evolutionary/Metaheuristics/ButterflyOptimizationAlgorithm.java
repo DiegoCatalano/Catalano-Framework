@@ -140,6 +140,7 @@ public class ButterflyOptimizationAlgorithm extends BaseEvolutionaryOptimization
                 best = Arrays.copyOf(pop[i], pop[0].length);
             }
         }
+        nEvals += populationSize;
         
         int[] index = Matrix.Indices(0,populationSize);
         for (int g = 0; g < generations; g++) {
@@ -170,6 +171,7 @@ public class ButterflyOptimizationAlgorithm extends BaseEvolutionaryOptimization
                 //Update the population if the solution is better
                 Tools.Clamp(s, bounds);
                 double f = function.Compute(s);
+                nEvals++;
                 if(f < fitness[i]){
                     pop[i] = s;
                     fitness[i] = f;
@@ -186,11 +188,10 @@ public class ButterflyOptimizationAlgorithm extends BaseEvolutionaryOptimization
             //Update listener
             listener.onIteration(g+1, minError);
             
+            //Update sensory modality
             sensoryModality = NewSensoryModality(sensoryModality, (g+1));
             
         }
-        
-        
     }
     
     private double NewSensoryModality(double x, int gen){

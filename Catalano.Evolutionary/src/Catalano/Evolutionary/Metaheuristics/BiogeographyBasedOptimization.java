@@ -151,6 +151,7 @@ public class BiogeographyBasedOptimization extends BaseEvolutionaryOptimization{
         
         //Initialize the population
         List<Individual> population = Individual.CreatePopulation(populationSize, bounds, function);
+        nEvals += populationSize;
         
         //Sort the population
         Collections.sort(population);
@@ -213,6 +214,7 @@ public class BiogeographyBasedOptimization extends BaseEvolutionaryOptimization{
                 Catalano.Math.Tools.Clamp(newIndividual, bounds);
                 double f = function.Compute(newIndividual);
                 newpop.get(i).setFitness(f);
+                nEvals++;
                 
             }
             
