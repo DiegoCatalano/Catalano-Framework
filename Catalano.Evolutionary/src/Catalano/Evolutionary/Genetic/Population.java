@@ -214,7 +214,6 @@ public class Population {
         }
         
         list = reinsertion.Compute(this, list, newPop);
-        //list = SoftElitism(list, newpop, elit);
         
         //Find best chromossome
         IChromosome bTemp = FindBestChromossome(list);
