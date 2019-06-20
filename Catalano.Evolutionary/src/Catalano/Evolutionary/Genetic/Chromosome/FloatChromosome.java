@@ -58,7 +58,7 @@ public class FloatChromosome extends ChromosomeBase{
      * Get values.
      * @return Values.
      */
-    public float[] getValues() {
+    public float[] getData() {
         return values;
     }
     

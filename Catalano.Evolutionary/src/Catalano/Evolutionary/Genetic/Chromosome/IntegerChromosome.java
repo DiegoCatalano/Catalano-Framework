@@ -37,6 +37,14 @@ public class IntegerChromosome extends ChromosomeBase{
     private int[] values;
 
     /**
+     * Get values.
+     * @return Values.
+     */
+    public int[] getData() {
+        return values;
+    }
+
+    /**
      * Get maximum value of the chromosome.
      * @return Maximum value of the chromosome.
      */

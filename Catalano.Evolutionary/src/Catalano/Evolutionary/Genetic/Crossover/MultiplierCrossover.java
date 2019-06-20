@@ -62,8 +62,8 @@ public class MultiplierCrossover implements ICrossover<IChromosome>{
         DoubleChromosome c1 = (DoubleChromosome)chromosome1.Clone();
         DoubleChromosome c2 = (DoubleChromosome)chromosome2.Clone();
         
-        double[] v1 = c1.getValues();
-        double[] v2 = c2.getValues();
+        double[] v1 = c1.getData();
+        double[] v2 = c2.getData();
         
         for (int i = 0; i < v1.length; i++) {
             v1[i] = v1[i] + rand.nextDouble() * (v1[i] - v2[i]);
@@ -86,8 +86,8 @@ public class MultiplierCrossover implements ICrossover<IChromosome>{
         FloatChromosome c1 = (FloatChromosome)chromosome1.Clone();
         FloatChromosome c2 = (FloatChromosome)chromosome2.Clone();
         
-        float[] v1 = c1.getValues();
-        float[] v2 = c2.getValues();
+        float[] v1 = c1.getData();
+        float[] v2 = c2.getData();
         
         for (int i = 0; i < v1.length; i++) {
             v1[i] = v1[i] + rand.nextFloat()* (v1[i] - v2[i]);

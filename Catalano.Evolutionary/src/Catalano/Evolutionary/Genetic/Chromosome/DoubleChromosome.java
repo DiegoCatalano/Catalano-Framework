@@ -58,7 +58,7 @@ public class DoubleChromosome extends ChromosomeBase{
      * Get values.
      * @return Values.
      */
-    public double[] getValues() {
+    public double[] getData() {
         return values;
     }
     
