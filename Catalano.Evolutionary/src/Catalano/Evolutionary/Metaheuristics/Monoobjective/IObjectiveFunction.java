@@ -20,19 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Evolutionary.Metaheuristics;
+package Catalano.Evolutionary.Metaheuristics.Monoobjective;
 
 /**
- * Common interface to iteration in the metaheuristics.
+ * Common interface to single objetive function.
  * @author Diego Catalano
  */
-public interface IEvoIterationListener {
-    
-    /**
-     * Some useful information.
-     * @param iteration Iteration.
-     * @param error Error.
-     */
-    void onIteration(int iteration, double error);
-    
+public interface IObjectiveFunction {
+    double Compute(double[] values);
 }

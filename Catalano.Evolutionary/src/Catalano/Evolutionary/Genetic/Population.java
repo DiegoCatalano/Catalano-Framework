@@ -25,6 +25,8 @@ package Catalano.Evolutionary.Genetic;
 import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import Catalano.Evolutionary.Genetic.Crossover.ICrossover;
 import Catalano.Evolutionary.Genetic.Mutation.IMutation;
+import Catalano.Evolutionary.Genetic.Reinsertion.ElistismReinsertion;
+import Catalano.Evolutionary.Genetic.Reinsertion.IReinsertion;
 import Catalano.Evolutionary.Genetic.Selection.ISelection;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,6 +35,8 @@ import java.util.Random;
 
 /**
  * Population of chromosomes.
+ * https://www.mathworks.com/matlabcentral/fileexchange/67435-the-genetic-algorithm-ga-selection-crossover-mutation-elitism
+ * https://www.obitko.com/tutorials/genetic-algorithms/parameters.php
  * @author Diego Catalano
  */
 public class Population {
@@ -40,6 +44,7 @@ public class Population {
     private int population;
     private float crossoverRate;
     private float mutationRate;
+    private float elit = 0.05f;
     
     private IFitness function;
     private List<IChromosome> list;
@@ -47,9 +52,19 @@ public class Population {
     private ISelection selection;
     private ICrossover crossover;
     private IMutation mutation;
+    private IReinsertion reinsertion;
     
     private IChromosome best;
     private double minError;
+    private long nEvals;
+
+    /**
+     * Get population size.
+     * @return Population size.
+     */
+    public int getPopulationSize() {
+        return population;
+    }
 
     /**
      * Get crossover rate.
@@ -116,6 +131,14 @@ public class Population {
     }
 
     /**
+     * Get number of evaluations.
+     * @return Number of evaluations.
+     */
+    public long getNumberOfEvaluations() {
+        return nEvals;
+    }
+
+    /**
      * Initializes a new instance of the Population class.
      * @param base Chromosome base.
      * @param population Size of population.
@@ -141,6 +164,21 @@ public class Population {
         this.selection = selection;
         this.crossover = crossover;
         this.mutation = mutation;
+        this.reinsertion = new ElistismReinsertion();
+    }
+    
+    /**
+     * Set all operators in the population.
+     * @param selection Selection method.
+     * @param crossover Crossover method.
+     * @param mutation Mutation method.
+     * @param reinsertion Reinsertion method.
+     */
+    public void setOperators(ISelection selection, ICrossover crossover, IMutation mutation, IReinsertion reinsertion){
+        this.selection = selection;
+        this.crossover = crossover;
+        this.mutation = mutation;
+        this.reinsertion = reinsertion;
     }
     
     private void Generate(IChromosome chromossome){
@@ -169,6 +207,8 @@ public class Population {
     public void RunEpoch(){
         
         Random rand = new Random();
+        
+        List<IChromosome> newPop = new ArrayList<>();
             
         //Crossover
         for (int i = 1; i < population; i+=2) {
@@ -178,22 +218,27 @@ public class Population {
                 int[] index = selection.Compute(list);
                 
                 List<IChromosome> elem = crossover.Compute(list.get(index[0]), list.get(index[1]));
-                for (IChromosome c : elem) {
-                    c.Evaluate(function);
-                }
-                list.addAll(elem);
+                newPop.addAll(elem);
+            }
+            else{
+                newPop.add(list.get(i-1).Clone());
+                newPop.add(list.get(i).Clone());
             }
         }
         
         //Mutation
-        int size = list.size();
+        int size = newPop.size();
         for (int i = 0; i < size; i++) {
             if(rand.nextFloat() < mutationRate){
-                IChromosome c = (IChromosome)mutation.Compute(list.get(i));
+                IChromosome c = (IChromosome)mutation.Compute(newPop.get(i));
                 c.Evaluate(function);
-                list.add(c);
+                newPop.set(i, c);
+                nEvals++;
             }
         }
+        
+        list = reinsertion.Compute(this, list, newPop);
+        //list = SoftElitism(list, newpop, elit);
         
         //Find best chromossome
         IChromosome bTemp = FindBestChromossome(list);
@@ -202,11 +247,39 @@ public class Population {
             best = bTemp.Clone();
         }
         
-        //Sort the chromossomes
-        Sort();
+    }
+    
+    private List<IChromosome> SoftElitism(List<IChromosome> pop, List<IChromosome> newPop, float elitismRate){
         
-        //Get the new population
-        list = list.subList(0, population);
+        Sort(pop);
+        Sort(newPop);
+        
+        List<IChromosome> p = new ArrayList<>();
+        
+        int t = (int)(pop.size()*elitismRate);
+        p.addAll(pop.subList(0, t));
+        
+        int diff = pop.size() - t;
+        for (int i = 0; i < diff; i++) {
+            p.add(newPop.get(i));
+        }
+        
+        return p;
+        
+    }
+    
+    private List<IChromosome> Elitism(List<IChromosome> pop, List<IChromosome> newPop, float elitismRate){
+        
+        Sort(pop);
+        Sort(newPop);
+        
+        List<IChromosome> p = new ArrayList<>();
+        
+        int t = (int)(pop.size()*elitismRate);
+        p.addAll(pop.subList(0, t));
+        p.addAll(newPop);
+        
+        return p;
         
     }
     
@@ -225,7 +298,7 @@ public class Population {
         
     }
     
-    private void Sort(){
+    private void Sort(List<IChromosome> list){
         list.sort(new Comparator<IChromosome>() {
 
             @Override

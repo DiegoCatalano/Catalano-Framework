@@ -1,7 +1,7 @@
 // Catalano Genetic Library
 // The Catalano Framework
 //
-// Copyright © Diego Catalano, 2012-2018
+// Copyright © Diego Catalano, 2012-2019
 // diego.catalano at live.com
 //
 //
@@ -20,12 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-package Catalano.Evolutionary.Metaheuristics;
+package Catalano.Evolutionary.Genetic.Reinsertion;
+
+import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
+import Catalano.Evolutionary.Genetic.Population;
+import java.util.List;
 
 /**
- * Common interface to single objetive function.
+ *
  * @author Diego Catalano
  */
-public interface IObjectiveFunction {
-    double Compute(double[] values);
+public interface IReinsertion {
+    
+    List<IChromosome> Compute(Population pop, List<IChromosome> oldPopulation, List<IChromosome> newPopulation);
+    
 }

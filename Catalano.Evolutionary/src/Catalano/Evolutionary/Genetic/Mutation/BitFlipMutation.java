@@ -33,26 +33,42 @@ import java.util.Random;
  * @author Diego Catalano
  */
 public class BitFlipMutation implements IMutation<BinaryChromosome>{
+    
+    private float probability = 0.01f;
+
+    public float getProbability() {
+        return probability;
+    }
+
+    public void setProbability(float probability) {
+        this.probability = probability;
+    }
 
     /**
      * Initializes a new instance of the BitFlipMutation class.
      */
     public BitFlipMutation() {}
+    
+    /**
+     * Initializes a new instance of the BitFlipMutation class.
+     * @param probability Probability for each gene.
+     */
+    public BitFlipMutation(float probability) {
+        this.probability = probability;
+    }
 
     @Override
     public BinaryChromosome Compute(BinaryChromosome chromosome) {
         Random r = new Random();
-        int pos = r.nextInt(chromosome.getLength());
         
         String bin = chromosome.toBinary();
         String newBin = "";
         for (int i = 0; i < bin.length(); i++) {
             char v = bin.charAt(i);
-            if(i == pos){
+            if(r.nextFloat() <= probability){
                 if(v == '0') newBin += "1";
                 if(v == '1') newBin += "0";
-            }
-            else{
+            } else{
                 newBin += v;
             }
         }

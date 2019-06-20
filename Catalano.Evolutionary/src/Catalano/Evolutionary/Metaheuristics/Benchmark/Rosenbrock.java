@@ -5,7 +5,7 @@
  */
 package Catalano.Evolutionary.Metaheuristics.Benchmark;
 
-import Catalano.Evolutionary.Metaheuristics.IObjectiveFunction;
+import Catalano.Evolutionary.Metaheuristics.Monoobjective.IObjectiveFunction;
 
 /**
  * 

@@ -252,5 +252,16 @@ public class Color {
     public String toHex(){
         return String.format("#%02x%02x%02x", r, g, b);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Color c2 = (Color)obj;
+        if((r == c2.r)
+            && (g == c2.g)
+            && (b == c2.b))
+            return true;
+        
+        return false;
+    }
     
 }
