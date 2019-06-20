@@ -35,16 +35,12 @@ import java.util.Random;
 
 /**
  * Population of chromosomes.
- * https://www.mathworks.com/matlabcentral/fileexchange/67435-the-genetic-algorithm-ga-selection-crossover-mutation-elitism
- * https://www.obitko.com/tutorials/genetic-algorithms/parameters.php
  * @author Diego Catalano
  */
 public class Population {
     
     private int population;
     private float crossoverRate;
-    private float mutationRate;
-    private float elit = 0.05f;
     
     private IFitness function;
     private List<IChromosome> list;
@@ -80,22 +76,6 @@ public class Population {
      */
     public void setCrossoverRate(float crossoverRate) {
         this.crossoverRate = crossoverRate;
-    }
-
-    /**
-     * Get mutation rate.
-     * @return Mutation rate.
-     */
-    public float getMutationRate() {
-        return mutationRate;
-    }
-
-    /**
-     * Set mutation rate.
-     * @param mutationRate Mutation rate.
-     */
-    public void setMutationRate(float mutationRate) {
-        this.mutationRate = mutationRate;
     }
 
     /**
@@ -144,12 +124,10 @@ public class Population {
      * @param population Size of population.
      * @param function Function to be optimized.
      * @param crossoverRate Crossover rate.
-     * @param mutationRate Mutation rate.
      */
-    public Population(IChromosome base, int population, IFitness function, float crossoverRate, float mutationRate) {
+    public Population(IChromosome base, int population, IFitness function, float crossoverRate) {
         this.population = population;
         this.crossoverRate = crossoverRate;
-        this.mutationRate = mutationRate;
         this.function = function;
         Generate(base);
     }
@@ -229,12 +207,10 @@ public class Population {
         //Mutation
         int size = newPop.size();
         for (int i = 0; i < size; i++) {
-            if(rand.nextFloat() < mutationRate){
-                IChromosome c = (IChromosome)mutation.Compute(newPop.get(i));
-                c.Evaluate(function);
-                newPop.set(i, c);
-                nEvals++;
-            }
+            IChromosome c = (IChromosome)mutation.Compute(newPop.get(i));
+            c.Evaluate(function);
+            newPop.set(i, c);
+            nEvals++;
         }
         
         list = reinsertion.Compute(this, list, newPop);
