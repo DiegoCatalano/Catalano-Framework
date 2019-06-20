@@ -249,40 +249,6 @@ public class Population {
         
     }
     
-    private List<IChromosome> SoftElitism(List<IChromosome> pop, List<IChromosome> newPop, float elitismRate){
-        
-        Sort(pop);
-        Sort(newPop);
-        
-        List<IChromosome> p = new ArrayList<>();
-        
-        int t = (int)(pop.size()*elitismRate);
-        p.addAll(pop.subList(0, t));
-        
-        int diff = pop.size() - t;
-        for (int i = 0; i < diff; i++) {
-            p.add(newPop.get(i));
-        }
-        
-        return p;
-        
-    }
-    
-    private List<IChromosome> Elitism(List<IChromosome> pop, List<IChromosome> newPop, float elitismRate){
-        
-        Sort(pop);
-        Sort(newPop);
-        
-        List<IChromosome> p = new ArrayList<>();
-        
-        int t = (int)(pop.size()*elitismRate);
-        p.addAll(pop.subList(0, t));
-        p.addAll(newPop);
-        
-        return p;
-        
-    }
-    
     private IChromosome FindBestChromossome(List<IChromosome> list){
         
         IChromosome b = null;
