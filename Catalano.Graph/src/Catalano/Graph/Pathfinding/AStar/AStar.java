@@ -250,8 +250,8 @@ public class AStar implements ISearch{
             if (Start != null && End != null){
                 if (Start.getMapParent() == Map && End.getMapParent() == Map) {
                     boolean PathFound = true;
-                    BinaryHeap<ANode> OpenList = new BinaryHeap<ANode>();
-                    BinaryHeap<ANode> ClosedList = new BinaryHeap<ANode>();
+                    BinaryHeap<ANode> OpenList = new BinaryHeap<>();
+                    BinaryHeap<ANode> ClosedList = new BinaryHeap<>();
                     OpenList.add(Start);
                     Start.setOnOpenList(true);
                     while (!End.isOnClosedList()) {
