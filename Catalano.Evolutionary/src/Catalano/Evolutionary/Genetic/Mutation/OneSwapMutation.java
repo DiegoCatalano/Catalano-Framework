@@ -26,32 +26,20 @@ import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import java.util.Random;
 
 /**
- * Swap Mutation.
+ * One Swap Mutation.
+ * 
+ * Just swap one gene.
  * 
  * Support: Binary/Permutation/Integer/Double/Float Chromosome.
  * 
  * @author Diego Catalano
  */
-public class SwapMutation implements IMutation<IChromosome>{
-    
-    private float probability;
-
-    public float getProbability() {
-        return probability;
-    }
-
-    public void setProbability(float probability) {
-        this.probability = probability;
-    }
+public class OneSwapMutation implements IMutation<IChromosome>{
 
     /**
-     * Initializes a new instance of the SwapMutation class.
+     * Initializes a new instance of the OneSwapMutation class.
      */
-    public SwapMutation() {}
-
-    public SwapMutation(float probability) {
-        this.probability = probability;
-    }
+    public OneSwapMutation() {}
 
     @Override
     public IChromosome Compute(IChromosome chromossome) {
@@ -60,30 +48,14 @@ public class SwapMutation implements IMutation<IChromosome>{
         
         IChromosome c = chromossome.Clone();
         
-        if(probability == 0){
-            int indexA = rand.nextInt(c.getLength());
-            int indexB = rand.nextInt(c.getLength());
+        int indexA = rand.nextInt(c.getLength());
+        int indexB = rand.nextInt(c.getLength());
 
-            Object t1 = c.getGene(indexA);
-            Object t2 = c.getGene(indexB);
+        Object t1 = c.getGene(indexA);
+        Object t2 = c.getGene(indexB);
 
-            c.setGene(indexA, t2);
-            c.setGene(indexB, t1);
-        }
-        else{
-            for (int i = 0; i < c.getLength(); i++) {
-                if(rand.nextFloat() <= probability){
-                    int indexA = rand.nextInt(c.getLength());
-                    int indexB = rand.nextInt(c.getLength());
-
-                    Object t1 = c.getGene(indexA);
-                    Object t2 = c.getGene(indexB);
-
-                    c.setGene(indexA, t2);
-                    c.setGene(indexB, t1);
-                }
-            }
-        }
+        c.setGene(indexA, t2);
+        c.setGene(indexB, t1);
         
         return c;
         

@@ -111,6 +111,22 @@ public class Population {
     }
 
     /**
+     * Get reinsertion method.
+     * @return Reinsertion method.
+     */
+    public IReinsertion getReinsertion() {
+        return reinsertion;
+    }
+
+    /**
+     * Set reinsertion method.
+     * @param reinsertion Reinsertionn method.
+     */
+    public void setReinsertion(IReinsertion reinsertion) {
+        this.reinsertion = reinsertion;
+    }
+
+    /**
      * Get number of evaluations.
      * @return Number of evaluations.
      */
