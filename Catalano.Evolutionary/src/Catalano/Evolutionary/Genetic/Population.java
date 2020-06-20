@@ -25,7 +25,7 @@ package Catalano.Evolutionary.Genetic;
 import Catalano.Evolutionary.Genetic.Chromosome.IChromosome;
 import Catalano.Evolutionary.Genetic.Crossover.ICrossover;
 import Catalano.Evolutionary.Genetic.Mutation.IMutation;
-import Catalano.Evolutionary.Genetic.Reinsertion.ElistismReinsertion;
+import Catalano.Evolutionary.Genetic.Reinsertion.GlobalElistismReinsertion;
 import Catalano.Evolutionary.Genetic.Reinsertion.IReinsertion;
 import Catalano.Evolutionary.Genetic.Selection.ISelection;
 import java.util.ArrayList;
@@ -158,7 +158,7 @@ public class Population {
         this.selection = selection;
         this.crossover = crossover;
         this.mutation = mutation;
-        this.reinsertion = new ElistismReinsertion();
+        this.reinsertion = new GlobalElistismReinsertion();
     }
     
     /**

@@ -37,7 +37,7 @@ import java.util.List;
  * 
  * @author Diego Catalano
  */
-public class PartialElitismReinsertion implements IReinsertion{
+public class ElitismReinsertion implements IReinsertion{
     
     private float percentage;
 
@@ -58,17 +58,17 @@ public class PartialElitismReinsertion implements IReinsertion{
     }
 
     /**
-     * Initialize a new instance of the PartialElitismReinsertion class.
+     * Initialize a new instance of the ElitismReinsertion class.
      */
-    public PartialElitismReinsertion() {
+    public ElitismReinsertion() {
         this(0.15f);
     }
 
     /**
-     * Initialize a new instance of the PartialElitismReinsertion class.
+     * Initialize a new instance of the ElitismReinsertion class.
      * @param percentage Percentage.
      */
-    public PartialElitismReinsertion(float percentage) {
+    public ElitismReinsertion(float percentage) {
         this.percentage = percentage;
     }
 

@@ -32,12 +32,15 @@ import java.util.List;
  * Elitism reinsertion.
  * @author Diego Catalano
  */
-public class ElistismReinsertion implements IReinsertion{
+public class GlobalElistismReinsertion implements IReinsertion{
 
     /**
-     * Initialize a new instance of the ElistismReinsertion class.
+     * Initialize a new instance of the GlobalElistismReinsertion class.
+     * 
+     * Get the best individuals from the both population.
+     * 
      */
-    public ElistismReinsertion() {}
+    public GlobalElistismReinsertion() {}
 
     @Override
     public List<IChromosome> Compute(Population population, List<IChromosome> oldPopulation, List<IChromosome> newPopulation) {
