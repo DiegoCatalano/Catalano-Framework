@@ -58,7 +58,7 @@ public class SaturationCorrection implements IApplyInPlace{
         // create saturation filter
         if ( adjustValue > 0 )
         {
-            baseFilter.setInLuminance(new FloatRange( 0.0f, 1.0f - adjustValue ));
+            baseFilter.setInSaturation(new FloatRange( 0.0f, 1.0f - adjustValue ));
             baseFilter.setOutSaturation(new FloatRange( adjustValue, 1.0f ));
         }
         else
